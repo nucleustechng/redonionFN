@@ -1,0 +1,183 @@
+.mainBox {
+  margin-bottom: 1rem;
+}
+
+/* Profile Info */
+.profileInfo {
+  margin-bottom: 3rem;
+}
+
+.profileInfoModalBody {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.profileInfoModalContentBox {
+  margin-top: 1rem;
+}
+
+.imageUploadBox {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.imageBox {
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+}
+
+.uploadedImageBox > img {
+  height: 88px;
+  width: 129px;
+}
+
+/* Bank Info */
+.bankInfo {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.bankInfoModalBody {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.bankInfoModalContentBox {
+  margin-top: 1rem;
+}
+
+/* KYC Info */
+.kycInfo {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.KYCInfoModalBody {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.KYCInfoModalContentBox {
+  margin-top: 1rem;
+}
+
+/* Other Options */
+.otherOptions {
+  margin-top: 3rem;
+}
+
+/* Common */
+.infoContentTitleBox {
+  margin-bottom: 1rem;
+}
+.infoContentBox {
+  padding: 1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoContentBoxMobile {
+  padding: 1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.avatarImage {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+/* Delete Account Modal */
+.deleteAccountModalBody {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  box-shadow: 24px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.deleteAccountModalContentBox {
+  padding: 1rem;
+}
+
+.deleteAccountModalButton {
+  padding: 0.5rem 0;
+  text-transform: initial;
+}
+
+/* Change Password Modal */
+.changePasswordModalBody {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  box-shadow: 24px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.changePasswordModalContentBox {
+  margin-top: 1rem;
+}
+
+.inputField {
+  background: rgba(196, 196, 196, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Common Modal Styles */
+.modalTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.textUnderScore {
+  background-color: #f9e006;
+  height: 5px;
+  width: 20px;
+}

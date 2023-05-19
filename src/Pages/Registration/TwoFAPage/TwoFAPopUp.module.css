@@ -1,0 +1,46 @@
+.mainArea {
+  display: flex;
+}
+
+.contentBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.contentBoxMobile {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contentBox > div {
+  transform: scale(0.8);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.contentBoxMobile > div {
+  width: 100%;
+}
+
+.modalStyle {
+  border-radius: 10px;
+}
+
+.titleBox {
+  font-size: calc(0.8rem + 2vw);
+}
+
+.textUnderScore {
+  background-color: #f9e006;
+  height: 7px;
+  width: 30px;
+}
+
+.logoBox {
+  position: relative;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}

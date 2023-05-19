@@ -1,0 +1,110 @@
+.mainBox {
+  height: 100vh;
+}
+
+.contentBox {
+  /* min-height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+.contentBoxMobile {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.verificationBox {
+  padding: 40px;
+  border-radius: 10px;
+  width: calc(100% - 65%);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  transform: scale(0.8);
+}
+
+.verificationBoxMobile {
+  padding: 24px;
+}
+
+.titleBox {
+  font-size: calc(0.7rem + 1vw);
+    text-align: center;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.otpInputField {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.pinFieldDark {
+  background-color: rgba(196, 196, 196, 0.1);
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  border-radius: 0.3rem;
+  font-size: 2rem;
+  margin-right: 1rem;
+  height: 4rem;
+  text-align: center;
+  transition: all 0.1s ease-in;
+  width: 4.5rem;
+}
+
+.pinFieldLight {
+  background-color: rgba(234, 234, 234, 0.4);
+  color: #111;
+  border: none;
+  box-shadow: none;
+  border-radius: 0.3rem;
+  font-size: 2rem;
+  margin-right: 1rem;
+  height: 4rem;
+  text-align: center;
+  transition: all 0.1s ease-in;
+  width: 5.0rem;
+}
+
+.pinFieldDark:focus {
+  /* border-color: none;
+  outline: none; */
+  transform: scale(1.05);
+}
+
+.pinFieldLight:focus {
+  /* outline: none; */
+  transform: scale(1.05);
+}
+
+.pinFieldDark:invalid {
+  animation: shake 3 linear 75ms;
+  border-color: rgb(220, 53, 69);
+  box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+.pinFieldLight:invalid {
+  animation: shake 3 linear 75ms;
+  border-color: rgb(220, 53, 69);
+  box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+
+.textUnderScore {
+  background-color: #f9e006;
+  height: 5px;
+  width: 40px;
+}
+
+@keyframes shake {
+  from {
+    transform: scale(1.05) translateY(-5%);
+  }
+  to {
+    transform: scale(1.05) translateY(5%);
+  }
+}

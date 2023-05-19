@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "amount": "50,000",
+    "paymentMethod": "GPAY",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Today, 03:12 PM",
+    "status": "Success",
+    "type": "deposit"
+  },
+  {
+    "id": "2",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Success",
+    "type": "withdraw"
+  },
+  {
+    "id": "3",
+    "amount": "50,000",
+    "paymentMethod": "UPI",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Pending",
+    "type": "deposit"
+  },
+  {
+    "id": "4",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "5",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "6",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "7",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "8",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "9",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "10",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  },
+  {
+    "id": "11",
+    "amount": "20,000",
+    "paymentMethod": "NEFT",
+    "transactionID": "13286486384763874",
+    "timeStamp": "Sep 03, 2021  03:24pm",
+    "status": "Failed",
+    "type": "withdraw"
+  }
+]

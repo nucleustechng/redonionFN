@@ -1,0 +1,40 @@
+.mainBox {
+  /* min-height: 100vh; */
+  border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    margin-top: 20px;
+}
+
+.forgotBox {
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  margin-top: 20px;
+}
+
+.contentBox {
+  width: calc(100% - 65%);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  transform: scale(0.8);
+}
+
+.contentBoxMobile {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleBox {
+  font-size: calc(0.7rem + 1vw);
+  text-align: center;
+}
+
+.textUnderScore {
+  background-color: #f9e006;
+  height: 5px;
+  width: 40px;
+}

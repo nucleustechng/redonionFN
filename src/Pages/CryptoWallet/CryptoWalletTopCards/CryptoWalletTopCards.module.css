@@ -1,0 +1,115 @@
+.cardBox {
+  padding-top: 2.0rem;
+  /* display: flex;
+  gap: 3rem; */
+  border-radius: 15px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2.0rem;
+  z-index: 999999;
+}
+
+
+.coinIcons {
+  height: 20px;
+  width: 20px;
+}
+
+.inputFieldLight {
+  color: inherit;
+  background: #EEEEEE;
+  border-radius: 4px;
+  padding: 10px;
+  height: 50px;
+}
+
+.currencyBox {
+  color: inherit;
+  background: #EEEEEE;
+  /* border-color: #EEEEEE; */
+  border-radius: 4px;
+  border: none;
+}
+
+.card {
+  padding-left: 1rem;
+  padding-right: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 4px;
+  display: flex;
+  gap: 2rem;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-weight: 700;
+  background: linear-gradient(#f9e006, #ff6738);
+  background: -webkit-linear-gradient(#f9e006, #ff6738);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cardImageArea {
+  height: 100%;
+  margin-top: -3rem;
+  margin-left: 1rem;
+}
+
+.cardImage {
+  display: block;
+  padding: 0;
+  width: 80%;
+  height: 80%;
+  margin: 0 auto;
+}
+
+.buyCryptoButton {
+  padding: 1px;
+  background: linear-gradient(90deg, #f9e006 0%, #f8931a 100%);
+  border-radius: 4px;
+}
+.buyCryptoButtonInnerBox {
+  border-radius: 4px;
+}
+
+/* Crypto Wallet Top Cards Mobile */
+
+.totalFundCard {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitleMobile {
+  font-weight: 700;
+  background: linear-gradient(#f9e006, #ff6738);
+  background: -webkit-linear-gradient(#f9e006, #ff6738);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cardImageAreaMobile {
+  margin-top: -1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cardImageMobile {
+  display: block;
+  width: 85%;
+  height: 85%;
+}
+
+.buyBoxMobile {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}

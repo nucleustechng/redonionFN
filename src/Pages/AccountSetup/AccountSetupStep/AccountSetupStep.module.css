@@ -1,0 +1,41 @@
+.textUnderScore {
+  background-color: #f9e006;
+  height: 5px;
+  width: 35px;
+}
+
+.imageUploadBox {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.imageBox {
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+}
+
+.uploadedImageBox > img {
+  height: 88px;
+  width: 129px;
+}
+
+.titleBox {
+  font-size: calc(0.8rem + 1vw);
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.titleBoxA {
+  font-size: calc(0.3rem + 1vw);
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.nameFont {
+  font-size: 20px;
+}
