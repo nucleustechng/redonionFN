@@ -1,0 +1,11 @@
+.radioContainer {
+  margin-top: 1rem;
+}
+
+.radioBox {
+  border-radius: 5px;
+  padding: 8px 1rem;
+  border: 2px solid #777777;
+  margin-bottom: 1rem;
+  width: 100%;
+}

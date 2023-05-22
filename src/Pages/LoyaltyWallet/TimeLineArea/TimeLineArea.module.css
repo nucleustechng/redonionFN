@@ -1,0 +1,39 @@
+.mainBox {
+  position: relative;
+}
+
+.timeLineArea {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.timeLineArea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.timeLineArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeLineDivider {
+  margin-left: 1.7rem;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  height: 20px;
+  width: 3px;
+}
+
+.numberArea {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 1rem;
+  border-radius: 4px;
+  /* width: 11%; */
+}

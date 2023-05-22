@@ -1,0 +1,27 @@
+.headerArea {
+  margin-top: 3rem;
+}
+
+.tabBox {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.tabBoxMobile {
+  padding: 1rem;
+  margin-top: 1.5rem;
+}
+
+.filterArea {
+  margin: 2rem 0;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+}
+
+.searchArea {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

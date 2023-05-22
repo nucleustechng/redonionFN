@@ -1,0 +1,159 @@
+.mainBox {
+  padding: 0 24px;
+}
+
+.filterArea {
+  margin-bottom: 2rem;
+}
+
+.actionBox {
+  width: 50%;
+}
+
+.searchBox {
+  min-width: 40%;
+}
+
+.searchArea {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Coin Details */
+
+.bitCoinDetails {
+  margin-top: 2rem;
+}
+
+.tableArea {
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+/* Balance Area */
+
+.balanceBox {
+  border-radius: 10px;
+  padding: 2.5rem 1rem;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mainButtonBox {
+  padding: 1px;
+  background: linear-gradient(90deg, #f9e006 0%, #f8931a 100%);
+  border-radius: 4px;
+}
+.buttonInnerBox {
+  border-radius: 4px;
+}
+
+.sendBox {
+  margin-top: 1rem;
+}
+
+.receiveBox {
+  margin-top: 1rem;
+}
+
+.qrBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+.balanceButton {
+  padding: 1rem 0;
+}
+
+.addressInput {
+  width: 90%;
+  border: none;
+  background: inherit;
+  color: inherit;
+  padding: 10px;
+  font-size: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+/* Receiving QR Code Modal */
+
+.receivingQRCodeModalBody {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  box-shadow: 24px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.receivingQRCodeModalBodyMobile {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Common Modal Styles */
+.modalTopBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.receivingQRCodeModalContentBox {
+  padding: 1rem;
+  border: 5px solid #f9e006;
+  border-radius: 4px;
+}
+
+.receivingQRCodeModalButton {
+  padding: 0.5rem 0;
+  text-transform: initial;
+}
+
+.webCamImage {
+  width: 100%;
+}
+
+.webCamImageMobile {
+  display: block;
+  width: 100%;
+  height: 78vh;
+}
+
+.sendModalStyle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  border-radius: 4px;
+  width: 500px;
+}
+
+.sendModalStyleMobile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  border-radius: 4px;
+  width: 90%;
+}
+
+.addressField {
+  border: none;
+  color: inherit;
+  background: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  width: 5%;
+}

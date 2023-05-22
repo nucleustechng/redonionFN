@@ -1,0 +1,39 @@
+.mainBox {
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 2.5rem;
+}
+
+.mainBoxMobile {
+  margin-top: 2rem;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardContentMobile {
+  text-align: center;
+}
+
+.cardTitle {
+  font-weight: 700;
+  background: linear-gradient(#f9e006, #ff6738);
+  background: -webkit-linear-gradient(#f9e006, #ff6738);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cardButton {
+  padding: 8px 4rem;
+}
+
+.cardNote {
+  width: 50%;
+}
+
+.cardNoteMobile {
+  margin-top: 2rem;
+  text-align: justify;
+}

@@ -1,0 +1,30 @@
+.topActionBox {
+  padding: 2rem 2rem;
+}
+.topActionButtonBox {
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addressInput {
+  width: 90%;
+  border: none;
+  background: inherit;
+  color: inherit;
+  padding: 10px;
+  font-size: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.qrBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}

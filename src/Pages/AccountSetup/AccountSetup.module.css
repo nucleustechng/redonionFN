@@ -1,0 +1,66 @@
+.mainBox {
+  min-height: 100vh;
+  position: relative;
+  
+}
+
+.stepBox {
+  /* height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: top;
+
+}
+
+.contentBox {
+  width: calc(100% - 65%);
+  transform: scale(0.8);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  
+}
+
+.contentBoxMobile {
+  height: 100vh;
+}
+
+.titleBox {
+  font-size: calc(0.8rem + 1vw);
+  padding-left: 20px;
+  padding-right:20px;
+  text-align: center;
+}
+
+.logoBox {
+  position: relative;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.illustrationBox {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accountStepImage {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin-top: -5rem;
+  margin-left: -5rem;
+}
+
+.kycStepImage {
+  display: block;
+  width: 70%;
+  height: 70%;
+  margin: 0 auto;
+}
+
+.bankStepImage {
+  display: block;
+  width: 70%;
+  height: 70%;
+  margin: 0 auto;
+}

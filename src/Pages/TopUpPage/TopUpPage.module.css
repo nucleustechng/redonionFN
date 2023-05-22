@@ -1,0 +1,115 @@
+.mainBoxTab {
+  padding-bottom: 3rem;
+}
+
+/* Main Content Box */
+.contentBox {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.contentBoxTab {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentBoxMobile {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.contentBox > div {
+  width: calc(100% - 50%);
+}
+
+.inputFieldLight {
+  color: inherit;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.currencyBox {
+  color: inherit;
+  background: #ffffff;
+  border-radius: 4px;
+  border: none;
+}
+/* Provider Selection Area */
+.providerSelectBox {
+  margin-top: 2rem;
+}
+.providerSelectBoxMobile {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.providerNameBox {
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px solid #777777;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.providerNameBoxMobile {
+  padding: 10px;
+  border-radius: 4px;
+  border: 2px solid #777;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feesBox {
+  margin-top: 3rem;
+}
+
+/* TopUpCard Area */
+.mainTopUpCardBox {
+  margin-top: 2rem;
+}
+
+.cardBox {
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.cardBoxMobile {
+  padding: 1rem;
+  height: 100%;
+}
+
+.coinOptionBox {
+  padding: 10px;
+}
+
+.payInputCoupon {
+  color: #f9e006;
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px dashed #f9e006;
+  font-weight: 300;
+}
+
+.topUpCardButton {
+  padding: 12px 3.5rem;
+}
+
+.coinIcons {
+  height: 20px;
+  width: 20px;
+}
+
+/* Topup loader screen */
+.modalStyle {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

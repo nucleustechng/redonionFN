@@ -1,0 +1,42 @@
+.tableArea {
+  overflow-y: auto;
+  /* height: 30vh; */
+  padding-right: 1rem;
+}
+
+.tableAreaTab {
+  width: 70vw;
+}
+
+.tableAreaMobile {
+  overflow-y: scroll;
+  width: calc(100vw - 15vw);
+}
+
+.depositButton {
+  background: rgba(141, 208, 112, 0.2);
+  color: #8dd070;
+}
+
+.depositButton:hover {
+  color: #111;
+}
+
+.withdrawButton {
+  background: rgba(255, 0, 61, 0.2);
+  color: #ff003d;
+}
+
+.withdrawButton:hover {
+  color: #111;
+}
+
+.addressField {
+  border: none;
+  color: inherit;
+  background: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+}

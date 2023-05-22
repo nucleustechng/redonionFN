@@ -1,0 +1,14 @@
+.mainBox {
+  min-height: 100vh;
+  position: relative;
+}
+
+.mainBoxMobile {
+  height: 100vh;
+}
+
+.logoBox {
+  position: absolute;
+  left: 2%;
+  top: 5%;
+}

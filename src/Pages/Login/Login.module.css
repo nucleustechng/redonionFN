@@ -1,0 +1,45 @@
+.mainBox {
+  min-height: 100vh;
+  position: relative;
+}
+
+.logoBox {
+  position: relative;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.illustrationBox {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginImage {
+  display: block;
+  width: 70%;
+  height: 70%;
+  margin: 0 auto;
+}
+
+.forgotPassImage {
+  display: block;
+  width: 70%;
+  height: 70%;
+  margin: 0 auto;
+}
+
+.resetPassImage {
+  display: block;
+  width: 60%;
+  height: 60%;
+  margin: 0 auto;
+}
+
+.otpImage {
+  display: block;
+  width: 60%;
+  height: 60%;
+  margin: 0 auto;
+}
