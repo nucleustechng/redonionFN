@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 
 // Material UI
 import {
@@ -11,20 +11,21 @@ import {
   Skeleton,
   Stack,
   Typography,
+  MenuItem,
+  Select,
   useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
+
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 // Custom Theme
 import { useTheme } from "@mui/material/styles";
 
-// Icons
-import GoogleIcon from "../../../assets/googleFlatColorIcon.svg";
-import TwitterIcon from "../../../assets/twitterFlatColorIcon.svg";
-import FacebookIcon from "../../../assets/facebookFlatColorIcon.svg";
+
 
 // CSS Module
 import styles from "./SignUpInterface.module.css";
@@ -45,7 +46,10 @@ import ComponentLoader from "../../../components/ProgressLoader/ComponentLoader"
 // Authentication Hook
 import useAuth from "../../../hooks/useAuth";
 import { LoadingButton } from "@mui/lab";
-import { GrowwBar } from "../../../components/GrowwBar/GrowwBar";
+
+// Axios
+import axios from "../../../api/axios";
+
 
 // MainLogo
 import MainLogo from "../../../assets/mainLogoDark.svg";
@@ -79,6 +83,36 @@ const SignUpInterface = () => {
 
   const [dropdown, setDropdown] = useState(false);
 
+  const [value, setValue] = useState("")
+
+  const [countryData, setCountryData] = useState([]);
+  const [country, setCountry] = useState("1 US");
+  const [countrySplit, setCountrySplit] = useState("1 US");
+  const [countryID, setCountryID] = useState("1");
+
+  const COUNTRIES_URL = "/user/get-countries";
+
+
+  // Fetching Data
+  useEffect(() => {
+    axios.get(
+      COUNTRIES_URL,
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ).then((res) => setCountryData(res.data.data.countries));
+
+  }, []);
+
+  const handleCountrySelection = (e) => {
+    var con = e.target.value;
+    setCountry(con);
+    setCountryID(con.split(' ')[0]);
+    setCountrySplit(con.split(' ')[1]);
+  };
+
 
 
   // Theme
@@ -97,17 +131,33 @@ const SignUpInterface = () => {
     setUserInfo(newUserInfo);
   };
 
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+
   const handleRegisterUser = (e) => {
     e.preventDefault();
-    if (!userInfo.email) {
-      setFormError("Please enter an email first");
+    
+    if (!userInfo.fname) {
+      setFormError("Please enter an first name");
+    } else if (!userInfo.lname) {
+      setFormError("Please enter an last name");
+    } else if (!userInfo.email) {
+      setFormError("Please enter an email");
+    } else if (countryID === "") {
+      setFormError("Please select a country");
+    } else if (value === "") {
+      setFormError("Please enter a phone number");
     } else if (!userInfo.password) {
-      setFormError("Please provide a password");
+      setFormError("Please enter a password");
+    } else if (userInfo.password.length < 8) {
+      setFormError("Password must be longer than or equal to 8 characters");
+    } else if (!passwordRegex.test(userInfo.password)){
+      setFormError("Password must contain atleast one uppercase letter, one lowercase letter, a number and a special character!");
     } else if (userInfo.password !== userInfo.confirmPassword) {
       setFormError("Password is not matching!");
     } else {
       setFormError("");
-      registerUser(userInfo.email, userInfo.confirmPassword, navigate);
+      registerUser(userInfo.fname, userInfo.mname, userInfo.lname, userInfo.email, 
+        countryID, "+" + value, userInfo.confirmPassword, navigate);
     }
   };
 
@@ -162,12 +212,12 @@ const SignUpInterface = () => {
               {dropdown &&
                 <Box style={{ position: 'absolute', left: 0, right: 0, background: '#000', padding: 30, zIndex: 9999 }}>
                   <center>
-                    <Box >
+                    <Box mb={2}>
                       <Button
                         color="secondary"
 
                       >
-                        <Typography variant="caption" p={0.3} color="secondary">
+                        <Typography variant="caption" p={1} fontSize={16} color="background.light">
                           <a
 
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none", }}
@@ -180,7 +230,7 @@ const SignUpInterface = () => {
                     </Box>
                     <Box>
                       <Button fullWidth variant="contained" color="primary">
-                        <Typography variant="caption" p={0.3} color="secondary">
+                        <Typography fontSize={16} variant="caption" p={0.3} color="background.light">
                           <a
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
                             href="/registration/sign-up"
@@ -217,7 +267,7 @@ const SignUpInterface = () => {
               </Box>
               <Box>
                 <Button fullWidth variant="contained" color="primary">
-                    <Typography variant="caption" p={0.3} color="background.light">
+                  <Typography variant="caption" p={0.3} color="background.light">
                     <a
                       style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
                       href="/registration/sign-up"
@@ -237,7 +287,7 @@ const SignUpInterface = () => {
         <Grid
 
           columns={{ xs: 12, md: 12 }}
-          mt={!isMobile ? -6 : 8}
+          mt={!isMobile ? -6 : 25}
         >
 
           <Grid item xs={12} md={12}>
@@ -255,11 +305,7 @@ const SignUpInterface = () => {
                     style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
 
                     color="secondary">
-                    <a
-
-                      // style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-40px", marginTop: "0", marginBottom: "25px" }}
-                      href="/"
-                    >
+                    <a href="/">
                       <LazyImageComponent src={Back} />
                     </a>
 
@@ -290,6 +336,25 @@ const SignUpInterface = () => {
                         size="small"
                         color="secondary"
                         name="fname"
+                        onChange={handleUserInfo}
+                      />
+                    </Stack>
+                    <Stack spacing={1} mb={2}>
+                      <Typography
+                        variant="body1"
+                        color={theme.palette.text.primary}
+                        fontSize={20}
+                      >
+                        Middle Name
+                      </Typography>
+                      <Input
+                        disableUnderline
+                        className="inputField"
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                        color="secondary"
+                        name="mname"
                         onChange={handleUserInfo}
                       />
                     </Stack>
@@ -331,6 +396,44 @@ const SignUpInterface = () => {
                         name="email"
                         onChange={handleUserInfo}
                       />
+                    </Stack>
+                    <Stack spacing={1} mb={2}>
+                      <Typography
+                        variant="body1"
+                        color={theme.palette.text.primary}
+                        fontSize={20}
+                      >
+                        Country
+                      </Typography>
+                      <Select
+                        className={theme.palette.mode === "dark" ? "" : styles.currencyBox}
+                        value={country}
+                        onChange={handleCountrySelection}
+                      >
+                        {countryData.map(({ id, name, code, ext, regex }) => (
+                          <MenuItem key={id} value={id + " " + code}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Stack>
+                    <Stack spacing={1} mb={2}>
+                      <Typography
+                        variant="body1"
+                        color={theme.palette.text.primary}
+                        fontSize={20}
+                      >
+                        Phone Number
+                      </Typography>
+                      <PhoneInput
+                        inputStyle={{ width: "100%", height: 53, fontSize: 16, background: "#f3f3f3", border: 0 }}
+                        country={country === "1 US" ? 'us' : countrySplit.toLowerCase()}
+                        placeholder="Enter phone number"
+                        value={value}
+                        disableDropdown={true}
+                        onChange={setValue}
+                      />
+
                     </Stack>
                     <Stack spacing={1} mb={2}>
                       <Typography
@@ -399,7 +502,7 @@ const SignUpInterface = () => {
                           </InputAdornment>
                         }
                       />
-                      <Typography my={1} variant="small" color="error">
+                      <Typography my={1} fontSize={20} variant="small" color="error">
                         {formError}
                       </Typography>
                       {authError && (
@@ -409,10 +512,13 @@ const SignUpInterface = () => {
                             textTransform: "capitalize",
                           }}
                           my={1}
+                          textAlign={"center"}
+                          fontSize={20}
                           variant="small"
                           color="error"
                         >
-                          {authError.slice(22, -2).split("-").join(" ")}
+                          {/* {authError.slice(22, -2).split("-").join(" ")} */}
+                          {authError}
                         </Typography>
                       )}
                     </Stack>
@@ -448,7 +554,9 @@ const SignUpInterface = () => {
                       </Stack> */}
                     <Stack mt={4} mb={2}>
                       {isLoading ? (
-                        <LoadingButton loading variant="outlined">
+                        <LoadingButton 
+                          style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
+                        loading variant="outlined">
                           Sign Up
                         </LoadingButton>
                       ) : (
@@ -460,7 +568,7 @@ const SignUpInterface = () => {
                             variant="contained"
                             color="primary"
                           >
-                              Sign Up <LazyImageComponent src={FrontArrow} />
+                            Sign Up <LazyImageComponent src={FrontArrow} />
                           </Button>
 
                         </>
@@ -524,7 +632,7 @@ const SignUpInterface = () => {
       </Box>
       {/* )} */}
       {/* {isMobile && ( */}
-       
+
       {/* )} */}
     </React.Fragment>
   );

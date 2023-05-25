@@ -1,8 +1,7 @@
 // React
-import React, { createContext, Suspense, useState } from "react";
+import React, { createContext, Suspense, useState, useEffect } from "react";
 
-import firebaseConfig from "./Firebase/firebase.config";
-import NoFirebase from "./components/NoFirebase";
+import NoInternet from "./components/NoInternet";
 // Material UI
 import Box from "@mui/system/Box";
 import CustomTheme from "./Theme/CustomTheme";
@@ -40,6 +39,9 @@ const Registration = React.lazy(() =>
 );
 const SignUpInterface = React.lazy(() =>
   import("./Pages/Registration/SignUpInterface/SignUpInterface")
+);
+const VerifyEmailPage = React.lazy(() =>
+  import("./Pages/Registration/EmailVerify/OTPVerification")
 );
 const TwoFAPage = React.lazy(() =>
   import("./Pages/Registration/TwoFAPage/TwoFAPage")
@@ -118,9 +120,34 @@ const InstallationModal = React.lazy(() =>
 // Color Context
 export const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
-// Title and Descriptions
+
+
 
 function App() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  
+  
+  useEffect(() => {
+    // Update network status
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    // Listen to the online status
+    window.addEventListener('online', handleStatusChange);
+
+    // Listen to the offline status
+    window.addEventListener('offline', handleStatusChange);
+
+    // Specify how to clean up after this effect for performance improvment
+    return () => {
+      window.removeEventListener('online', handleStatusChange);
+      window.removeEventListener('offline', handleStatusChange);
+    };
+  }, [isOnline]);
+
+
+
   // Installation
   const [openInstallationModal, setOpenInstallationModal] = useState(false);
 
@@ -154,9 +181,11 @@ function App() {
     // }
   }
 
+  
+
   return (
     <div>
-      {/* {firebaseConfig?.apiKey ? ( */}
+      {isOnline ? (
       <AuthProvider>
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
@@ -212,6 +241,7 @@ function App() {
                         </Suspense>
                       }
                     >
+                      
                       {/* Sign Up Page */}
                       <Route
                         path={NavRoutes.SignUp.path}
@@ -221,6 +251,15 @@ function App() {
                           </Suspense>
                         }
                       />
+                        {/* Sign Up Page */}
+                        <Route
+                          path={NavRoutes.VerifyEmail.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <VerifyEmailPage />
+                            </Suspense>
+                          }
+                        />
                       {/* TwoFa Page */}
                       <Route
                         path={NavRoutes.TwoFactorAuth.path}
@@ -418,9 +457,9 @@ function App() {
           </ThemeProvider>
         </ColorModeContext.Provider>
       </AuthProvider>
-      {/* ) : (
-        <NoFirebase />
-      )} */}
+     ) : (
+          <NoInternet />
+      )}
     </div>
   );
 }

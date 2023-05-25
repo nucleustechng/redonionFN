@@ -3,6 +3,8 @@ const NavRoutes = {
   OnboardingPage: { path: "/landing-page" },
   Registration: { path: "/registration" },
   SignUp: { path: "sign-up" },
+  VerifyEmail: { path: "verify-email" },
+
   TwoFactorAuth: { path: "two-factor-auth" },
   TwoFactorPin: { path: "two-factor-pin" },
   Login: { path: "/auth" },

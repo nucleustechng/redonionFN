@@ -17,11 +17,18 @@
   margin-top: 20px;
 }
 
+.currencyBox {
+  color: inherit;
+  background: #f3f3f3;
+  border-radius: 4px;
+  border: none;
+}
+
 
 
 .contentBox {
   transform: scale(0.8);
-  width: calc(100% - 65%);
+  width: calc(100% - 60%);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -32,10 +39,10 @@
   align-items: center;
 }
 
-.userButton{
-  height: 60; 
-  border-radius:10;
-  font-size:20;
+.userButton {
+  height: 60;
+  border-radius: 10;
+  font-size: 20;
   text-transform: none;
 }
 

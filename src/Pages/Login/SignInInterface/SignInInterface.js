@@ -45,6 +45,8 @@ const SignInInterface = () => {
   const [mailError, setMailError] = useState("");
   const [passError, setPassError] = useState("");
 
+  const [formError, setFormError] = useState("");
+
   // Hooks
   const { logInUser, authError, isLoading } = useAuth();
   const theme = useTheme();
@@ -53,19 +55,25 @@ const SignInInterface = () => {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  // Fake login creds
-  const fakeEmail = "";
-  const fakePass = "";
+
 
   const handleLoginUser = (e) => {
     e.preventDefault();
+    if (userEmail === "") {
+      setFormError("Please enter an email");
+    } else if (userPass === "") {
+      setFormError("Please enter a password");
+    } else {
+      setFormError("");
+      logInUser(
+        userEmail,
+        userPass,
+        location,
+        navigate
+      );
+    }
 
-    logInUser(
-      userEmail ? userEmail : fakeEmail,
-      userPass ? userPass : fakePass,
-      location,
-      navigate
-    );
+
   };
 
   return (
@@ -106,13 +114,7 @@ const SignInInterface = () => {
             >
               Log in to get started
             </Typography>
-            {/* {!isMobile ? (
-              <Typography className={styles.textUnderScore}></Typography>
-            ) : (
-              <Box width={"10%"}>
-                <GrowwBar />
-              </Box>
-            )} */}
+
             <Box
               component="form"
               onSubmit={handleLoginUser}
@@ -123,7 +125,7 @@ const SignInInterface = () => {
                   Email
                 </Typography>
                 <Input
-                  defaultValue={fakeEmail}
+                  // defaultValue={fakeEmail}
                   error={mailError ? true : false}
                   disableUnderline
                   className="inputField"
@@ -136,27 +138,15 @@ const SignInInterface = () => {
 
                   onChange={(e) => setUserEmail(e.target.value)}
                 />
-                {mailError && (
-                  <Typography
-                    sx={{
-                      textTransform: "capitalize",
-                      display: "inline-block",
-                    }}
-                    my={1}
-                    variant="small"
-                    color="error"
-                  >
-                    {mailError}
-                  </Typography>
-                )}
+
               </Stack>
               <Stack spacing={1} mb={2}>
                 <Typography variant="body1" fontSize={20} color={theme.palette.text.primary}>
                   Password
                 </Typography>
                 <Input
-                  defaultValue={fakePass}
-                  error={passError ? true : false}
+                  // defaultValue={fakePass}
+                  // error={passError ? true : false}
                   disableUnderline
                   className="inputField"
                   type={showPassword ? "text" : "password"}
@@ -180,6 +170,19 @@ const SignInInterface = () => {
                   }
                 />
               </Stack>
+              <Typography
+                sx={{
+                  textTransform: "capitalize",
+                  display: "inline-block",
+                }}
+                my={1}
+                textAlign={"center"}
+                fontSize={20}
+                variant="small"
+                color="error"
+              >
+                {formError}
+              </Typography>
               {authError && (
                 <Typography
                   sx={{
@@ -189,23 +192,15 @@ const SignInInterface = () => {
                   my={1}
                   variant="small"
                   color="error"
+                  textAlign={"center"}
+                  fontSize={20}
                 >
-                  {authError.slice(22, -2).split("-").join(" ")}
+                  {authError}
                 </Typography>
               )}
-              {passError && (
-                <Typography
-                  sx={{
-                    textTransform: "capitalize",
-                    display: "inline-block",
-                  }}
-                  my={1}
-                  variant="small"
-                  color="error"
-                >
-                  {passError}
-                </Typography>
-              )}
+
+
+
               <Stack
                 alignItems="flex-end"
                 justifyContent="flex-end"
@@ -235,18 +230,12 @@ const SignInInterface = () => {
                 ) : (
                   <>
                     {/* {theme.palette.mode === "dark" ? ( */}
-                    <Button type="submit" style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                    <Button
+                      type="submit"
+                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
                       Log in  <LazyImageComponent src={FrontArrow} />
                     </Button>
-                    {/* ) : ( */}
-                    {/* <LightUIButtonPrimary
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
-                        Login
-                      </LightUIButtonPrimary> */}
-                    {/* )} */}
+                    
                   </>
                 )}
               </Stack>

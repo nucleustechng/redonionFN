@@ -212,12 +212,12 @@ const OnboardingPage = () => {
             src={isMobile ? BuyMobile : Buy}
           />
 
-          <Box mt={ isMobile ? 4 :13}>
+          <Box mt={isMobile ? 4 : 13}>
             <Button variant="contained" color="primary">
-              <Typography variant="caption" p={isMobile ? 1 : 2} fontSize={isMobile ? 16 : 18} color="background.light">
+              <Typography variant="caption" p={isMobile ? 1 : 1} fontSize={isMobile ? 16 : 18} color="background.light">
                 <a
                   style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                  href="/auth/sign-in"
+                  href="/registration/sign-up"
                 >
 
                   Get started for free
@@ -259,7 +259,7 @@ const OnboardingPage = () => {
                 <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                   <a
                     style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                    href="/auth/sign-in"
+                    href="/registration/sign-up"
                   >
 
                     Get started
@@ -344,7 +344,7 @@ const OnboardingPage = () => {
                       <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                         <a
                           style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                          href="/auth/sign-in"
+                          href="/registration/sign-up"
                         >
 
                           Get started
@@ -433,7 +433,7 @@ const OnboardingPage = () => {
                   <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                     <a
                       style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                      href="/auth/sign-in"
+                      href="/registration/sign-up"
                     >
 
                       Get started
@@ -550,7 +550,7 @@ const OnboardingPage = () => {
                     <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                       <a
                         style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                        href="/auth/sign-in"
+                        href="/registration/sign-up"
                       >
 
                         Get started with Red Onion
@@ -601,7 +601,7 @@ const OnboardingPage = () => {
                     <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                       <a
                         style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                        href="/auth/sign-in"
+                        href="/registration/sign-up"
                       >
 
                         Get started
@@ -685,7 +685,7 @@ const OnboardingPage = () => {
                         <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                           <a
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/auth/sign-in"
+                            href="/registration/sign-up"
                           >
 
                             Get started
@@ -718,181 +718,65 @@ const OnboardingPage = () => {
                   <Box ml={0} mt={-8}>
                     <LazyImageComponent
                       className={styles.transa100}
-                        src={isMobile ? ImageMobile3 : Image3}
+                      src={isMobile ? ImageMobile3 : Image3}
                     />
                   </Box>
                 </Box>
-              
-              <Box mt={10}>
-                <Box>
-                  <Typography variant="caption" fontSize={24} fontWeight={600} color="background.light">
-                    The Marketplace for the 
-                  </Typography>
-                  
-                </Box>
-                    <Box mt={-1}>
-                      <Typography variant="caption" fontSize={24} fontWeight={600} color="background.light">
-                        modern professional.
-                      </Typography>
 
+                <Box mt={10}>
+                  <Box>
+                    <Typography variant="caption" fontSize={24} fontWeight={600} color="background.light">
+                      The Marketplace for the
+                    </Typography>
+
+                  </Box>
+                  <Box mt={-1}>
+                    <Typography variant="caption" fontSize={24} fontWeight={600} color="background.light">
+                      modern professional.
+                    </Typography>
+
+                  </Box>
+
+
+                  <Box mt={4} bgcolor={"#EEEEEE"} borderRadius={10}>
+                    <center>
+                      <Suspense
+                        fallback={<Skeleton variant="circular" />}
+                      >
+                        <LazyImageComponent
+                          className={styles.transa100}
+                          src={Image4}
+                        />
+                      </Suspense>
+                    </center>
+                    <Box mt={-10}  >
+                      <Typography variant="caption" fontSize={24} fontWeight={500} color="#202020">
+                        Transaction monitoring
+                      </Typography>
+                    </Box>
+
+                    <Box pr={3} pl={3} pb={5}>
+                      <Typography variant="caption" fontSize={16} fontWeight={400} color="#202020">
+                        Monitor your transactions as you recieve your money.
+                      </Typography>
+                      <br />
                     </Box>
 
 
-                <Box  mt={4} bgcolor={"#EEEEEE"} borderRadius={10}>
-                  <center>
-                    <Suspense
-                      fallback={<Skeleton variant="circular" />}
-                    >
-                      <LazyImageComponent
-                        className={styles.transa100}
-                        src={Image4}
-                      />
-                    </Suspense>
-                  </center>
-                  <Box mt={-10}  >
-                    <Typography variant="caption" fontSize={24} fontWeight={500} color="#202020">
-                      Transaction monitoring
-                    </Typography>
+
+
                   </Box>
 
-                  <Box pr={3} pl={3}  pb={5}>
-                    <Typography variant="caption" fontSize={16} fontWeight={400} color="#202020">
-                      Monitor your transactions as you recieve your money.
-                    </Typography>
-                    <br />
-                  </Box>
-
-
-
-
-                </Box>
-
-                <Box mt={4} >
-                  <Button variant="contained" color="primary">
-                    <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
-                      <a
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                        href="/auth/sign-in"
-                      >
-
-                        Get started
-
-                      </a>
-                    </Typography>
-                  </Button>
-
-
-                </Box>
-
-              </Box>
-
-
-              <Box mt={10}>
-                <Box>
-                  <Typography variant="caption" fontSize={24} lineHeight={1.3} fontWeight={600} color="background.light">
-                    Exchange on the go. Anytime, anywhere.
-                  </Typography>
-                </Box>
-
-
-                <Stack mt={5}>
-
-                  <Box >
-                    <Suspense
-                      fallback={<Skeleton variant="circular" />}
-                    >
-                      <LazyImageComponent
-                        className={styles.transa100}
-                        src={Image5}
-
-                      />
-                    </Suspense>
-                  </Box>
-
-                  <Box mt={1}>
-                    <center>
-                      <Box>
-                        <LazyImageComponent
-
-                          src={Image6}
-                        />
-                      </Box>
-
-                      <Box mt={3}>
-
-                        <Typography variant="caption" fontSize={16} fontWeight={400} color="background.light">
-                          Scan to download
-                        </Typography>
-
-                      </Box>
-
-                      <Box mt={-1}>
-
-                        <Typography variant="caption" fontSize={24} fontWeight={600} color="background.light">
-                          iOS & Android
-                        </Typography>
-
-                      </Box>
-
-                      <Stack mt={3} direction="row" alignItems="center" justifyContent="center" >
-
-                        <Box>
-                          <LazyImageComponent
-                            src={ImageAppleStore}
-                          />
-                        </Box>
-
-                        <Box ml={1.4}>
-                          <LazyImageComponent
-                            src={ImagePlayStore}
-                          />
-                        </Box>
-
-                      </Stack>
-
-
-
-                    </center>
-                  </Box>
-
-                </Stack>
-
-
-              </Box>
-
-              <Stack mt={10} >
-
-                <Box >
-                  <LazyImageComponent
-                    src={Image7}
-                  className={styles.transa40}
-                  />
-                </Box>
-
-                <Box mt={2}>
-
-                  <Box pr={2} pl={2}>
-                    <Typography variant="caption" fontSize={22} lineHeight={1.4} fontWeight={600} color="background.light">
-                      All trades are held in escrow pending value exchange.
-                    </Typography>
-                  </Box>
-
-                  <Box mt={2}>
-                    <Typography variant="caption" fontSize={16} fontWeight={400} color="background.light">
-                      At Red Onion, we are very concerned with user protection 
-                      and the safety of your transactions
-                    </Typography>
-                  </Box>
-
-                  <Box mt={6}  >
+                  <Box mt={4} >
                     <Button variant="contained" color="primary">
                       <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                         <a
                           style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                          href="/auth/sign-in"
+                          href="/registration/sign-up"
                         >
 
-                          Get started with Red Onion
+                          Get started
+
                         </a>
                       </Typography>
                     </Button>
@@ -902,8 +786,124 @@ const OnboardingPage = () => {
 
                 </Box>
 
-              </Stack>
-                </center>
+
+                <Box mt={10}>
+                  <Box>
+                    <Typography variant="caption" fontSize={24} lineHeight={1.3} fontWeight={600} color="background.light">
+                      Exchange on the go. Anytime, anywhere.
+                    </Typography>
+                  </Box>
+
+
+                  <Stack mt={5}>
+
+                    <Box >
+                      <Suspense
+                        fallback={<Skeleton variant="circular" />}
+                      >
+                        <LazyImageComponent
+                          className={styles.transa100}
+                          src={Image5}
+
+                        />
+                      </Suspense>
+                    </Box>
+
+                    <Box mt={1}>
+                      <center>
+                        <Box>
+                          <LazyImageComponent
+
+                            src={Image6}
+                          />
+                        </Box>
+
+                        <Box mt={3}>
+
+                          <Typography variant="caption" fontSize={16} fontWeight={400} color="background.light">
+                            Scan to download
+                          </Typography>
+
+                        </Box>
+
+                        <Box mt={-1}>
+
+                          <Typography variant="caption" fontSize={24} fontWeight={600} color="background.light">
+                            iOS & Android
+                          </Typography>
+
+                        </Box>
+
+                        <Stack mt={3} direction="row" alignItems="center" justifyContent="center" >
+
+                          <Box>
+                            <LazyImageComponent
+                              src={ImageAppleStore}
+                            />
+                          </Box>
+
+                          <Box ml={1.4}>
+                            <LazyImageComponent
+                              src={ImagePlayStore}
+                            />
+                          </Box>
+
+                        </Stack>
+
+
+
+                      </center>
+                    </Box>
+
+                  </Stack>
+
+
+                </Box>
+
+                <Stack mt={10} >
+
+                  <Box >
+                    <LazyImageComponent
+                      src={Image7}
+                      className={styles.transa40}
+                    />
+                  </Box>
+
+                  <Box mt={2}>
+
+                    <Box pr={2} pl={2}>
+                      <Typography variant="caption" fontSize={22} lineHeight={1.4} fontWeight={600} color="background.light">
+                        All trades are held in escrow pending value exchange.
+                      </Typography>
+                    </Box>
+
+                    <Box mt={2}>
+                      <Typography variant="caption" fontSize={16} fontWeight={400} color="background.light">
+                        At Red Onion, we are very concerned with user protection
+                        and the safety of your transactions
+                      </Typography>
+                    </Box>
+
+                    <Box mt={6}  >
+                      <Button variant="contained" color="primary">
+                        <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
+                          <a
+                            style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
+                            href="/registration/sign-up"
+                          >
+
+                            Get started with Red Onion
+                          </a>
+                        </Typography>
+                      </Button>
+
+
+                    </Box>
+
+                  </Box>
+
+                </Stack>
+              </center>
             </Box>
 
           </Box>
@@ -1078,175 +1078,175 @@ const OnboardingPage = () => {
 
         </Box>
       ) : (
-          <Box mt={-35} bgcolor={"#F6F0F8"} pl={6} pr={2} pt={6} pb={3}>
+        <Box mt={-35} bgcolor={"#F6F0F8"} pl={6} pr={2} pt={6} pb={3}>
 
-            <Stack >
-              <Box >
-                <Stack  alignItems="left" >
+          <Stack >
+            <Box >
+              <Stack alignItems="left" >
+
+                <Box>
+                  <Box>
+                    <Typography variant="caption" fontSize={18} fontWeight={500} color="#3063E9">
+                      About us
+                    </Typography>
+                  </Box>
+                  <Box mt={1}>
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        Terms of service
+
+                      </Typography>
+                    </a>
+                  </Box>
 
                   <Box>
-                    <Box>
-                      <Typography variant="caption" fontSize={18} fontWeight={500} color="#3063E9">
-                        About us
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        Privacy policy
+
                       </Typography>
-                    </Box>
-                    <Box mt={1}>
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          Terms of service
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                    <Box>
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          Privacy policy
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                    <Box >
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          Announcements
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                    <Box mt={1}>
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          Fees
-
-                        </Typography>
-                      </a>
-                    </Box>
-
+                    </a>
                   </Box>
 
-                  <Box mt={4}>
-                    <Box>
-                      <Typography variant="caption" fontSize={18} fontWeight={500} color="#3063E9">
-                        Support
+                  <Box >
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        Announcements
+
                       </Typography>
-                    </Box>
-                    <Box mt={1}>
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          support@redonion.io
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                    <Box>
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          +234 0000 000 000
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                    <Box >
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          Twitter support
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                    <Box mt={1}>
-                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                        <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
-
-                          Call lines are open <br />
-                          08:00 to 17:00 WAT, <br />
-                          Mondays - Fridays
-
-                        </Typography>
-                      </a>
-                    </Box>
-
-                  </Box>
-
-                  <Box mt={4}>
-                    <Box>
-                      <Typography variant="caption" fontSize={18} fontWeight={500} color="#3063E9">
-                        Community
-                      </Typography>
-                    </Box>
-                    <Stack direction="row"  mt={1}>
-                      <Box mr={2}>
-                        <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                          <LazyImageComponent src={Instagram} />
-                        </a>
-                      </Box>
-
-                      <Box mr={2}>
-                        <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                          <LazyImageComponent src={Twitter} />
-                        </a>
-                      </Box>
-
-                      <Box>
-                        <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
-                          <LazyImageComponent src={Facebook} />
-                        </a>
-                      </Box>
-                    </Stack>
-
-                  </Box>
-
-                </Stack>
-              </Box>
-
-              <Box >
-                <Stack mt={3}  >
-
-                  <Box>
-                    <LazyImageComponent
-                      src={ImageAppleStore}
-                      className={styles.transa40}
-                    />
+                    </a>
                   </Box>
 
                   <Box mt={1}>
-                    <LazyImageComponent
-                      src={ImagePlayStore}
-                      className={styles.transa40}
-                    />
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        Fees
+
+                      </Typography>
+                    </a>
                   </Box>
 
-                </Stack>
-              </Box>
-            </Stack>
-            <br /><br />
-            <Box  >
-              <Suspense
-                fallback={<Skeleton variant="circular" height={30} width={110} />}
-              >
-                <LazyImageComponent
-                  className={styles.logo}
-                  src={LogoDark}
-                />
-              </Suspense>
-            </Box>
-            <br />
+                </Box>
 
+                <Box mt={4}>
+                  <Box>
+                    <Typography variant="caption" fontSize={18} fontWeight={500} color="#3063E9">
+                      Support
+                    </Typography>
+                  </Box>
+                  <Box mt={1}>
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        support@redonion.io
+
+                      </Typography>
+                    </a>
+                  </Box>
+
+                  <Box>
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        +234 0000 000 000
+
+                      </Typography>
+                    </a>
+                  </Box>
+
+                  <Box >
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        Twitter support
+
+                      </Typography>
+                    </a>
+                  </Box>
+
+                  <Box mt={1}>
+                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        Call lines are open <br />
+                        08:00 to 17:00 WAT, <br />
+                        Mondays - Fridays
+
+                      </Typography>
+                    </a>
+                  </Box>
+
+                </Box>
+
+                <Box mt={4}>
+                  <Box>
+                    <Typography variant="caption" fontSize={18} fontWeight={500} color="#3063E9">
+                      Community
+                    </Typography>
+                  </Box>
+                  <Stack direction="row" mt={1}>
+                    <Box mr={2}>
+                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                        <LazyImageComponent src={Instagram} />
+                      </a>
+                    </Box>
+
+                    <Box mr={2}>
+                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                        <LazyImageComponent src={Twitter} />
+                      </a>
+                    </Box>
+
+                    <Box>
+                      <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                        <LazyImageComponent src={Facebook} />
+                      </a>
+                    </Box>
+                  </Stack>
+
+                </Box>
+
+              </Stack>
+            </Box>
+
+            <Box >
+              <Stack mt={3}  >
+
+                <Box>
+                  <LazyImageComponent
+                    src={ImageAppleStore}
+                    className={styles.transa40}
+                  />
+                </Box>
+
+                <Box mt={1}>
+                  <LazyImageComponent
+                    src={ImagePlayStore}
+                    className={styles.transa40}
+                  />
+                </Box>
+
+              </Stack>
+            </Box>
+          </Stack>
+          <br /><br />
+          <Box  >
+            <Suspense
+              fallback={<Skeleton variant="circular" height={30} width={110} />}
+            >
+              <LazyImageComponent
+                className={styles.logo}
+                src={LogoDark}
+              />
+            </Suspense>
           </Box>
+          <br />
+
+        </Box>
       )}
     </ThemeProvider>
   );

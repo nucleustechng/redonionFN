@@ -49,9 +49,7 @@ const OTPVerification = () => {
 
             color="secondary">
             <a
-
-              // style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-40px", marginTop: "0", marginBottom: "25px" }}
-              href="/"
+            href="/"
             >
               <LazyImageComponent src={Back} />
             </a>

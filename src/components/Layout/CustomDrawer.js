@@ -128,7 +128,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
 
           <ListItem
             sx={{ mb: 1 }}
-            onClick={() => navigateAndCloseDrawer("/account")}
+            // onClick={() => navigateAndCloseDrawer("/account")}
             button
           >
 

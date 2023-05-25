@@ -11,12 +11,28 @@
   text-align: center;
 }
 
+.titleBoxMobile {
+  font-size: calc(0.6rem + 1vw);
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: -40px;
+  text-align: center;
+}
+
 .titleBoxA {
   font-size: calc(0.3rem + 1vw);
   padding-left: 10px;
   padding-right: 10px;
   text-align: center;
   margin-top: 10px;
+}
+
+.titleBoxAMobile{
+  font-size: calc(0.8rem + 1vw);
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
+    text-align: center;
+    /* margin-top: -10px; */
 }
 
 .nameFont{

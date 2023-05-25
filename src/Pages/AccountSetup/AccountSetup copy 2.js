@@ -65,13 +65,7 @@ const steps = [
     label: "Verify your identity",
   },
   {
-    label: "",
-  },
-  {
     label: "Add account details",
-  },
-  {
-    label: "",
   },
   {
     label: "Set your transaction pin",
@@ -95,12 +89,10 @@ const AccountSetup = () => {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-    console.log(newSkipped)
   };
-
-
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -118,12 +110,6 @@ const AccountSetup = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
-
-  const sendData = (data) => {
-
-    setActiveStep(data);
-    // console.log(prevActiveStep);
-  }
 
   // Theme
   const theme = useTheme();
@@ -182,35 +168,32 @@ const AccountSetup = () => {
                 className={!isMobile ? styles.contentBox : ""}
                 elevation={2}
                 sx={{ borderRadius: "10px" }}
-
-              >
                
-                {(activeStep === 0 || activeStep === 2) && (
+              >
+                <Box pl={5} mb={-5} pt={5} bgcolor={theme.palette.background.surface}>
+                  <Button
+                    style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
+
+                    color="secondary">
+                    <a
+
+                      href="/"
+                    >
+                      <LazyImageComponent src={Back} />
+                    </a>
+
+                  </Button>
+                </Box>
+                {activeStep === 0 && (
                   <Box
                     bgcolor={theme.palette.background.surface}
-
+                    
                     p={!isMobile ? 5 : 3}
 
                   >
-                    {(activeStep === 0) && (
-                    <Box pl={0} mb={3} pt={0} bgcolor={theme.palette.background.surface}>
-                      <Button
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
-
-                        color="secondary">
-                        <a
-
-                          href="/"
-                        >
-                          <LazyImageComponent src={Back} />
-                        </a>
-
-                      </Button>
-                    </Box>
-                    )}
 
                     <Box>
-
+                     
                       <Typography
                         className={styles.titleBox}
                         variant="h3"
@@ -237,97 +220,193 @@ const AccountSetup = () => {
                             if (isStepSkipped(index)) {
                               stepProps.completed = false;
                             }
-
                             return (
-                              <>
-                                {
-                                  step.label !== "" && (
-                                    <Box
-                                      key={step.label}
-                                      {...stepProps}
-                                      p={2} mb={3.5} sx={{ borderRadius: "10px" }} bgcolor={activeStep === index ? "#3063E9" : "#E8E8F3"}>
+                              <Box
+                                key={step.label}
+                                {...stepProps}
+                                p={2} mb={3.5} sx={{ borderRadius: "10px" }} bgcolor={activeStep === index ? "#3063E9" : "#E8E8F3"}>
 
-                                      <Stack
+                                <Stack
 
 
-                                        direction="row"
-                                        justifyContent="space-between"
+                                  direction="row"
+                                  justifyContent="space-between"
 
+                                >
+                                  <Box>
+                                    <Stack
+
+
+                                      direction="row"
+                                      justifyContent="start"
+
+                                    >
+                                      <Box width={50} height={50} borderRadius={'50%'} bgcolor={"#fff"} >
+                                        <Typography
+                                          variant="caption"
+                                          color="#3063E9"
+                                          fontWeight={500}
+                                          fontSize={24}
+                                          display={'flex'}
+                                          justifyContent={'center'}
+                                          pt={0.8}
+                                        >
+                                          {index + 1}
+                                        </Typography>
+
+                                      </Box>
+
+                                      <Typography
+                                        variant="caption"
+                                        color={activeStep === index ? "background.light" : "#202020"}
+                                        fontWeight={500}
+                                        fontSize={18}
+                                        display={'flex'}
+                                        alignItems={'center'}
+                                        ml={2}
                                       >
-                                        <Box>
-                                          <Stack
+                                        {step.label}
 
+                                      </Typography>
+                                    </Stack>
+                                  </Box>
+                                  {activeStep === index &&
+                                    <Button
+                                      onClick={
+                                        activeStep !== 0 ? handleNext : undefined
+                                      }
+                                    >
+                                      <LazyImageComponent src={FrontArrow} />
+                                    </Button>
+                                  }
 
-                                            direction="row"
-                                            justifyContent="start"
+                                </Stack>
+                              </Box>
 
-                                          >
-                                            <Box width={50} height={50} borderRadius={'50%'} bgcolor={"#fff"} >
-                                              <Typography
-                                                variant="caption"
-                                                color="#3063E9"
-                                                fontWeight={500}
-                                                fontSize={24}
-                                                display={'flex'}
-                                                justifyContent={'center'}
-                                                pt={0.8}
-                                              >
-                                                {index === 2 ? index : index === 4 ?  3 : index + 1}
-                                              </Typography>
-
-                                            </Box>
-
-                                            <Typography
-                                              variant="caption"
-                                              color={activeStep === index ? "background.light" : "#202020"}
-                                              fontWeight={500}
-                                              fontSize={18}
-                                              display={'flex'}
-                                              alignItems={'center'}
-                                              ml={2}
-                                            >
-                                              {step.label}
-
-                                            </Typography>
-                                          </Stack>
-                                        </Box>
-                                        {activeStep === index &&
-                                          <Button
-                                            onClick={
-                                              handleNext
-                                            }
-                                          >
-                                            <LazyImageComponent src={FrontArrow} />
-                                          </Button>
-                                        }
-
-                                      </Stack>
-
-                                    </Box>
-                                  )
-                                }
-                              </>
                             );
                           })}
                         </Stepper>
                       </Box>
+                      {/* {activeStep === steps.length ? (
+                        <React.Fragment>
+                          <Typography textAlign="center" sx={{ mt: 5, mb: 1 }}>
+                            All steps completed - you&apos;re finished
+                          </Typography>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              pt: 2,
+                            }}
+                          >
+                            <Box sx={{ flex: "1 1 auto" }} />
+                            <Button onClick={handleReset}>Reset</Button>
+                          </Box>
+                        </React.Fragment>
+                      ) : (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                          mt={2}
+                        >
+                          {activeStep === 0 && (
+                            <Box>
+                              <Suspense fallback={<ComponentLoader />}>
+                                <AccountSetupStep />
+                              </Suspense>
+                            </Box>
+                          )}
+                          {activeStep === 1 && (
+                            <Box>
+                              <Suspense fallback={<ComponentLoader />}>
+                                <KYCStep />
+                              </Suspense>
+                            </Box>
+                          )}
+                          {activeStep === 2 && (
+                            <Box>
+                              <Suspense fallback={<ComponentLoader />}>
+                                <BankStep />
+                              </Suspense>
+                            </Box>
+                          )}
+                          <Box
+                            borderRadius={"10px"}
+                            bgcolor={theme.palette.background.paper}
+                          >
+                            <Stack px={5} py={2} spacing={1}>
+                              {activeStep === steps.length - 1 ? (
+                                <>
+                                  {theme.palette.mode === "dark" ? (
+                                    <Button
+                                      color="primary"
+                                      variant="contained"
+                                      onClick={() =>
+                                        navigate(
+                                          "/registration/two-factor-auth"
+                                        )
+                                      }
+                                    >
+                                      Finish
+                                    </Button>
+                                  ) : (
+                                    <LightUIButtonPrimary
+                                      color="primary"
+                                      variant="contained"
+                                      onClick={() =>
+                                        navigate(
+                                          "/registration/two-factor-auth"
+                                        )
+                                      }
+                                    >
+                                      Finish
+                                    </LightUIButtonPrimary>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  {theme.palette.mode === "dark" ? (
+                                    <Button
+                                      color="primary"
+                                      variant="contained"
+                                      onClick={handleNext}
+                                    >
+                                      Proceed
+                                    </Button>
+                                  ) : (
+                                    <LightUIButtonPrimary
+                                      color="primary"
+                                      variant="contained"
+                                      onClick={handleNext}
+                                    >
+                                      Proceed
+                                    </LightUIButtonPrimary>
+                                  )}
+                                </>
+                              )}
 
+                              <Button
+                                color="primary"
+                                variant="text"
+                                onClick={handleSkip}
+                                sx={{ mr: 1 }}
+                              >
+                                Skip
+                              </Button>
+                            </Stack>
+                          </Box>
+                        </Box>
+                      )} */}
                     </Box>
                   </Box>
                 )}
-                {activeStep === 1 && (
+                {activeStep === 0 && (
                   <Box>
                     <Suspense fallback={<ComponentLoader />}>
-                      <BankStep sendData={sendData} />
+                      <BankStep />
                       {/* <KYCStep /> */}
-                    </Suspense>
-                  </Box>
-                )}
-
-                {activeStep === 3 && (
-                  <Box>
-                    <Suspense fallback={<ComponentLoader />}>
-                      <AccountSetupStep />
                     </Suspense>
                   </Box>
                 )}

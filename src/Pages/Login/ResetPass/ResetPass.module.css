@@ -3,15 +3,15 @@
 }
 
 .resetBox {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   border-radius: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: top;
 }
 
 .contentBox {
-  width: calc(100% - 30%);
+  width: calc(100% - 60%);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
   transform: scale(0.8);
 }
@@ -24,7 +24,8 @@
 }
 
 .titleBox {
-  font-size: calc(0.8rem + 2vw);
+  font-size: calc(0.7rem + 1vw);
+  text-align: center;
 }
 
 .textUnderScore {
