@@ -118,7 +118,7 @@ const ResetPass = () => {
                   color={theme.palette.text.primary}
                   variant="body2"
                 >
-                  Token
+                  Reset Code
                 </Typography>
                 <Input
                   autoComplete="off"
@@ -137,7 +137,7 @@ const ResetPass = () => {
                 />
               </Stack>
               <Stack spacing={1} mb={2}>
-                <Typography fontSize={20} variant="body1">New Password</Typography>
+                <Typography fontSize={20} variant="body1">Create New Password</Typography>
                 <Input
                   disableUnderline
                   className="inputField"

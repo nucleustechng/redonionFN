@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react"; 
 import { CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { Navigate, useLocation } from "react-router-dom";
@@ -6,9 +7,17 @@ import { useTheme } from "@mui/material/styles";
 
 const PrivateRoute = ({ children }) => {
   // hooks
-  const { user, isLoading } = useAuth();
+  const { getUser, isLoading } = useAuth();
   const theme = useTheme();
   const location = useLocation();
+  var user = JSON.parse(localStorage.getItem('user'));
+
+   
+  
+
+
+
+
 
   if (isLoading) {
     return (
@@ -28,10 +37,10 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  if (user.email) {
+  if (user.token) {
     return children;
   } else {
-    return <Navigate to="/auth/sign-in" state={{ from: location }} />;
+    return  <Navigate to="/auth/sign-in" state={{ from: location }} />;
   }
 };
 

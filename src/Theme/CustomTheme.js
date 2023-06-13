@@ -2,7 +2,13 @@ import { createTheme } from "@mui/material/styles";
 import { useMemo, useState } from "react";
 
 const CustomTheme = () => {
+  // Add listener to update styles
+  const darkOS = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  localStorage.setItem("colorMode", darkOS ? "dark" : "light");
+
   const colorModeTheme = localStorage.getItem("colorMode");
+
   console.log(colorModeTheme)
   const [mode, setMode] = useState(colorModeTheme ? colorModeTheme : "dark");
 

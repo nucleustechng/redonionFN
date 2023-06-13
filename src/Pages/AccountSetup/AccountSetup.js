@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 
 import { Box } from "@mui/system";
 import {
@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 
 // Styles
 import styles from "./AccountSetup.module.css";
+
+import useAuth from "../../hooks/useAuth";
 
 // Logo
 import MainVectorLogo from "../../assets/mainLogo.svg";
@@ -51,7 +53,8 @@ import {
   QontoStepIcon,
 } from "../../components/CustomStepper/CustomStepper";
 import KYCStep from "./KYCStep/KYCStep";
-import BankStep from "./BankStep/BankStep";
+import BankStep from "./BankStep/IDUpload";
+import PhotoStep from "./PhotoSetupStep/PhotoStep";
 import ComponentLoader from "../../components/ProgressLoader/ComponentLoader";
 
 // Lazy Image
@@ -62,19 +65,19 @@ const LazyImageComponent = React.lazy(() =>
 // Steps array
 const steps = [
   {
-    label: "Verify your identity",
+    label: "Upload a image",
   },
   {
     label: "",
   },
   {
-    label: "Add account details",
+    label: "Upload ID Documentation",
   },
   {
     label: "",
   },
   {
-    label: "Set your transaction pin",
+    label: "Set your Bank Details",
   },
 ];
 
@@ -83,7 +86,19 @@ const AccountSetup = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
+  // var user = JSON.parse(localStorage.getItem('user'));
+
+  const {getUser } = useAuth();
+
   const navigate = useNavigate();
+
+  
+
+  useEffect(() => {
+
+    getUser();
+
+  }, []);
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -144,7 +159,6 @@ const AccountSetup = () => {
         }}
       >
         <Stack
-
           pt={isMobile ? 1.5 : 3}
           pb={isMobile ? 1.5 : 3}
           pl={isMobile ? 2 : 15}
@@ -184,8 +198,8 @@ const AccountSetup = () => {
                 sx={{ borderRadius: "10px" }}
 
               >
-               
-                {(activeStep === 0 || activeStep === 2) && (
+
+                {(activeStep === 0 || activeStep === 2 || activeStep === 4) && (
                   <Box
                     bgcolor={theme.palette.background.surface}
 
@@ -193,20 +207,43 @@ const AccountSetup = () => {
 
                   >
                     {(activeStep === 0) && (
-                    <Box pl={0} mb={3} pt={0} bgcolor={theme.palette.background.surface}>
-                      <Button
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
+                      <Box
+                        pl={0} mb={3} pt={0} bgcolor={theme.palette.background.surface}>
+                        <Button
+                          style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
 
-                        color="secondary">
-                        <a
+                          color="secondary">
+                          <a
 
-                          href="/"
+                            href="/"
+                          >
+                            <LazyImageComponent src={Back} />
+                          </a>
+
+                        </Button>
+
+                        <Box 
+                        style={{ float: "right"}}
                         >
-                          <LazyImageComponent src={Back} />
-                        </a>
+                          <Button
+                            onClick={()=> navigate("/dashboard/exchange")}
+                            style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
 
-                      </Button>
-                    </Box>
+                            color="secondary">
+                            <Typography
+                              variant="h3"
+                              color="secondaryDark"
+                              fontWeight={500}
+                              fontSize={20}
+                            >
+                             Skip
+                            </Typography>
+
+                          </Button>
+
+                        </Box>
+
+                      </Box>
                     )}
 
                     <Box>
@@ -272,7 +309,7 @@ const AccountSetup = () => {
                                                 justifyContent={'center'}
                                                 pt={0.8}
                                               >
-                                                {index === 2 ? index : index === 4 ?  3 : index + 1}
+                                                {index === 2 ? index : index === 4 ? 3 : index + 1}
                                               </Typography>
 
                                             </Box>
@@ -318,13 +355,21 @@ const AccountSetup = () => {
                 {activeStep === 1 && (
                   <Box>
                     <Suspense fallback={<ComponentLoader />}>
-                      <BankStep sendData={sendData} />
+                      <PhotoStep sendData={sendData} />
                       {/* <KYCStep /> */}
                     </Suspense>
                   </Box>
                 )}
 
                 {activeStep === 3 && (
+                  <Box>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <BankStep sendData={sendData} />
+                    </Suspense>
+                  </Box>
+                )}
+
+                {activeStep === 5 && (
                   <Box>
                     <Suspense fallback={<ComponentLoader />}>
                       <AccountSetupStep />

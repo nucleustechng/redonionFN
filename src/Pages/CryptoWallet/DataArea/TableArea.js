@@ -2,7 +2,8 @@ import React, { Suspense, useEffect, useState } from "react";
 
 // Material
 import { Box } from "@mui/system";
-import axios from "axios";
+// Axios
+import axios from "../../../api/axios";
 
 // Styles
 import styles from "./TableArea.module.css";
@@ -34,6 +35,10 @@ import {
 // Route
 import { Link, useNavigate } from "react-router-dom";
 
+import { LoadingButton } from "@mui/lab";
+
+import CreateBuyRequestModal from "../CreateBuyRequestModal/CreateBuyRequestModal";
+
 // Lazy Image Loader
 const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
@@ -45,10 +50,10 @@ const tableHeader = [
     name: "Price",
   },
   {
-    name: "Sender",
+    name: "Amount",
   },
   {
-    name: "Rate",
+    name: "Available",
   },
   // {
   //   name: "Value",
@@ -58,7 +63,7 @@ const tableHeader = [
   },
 ];
 
-const TableArea = () => {
+const TableArea = (prop) => {
   const [coinData, setCoinData] = useState([]);
   const [tablePage, setTablePage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -69,98 +74,143 @@ const TableArea = () => {
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
+  const [loading, setLoading] = useState(false);
+
+  const [showPin, setShowPin] = useState(false);
+
+  const [showSingleData, setShowSingleData] = useState();
+
+
+
+  const handleCloseTwoFAPin = (data) => {
+    console.log(data)
+    setShowSingleData(data);
+    setShowPin(!showPin);
+  };
+
   // Table Handler
   const handleChangePage = (event, newPage) => {
     setTablePage(newPage);
   };
 
+  const USER_UPLOAD_URL = "/transaction/get-offers";
+
+
+  const handleNext = () => {
+    var user = JSON.parse(localStorage.getItem('user'));
+    setLoading(true);
+    console.log(prop.data)
+    axios.post(
+      USER_UPLOAD_URL,
+      JSON.stringify(prop.data),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        }
+      }
+    ).then((res) => {
+      setCoinData(res.data.data)
+      console.log(res.data.data)
+
+    }).catch((err) => {
+      console.log(err)
+    })
+      .finally(() => setLoading(false));
+
+
+
+  }
+
   // Loading coin data
   useEffect(() => {
-    axios.get("/CryptoWalletData.json").then((res) => setCoinData(res.data));
-  }, []);
+    if (prop.data !== "") {
+      handleNext();
+    }
+
+  }, [prop]);
 
   return (
-    <Box className={styles.mainBox}>
-      <Box className={!isTablet ? styles.tableArea : styles.tableAreaTab}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {tableHeader.map((th) => (
-                  <StyledTableCell key={th.name}>
-                    <Typography variant="caption" textTransform={"none"} fontWeight={600} fontSize={16} color="primary">
-                      {th.name}</Typography>
-                  </StyledTableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {coinData
-                .slice(
-                  tablePage * rowsPerPage,
-                  tablePage * rowsPerPage + rowsPerPage
-                )
-                .map((cd) => (
-                  <StyledTableRow key={cd.id}>
-                    <StyledTableCell
-                      onClick={() => navigate(`/wallets/${cd.coinName}`)}
-                      component="th"
-                      scope="row"
-                      sx={{ cursor: "pointer" }}
-                    >
-                      <Stack direction="row" spacing={3}>
-                        {!isTablet && (
-                          <Box>
-                            <Suspense
-                              fallback={
-                                <Skeleton
-                                  animation="wave"
-                                  variant="circular"
-                                  width={20}
-                                  height={20}
-                                />
-                              }
-                            >
-                              <LazyImageComponent
-                                style={{ width: "20px", height: "20px" }}
-                                src={cd.coinIcon}
-                              />
-                            </Suspense>
-                          </Box>
-                        )}
-                        <Box mt={-0.5}>{cd.coinName}</Box>
-                      </Stack>
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      $ {cd.coinPrice}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {cd.coinBTC} {cd.coinCode}
-                    </StyledTableCell>
-                    {/* <StyledTableCell align="left">
-                      ${" "}
-                      {(
-                        parseFloat(cd.coinPrice) * parseFloat(cd.coinBTC)
-                      ).toFixed(2)}
-                    </StyledTableCell> */}
-                    <StyledTableCell align="left">
-                      <Stack direction="row" spacing={2}>
-                        <Button
-                          disableElevation
-                          color="success"
-                          className={styles.depositButton}
-                          variant="text"
-                          onClick={() => navigate(`/wallets/${cd.coinName}`)}
-                        >
-                          <Typography
-                            variant="caption"
-                            fontWeight={500}
-                            color="text.success"
+    <>
+      {
+        loading ? (
+        <Box >
+            <LoadingButton fullWidth
+              style={{ height: 120, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
+              loading  >
+              Sign Up
+            </LoadingButton >
+        </Box>
+        ) : (
+
+          <>
+              <CreateBuyRequestModal
+                dataSingle={showSingleData}
+                datao={prop}
+                open={showPin}
+                onClose={handleCloseTwoFAPin}
+              />
+
+          <Box className={styles.mainBox}>
+            <Box className={!isTablet ? styles.tableArea : styles.tableAreaTab}>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {tableHeader.map((th) => (
+                        <StyledTableCell key={th.name}>
+                          <Typography variant="caption" textTransform={"none"} fontWeight={600} fontSize={16} color="primary">
+                            {th.name}</Typography>
+                        </StyledTableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {coinData
+                      .slice(
+                        tablePage * rowsPerPage,
+                        tablePage * rowsPerPage + rowsPerPage
+                      )
+                      .map((cd) => (
+                        <StyledTableRow key={cd.id}>
+                          <StyledTableCell
+                            // onClick={() => navigate(`/wallets/${cd.coinName}`)}
+                            // onClick={handleCloseTwoFAPin}
+                            component="th"
+                            scope="row"
+                            sx={{ cursor: "pointer" }}
                           >
-                            Request
-                          </Typography>
-                        </Button>
-                        {/* <Link
+                            <Stack direction="row" spacing={3}>
+
+                              <Box mt={-0.5}> {prop.currency.currencyCode} {parseFloat(cd.tokenPricePerUnit * prop.data.amount).toFixed(2)}</Box>
+                            </Stack>
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {prop.data.coinAbb}  1 =  {parseFloat(cd.tokenPricePerUnit).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {prop.data.coinAbb} {cd.amountInCrypto}
+                          </StyledTableCell>
+                        
+                          <StyledTableCell align="left">
+                            <Stack direction="row" spacing={2}>
+                              <Button
+                                disableElevation
+                                color="success"
+                                className={styles.depositButton}
+                                variant="text"
+                                // onClick={() => navigate(`/wallets/${cd.coinName}`)}
+                                onClick={() => handleCloseTwoFAPin(cd)}
+                              >
+                                <Typography
+                                  variant="caption"
+                                  fontWeight={500}
+                                  color="text.success"
+                                >
+                                  Request
+                                </Typography>
+                              </Button>
+                              {/* <Link
                           style={{ textDecoration: "none", color: "inherit" }}
                           to={`/wallets/${cd.coinName}`}
                           state={{ isSending: true }}
@@ -180,23 +230,28 @@ const TableArea = () => {
                             </Typography>
                           </Button>
                         </Link> */}
-                      </Stack>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[]}
-          component="div"
-          count={coinData.length}
-          rowsPerPage={rowsPerPage}
-          page={tablePage}
-          onPageChange={handleChangePage}
-        />
-      </Box>
-    </Box>
+                            </Stack>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[]}
+                component="div"
+                count={coinData.length}
+                rowsPerPage={rowsPerPage}
+                page={tablePage}
+                onPageChange={handleChangePage}
+              />
+            </Box>
+          </Box>
+
+          </>
+
+        )}
+    </>
   );
 };
 

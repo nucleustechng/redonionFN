@@ -66,7 +66,7 @@ const OTPVerification = () => {
 
   useEffect(() => {
     // ref.current?.inputs[0].focus();
-
+    
     const interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
@@ -218,7 +218,7 @@ const OTPVerification = () => {
                   length={6}
                   validate={/^[0-9]$/}
                   onChange={setCode}
-                  type="password"
+                  type="text"
                   inputMode="numeric"
                   autoComplete="nope"
                 />
@@ -235,7 +235,7 @@ const OTPVerification = () => {
                     length={6}
                     validate={/^[0-9]$/}
                     onChange={setCode}
-                    type="password"
+                    type="text"
                     inputMode="numeric"
                     autoComplete="nope"
                   />

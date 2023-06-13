@@ -7,6 +7,7 @@ const NavRoutes = {
 
   TwoFactorAuth: { path: "two-factor-auth" },
   TwoFactorPin: { path: "two-factor-pin" },
+  SignInUser: { path: "user/sign-in" },
   Login: { path: "/auth" },
   SignIn: { path: "sign-in" },
   ForgotPass: { path: "forgot-pass" },

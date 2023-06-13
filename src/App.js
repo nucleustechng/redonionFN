@@ -29,6 +29,7 @@ import { appTitle, appDescription } from "./Utilities/Customs";
 // Navigation Routes
 import NavRoutes from "./NavigationRoutes";
 
+
 /**********************************
           Lazy Pages
 ***********************************/
@@ -40,6 +41,8 @@ const Registration = React.lazy(() =>
 const SignUpInterface = React.lazy(() =>
   import("./Pages/Registration/SignUpInterface/SignUpInterface")
 );
+
+
 const VerifyEmailPage = React.lazy(() =>
   import("./Pages/Registration/EmailVerify/OTPVerification")
 );
@@ -54,6 +57,10 @@ const TwoFAPin = React.lazy(() =>
 const Login = React.lazy(() => import("./Pages/Login/Login"));
 const SignInInterface = React.lazy(() =>
   import("./Pages/Login/SignInInterface/SignInInterface")
+);
+
+const SignInInterfaceUser = React.lazy(() =>
+  import("./Pages/Login/SignInInterface/SignInInterfaceUser")
 );
 const ForgotPass = React.lazy(() =>
   import("./Pages/Login/ForgotPass/ForgotPass")
@@ -123,15 +130,20 @@ export const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
 
 
+
+
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
   
   useEffect(() => {
+
     // Update network status
     const handleStatusChange = () => {
       setIsOnline(navigator.onLine);
     };
+
+   
 
     // Listen to the online status
     window.addEventListener('online', handleStatusChange);
@@ -251,6 +263,7 @@ function App() {
                           </Suspense>
                         }
                       />
+                      
                         {/* Sign Up Page */}
                         <Route
                           path={NavRoutes.VerifyEmail.path}
@@ -280,6 +293,15 @@ function App() {
                       />
                       {/* Login Page */}
                     </Route>
+                      {/* Sign In User Page */}
+                      <Route
+                        path={NavRoutes.SignInUser.path}
+                        element={
+                          <Suspense fallback={<ProgressLoader />}>
+                            <SignInInterfaceUser />
+                          </Suspense>
+                        }
+                      />
                     <Route
                       path={NavRoutes.Login.path}
                       element={
@@ -297,6 +319,7 @@ function App() {
                           </Suspense>
                         }
                       />
+                       
                       {/* Forgot Pass Page */}
                       <Route
                         path={NavRoutes.ForgotPass.path}
@@ -330,9 +353,9 @@ function App() {
                       path={NavRoutes.AccountSetup.path}
                       element={
                         <Suspense fallback={<ProgressLoader />}>
-                          {/* <PrivateRoute> */}
+                          <PrivateRoute>
                           <AccountSetup />
-                          {/* </PrivateRoute> */}
+                          </PrivateRoute>
                         </Suspense>
                       }
                     />
@@ -341,9 +364,9 @@ function App() {
                       path={NavRoutes.Wallets.path}
                       element={
                         <Suspense fallback={<ProgressLoader />}>
-                          {/* <PrivateRoute> */}
+                          <PrivateRoute>
                           <Wallets />
-                          {/* </PrivateRoute> */}
+                          </PrivateRoute>
                         </Suspense>
                       }
                     >

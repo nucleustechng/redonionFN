@@ -102,7 +102,11 @@ const SignUpInterface = () => {
           "Content-Type": "application/json"
         }
       }
-    ).then((res) => setCountryData(res.data.data.countries));
+    ).then((res) => {
+      let data = res.data.data.countries;
+      data.sort((a, b) => a.name.localeCompare(b.name));
+      setCountryData(data);
+    });
 
   }, []);
 
@@ -212,7 +216,7 @@ const SignUpInterface = () => {
               {dropdown &&
                 <Box style={{ position: 'absolute', left: 0, right: 0, background: '#000', padding: 30, zIndex: 9999 }}>
                   <center>
-                    <Box mb={2}>
+                    {/* <Box mb={2}>
                       <Button
                         color="secondary"
 
@@ -227,16 +231,16 @@ const SignUpInterface = () => {
                           </a>
                         </Typography>
                       </Button>
-                    </Box>
+                    </Box> */}
                     <Box>
                       <Button fullWidth variant="contained" color="primary">
                         <Typography fontSize={16} variant="caption" p={0.3} color="background.light">
                           <a
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/registration/sign-up"
+                            href="/auth/sign-in"
                           >
 
-                            Create Account
+                            Log in
 
                           </a>
                         </Typography>
@@ -248,8 +252,8 @@ const SignUpInterface = () => {
             </Box>
           ) : (
             <Stack direction="row"
-              justifyContent="space-between">
-              <Box mr={2}>
+              justifyContent="space-evenly">
+              {/* <Box mr={2}>
                 <Button
                   color="secondaryDark"
 
@@ -264,16 +268,16 @@ const SignUpInterface = () => {
                     </a>
                   </Typography>
                 </Button>
-              </Box>
+              </Box> */}
               <Box>
                 <Button fullWidth variant="contained" color="primary">
                   <Typography variant="caption" p={0.3} color="background.light">
                     <a
                       style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                      href="/registration/sign-up"
+                        href="/auth/sign-in"
                     >
 
-                      Create Account
+                        Log in
 
                     </a>
                   </Typography>
@@ -311,6 +315,7 @@ const SignUpInterface = () => {
 
                   </Button>
                   <Typography
+                    mt={isMobile ? 0 : -5}
                     className={styles.titleBox}
                     variant="h3"
                     color="secondary"
@@ -324,9 +329,9 @@ const SignUpInterface = () => {
                       <Typography
                         variant="body1"
                         color={theme.palette.text.primary}
-                        fontSize={20}
+                        fontSize={16}
                       >
-                        First Name
+                        *First Name
                       </Typography>
                       <Input
                         disableUnderline
@@ -339,11 +344,32 @@ const SignUpInterface = () => {
                         onChange={handleUserInfo}
                       />
                     </Stack>
+                   
                     <Stack spacing={1} mb={2}>
                       <Typography
                         variant="body1"
                         color={theme.palette.text.primary}
-                        fontSize={20}
+                        fontSize={16}
+                      >
+                        *Last Name
+                      </Typography>
+                      <Input
+                        disableUnderline
+                        className="inputField"
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                        color="secondary"
+                        name="lname"
+                        onChange={handleUserInfo}
+                      />
+                    </Stack>
+
+                    <Stack spacing={1} mb={2}>
+                      <Typography
+                        variant="body1"
+                        color={theme.palette.text.primary}
+                        fontSize={16}
                       >
                         Middle Name
                       </Typography>
@@ -362,28 +388,9 @@ const SignUpInterface = () => {
                       <Typography
                         variant="body1"
                         color={theme.palette.text.primary}
-                        fontSize={20}
+                        fontSize={16}
                       >
-                        Last Name
-                      </Typography>
-                      <Input
-                        disableUnderline
-                        className="inputField"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        color="secondary"
-                        name="lname"
-                        onChange={handleUserInfo}
-                      />
-                    </Stack>
-                    <Stack spacing={1} mb={2}>
-                      <Typography
-                        variant="body1"
-                        color={theme.palette.text.primary}
-                        fontSize={20}
-                      >
-                        Email
+                        *Email
                       </Typography>
                       <Input
                         disableUnderline
@@ -401,9 +408,9 @@ const SignUpInterface = () => {
                       <Typography
                         variant="body1"
                         color={theme.palette.text.primary}
-                        fontSize={20}
+                        fontSize={16}
                       >
-                        Country
+                        *Country
                       </Typography>
                       <Select
                         className={theme.palette.mode === "dark" ? "" : styles.currencyBox}
@@ -421,9 +428,9 @@ const SignUpInterface = () => {
                       <Typography
                         variant="body1"
                         color={theme.palette.text.primary}
-                        fontSize={20}
+                        fontSize={16}
                       >
-                        Phone Number
+                        *Phone Number
                       </Typography>
                       <PhoneInput
                         inputStyle={{ width: "100%", height: 53, fontSize: 16, background: "#f3f3f3", border: 0 }}
@@ -439,9 +446,9 @@ const SignUpInterface = () => {
                       <Typography
                         color={theme.palette.text.primary}
                         variant="body1"
-                        fontSize={20}
+                        fontSize={16}
                       >
-                        Password
+                        *Password
                       </Typography>
                       <Input
                         disableUnderline
@@ -466,14 +473,21 @@ const SignUpInterface = () => {
                           </InputAdornment>
                         }
                       />
+                      <Typography
+                        color={theme.palette.text.primary}
+                        variant="body1"
+                        fontSize={15}
+                      >
+                       Your Password must be at least eight characters long and must contian a mix letters, numbers and special characters
+                      </Typography>
                     </Stack>
                     <Stack spacing={1} mb={2}>
                       <Typography
                         color={theme.palette.text.primary}
                         variant="body1"
-                        fontSize={20}
+                        fontSize={16}
                       >
-                        Confirm Password
+                        *Confirm Password
                       </Typography>
                       <Input
                         disableUnderline
@@ -502,7 +516,7 @@ const SignUpInterface = () => {
                           </InputAdornment>
                         }
                       />
-                      <Typography my={1} fontSize={20} variant="small" color="error">
+                      <Typography my={1} fontSize={16} variant="small" color="error">
                         {formError}
                       </Typography>
                       {authError && (
@@ -513,7 +527,7 @@ const SignUpInterface = () => {
                           }}
                           my={1}
                           textAlign={"center"}
-                          fontSize={20}
+                          fontSize={16}
                           variant="small"
                           color="error"
                         >
@@ -568,7 +582,7 @@ const SignUpInterface = () => {
                             variant="contained"
                             color="primary"
                           >
-                            Sign Up <LazyImageComponent src={FrontArrow} />
+                            Continue <LazyImageComponent src={FrontArrow} />
                           </Button>
 
                         </>
@@ -580,7 +594,7 @@ const SignUpInterface = () => {
                           color={theme.palette.text.primary}
                           variant="body2"
                           fontWeight={400}
-                          fontSize={22}
+                          fontSize={20}
                         // sx={{ textDecoration: "underline" }}
                         >
 
@@ -591,7 +605,7 @@ const SignUpInterface = () => {
                           color={theme.palette.text.primary}
                           variant="body2"
                           fontWeight={400}
-                          fontSize={22}
+                          fontSize={20}
                         // sx={{ textDecoration: "underline" }}
                         >
 
@@ -600,7 +614,7 @@ const SignUpInterface = () => {
                             color="primary"
                             variant="body2"
                             fontWeight={400}
-                            fontSize={22}
+                            fontSize={20}
                             sx={{ cursor: "pointer" }}
                             onClick={() => navigate("/auth/sign-in")}
                           >
@@ -612,7 +626,7 @@ const SignUpInterface = () => {
                             color="primary"
                             variant="body2"
                             fontWeight={400}
-                            fontSize={22}
+                            fontSize={20}
                             sx={{ cursor: "pointer" }}
                             onClick={() => navigate("/auth/sign-in")}
                           >

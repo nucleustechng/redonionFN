@@ -17,6 +17,8 @@ const useUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPin, setShowPin] = useState(false);
 
+  const [sucessUser, setSuccessUser] = useState(false);
+
   
 
   const authHeader = {
@@ -75,8 +77,22 @@ const useUser = () => {
 
 
       setAuthError("");
-      console.log(res);
-      navigate("/auth/sign-in");
+      const user = res.data.data.user;
+
+      const token = res.data.data.accessToken;
+
+      const newUser = { token, user };
+      setUser(newUser);
+      
+      localStorage.setItem("user", JSON.stringify(newUser));
+      
+      if (!user.emailVerified) {
+        navigate("/registration/verify-email");
+      } else if (user.identityDocument === "") {
+        navigate("/account-setup");
+      } else {
+        navigate("/dashboard/exchange");
+      }
 
     }).catch((err) => {
       console.log(err.response.data);
@@ -119,7 +135,7 @@ const useUser = () => {
 
       if (!user.emailVerified){
         navigate("/registration/verify-email");
-      } else if (!user.identityIsVerified){
+      } else if (user.identityDocument === "") {
         navigate("/account-setup");
       }else{
         navigate("/dashboard/exchange");
@@ -186,6 +202,15 @@ const useUser = () => {
       .finally(() => setIsLoading(false));
   };
 
+  const getUser = () => {
+    var userInfo = JSON.parse(localStorage.getItem('user'));
+   
+    setUser(userInfo);
+    
+  }
+
+  
+
   const isObjectEmpty = (objectName) => {
     for (let prop in objectName) {
       if (objectName.hasOwnProperty(prop)) {
@@ -195,19 +220,6 @@ const useUser = () => {
     return true;
   };
 
-
-  // Using these will hold the user even if the page is reloaded or refreshed
-  useEffect(() => {
-
-    var userInfo = JSON.parse(localStorage.getItem('user'));
-    if(isObjectEmpty(user)){
-      setUser(userInfo);
-     
-    }
-    console.log(user)
-   
-    
-  }, [user]);
 
   // SignOut
   const logOut = () => {
@@ -226,6 +238,8 @@ const useUser = () => {
     logInUser,
     forgotPass,
     changePassword,
+    getUser,
+    sucessUser,
     logOut,
     showPin,
     setShowPin,

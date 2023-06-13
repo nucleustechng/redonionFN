@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import {
   MobileStepper,
@@ -69,6 +69,8 @@ const OnboardingPage = () => {
 
   const [dropdown, setDropdown] = useState(false);
 
+  const [user, setUser] = useState("");
+
   const handleSkip = () => {
     setActiveStep(4);
   };
@@ -76,6 +78,12 @@ const OnboardingPage = () => {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
+
+  useEffect(() => {
+    var userInfo = JSON.parse(localStorage.getItem('user'));
+    setUser(userInfo?.user);
+    
+  }, [])
 
 
   return (
@@ -137,7 +145,7 @@ const OnboardingPage = () => {
                           <a
 
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/auth/sign-in"
+                            href={user ?  "/user/sign-in" : "/auth/sign-in"}
                           >
                             Log in
                           </a>
@@ -149,7 +157,7 @@ const OnboardingPage = () => {
                         <Typography variant="caption" fontSize={14} p={0.3} color="background.light">
                           <a
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/registration/sign-up"
+                            href={user ? "/user/sign-in" :  "/registration/sign-up"}
                           >
 
                             Create Account
@@ -174,7 +182,7 @@ const OnboardingPage = () => {
                     <a
 
                       style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                      href="/auth/sign-in"
+                        href={user ? "/user/sign-in" :  "/auth/sign-in"}
                     >
                       Log in
                     </a>
@@ -186,7 +194,7 @@ const OnboardingPage = () => {
                   <Typography variant="caption" p={0.3} color="background.light">
                     <a
                       style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                      href="/registration/sign-up"
+                        href={user ? "/user/sign-in" :  "/registration/sign-up"}
                     >
 
                       Create Account
@@ -259,7 +267,7 @@ const OnboardingPage = () => {
                 <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                   <a
                     style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                    href="/registration/sign-up"
+                    href={user ? "/user/sign-in" : "/registration/sign-up"}
                   >
 
                     Get started
@@ -344,7 +352,7 @@ const OnboardingPage = () => {
                       <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                         <a
                           style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                          href="/registration/sign-up"
+                          href={user ? "/user/sign-in" : "/registration/sign-up"}
                         >
 
                           Get started
@@ -433,7 +441,7 @@ const OnboardingPage = () => {
                   <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                     <a
                       style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                      href="/registration/sign-up"
+                      href={user ? "/user/sign-in" : "/registration/sign-up"}
                     >
 
                       Get started
@@ -550,7 +558,7 @@ const OnboardingPage = () => {
                     <Typography variant="caption" p={1} pl={4} pr={4} fontSize={18} color="background.light">
                       <a
                         style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                        href="/registration/sign-up"
+                        href={user ? "/user/sign-in" : "/registration/sign-up"}
                       >
 
                         Get started with Red Onion
@@ -601,7 +609,7 @@ const OnboardingPage = () => {
                     <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                       <a
                         style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                        href="/registration/sign-up"
+                          href={user ? "/user/sign-in" : "/registration/sign-up"}
                       >
 
                         Get started
@@ -685,7 +693,7 @@ const OnboardingPage = () => {
                         <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                           <a
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/registration/sign-up"
+                              href={user ? "/user/sign-in" : "/registration/sign-up"}
                           >
 
                             Get started
@@ -772,7 +780,7 @@ const OnboardingPage = () => {
                       <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                         <a
                           style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                          href="/registration/sign-up"
+                            href={user ? "/user/sign-in" : "/registration/sign-up"}
                         >
 
                           Get started
@@ -889,7 +897,7 @@ const OnboardingPage = () => {
                         <Typography variant="caption" p={1} pl={4} pr={4} fontSize={16} color="background.light">
                           <a
                             style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/registration/sign-up"
+                              href={user ? "/user/sign-in" : "/registration/sign-up"}
                           >
 
                             Get started with Red Onion

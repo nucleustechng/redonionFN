@@ -31,6 +31,14 @@
   border: none;
 }
 
+.currencyBoxDark {
+  color: inherit;
+  background: #222;
+  /* border-color: #EEEEEE; */
+  border-radius: 4px;
+  border: none;
+}
+
 .card {
   padding-left: 1rem;
   padding-right: 0;
@@ -112,4 +120,16 @@
   padding: 1rem;
   border-radius: 5px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.radioContainer {
+  margin-top: 1rem;
+}
+
+.radioBox {
+  border-radius: 5px;
+  padding: 8px 60px;
+  /* border: 2px solid #777777; */
+  /* margin-bottom: 1rem; */
+  width: 100%;
 }

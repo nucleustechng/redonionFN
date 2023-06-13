@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Typography,
@@ -7,11 +7,16 @@ import {
   useMediaQuery,
   Select,
   MenuItem,
-  Stack
+  Stack,
+  Snackbar,
+  IconButton,
+  Alert,
+  
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import Close from "@mui/icons-material/Close";
+import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 
 import { LoadingButton } from "@mui/lab";
 
@@ -23,6 +28,9 @@ import { GrowwBar } from "../../../components/GrowwBar/GrowwBar";
 import successClock from "../../../assets/clockSuccess.svg";
 
 import { useNavigate } from "react-router-dom";
+
+// Axios
+import axios from "../../../api/axios";
 
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
@@ -39,18 +47,81 @@ const AccountSetupStep = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { logInUser, authError, isLoading } = useAuth();
+  const [userAccountName, setAccountName] = useState("");
+  const [userAccountNumber, setAccountNumber] = useState("");
+  const [userBank, setUserBank] = useState("");
+  const [info, setInfo] = useState("");
+  const [userInfo, setUser] = useState({});
 
   const [bank, setBank] = React.useState('');
 
   const [activeStepBank, setActiveStepBank] = React.useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
+  const { logInUser, authError, getUser, isLoading } = useAuth();
+
+  // Send Snackbar
+  const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
+    useState(false);
+
+  const handleCloseSendSnackbar = () => {
+    setShowSendSuccessfullSnackbar(false);
+  };
+
+  const allAuthContext = useAuth();
+  // Authentication
+
+  const user = Object.keys(allAuthContext.user).length
+    > 0 ? allAuthContext.user : '';
+
+  const USER_BANK_URL = "/user/add-bank-account";
+
+  
   const handleNext = () => {
-    setActiveStepBank(activeStepBank + 1)
+    if (userAccountNumber === "" || userBank === "") {
+      setShowSendSuccessfullSnackbar(true);     
+    } else {
+      
+      setLoading(true);
+     
+      axios.post(
+        USER_BANK_URL,
+        JSON.stringify({
+          "bankName": userBank,
+          "number": userAccountNumber
+        }),
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            Accept: 'application/json',
+            "Content-Type": "application/json",
+            
+          }
+        }
+      ).then((res) => {
+       
+       
+        setActiveStepBank(activeStepBank + 1)
+
+      }).catch((err) => {
+        console.log(err)
+      })
+        .finally(() => setLoading(false));
+
+
+    }
 
   }
+
+
+  useEffect(() => {
+    
+    setUser(user.user);
+   
+  }, [user, setUser]);
 
   const onClickDashboard = ()=>{
     navigate("/dashboard/exchange")
@@ -62,6 +133,26 @@ const AccountSetupStep = () => {
 
   return (
     <Box p={!isMobile ? 5 : 3} bgcolor="background.paper">
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={showSendSuccessfullSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSendSnackbar}
+      >
+        <Alert
+          action={
+            <IconButton onClick={handleCloseSendSnackbar} sx={{ mt: -0.5 }}>
+              <Close sx={{ fontSize: "1.5rem" }} />
+            </IconButton>
+          }
+          icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
+          sx={{ fontSize: "1rem" }}
+          onClose={handleCloseSendSnackbar}
+          severity="success"
+        >
+          Fill all fields!
+        </Alert>
+      </Snackbar>
       {activeStepBank === 0 && (
         <Box>
           <Typography
@@ -81,7 +172,7 @@ const AccountSetupStep = () => {
             fontWeight={400}
 
           >
-            All FIAT gotten through Exchange will be sent to this account.
+            All fiat gotten through Exchange will be sent to this account.
           </Typography>
 
 
@@ -96,6 +187,8 @@ const AccountSetupStep = () => {
               type="text"
               variant="outlined"
               size="small"
+              value={userInfo?.firstName + " " + userInfo.lastName}
+              // onChange={(e) => setAccountName(e.target.value)}
               fullWidth
               color="secondary"
             />
@@ -107,6 +200,7 @@ const AccountSetupStep = () => {
               className="inputField"
               type="number"
               variant="outlined"
+              onChange={(e) => setAccountNumber(e.target.value)}
               size="small"
               fullWidth
               color="secondary"
@@ -114,7 +208,17 @@ const AccountSetupStep = () => {
             <Typography className={styles.nameFont} variant="body2" mt={3} mb={1}>
               Bank
             </Typography>
-            <Select
+            <Input
+              disableUnderline
+              className="inputField"
+              type="text"
+              variant="outlined"
+              onChange={(e) => setUserBank(e.target.value)}
+              size="small"
+              fullWidth
+              color="secondary"
+            />
+            {/* <Select
               value={bank}
               onChange={handleChange}
               displayEmpty
@@ -124,13 +228,11 @@ const AccountSetupStep = () => {
               <MenuItem value="Nigeria">
                 First Bank
               </MenuItem>
-              {/* <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem> */}
-            </Select>
+             
+            </Select> */}
 
             <Stack mt={5} >
-              {isLoading ? (
+              {loading ? (
                 <LoadingButton loading variant="outlined">
                   Login
                 </LoadingButton>
@@ -168,7 +270,7 @@ const AccountSetupStep = () => {
 
 
           <Stack mt={5} >
-            {isLoading ? (
+            {loading ? (
               <LoadingButton loading variant="outlined">
                 Login
               </LoadingButton>
