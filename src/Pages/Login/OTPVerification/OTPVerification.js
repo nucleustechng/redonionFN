@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
@@ -27,6 +27,8 @@ const OTPVerification = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const ref = useRef(null);
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   useEffect(() => {
     ref.current?.inputs[0].focus();
@@ -80,7 +82,7 @@ const OTPVerification = () => {
             fontSize={18}
             textAlign={'center'}
           >
-            Input the verification code sent to <br />johndoe@gmail.com
+            Input the verification code sent to <br />{user?.user.email}
           </Typography>
           <Box mt={3} mb={4} style={{ display: 'flex', justifyContent: 'center' }} >
             <ReactPinField

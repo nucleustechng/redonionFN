@@ -12,11 +12,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   var user = JSON.parse(localStorage.getItem('user'));
 
-   
   
-
-
-
 
 
   if (isLoading) {
@@ -37,7 +33,7 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  if (user.token) {
+  if (user?.token) {
     return children;
   } else {
     return  <Navigate to="/auth/sign-in" state={{ from: location }} />;

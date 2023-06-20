@@ -12,13 +12,13 @@ const LayoutRoutes = [
     name: "Exchange",
   },
  
-  {
-    id: 2,
-    path: "/history",
-    icon: whiteHistoryIcon,
-    iconLight: HistoryIcon,
-    name: "History",
-  },
+  // {
+  //   id: 2,
+  //   path: "/history",
+  //   icon: whiteHistoryIcon,
+  //   iconLight: HistoryIcon,
+  //   name: "History",
+  // },
  
 ];
 

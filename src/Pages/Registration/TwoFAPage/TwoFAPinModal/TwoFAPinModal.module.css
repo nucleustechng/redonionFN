@@ -39,66 +39,149 @@
   font-size: 1.3rem;
 }
 
+
+@keyframes shake {
+  from {
+    transform: scale(1.05) translateY(-5%);
+  }
+
+  to {
+    transform: scale(1.05) translateY(5%);
+  }
+}
+
+.mainBox {
+  height: 100vh;
+}
+
+.contentBox {
+  /* min-height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+.contentBoxMobile {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.verificationBox {
+  padding: 40px;
+  border-radius: 10px;
+  /* width: calc(100% - 20%); */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  transform: scale(0.8);
+}
+
+.verificationBoxMobile {
+  padding: 25px;
+}
+
+.titleBox {
+  font-size: calc(0.7rem + 1vw);
+  text-align: center;
+}
+
+.titleBoxMobile {
+  font-size: calc(1.3rem + 1vw);
+  text-align: center;
+}
+.modalTopBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.otpInputField {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
 .pinFieldDark {
-  background-color: transparent;
-  border-bottom: 2px solid #f9e006;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+  background-color: rgba(196, 196, 196, 0.1);
   color: #fff;
+  border: none;
   box-shadow: none;
   border-radius: 0.3rem;
   font-size: 2rem;
-  height: 3.5rem;
+  margin-right: 1rem;
+  height: 4rem;
   text-align: center;
   transition: all 0.1s ease-in;
-  width: 3rem;
-  margin-right: 1rem;
+  width: 4.5rem;
 }
 
 .pinFieldLight {
-  background-color: transparent;
-  border-bottom: 2px solid #f9e006;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+  background-color: rgba(234, 234, 234, 0.4);
   color: #111;
+  border: none;
   box-shadow: none;
   border-radius: 0.3rem;
-  font-size: 2rem;
-  height: 3.5rem;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  height: 4rem;
   text-align: center;
   transition: all 0.1s ease-in;
-  width: 3rem;
-  margin-right: 1rem;
+  width: 4rem;
+}
+
+.pinFieldLightMobile {
+  background-color: rgba(234, 234, 234, 0.4);
+  color: #111;
+  border: none;
+  box-shadow: none;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  margin-right: 0.3rem;
+  height: 4rem;
+  text-align: center;
+  transition: all 0.1s ease-in;
+  width: 3.0rem;
 }
 
 .pinFieldDark:focus {
-  border-color: none;
-  outline: none;
+  /* border-color: none;
+  outline: none; */
   transform: scale(1.05);
 }
 
 .pinFieldLight:focus {
-  border-color: none;
-  outline: none;
+  /* outline: none; */
+  transform: scale(1.05);
+}
+
+.pinFieldLightMobile:focus {
+  /* outline: none; */
   transform: scale(1.05);
 }
 
 .pinFieldDark:invalid {
   animation: shake 3 linear 75ms;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 2px solid rgb(220, 53, 69);
+  border-color: rgb(220, 53, 69);
   box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
 }
+
 .pinFieldLight:invalid {
   animation: shake 3 linear 75ms;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 2px solid rgb(220, 53, 69);
+  border-color: rgb(220, 53, 69);
+  box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+
+.pinFieldLightMobile:invalid {
+  animation: shake 3 linear 75ms;
+  border-color: rgb(220, 53, 69);
   box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
 }
 
@@ -106,13 +189,4 @@
   background-color: #f9e006;
   height: 5px;
   width: 40px;
-}
-
-@keyframes shake {
-  from {
-    transform: scale(1.05) translateY(-5%);
-  }
-  to {
-    transform: scale(1.05) translateY(5%);
-  }
 }

@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -13,7 +13,11 @@ import {
   useMediaQuery,
   Divider,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 // Image
 
@@ -30,28 +34,31 @@ import DownArrow from "../../../assets/arrowDown.svg";
 
 import ExchanageIcon from "../../../assets/exchange.svg";
 
+
+// Axios
+import axios from "../../../api/axios";
+
+// Router
+import { useNavigate } from "react-router-dom";
+
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
+function renderRow(props: ListChildComponentProps) {
+  const { data, index, style } = props;
 
-
-
-const AvailableRewards = () => {
-  const [openRewardModal, setOpenRewardModal] = React.useState(false);
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-
-  const theme = useTheme();
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
-
-
+  const info = data[index];
+  console.log(info);
   return (
-    <React.Fragment>
-      <Box m={6}>
-        <Stack direction="row" justifyContent="space-between">
+
+    <ListItem key={index} >
+      <Box m={6} width={"100%"}>
+
+        <Stack direction="row" alignItems={"center"} justifyContent="space-between">
           <Box>
-            <Stack direction="row" >
+            <Stack direction="row"  >
               <LazyImageComponent sx={{ marginRight: 4 }} src={UpArrow} />
               <Typography mt={0.2} fontSize={14}>
                 Sent
@@ -64,27 +71,27 @@ const AvailableRewards = () => {
             >
 
               <Box ml={1.5}  >
-                <Stack direction="row">
-                  <LazyImageComponent src={BitCoinIcon}
-                  />
-                  <Typography color="secondary" fontWeight={400} fontSize={14} mt={0.8} ml={1} variant="body2">
-                    EUR
+                <Stack justifyContent={"center"} alignItems={"left"}>
+
+                  <Typography color="secondary" fontWeight={400} fontSize={16} mt={0.8} ml={1} variant="body2">
+                    {info?.offer?.currency?.currencyCode}
+                  </Typography>
+
+                  <Box sx={{ borderBottom: 1, borderBottomStyle: 'dashed' }}>
+                    <Typography fontSize={20} mt={0.4} color="secondary" variant="body2">
+                      ~ {parseFloat((info?.amountInFiat) || 0).toFixed(2)}
+                    </Typography>
+                  </Box>
+
+                  <Typography color="secondary" fontWeight={400} fontSize={12} mt={0.8} variant="body2">
+                    {info?.createdAt}
+                  </Typography>
+
+
+                  <Typography color="secondary" fontWeight={600} fontSize={18} mt={2} variant="body2">
+                    Status
                   </Typography>
                 </Stack>
-                <Box sx={{ borderBottom: 1, borderBottomStyle: 'dashed', width: 70 }}>
-                  <Typography fontSize={16} mt={0.4} color="secondary" variant="body2">
-                    $5677.00
-                  </Typography>
-                </Box>
-
-                <Typography color="secondary" fontWeight={400} fontSize={12} mt={0.8} variant="body2">
-                  14th October, 2022
-                </Typography>
-
-
-                <Typography color="secondary" fontWeight={600} fontSize={14} mt={2} variant="body2">
-                  Amount left in escrow
-                </Typography>
               </Box>
 
 
@@ -94,22 +101,22 @@ const AvailableRewards = () => {
           </Box>
 
           <Box>
-            <Stack direction="row" mt={1} >
-              <LazyImageComponent sx={{ marginRight: 4 }} src={ExchanageIcon} />
+            <Stack direction="row" justifyContent={"center"} alignItems={"center"} mt={4} >
+              <LazyImageComponent src={ExchanageIcon} />
 
             </Stack>
-            <Box ml={-5}>
-              <Typography color="secondary" fontWeight={400} fontSize={14} mt={0.8} variant="body2">
+            <Box ml={0}>
+              {/* <Typography color="secondary" fontWeight={400} fontSize={14} mt={0.8} variant="body2">
                 Rate: $1 = 466.77
-              </Typography>
-              <Typography color="secondary" ml={-1} fontWeight={400} fontSize={12} mt={0.8} variant="body2">
-                Official rate: $1 = 433.72
+              </Typography> */}
+              <Typography color="secondary" ml={-1} fontWeight={400} fontSize={16} mt={0.8} variant="body2">
+                {info?.cryptoTransactionId}
               </Typography>
             </Box>
           </Box>
 
           <Box>
-            <Stack direction="row" >
+            <Stack direction="row" mr={2} justifyContent="flex-end">
               <LazyImageComponent sx={{ marginRight: 4 }} src={DownArrow} />
               <Typography mt={0.2} fontSize={14}>
                 To receive
@@ -118,34 +125,34 @@ const AvailableRewards = () => {
 
             <Box mr={1.5} mt={2}  >
               <Stack direction="row" justifyContent="flex-end">
-                <LazyImageComponent src={BitCoinIcon}
+                <LazyImageComponent style={{ width: 30 }} src={info?.offer?.CryptoCurrency?.imgUri}
                 />
                 <Typography color="secondary" fontWeight={400} fontSize={14} mt={0.8} ml={1} variant="body2">
-                  EUR
+                  {info?.offer?.CryptoCurrency?.abbreviation}
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="flex-end">
-                <Box sx={{ borderBottom: 1, borderBottomStyle: 'dashed', width: 70 }}>
-                  <Typography fontSize={16} mt={0.4} color="secondary" variant="body2">
-                    $5677.00
+                <Box sx={{ borderBottom: 1, borderBottomStyle: 'dashed' }}>
+                  <Typography fontSize={20} mt={0.4} color="secondary" variant="body2">
+                    ~ {info?.amountInCrypto}
                   </Typography>
                 </Box>
               </Stack>
               <Stack direction="row" justifyContent="flex-end">
                 <Typography color="secondary" fontWeight={400} fontSize={12} mt={0.8} variant="body2">
-                  14th October, 2022
+                  {info?.createdAt}
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="flex-end">
                 <Typography color="primary" fontWeight={400} fontSize={16} mt={2} variant="body2">
-                  $786.00
+                  {info?.status}
                 </Typography>
               </Stack>
             </Box>
           </Box>
         </Stack>
 
-        <Stack mt={4} direction="row" justifyContent="flex-end">
+        {/* <Stack mt={4} direction="row" justifyContent="flex-end">
           <Button
             // onClick={handleCloseTwoFAPin}
             variant="contained" color="primary">
@@ -156,8 +163,102 @@ const AvailableRewards = () => {
 
             </Typography>
           </Button>
-        </Stack>
+        </Stack> */}
       </Box>
+    </ListItem>
+
+  );
+
+}
+
+
+
+const AvailableRewards = () => {
+  const [openRewardModal, setOpenRewardModal] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const [tranz, setTransaz] = useState([]);
+
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const navigate = useNavigate();
+
+
+  var user = JSON.parse(localStorage.getItem('user'));
+
+  const GET_CURRENCY_URL = "/transaction/my-offers";
+
+  const getMyTransaction = () => {
+
+
+    axios.post(
+      GET_CURRENCY_URL,
+      JSON.stringify({
+        start: 0
+      }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        }
+      }
+    ).then((res) => {
+      // console.log(res.data.data)
+      setTransaz(res.data.data.offers);
+    }).catch((err) => {
+      // console.log(err?.response?.status);
+      if (err?.response?.status === 401) {
+        navigate("/user/sign-in")
+      }
+    })
+      .finally(() => { });
+
+
+
+
+
+  };
+
+  useEffect(() => {
+    getMyTransaction();
+  }, []);
+
+
+  return (
+    <React.Fragment>
+      <>
+        {tranz.length > 0 ? (
+      <FixedSizeList
+        height={600}
+        width={"100%"}
+        itemSize={50}
+        itemCount={tranz.length}
+        overscanCount={5}
+        itemData={tranz}
+      >
+       
+            { renderRow }
+         
+      </FixedSizeList>
+        ) : (
+          <>
+            <Stack mt={6} direction="row" alignItems={"center"} justifyContent="center">
+              <Button
+                 
+                variant="contained" color="primary">
+                <Typography variant="caption" textTransform={"none"} fontSize={20} color="background.light">
+
+
+                  No pending transaction
+
+                </Typography>
+              </Button>
+            </Stack>
+          </>
+        )}
+
+      </>
     </React.Fragment>
   );
 };

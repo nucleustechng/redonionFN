@@ -15,9 +15,9 @@ import AuthProgress from "../../components/AuthProgress/AuthProgress";
 const Layout = React.lazy(() => import("../../components/Layout/Layout"));
 
 const Wallets = () => {
-  const [openAuthProgressModal, setOpenAuthProgressModal] = useState(false);
+  const [openAuthProgressModal, setOpenAuthProgressModal] = useState(true);
   const [showAuthenticationSnackbar, setShowAuthenticationSnackbar] =
-    useState(false);
+    useState(true);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -84,10 +84,10 @@ const Wallets = () => {
           Authentication Successfull!
         </Alert>
       </Snackbar> */}
-      {/* <AuthProgress
+      <AuthProgress
         open={openAuthProgressModal}
         onClose={handleCloseAuthProgressModal}
-      /> */}
+      />
       {/* <TwoFAPinModal
         open={true}
         onClose={handleCloseTwoFAPin}

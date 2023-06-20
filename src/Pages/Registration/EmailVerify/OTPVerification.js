@@ -60,6 +60,8 @@ const OTPVerification = () => {
 
   const RESEND_OPT_URL = "/auth/resend-otp";
 
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
   const handleCloseSendSnackbar = () => {
     setShowSendSuccessfullSnackbar(false);
   };
@@ -205,8 +207,7 @@ const OTPVerification = () => {
             fontSize={18}
             textAlign={'center'}
           >
-            Input the verification code sent to <br />{Object.keys(allAuthContext.user).length
-              > 0 ? allAuthContext.user.user.email : 'joe@mail.com'}
+            Input the verification code sent to <br />{user?.user.email}
           </Typography>
           <Box component="form" onSubmit={handleEmailVerify}>
             <Box mt={3} mb={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} >

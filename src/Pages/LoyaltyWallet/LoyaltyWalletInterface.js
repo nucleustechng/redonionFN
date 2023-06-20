@@ -71,7 +71,7 @@ const LoyaltyWalletInterface = () => {
           </Grid>
         </Box>
       )}
-      {isMobile && (
+      {/* {isMobile && (
         <Box>
           {" "}
           <Box className={styles.rewardTabArea}>
@@ -80,7 +80,7 @@ const LoyaltyWalletInterface = () => {
             </Suspense>
           </Box>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };

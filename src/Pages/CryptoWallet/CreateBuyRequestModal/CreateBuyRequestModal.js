@@ -27,6 +27,7 @@ import SellRequest from "../../../assets/sellRequest.svg";
 import BitCoinIcon from "../../../assets/bitCoinIcon.svg";
 import ExchanageIcon from "../../../assets/exchangeBlue.svg";
 import FrontArrow from "../../../assets/frontArrow.svg";
+import successClock from "../../../assets/clockSuccess.svg";
 
 // Lazy image loader
 const LazyImageComponent = React.lazy(() =>
@@ -47,6 +48,8 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
 
   const [msg, setMsg] = useState("");
 
+  const [firstModalA, setFirstModalA] = useState(0);
+
   // Send Snackbar
   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
     useState(false);
@@ -59,6 +62,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
 
 
   const USER_SUBMIT_URL = "/transaction/respond-to-offer";
+
 
 
   const handleSubmit = () => {
@@ -90,13 +94,17 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
         setShowSendSuccessfullSnackbar(true);
 
       } else {
-
+        setFirstModalA(2)
       }
 
 
     }).catch((err) => {
       if (err?.response?.status === 401) {
         navigate("/user/sign-in")
+      } else {
+        console.log(err?.response?.data.message);
+        setMsg(err?.response?.data.message);
+        setShowSendSuccessfullSnackbar(true)
       }
     })
       .finally(() => setLoading(false));
@@ -145,298 +153,338 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
           className={styles.modalContentBox}
         >
           <Box p={4} borderRadius="10px">
+            {firstModalA === 0 ? (
 
+              <>
 
-            <Stack direction="row" justifyContent="space-between" spacing={"5px"}>
-              <Typography variant="caption" fontSize={16} fontWeight={500} color="primary">
-                Purchase
-              </Typography>
-              <Typography
-                // variant="body2"
-                color="primary"
-                sx={{ cursor: "pointer" }}
-                onClick={onClose}
-              >
-                <CloseIcon />
-              </Typography>
-            </Stack>
-            <Box mt={2} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"} fullWidth p={2} borderRadius={2}>
-              <Stack direction="row" justifyContent="space-between" >
-
-
-                <Stack direction="row" spacing={"5px"}>
-                  <LazyImageComponent src={BuyRequest} />
-                  <Box>
-                    <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                      Buy
-                    </Typography>
-                  </Box>
-                </Stack>
-
-                <Stack direction="row" spacing={"5px"}>
-                  <LazyImageComponent src={SellRequest} />
-                  <Box>
-                    <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                      Sell
-                    </Typography>
-                  </Box>
-                </Stack>
-
-              </Stack>
-
-
-              <Box pl={4} pr={4} mt={2} >
-                <center>
-
-                  <Box>
-                    <LazyImageComponent src={ExchanageIcon} />
-                  </Box>
-
-                  <Typography variant="caption" fontSize={16} fontWeight={400} >
-                    {datao?.data?.coinAbb} 1 =   {datao?.currency?.currencyCode}  {parseFloat(dataSingle?.tokenPricePerUnit).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                <Stack direction="row" justifyContent="space-between" spacing={"5px"}>
+                  <Typography variant="caption" fontSize={16} fontWeight={500} color="primary">
+                    Purchase
                   </Typography>
+                  <Typography
+                    // variant="body2"
+                    color="primary"
+                    sx={{ cursor: "pointer" }}
+                    onClick={onClose}
+                  >
+                    <CloseIcon />
+                  </Typography>
+                </Stack>
+                <Box mt={2} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"} fullWidth p={2} borderRadius={2}>
+                  <Stack direction="row" justifyContent="space-between" >
 
-                </center>
-              </Box>
 
-              <Box mt={1} >
-                <Stack direction="row" justifyContent={"space-between"} >
-                  <Box>
-                    <Stack direction="row" >
-                      <Box p={0.5}>
-                        <LazyImageComponent className={styles.coinIcons} src={datao?.data?.coinImg} />
+                    <Stack direction="row" spacing={"5px"}>
+                      <LazyImageComponent src={BuyRequest} />
+                      <Box>
+                        <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
+                          Buy
+                        </Typography>
                       </Box>
+                    </Stack>
+
+                    <Stack direction="row" spacing={"5px"}>
+                      <LazyImageComponent src={SellRequest} />
+                      <Box>
+                        <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
+                          Sell
+                        </Typography>
+                      </Box>
+                    </Stack>
+
+                  </Stack>
+
+
+                  <Box pl={4} pr={4} mt={2} >
+                    <center>
+
+                      <Box>
+                        <LazyImageComponent src={ExchanageIcon} />
+                      </Box>
+
+                      <Typography variant="caption" fontSize={16} fontWeight={400} >
+                        {datao?.data?.coinAbb} 1 =   {datao?.currency?.currencyCode}  {parseFloat(dataSingle?.tokenPricePerUnit).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                      </Typography>
+
+                    </center>
+                  </Box>
+
+                  <Box mt={1} >
+                    <Stack direction="row" justifyContent={"space-between"} >
+                      <Box>
+                        <Stack direction="row" >
+                          <Box p={0.5}>
+                            <LazyImageComponent className={styles.coinIcons} src={datao?.data?.coinImg} />
+                          </Box>
+                          <Box>
+
+                            <Typography variant="caption" fontSize={18} fontWeight={400} >
+                              {datao?.data?.coinAbb}
+                            </Typography>
+
+
+                          </Box>
+                        </Stack>
+                      </Box>
+
                       <Box>
 
                         <Typography variant="caption" fontSize={18} fontWeight={400} >
-                          {datao?.data?.coinAbb}
+                          {datao?.country?.code}
                         </Typography>
 
 
                       </Box>
+
+
                     </Stack>
-                  </Box>
 
-                  <Box>
-
-                    <Typography variant="caption" fontSize={18} fontWeight={400} >
-                      {datao?.country?.code}
-                    </Typography>
 
 
                   </Box>
 
+                  <Divider color="#3063E9" />
 
-                </Stack>
+                  <Box mt={1} >
+                    <Stack direction="row" justifyContent="space-between" >
+                      <Box>
+
+                        <Typography variant="caption" fontSize={14} fontWeight={400} >
+                          {datao?.data?.coinAbb} {payTextField}
+                        </Typography>
+
+                      </Box>
+
+                      <Box>
+
+                        <Typography variant="caption" fontSize={14} fontWeight={600} >
+                          {datao?.currency?.currencyCode} {(((payTextField === "" ? 1 : payTextField) * dataSingle?.tokenPricePerUnit).toFixed(2)).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                        </Typography>
+
+                      </Box>
 
 
+                    </Stack>
 
-              </Box>
 
-              <Divider color="#3063E9" />
-
-              <Box mt={1} >
-                <Stack direction="row" justifyContent="space-between" >
-                  <Box>
-
-                    <Typography variant="caption" fontSize={14} fontWeight={400} >
-                      {datao?.data?.coinAbb} {payTextField}
-                    </Typography>
 
                   </Box>
-
-                  <Box>
-
-                    <Typography variant="caption" fontSize={14} fontWeight={600} >
-                      {datao?.currency?.currencyCode} {(((payTextField === "" ? 1 : payTextField) * dataSingle?.tokenPricePerUnit).toFixed(2)).toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                    </Typography>
-
-                  </Box>
-
-
-                </Stack>
-
-
-
-              </Box>
-            </Box>
-            <Box
-              mt={3}
-            >
-              <Typography variant="body2" fontSize={16} fontWeight={300} color="secondary" mb={2}>
-                Input the amount you would like to buy
-              </Typography>
-              <Box>
-
-
-
-                <Box borderRadius={2} height={50} >
-                  <Stack direction="row" justifyItems={"center"} >
-
-                    <Input
-                      fullWidth
-                      name="payInput"
-                      value={payTextField}
-                      type="number"
-                      onChange={(e) => {
-                        if (e.target.value <= dataSingle?.amountInCrypto) {
-                          setPayTextField(e.target.value)
-                        }
-
-                      }}
-                      placeholder="0.0"
-                      disableUnderline
-                      className={
-                        theme.palette.mode === "dark"
-                          ? "inputField"
-                          : styles.inputFieldLight
-                      }
-                    />
-                  </Stack>
                 </Box>
-
-                <Stack ml={1} mt={1} direction="row" >
-                  <Typography variant="caption" fontSize={13} textAlign={"left"} fontWeight={500} color="secondary" mb={1}>
-                    Maximum:  {dataSingle?.amountInCrypto}
+                <Box
+                  mt={3}
+                >
+                  <Typography variant="body2" fontSize={16} fontWeight={300} color="secondary" mb={2}>
+                    Input the amount you would like to buy
                   </Typography>
-                </Stack>
-              </Box>
-
-              <Box
-                mt={3}
-                mb={3}
-              >
-                <Typography variant="body2" fontSize={16} fontWeight={500} color="secondary" mb={2}>
-                  Your Wallet Address
-                </Typography>
-                <Box>
+                  <Box>
 
 
 
-                  <Box borderRadius={2} height={50} >
-                    <Stack direction="row" justifyItems={"center"} >
+                    <Box borderRadius={2} height={50} >
+                      <Stack direction="row" justifyItems={"center"} >
 
-                      <Input
-                        fullWidth
-                        name="payInput"
-                        value={payAddress}
-                        type="text"
-                        onChange={(e) => {
-                          setPayAddress(e.target.value)
+                        <Input
+                          fullWidth
+                          name="payInput"
+                          value={payTextField}
+                          type="number"
+                          onChange={(e) => {
+                            if (e.target.value <= dataSingle?.amountInCrypto) {
+                              setPayTextField(e.target.value)
+                            }
 
+                          }}
+                          placeholder="0.0"
+                          disableUnderline
+                          className={
+                            theme.palette.mode === "dark"
+                              ? "inputField"
+                              : styles.inputFieldLight
+                          }
+                        />
+                      </Stack>
+                    </Box>
 
-                        }}
-                        placeholder=""
-                        disableUnderline
-                        className={
-                          theme.palette.mode === "dark"
-                            ? "inputField"
-                            : styles.inputFieldLight
-                        }
-                      />
+                    <Stack ml={1} mt={1} direction="row" >
+                      <Typography variant="caption" fontSize={13} textAlign={"left"} fontWeight={500} color="secondary" mb={1}>
+                        Maximum:  {dataSingle?.amountInCrypto}
+                      </Typography>
                     </Stack>
                   </Box>
-                </Box>
-              </Box>
 
-
-            </Box>
-
-            {(payAddress !== "" && payTextField <= dataSingle?.amountInCrypto) && (
-              <>
-                <Box mt={4} bgcolor={"#E8E8F3"} fullWidth p={2} borderRadius={2}>
-                  <Stack direction="row" justifyContent="space-between" >
-
+                  <Box
+                    mt={3}
+                    mb={3}
+                  >
+                    <Typography variant="body2" fontSize={16} fontWeight={500} color="secondary" mb={2}>
+                      Your Wallet Address
+                    </Typography>
                     <Box>
 
-                      <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                        Account name:
-                      </Typography>
 
+
+                      <Box borderRadius={2} height={50} >
+                        <Stack direction="row" justifyItems={"center"} >
+
+                          <Input
+                            fullWidth
+                            name="payInput"
+                            value={payAddress}
+                            type="text"
+                            onChange={(e) => {
+                              setPayAddress(e.target.value)
+
+
+                            }}
+                            placeholder=""
+                            disableUnderline
+                            className={
+                              theme.palette.mode === "dark"
+                                ? "inputField"
+                                : styles.inputFieldLight
+                            }
+                          />
+                        </Stack>
+                      </Box>
                     </Box>
+                  </Box>
 
-                    <Box>
-
-                      <Typography variant="caption" fontSize={14} fontWeight={400} color="#111">
-                        {dataSingle?.createdBy.firstName}   {dataSingle?.createdBy.lastName} {dataSingle?.createdBy.middleName}
-                      </Typography>
-
-                    </Box>
-                  </Stack>
-
-                  <Stack direction="row" justifyContent="space-between" >
-
-                    <Box>
-
-                      <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                        Account number:
-                      </Typography>
-
-                    </Box>
-
-                    <Box>
-
-                      <Typography variant="caption" fontSize={14} fontWeight={400} color="primary">
-                        {dataSingle?.createdBy.bankAccount.number}
-                      </Typography>
-
-                    </Box>
-                  </Stack>
-
-                  <Stack direction="row" justifyContent="space-between" >
-
-                    <Box>
-
-                      <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                        Bank:
-                      </Typography>
-
-                    </Box>
-
-                    <Box>
-
-                      <Typography variant="caption" fontSize={14} fontWeight={400} color="#111">
-                        {dataSingle?.createdBy.bankAccount.bankName}
-                      </Typography>
-
-                    </Box>
-                  </Stack>
 
                 </Box>
 
-                <Stack direction="row" mt={3} justifyContent="space-between" >
+                {(payAddress !== "" && payTextField <= dataSingle?.amountInCrypto) && (
+                  <>
+                    <Box mt={4} bgcolor={"#E8E8F3"} fullWidth p={2} borderRadius={2}>
+                      <Stack direction="row" justifyContent="space-between" >
 
-                  {loading ? (
+                        <Box>
 
-                    <LoadingButton fullWidth loading variant="outlined">
-                      Login
-                    </LoadingButton>
+                          <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
+                            Account name:
+                          </Typography>
 
-                  ) : (
-                    <>
-                      <Button
-                        onClick={handleSubmit}
-                        fullWidth style={{ height: 50, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                        Continue  <LazyImageComponent src={FrontArrow} />
-                      </Button>
+                        </Box>
 
-                    </>
-                  )}
+                        <Box>
 
-                  {/* <Box ml={2}>
+                          <Typography variant="caption" fontSize={14} fontWeight={400} color="#111">
+                            {dataSingle?.createdBy.firstName}   {dataSingle?.createdBy.lastName} {dataSingle?.createdBy.middleName}
+                          </Typography>
+
+                        </Box>
+                      </Stack>
+
+                      <Stack direction="row" justifyContent="space-between" >
+
+                        <Box>
+
+                          <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
+                            Account number:
+                          </Typography>
+
+                        </Box>
+
+                        <Box>
+
+                          <Typography variant="caption" fontSize={14} fontWeight={400} color="primary">
+                            {dataSingle?.createdBy.bankAccount.number}
+                          </Typography>
+
+                        </Box>
+                      </Stack>
+
+                      <Stack direction="row" justifyContent="space-between" >
+
+                        <Box>
+
+                          <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
+                            Bank:
+                          </Typography>
+
+                        </Box>
+
+                        <Box>
+
+                          <Typography variant="caption" fontSize={14} fontWeight={400} color="#111">
+                            {dataSingle?.createdBy.bankAccount.bankName}
+                          </Typography>
+
+                        </Box>
+                      </Stack>
+
+                    </Box>
+
+                    <Stack direction="row" mt={3} justifyContent="space-between" >
+
+                      {loading ? (
+
+                        <LoadingButton fullWidth loading variant="outlined">
+                          Login
+                        </LoadingButton>
+
+                      ) : (
+                        <>
+                          <Button
+                            onClick={handleSubmit}
+                            fullWidth style={{ height: 50, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                            Continue  <LazyImageComponent src={FrontArrow} />
+                          </Button>
+
+                        </>
+                      )}
+
+                      {/* <Box ml={2}>
                     <Button onClick={onClose} style={{ height: 50, width: 150, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="btncolor">
                       <Typography variant="caption" fontSize={18} fontWeight={400} color="primary">
                         Close
                       </Typography>
                     </Button>
                   </Box> */}
-                </Stack>
+                    </Stack>
+                  </>
+                )}
+
+              </>
+
+
+            ) : (
+              <>
+                <Box mt={3}>
+                  <center>
+                    <LazyImageComponent src={successClock} />
+                  </center>
+                  <Typography
+                    variant="h3"
+                    mt={!isMobile ? 4 : 8}
+                    color="secondary"
+                    fontSize={24}
+                    fontWeight={500}
+                  >
+                    Payment successful
+                  </Typography>
+
+
+                  <Typography
+                    color="secondary"
+                    variant="caption"
+                    mt={!isMobile ? 3 : 8}
+                    mb={2}
+                    component="p"
+                    fontSize={16}
+                    textAlign={'center'}
+                  >
+                    You will recieve your token once your payment has been confirmed by the 2nd party. </Typography>
+
+
+
+
+
+                </Box>
               </>
             )}
 
-
-
           </Box>
+
         </Box>
       </Box>
     </Modal>

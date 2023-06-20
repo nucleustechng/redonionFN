@@ -77,19 +77,23 @@ const SettingsMenu = ({ anchorEl, open, handleClose }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => handleRouting("/thrifty-wallet/FAQ")}>
+        <MenuItem 
+        // onClick={() => handleRouting("/thrifty-wallet/FAQ")}
+        >
           <Typography variant="caption">FAQ</Typography>
         </MenuItem>
-        <MenuItem onClick={() => handleRouting("/thrifty-wallet/about")}>
+        <MenuItem 
+        // onClick={() => handleRouting("/thrifty-wallet/about")}
+        >
           <Typography variant="caption">About Us</Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => handleRouting("/thrifty-wallet/privacy-policy")}
+          // onClick={() => handleRouting("/thrifty-wallet/privacy-policy")}
         >
           <Typography variant="caption">Privacy Policy</Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => handleRouting("/thrifty-wallet/terms-and-condition")}
+          // onClick={() => handleRouting("/thrifty-wallet/terms-and-condition")}
         >
           <Typography variant="caption">Terms & Condition</Typography>
         </MenuItem>
@@ -98,13 +102,13 @@ const SettingsMenu = ({ anchorEl, open, handleClose }) => {
             Logout
           </Typography>
         </MenuItem>
-        {showInstallMenu && (
+        {/* {showInstallMenu && (
           <MenuItem onClick={handleOpenIstallationModal}>
             <Typography variant="caption" color="text.success">
               Install App
             </Typography>
           </MenuItem>
-        )}
+        )} */}
         {isMobile && (
           <MenuItem
             sx={{

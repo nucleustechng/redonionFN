@@ -16,13 +16,15 @@ const useUser = () => {
   const [authError, setAuthError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPin, setShowPin] = useState(false);
+  const [countryData, setCountryData] = useState([]);
 
   const [sucessUser, setSuccessUser] = useState(false);
 
+ 
   
-
   const authHeader = {
-    headers: { "Content-Type": "application/json" }
+
+    headers:{ "Content-Type": "application/json" }
   };
 
   // Sign Up
@@ -83,9 +85,9 @@ const useUser = () => {
 
       const newUser = { token, user };
       setUser(newUser);
-      
+
       localStorage.setItem("user", JSON.stringify(newUser));
-      
+
       if (!user.emailVerified) {
         navigate("/registration/verify-email");
       } else if (user.identityDocument === "") {
@@ -128,22 +130,16 @@ const useUser = () => {
 
       const token = res.data.data.accessToken;
 
-      const newUser = { token, user };
-      setUser(newUser);
-      console.log(newUser);
-      localStorage.setItem("user", JSON.stringify(newUser));
+     
 
-      if (!user.emailVerified){
-        navigate("/registration/verify-email");
-      } else if (user.identityDocument === "") {
-        navigate("/account-setup");
-      }else{
-        navigate("/dashboard/exchange");
-      }
+      getAdditionalUser(user, token, navigate);
+
+
+     
 
 
 
-      
+
     })
       .catch((err) => {
         console.log(err.response.data);
@@ -204,12 +200,72 @@ const useUser = () => {
 
   const getUser = () => {
     var userInfo = JSON.parse(localStorage.getItem('user'));
-   
+
     setUser(userInfo);
+
+  }
+
+  const getAdditionalUser = (user, token, navigate) => {
+   
+    const COUNTRIES_URL = "/user/get-countries";
+
+    axios.get(
+      COUNTRIES_URL,
+      authHeader
+    ).then((res) => {
+      let data = res.data.data.countries;
+     
+     Object.keys(data).map((keys) => {
+        if (user.countryId === data[keys].id) 
+          return getCurrency(user, token, data[keys], navigate);
+        
+
+      });
+
+     
+
+
+    });
+
     
   }
 
-  
+  const getCurrency = (user, token, country, navigate) => {
+    const CURENCY_URL = "/user/get-currencies?countryId=";
+   
+    axios.get(
+      CURENCY_URL + country?.id,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    ).then((res) => {
+      
+      let currency = res.data.data.currencies[0];
+
+      const newUser = { token, user, country, currency};
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+
+      if (!newUser.emailVerified) {
+        navigate("/registration/verify-email");
+      } else if (newUser.identityDocument === "") {
+        navigate("/account-setup");
+      } else {
+        navigate("/dashboard/exchange");
+      }
+     
+
+
+    }).catch(function(err) {
+      // console.log(err);
+    }
+    );
+  }
+
+
 
   const isObjectEmpty = (objectName) => {
     for (let prop in objectName) {
@@ -223,11 +279,16 @@ const useUser = () => {
 
   // SignOut
   const logOut = () => {
-    // setIsLoading(true);
-    // signOut(auth)
-    //   .then(() => setUser({}))
-    //   .catch((err) => console.log(err.message));
+    
+    setUser({})
+    localStorage.removeItem("user");
+  
   };
+
+
+
+
+
 
   return {
     user,

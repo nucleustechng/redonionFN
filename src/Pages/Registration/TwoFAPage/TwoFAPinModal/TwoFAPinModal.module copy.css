@@ -1,0 +1,118 @@
+.modalStyle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  width: 500px;
+}
+
+.modalStyleMobile {
+  width: 90vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.modalLogo {
+  width: 50px;
+  height: 50px;
+}
+
+.modalContentBox {
+  border-radius: 5px;
+}
+
+.modalPinInput {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.modalPinInputMobile {
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.pinFieldDark {
+  background-color: transparent;
+  border-bottom: 2px solid #f9e006;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: #fff;
+  box-shadow: none;
+  border-radius: 0.3rem;
+  font-size: 2rem;
+  height: 3.5rem;
+  text-align: center;
+  transition: all 0.1s ease-in;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+.pinFieldLight {
+  background-color: transparent;
+  border-bottom: 2px solid #f9e006;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: #111;
+  box-shadow: none;
+  border-radius: 0.3rem;
+  font-size: 2rem;
+  height: 3.5rem;
+  text-align: center;
+  transition: all 0.1s ease-in;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+.pinFieldDark:focus {
+  border-color: none;
+  outline: none;
+  transform: scale(1.05);
+}
+
+.pinFieldLight:focus {
+  border-color: none;
+  outline: none;
+  transform: scale(1.05);
+}
+
+.pinFieldDark:invalid {
+  animation: shake 3 linear 75ms;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid rgb(220, 53, 69);
+  box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+.pinFieldLight:invalid {
+  animation: shake 3 linear 75ms;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid rgb(220, 53, 69);
+  box-shadow: 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+
+.textUnderScore {
+  background-color: #f9e006;
+  height: 5px;
+  width: 40px;
+}
+
+@keyframes shake {
+  from {
+    transform: scale(1.05) translateY(-5%);
+  }
+  to {
+    transform: scale(1.05) translateY(5%);
+  }
+}

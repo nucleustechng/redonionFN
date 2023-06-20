@@ -68,8 +68,11 @@ const CryptoWalletTopCards = (props) => {
 
   const [coinNamesData, setCoinNamesData] = useState([]);
   const [coinNames, setCoinNames] = useState("0");
+  const [coinNamesShow, setCoinNamesShow] = useState("");
 
   const [showPin, setShowPin] = useState(false);
+
+  const [coinRate, setCoinRate] = useState("0");
 
 
 
@@ -79,11 +82,19 @@ const CryptoWalletTopCards = (props) => {
 
   const handleCoinNameSelection = (e) => {
     setCoinNames(e.target.value);
+   
+    var coin = e.target.value;
+    setCoinNamesShow(coin.split(" ")[1]);
+    console.log(coin.split(" ")[0])
+      getCyptoExchangeRate(coin.split(" ")[0]);
+    
   };
 
   const handleCurrencyNameSelection = (e) => {
     setCurrencyName(e.target.value);
   };
+
+  var user = JSON.parse(localStorage.getItem('user'));
 
   const GET_CURRENCY_URL = "/user/get-crypto-currencies";
 
@@ -97,7 +108,7 @@ const CryptoWalletTopCards = (props) => {
   }
 
   const getCypto = () => {
-    var user = JSON.parse(localStorage.getItem('user'));
+   
 
     axios.get(
       GET_CURRENCY_URL,
@@ -121,6 +132,37 @@ const CryptoWalletTopCards = (props) => {
 
 
   };
+ 
+  const GET_CURRENCY_RATE_URL = "/transaction/get-exchange-rate/";
+
+  const getCyptoExchangeRate = (coin) => {
+    // setLoading(true);
+
+    axios.get(
+      GET_CURRENCY_RATE_URL + coin,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        }
+      }
+    ).then((res) => {
+      console.log(res.data)
+      setCoinRate(res.data.data)
+
+    }).catch((err) => {
+      // console.log(err?.response?.status);
+      if (err?.response?.status === 401) {
+        navigate("/user/sign-in")
+      }
+    });
+      // .finally(() => { setLoading(false); });
+
+
+
+
+
+  };
 
   useEffect(() => {
     getCypto();
@@ -134,19 +176,20 @@ const CryptoWalletTopCards = (props) => {
         country={props.country} currency={props.currency}
         onClose={handleCloseTwoFAPin}
       />
-      <Box mt={isMobile ? 0 : -8}>
+      <Box mt={isMobile ? 0 : -8} borderBottom={6}  borderColor={"#D048DC"} borderRadius={10} >
+    
+        <Box mb={5} width={200}>
 
-        <Box mb={5}>
-          <Button
-            onClick={handleCloseTwoFAPin}
-            variant="contained" color="primary">
-            <Typography variant="caption" p={0.6} textTransform={"none"} fontSize={14} color="background.light">
-
-
+          <Stack direction="row" mt={5} justifyContent="space-between" >
+            <Button
+              onClick={handleCloseTwoFAPin}
+              fullWidth style={{ height: 50, borderRadius: 10, fontSize: 16, textTransform: 'none' }} variant="contained" color="primary">
               Create a sell offer
+            </Button>
 
-            </Typography>
-          </Button>
+
+
+          </Stack>
         </Box>
 
         <Box mb={4} >
@@ -157,42 +200,22 @@ const CryptoWalletTopCards = (props) => {
         <Box className={styles.cardBox}
           bgcolor={theme.palette.mode === 'dark' ? "#222" : "#E8E8F3"}
         >
-          <center  >
-            <Typography fontWeight={700} fontSize={20}>Buy</Typography>
-          </center>
-
-
-          <Box mt={4} ml={30} mr={30}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-
-            >
-              <Box>
-
-                <Typography fontSize={15} mb={1.5} fontWeight={600}>
-                  Network
-                </Typography>
-
-              </Box>
-
-              <Box>
-                <Typography fontSize={15} mb={1.5} fontWeight={600}>
-                  Amount
-                </Typography>
-              </Box>
-
-            </Stack>
-          </Box>
+         
           <Box >
             <Stack
               direction="row"
-              justifyContent="space-between"
+              // justifyContent="space-between"
               alignItems="center"
 
             >
-              <Box mr={2} width={"100%"}>
+              <Box mr={4} width={"25%"}>
+                <Box>
+
+                  <Typography fontSize={15} mb={1.5} fontWeight={600}>
+                    Network
+                  </Typography>
+
+                </Box>
 
                 <Select
                   className={theme.palette.mode === "dark" ? styles.currencyBoxDark : styles.currencyBox}
@@ -230,7 +253,12 @@ const CryptoWalletTopCards = (props) => {
 
               </Box>
 
-              <Box ml={2} width={"100%"}>
+              <Box mr={4} width={"25%"}>
+                <Box>
+                  <Typography fontSize={15} mb={1.5} fontWeight={600}>
+                    Amount
+                  </Typography>
+                </Box>
                 <Input
                   disableUnderline
                   className="inputField"
@@ -241,36 +269,39 @@ const CryptoWalletTopCards = (props) => {
                   fullWidth
                 ></Input>
               </Box>
+             
+              <Box mt={4} width={"12%"}>
+                     <Button
+                        onClick={onClickSuccess}
+                        fullWidth 
+                        style={{ height: 50, borderRadius: 10, fontSize: 16, textTransform: 'none' }} variant="contained" color="primary"
+                        >
+                        Search 
+                        {/* <SearchIcon color="background.light" /> */}
+                      </Button>
 
-            </Stack>
-          </Box>
-          <Box mt={2}>
-            <Stack
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
 
-            >
-
-
-              <Box mt={4} width={"50%"}>
-                <Button
-                  onClick={onClickSuccess}
-                  variant="contained" fullWidth color="primary">
-
-                  <Typography pr={1} variant="caption" textTransform={"none"} fontSize={16} color="background.light">
-                    Search
-                  </Typography>
-                  <SearchIcon color="background.light" />
-                </Button>
+                   
+                
               </Box>
 
             </Stack>
           </Box>
-        </Box>
-        <Box mr={3} mt={0} sx={{ opacity: 0.4 }} ml={3} borderRadius={1} height={10} bgcolor={"#D048DC"}>
 
+
+          <Stack mb={-2} mr={2} direction="row" justifyContent={"flex-end"} alignItems={"flex-end"} >
+           <Box mr={1}>
+              <Typography fontWeight={400} fontSize={16}>Official Rate: </Typography>
+           </Box>
+            <Typography fontWeight={600} fontSize={16}> 1 {coinNamesShow || "--"}  =   {' '}  
+            {user?.currency?.currencyCode} {' '} 
+              {parseFloat((coinRate?.averageExchangeRate) || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+            </Typography>
+         </Stack>
+        
         </Box>
+       
+      
       </Box>
     </>
   );

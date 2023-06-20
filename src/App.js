@@ -71,6 +71,9 @@ const ResetPass = React.lazy(() => import("./Pages/Login/ResetPass/ResetPass"));
 const AccountSetup = React.lazy(() =>
   import("./Pages/AccountSetup/AccountSetup")
 );
+
+
+
 const OTPVerification = React.lazy(() =>
   import("./Pages/Login/OTPVerification/OTPVerification")
 );
@@ -99,6 +102,10 @@ const CoinDetails = React.lazy(() => import("./Pages/CoinDetails/CoinDetails"));
 // Profile Page
 const ProfileInterface = React.lazy(() =>
   import("./Pages/ProfilePage/ProfileInteface")
+);
+
+const SupportHelp = React.lazy(() =>
+  import("./Pages/SupportPage/SupportHelp")
 );
 
 // Static Page
@@ -421,12 +428,22 @@ function App() {
                       path={NavRoutes.Account.path}
                       element={
                         <Suspense fallback={<ProgressLoader />}>
-                          {/* <PrivateRoute> */}
+                          <PrivateRoute>
                           <ProfileInterface />
-                          {/* </PrivateRoute> */}
+                          </PrivateRoute>
                         </Suspense>
                       }
                     ></Route>
+                      <Route
+                        path={NavRoutes.SupportHelp.path}
+                        element={
+                          <Suspense fallback={<ProgressLoader />}>
+                            <PrivateRoute>
+                              <SupportHelp />
+                            </PrivateRoute>
+                          </Suspense>
+                        }
+                      ></Route>
                     {/* Static Pages */}
                     <Route
                       path={NavRoutes.ThriftyWallet.path}
