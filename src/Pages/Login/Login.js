@@ -80,7 +80,7 @@ const Login = () => {
             </Suspense>
           </Box>
           {isMobile ? (
-            <Box>
+            <Box mt={2}>
               <Button
                 onClick={() =>
                   setDropdown(!dropdown)
@@ -95,7 +95,7 @@ const Login = () => {
               {dropdown &&
                 <Box style={{ position: 'absolute', left: 0, right: 0, background: '#000', padding: 30, zIndex: 999  }}>
                   <center>
-                    <Box >
+                    {/* <Box >
                       <Button
                         color="secondary"
 
@@ -110,7 +110,7 @@ const Login = () => {
                           </a>
                         </Typography>
                       </Button>
-                    </Box>
+                    </Box> */}
                     <Box>
                       <Button fullWidth variant="contained" color="primary">
                         <Typography variant="caption" p={0.3} color="secondary">

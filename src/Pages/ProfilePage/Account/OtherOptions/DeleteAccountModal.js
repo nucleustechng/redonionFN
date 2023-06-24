@@ -9,6 +9,7 @@ import {
   Button,
   useTheme,
   Stack,
+  useMediaQuery
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
@@ -32,7 +33,7 @@ const DeleteAccountModal = ({ open, handleClose }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
-  
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
@@ -82,7 +83,9 @@ const DeleteAccountModal = ({ open, handleClose }) => {
       open={open}
       onClose={handleClose}
     >
-      <Box bgcolor="background.paper" className={styles.deleteAccountModalBody}>
+      <Box bgcolor="background.paper" 
+      className={!isMobile ? styles.deleteAccountModalBody : ""}
+      >
         <Box className={styles.modalTopBar}>
          
           <IconButton color="secondary" onClick={handleClose}>

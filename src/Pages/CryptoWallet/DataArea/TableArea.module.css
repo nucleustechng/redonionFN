@@ -5,7 +5,8 @@
 }
 
 .tableAreaTab {
-  width: 70vw;
+  /* width: 70vw; */
+  margin-bottom: 10px;
 }
 
 .tableAreaMobile {

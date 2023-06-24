@@ -46,7 +46,7 @@ const OTPVerification = () => {
 
   const allAuthContext = useAuth();
   // Authentication
-  const { verifyOtp, isLoading, authError } = useUser();
+  const { verifyEmail, isLoading, authError } = useUser();
 
   // Send Snackbar
   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
@@ -61,8 +61,6 @@ const OTPVerification = () => {
   const RESEND_OPT_URL = "/auth/resend-otp";
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-
-  // console.log(user)
 
   const handleCloseSendSnackbar = () => {
     setShowSendSuccessfullSnackbar(false);
@@ -118,14 +116,14 @@ const OTPVerification = () => {
 
   };
 
-  const handleOTPVerify = (e) => {
+  const handleEmailVerify = (e) => {
     e.preventDefault();
     console.log(code);
     if (code.length < 6) {
       setFormError("Please enter 6 digit code sent to your mailbox!");
     } else {
       setFormError("");
-      verifyOtp(code, navigate);
+      verifyEmail(code, navigate);
       console.log(formError);
       if (formError === "success") {
         setShowSendSuccessfullSnackbar(true)
@@ -171,14 +169,12 @@ const OTPVerification = () => {
     > */}
       <Box
         className={!isMobile ? styles.contentBox : ''}
-        
         >
         <Box
           bgcolor={theme.palette.background.paper}
           className={
             !isMobile ? styles.verificationBox : styles.verificationBoxMobile
           }
-          pt={isMobile ? 5 : 0}
         >
           <Button
             style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
@@ -197,11 +193,11 @@ const OTPVerification = () => {
             color="secondary"
             fontWeight={500}
           >
-           Please provide the Token from your Email to Sign In
+            Email Verification
           </Typography>
 
 
-          {/* <Typography
+          <Typography
             color="secondary"
             variant="caption"
             mt={!isMobile ? 4 : 8}
@@ -211,37 +207,40 @@ const OTPVerification = () => {
             textAlign={'center'}
           >
             Input the verification code sent to <br />{user?.user.email}
-          </Typography> */}
-          <Box component="form" onSubmit={handleOTPVerify}>
+          </Typography>
+          <Box component="form" onSubmit={handleEmailVerify}>
             <Box mt={3} mb={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
               {isMobile ? (
-                // <ReactPinField
-                //   ref={ref}
-                //   className={styles.pinFieldLightMobile}
-                //   onComplete={() => { }}
-                //   length={6}
-                //   validate={/^[0-9]$/}
-                //   onChange={setCode}
-                //   type="text"
-                //   inputMode="numeric"
-                //   autoComplete="nope"
-                // />
-                <Input
-                  fullWidth
-                  name="payInput"
-                  value={code}
-                  type="number"
-                  onChange={(e) => setCode(e.target.value)
-                  }
+                //  <ReactPinField
+                //     ref={ref}
+                //     // className={styles.pinFieldLightMobile}
+                //     onComplete={() => { }}
+                //     length={6}
+                //     validate={/^[0-9]$/}
+                //     onChange={setCode}
+                //     type="text"
+                //     inputMode="numeric"
+                //     autoComplete="nope"
+                //   />
+                
+                  <Input
+                    fullWidth
+                    name="payInput"
+                    value={code}
+                    type="number"
+                    onChange={(e) => setCode(e.target.value)
+                    }
 
-                  placeholder="Verification Code"
-                  disableUnderline
-                  className={
-                    theme.palette.mode === "dark"
-                      ? "inputField"
-                      : styles.inputFieldLight
-                  }
-                />
+                    placeholder="Verification Code"
+                    disableUnderline
+                    className={
+                      theme.palette.mode === "dark"
+                        ? "inputField"
+                        : styles.inputFieldLight
+                    }
+                  />
+               
+                  
               ):
               (
                   <ReactPinField

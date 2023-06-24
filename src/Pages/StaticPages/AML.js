@@ -27,7 +27,7 @@ const LazyImageComponent = React.lazy(() =>
   import("../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const PrivacyPolicy = () => {
+const AML = () => {
   const [loader, setLoader] = useState(true);
   const [privacyData, setPrivacyData] = useState([]);
 
@@ -37,7 +37,7 @@ const PrivacyPolicy = () => {
   useEffect(() => {
     setLoader(true);
     axios
-      .get("/PrivacyPolicyData.json")
+      .get("/AML.json")
       .then((res) => setPrivacyData(res.data))
       .catch((err) => console.log(err.message))
       .finally(() => setLoader(false));
@@ -71,7 +71,7 @@ const PrivacyPolicy = () => {
             </Box>
           ) : null}
           <Typography variant="h6" color="primary">
-            Privacy Policy
+            RedOnion AML
           </Typography>
           {/* <Typography fontWeight={300} variant="caption">
             Last Updated: 24 May, 2021
@@ -116,4 +116,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default AML;

@@ -61,7 +61,7 @@ const LogOutModal = ({ open, handleClose }) => {
     >
       <Box
         bgcolor="background.paper"
-        className={styles.changePasswordModalBody}
+        className={isMobile ? styles.changePasswordModalBodyMobile : styles.changePasswordModalBody}
       >
 
         <Box mt={3}>

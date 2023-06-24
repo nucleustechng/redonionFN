@@ -65,7 +65,7 @@ const LazyImageComponent = React.lazy(() =>
 // Steps array
 const steps = [
   {
-    label: "Upload a image",
+    label: "Take a Selfie",
   },
   {
     label: "",
@@ -73,12 +73,12 @@ const steps = [
   {
     label: "Upload ID Documentation",
   },
-  {
-    label: "",
-  },
-  {
-    label: "Set your Bank Details",
-  },
+  // {
+  //   label: "",
+  // },
+  // {
+  //   label: "Set your Bank Details",
+  // },
 ];
 
 const AccountSetup = () => {
@@ -255,7 +255,7 @@ const AccountSetup = () => {
                         fontWeight={500}
 
                       >
-                        Welcome to Exchange! Let's get your profile set up
+                        Welcome to Red Onion! Let's get your profile set up
                       </Typography>
                       <Box pt={3} mt={2}>
                         <Stepper

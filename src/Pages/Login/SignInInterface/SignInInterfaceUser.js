@@ -94,6 +94,7 @@ const SignInInterface = () => {
       >
         {/* Form Section */}
         <Box
+        
           className={!isMobile ? styles.contentBox : ""}
           sx={!isMobile ? { borderRadius: "10px" } : {}}
         >

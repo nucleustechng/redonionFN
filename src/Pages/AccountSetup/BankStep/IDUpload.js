@@ -50,7 +50,9 @@ const BankStep = (props) => {
 
   const [Image, setImage] = useState(null);
 
-  const { setUser } = useUser();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+  // const { setUser } = useUser();
 
 
   const [loading, setLoading] = useState(false);
@@ -60,8 +62,8 @@ const BankStep = (props) => {
   const allAuthContext = useAuth();
   // Authentication
 
-  const user = Object.keys(allAuthContext.user).length
-    > 0 ? allAuthContext.user : '';
+  // const user = Object.keys(allAuthContext.user).length
+  //   > 0 ? allAuthContext.user : '';
 
   const USER_UPLOAD_URL = "/user/upload-id";
 
@@ -91,20 +93,85 @@ const BankStep = (props) => {
 
         const newUser = { token, user };
 
-        localStorage.setItem("user", JSON.stringify(newUser));
+        // localStorage.setItem("user", JSON.stringify(newUser));
         // setUser(newUser);
         // console.log(user);
         // navigate("/dashboard/exchange");
-        props.sendData(2);
+        // props.sendData(2);
+        setActiveStepKYC(activeStepKYC + 1)
 
       }).catch((err) => {
         console.log(err)
       })
         .finally(() => setLoading(false));
-     
+
 
     }
 
+  }
+
+  const getAdditionalUser = () => {
+
+    const COUNTRIES_URL = "/user/get-countries";
+
+    axios.get(
+      COUNTRIES_URL,
+      {
+        headers: {
+          Accept: 'application/json',
+        }
+      }
+    ).then((res) => {
+      let data = res.data.data.countries;
+     
+      Object.keys(data).map((keys) => {
+        if (user.country?.id === data[keys].id)
+          return getCurrency(data[keys], user);
+
+
+      });
+
+
+
+
+    });
+
+
+  }
+
+  const getCurrency = (country) => {
+    const CURENCY_URL = "/user/get-currencies?countryId=";
+    let usera = JSON.parse(localStorage.getItem('user'));
+    axios.get(
+      CURENCY_URL + country?.id,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${usera?.token}`,
+        }
+      }
+    ).then((res) => {
+     
+      let currency = res.data.data.currencies[0];
+
+      let token = usera?.token;
+      let user = usera?.user;
+      let isKYCVerified = true;
+
+      const newUser = { token, user, country, currency, isKYCVerified };
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      console.log(newUser)
+      props.sendData(4);
+      navigate("/dashboard/exchange");
+
+    }).catch(function (err) {
+      // console.log(err);
+      if (err?.response?.status === 401) {
+        navigate("/user/sign-in")
+      }
+    }
+    );
   }
 
   const handleChange = (event) => {
@@ -139,10 +206,11 @@ const BankStep = (props) => {
   }, [user, setUserImage, userImage]);
 
   const onClickSuccess = () => {
-    props.sendData(4);
-  }
+    
+    getAdditionalUser();
 
-  console.log(userImage)
+
+  }
 
 
   return (
@@ -150,34 +218,34 @@ const BankStep = (props) => {
       p={!isMobile ? 5 : 3}
       bgcolor={theme.palette.background.surface}>
       {userImage === null ? (
-      <>
+        <>
 
-        {activeStepKYC !== 2 && (
-          <Box>
-            <Typography
-              className={styles.titleBox}
-              variant="h3"
-              color="secondaryDark"
-              fontWeight={600}
+          {activeStepKYC !== 2 && (
+            <Box>
+              <Typography
+                className={styles.titleBox}
+                variant="h3"
+                color="secondaryDark"
+                fontWeight={600}
 
-            >
-              Required Identification
-            </Typography>
+              >
+                Required Identification
+              </Typography>
 
-            <Typography
-              className={isMobile ? styles.titleBoxMobile : styles.titleBoxA}
-              variant="h3"
-              color="secondaryDark"
-              fontWeight={400}
+              <Typography
+                className={isMobile ? styles.titleBoxMobile : styles.titleBoxA}
+                variant="h3"
+                color="secondaryDark"
+                fontWeight={400}
 
-            >
-              Please ensure you select the right ID type that matches the ID you intend to upload.
-            </Typography>
-          </Box>
-        )}
-        {activeStepKYC === 0 && (
-          <Box mt={!isMobile ? 4 : 8}>
-            {/* <Typography variant="body2" className={styles.nameFont} mb={1}>
+              >
+                Please ensure you select the right ID type that matches the ID you intend to upload.
+              </Typography>
+            </Box>
+          )}
+          {activeStepKYC === 0 && (
+            <Box mt={!isMobile ? 4 : 8}>
+              {/* <Typography variant="body2" className={styles.nameFont} mb={1}>
             Country
           </Typography>
           <Select
@@ -192,128 +260,33 @@ const BankStep = (props) => {
             </MenuItem>
            
           </Select> */}
-            <Typography variant="body2" className={styles.nameFont} mt={3} mb={1}>
-              Select ID
-            </Typography>
-            <Select
-              value={kycID}
-              onChange={handleChangeKycID}
-              displayEmpty
-              fullWidth
-              inputProps={{ 'aria-label': 'Without label' }}
-            >
-              <MenuItem value={"NIN ID"}>
-                NIN ID
-              </MenuItem>
-              <MenuItem value={"NIN Slip"}>NIN Slip</MenuItem>
-              <MenuItem value={"Voter's Card"}>Voter's Card</MenuItem>
-              {/* <MenuItem value={"Passport"}>Passport</MenuItem> */}
-              <MenuItem value={"Driver's license"}>Driver's license</MenuItem>
-            </Select>
-            <Stack mt={5} >
-              {isLoading ? (
-                <LoadingButton loading variant="outlined">
-                  Login
-                </LoadingButton>
-              ) : (
-                <>
-                  <Button
-                    disabled={kycID === "" ? true : false}
-                    onClick={
-                      handleNext
-                    }
-                    style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                    Start Verification <LazyImageComponent src={FrontArrow} />
-                  </Button>
-
-                </>
-              )}
-            </Stack>
-          </Box>
-        )}
-        {activeStepKYC === 1 && (
-          <Box mt={!isMobile ? 4 : 8}>
-            <Typography
-              className={isMobile ? styles.titleBoxMobile : styles.titleBoxA}
-              variant="h3"
-              color="secondaryDark"
-              fontWeight={400}
-              fontStyle={"italic"}
-            >
-              Files uploaded can be either images (PNG OR JPEG) and cannot be larger than 1 MB
-            </Typography>
-            <Box mt={5}>
-              <Typography
-                className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
-                variant="h3"
-                color="secondaryDark"
-                fontWeight={600}
-
-              >
-                {kycID}
+              <Typography variant="body2" className={styles.nameFont} mt={3} mb={1}>
+                Select ID
               </Typography>
-            </Box>
-
-            <Box className={styles.imageBox} mt={5}>
-              <Grid
-                sx={{
-                  border: `${theme.palette.mode === "dark"
-                    ? "3px dashed #f5f5f5"
-                    : "3px dashed #c4c4c4"
-                    }`,
-                  borderRadius: "10px",
-                }}
-                item
-                xs={12}
-                md={12}
+              <Select
+                value={kycID}
+                onChange={handleChangeKycID}
+                displayEmpty
+                fullWidth
+                inputProps={{ 'aria-label': 'Without label' }}
               >
-                {!frontImage ? (
-                  <Box className={styles.imageUploadBox}>
-                    <label htmlFor="icon-button-file-upload">
-                      <Box>
-                        <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Your ID should look like this </Typography>
-                        <ImageInput
-                          accept="image/*"
-                          id="icon-button-file-upload"
-                          type="file"
-                          onChange={handleImageUploadFront}
-                        />
-                        <Stack justifyContent="center">
-                          <IconButton
-                            variant="outlined"
-                            aria-label="upload picture"
-                            component="span"
-                          >
-                            {/* <AddPhotoAlternateIcon sx={{ fontSize: "3.5rem" }} /> */}
-                            <LazyImageComponent src={IDShow} />
-                          </IconButton>
-                        </Stack>
-                        <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Click to upload ID</Typography>
-
-                      </Box>
-                    </label>
-                  </Box>
-                ) : (
-                  <Box className={styles.uploadedImage}>
-                    <img src={frontImage} style={{ display: "flex", justifyContent: "center", width: "100%" }} alt="Front side" />
-                    <Box className={styles.cancelButton}>
-                      <IconButton onClick={() => setFrontImage(null)} color="error">
-                        <CancelIcon />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                )}
-              </Grid>
-
+                <MenuItem value={"NIN ID"}>
+                  NIN ID
+                </MenuItem>
+                <MenuItem value={"NIN Slip"}>NIN Slip</MenuItem>
+                <MenuItem value={"Voter's Card"}>Voter's Card</MenuItem>
+                {/* <MenuItem value={"Passport"}>Passport</MenuItem> */}
+                <MenuItem value={"Driver's license"}>Driver's license</MenuItem>
+              </Select>
               <Stack mt={5} >
-                {loading ? (
+                {isLoading ? (
                   <LoadingButton loading variant="outlined">
                     Login
                   </LoadingButton>
                 ) : (
                   <>
                     <Button
-                      disabled={frontImage === null ? true : false}
+                      disabled={kycID === "" ? true : false}
                       onClick={
                         handleNext
                       }
@@ -324,59 +297,154 @@ const BankStep = (props) => {
                   </>
                 )}
               </Stack>
+            </Box>
+          )}
+          {activeStepKYC === 1 && (
+            <Box mt={!isMobile ? 4 : 8}>
+              <Typography
+                className={isMobile ? styles.titleBoxMobile : styles.titleBoxA}
+                variant="h3"
+                color="secondaryDark"
+                fontWeight={400}
+                fontStyle={"italic"}
+              >
+                Files uploaded can be either images (PNG OR JPEG) and cannot be larger than 1 MB
+              </Typography>
+              <Box mt={5}>
+                <Typography
+                  className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
+                  variant="h3"
+                  color="secondaryDark"
+                  fontWeight={600}
+
+                >
+                  {kycID}
+                </Typography>
+              </Box>
+
+              <Box className={styles.imageBox} mt={5}>
+                <Grid
+                  sx={{
+                    border: `${theme.palette.mode === "dark"
+                      ? "3px dashed #f5f5f5"
+                      : "3px dashed #c4c4c4"
+                      }`,
+                    borderRadius: "10px",
+                  }}
+                  item
+                  xs={12}
+                  md={12}
+                >
+                  {!frontImage ? (
+                    <Box className={styles.imageUploadBox}>
+                      <label htmlFor="icon-button-file-upload">
+                        <Box>
+                          <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Your ID should look like this </Typography>
+                          <ImageInput
+                            accept="image/*"
+                            id="icon-button-file-upload"
+                            type="file"
+                            onChange={handleImageUploadFront}
+                          />
+                          <Stack justifyContent="center">
+                            <IconButton
+                              variant="outlined"
+                              aria-label="upload picture"
+                              component="span"
+                            >
+                              {/* <AddPhotoAlternateIcon sx={{ fontSize: "3.5rem" }} /> */}
+                              <LazyImageComponent src={IDShow} />
+                            </IconButton>
+                          </Stack>
+                          <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Click to upload ID</Typography>
+
+                        </Box>
+                      </label>
+                    </Box>
+                  ) : (
+                    <Box className={styles.uploadedImage}>
+                      <img src={frontImage} style={{ display: "flex", justifyContent: "center", width: "100%" }} alt="Front side" />
+                      <Box className={styles.cancelButton}>
+                        <IconButton onClick={() => setFrontImage(null)} color="error">
+                          <CancelIcon />
+                        </IconButton>
+                      </Box>
+                    </Box>
+                  )}
+                </Grid>
+
+                <Stack mt={5} >
+                  {loading ? (
+                    <LoadingButton loading variant="outlined">
+                      Login
+                    </LoadingButton>
+                  ) : (
+                    <>
+                      <Button
+                        disabled={frontImage === null ? true : false}
+                        onClick={
+                          handleNext
+                        }
+                        style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                        Start Verification <LazyImageComponent src={FrontArrow} />
+                      </Button>
+
+                    </>
+                  )}
+                </Stack>
+
+              </Box>
+
 
             </Box>
+          )}
+          {activeStepKYC === 2 && (
+            <Box mt={!isMobile ? 4 : 8}>
+              <center>
+                <LazyImageComponent src={successClock} />
+              </center>
+              <Typography
+                className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
+                mt={4}
+                variant="h3"
+                color="primary"
+                fontWeight={400}
+
+              >
+                We are now verifying your details
+              </Typography>
+
+              <Typography
+                className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
+                variant="h3"
+                // color={"#202020"}
+                fontWeight={400}
+
+              >
+                We will send you an email and in-app notification once we’re done verifying your documents.
+              </Typography>
+
+              <Stack mt={5} >
+                {isLoading ? (
+                  <LoadingButton loading variant="outlined">
+                    Login
+                  </LoadingButton>
+                ) : (
+                  <>
+                    <Button
+                        onClick={onClickSuccess}
+                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                      Continue
+                    </Button>
+
+                  </>
+                )}
+              </Stack>
 
 
-          </Box>
-        )}
-        {activeStepKYC === 2 && (
-          <Box mt={!isMobile ? 4 : 8}>
-            <center>
-              <LazyImageComponent src={successClock} />
-            </center>
-            <Typography
-              className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
-              mt={4}
-              variant="h3"
-              color="primary"
-              fontWeight={400}
-
-            >
-              We are now verifying your details
-            </Typography>
-
-            <Typography
-              className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
-              variant="h3"
-              color={"#202020"}
-              fontWeight={400}
-
-            >
-              We will send you an email and in-app notification once we’re done verifying your documents.
-            </Typography>
-
-            <Stack mt={5} >
-              {isLoading ? (
-                <LoadingButton loading variant="outlined">
-                  Login
-                </LoadingButton>
-              ) : (
-                <>
-                  <Button
-                    onClick={onClick}
-                    style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                    Continue
-                  </Button>
-
-                </>
-              )}
-            </Stack>
-
-
-          </Box>
-        )}
-      </>
+            </Box>
+          )}
+        </>
       ) : (
         <>
           <Box>

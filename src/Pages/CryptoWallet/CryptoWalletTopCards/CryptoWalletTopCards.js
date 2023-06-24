@@ -176,7 +176,7 @@ const CryptoWalletTopCards = (props) => {
         country={props.country} currency={props.currency}
         onClose={handleCloseTwoFAPin}
       />
-      <Box mt={isMobile ? 0 : -8} borderBottom={6}  borderColor={"#D048DC"} borderRadius={10} >
+      <Box mt={isMobile ? 0 : -8}  borderBottom={6}  borderColor={"#D048DC"} borderRadius={10} >
     
         <Box mb={5} width={200}>
 
@@ -203,12 +203,13 @@ const CryptoWalletTopCards = (props) => {
          
           <Box >
             <Stack
-              direction="row"
+              direction={isMobile ? "column" : "row"}
               // justifyContent="space-between"
               alignItems="center"
+              p={1}
 
             >
-              <Box mr={4} width={"25%"}>
+              <Box mr={isMobile ? 0 : 4} mb={isMobile ? 2 : 0} width={isMobile ? "100%" : "25%"}>
                 <Box>
 
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
@@ -253,7 +254,7 @@ const CryptoWalletTopCards = (props) => {
 
               </Box>
 
-              <Box mr={4} width={"25%"}>
+              <Box mr={isMobile ? 0 : 4}  width={isMobile ? "100%" : "25%"}>
                 <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
                     Amount
@@ -270,7 +271,7 @@ const CryptoWalletTopCards = (props) => {
                 ></Input>
               </Box>
              
-              <Box mt={4} width={"12%"}>
+              <Box mt={4} mb={isMobile ? 4 : 0} width={isMobile ? "100%" : "25%"}>
                      <Button
                         onClick={onClickSuccess}
                         fullWidth 

@@ -190,7 +190,7 @@ const SignUpInterface = () => {
           alignItems="center"
           className={styles.topBox}
         >
-          <Box>
+          <Box >
             <Suspense
               fallback={<Skeleton variant="circular" height={30} width={110} />}
             >
@@ -201,7 +201,7 @@ const SignUpInterface = () => {
             </Suspense>
           </Box>
           {isMobile ? (
-            <Box>
+            <Box mt={2}>
               <Button
                 onClick={() =>
                   setDropdown(!dropdown)
@@ -291,20 +291,21 @@ const SignUpInterface = () => {
         <Grid
 
           columns={{ xs: 12, md: 12 }}
-          mt={!isMobile ? -6 : 25}
+          mt={!isMobile ? -6 : 0}
         >
 
           <Grid item xs={12} md={12}>
             <Box
+             
               className={styles.registerBox}>
               {/* Form Section */}
               <Box
-                className={!isMobile ? styles.contentBox : styles.contentBoxMobile}
+                className={!isMobile ? styles.contentBox : ""}
                 borderRadius="10px"
                 bgcolor={theme.palette.background.paper}
               >
 
-                <Box p={5}>
+                <Box  p={5}>
                   <Button
                     style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
 

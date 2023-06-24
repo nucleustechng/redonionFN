@@ -125,7 +125,7 @@ function Layout({ children }) {
           {children}
         </Box>
       </Box>
-      <Box >
+      {/* <Box >
         <React.Suspense
           fallback={
             <Skeleton
@@ -147,7 +147,7 @@ function Layout({ children }) {
             handleClose={handleCloseMenu}
           />
         </React.Suspense>
-      </Box>
+      </Box> */}
     </>
   );
 }

@@ -58,14 +58,14 @@ const LazyImageComponent = React.lazy(() =>
 
 // Lazy component
 const TransactionDrawer = React.lazy(() =>
-  import("../../FiatWallet/TransactionDrawer/TransactionDrawer")
+  import("../TransactionDrawer/TransactionDrawer")
 );
 const TransactionDrawerMobile = React.lazy(() =>
-  import("../../FiatWallet/TransactionDrawer/TransactionDrawerMobile")
+  import("../TransactionDrawer/TransactionDrawerMobile")
 );
 
 const WithdrawFunds = React.lazy(() =>
-  import("../../FiatWallet/WithdrawFunds/WithdrawFunds")
+  import("../WithdrawFunds/WithdrawFunds")
 );
 
 
@@ -80,7 +80,7 @@ const sortData = [
     id: "2",
     name: "Newest",
   },
- 
+
 ];
 
 // Table Header
@@ -94,7 +94,7 @@ const tableHeader = [
   {
     name: "Recieved",
   },
- 
+
 ];
 
 const TransactionDetailsArea = () => {
@@ -136,7 +136,7 @@ const TransactionDetailsArea = () => {
   };
 
   const handleWithdrawDrawer = () => {
-   setWithdrawDrawerOpen(!withdrawDrawerOpen);
+    setWithdrawDrawerOpen(!withdrawDrawerOpen);
   };
 
   // Authorization handler for withdraw
@@ -150,9 +150,9 @@ const TransactionDetailsArea = () => {
     return () => clearInterval(showTheSnackBar);
   };
 
-  
 
-  
+
+
 
   // Fetching Data
   useEffect(() => {
@@ -162,7 +162,7 @@ const TransactionDetailsArea = () => {
   }, []);
 
   return (
-   <Box>
+    <Box>
       {/* Withdraw Drawer */}
       <Box>
         <Suspense fallback={<ComponentSkeleton />}>
@@ -318,7 +318,7 @@ const TransactionDetailsArea = () => {
                 <TableHead className={styles.tableBoxHead}>
                   <TableRow >
 
-                    <StyledTableCell align="left"  component="th" >Sent</StyledTableCell>
+                    <StyledTableCell align="left" component="th" >Sent</StyledTableCell>
                     <StyledTableCell align="center"  ><LazyImageComponent src={ExchanageIcon}
                     /></StyledTableCell>
                     <StyledTableCell align="right" >Recieved</StyledTableCell>
@@ -332,22 +332,22 @@ const TransactionDetailsArea = () => {
                       tablePage * rowsPerPage + rowsPerPage
                     )
                     .map((td) => (
-                      <StyledTableRow  onClick={handleWithdrawDrawer} key={td.id}>
-                        <StyledTableCell align="left"  component="th" >
+                      <StyledTableRow onClick={handleWithdrawDrawer} key={td.id}>
+                        <StyledTableCell align="left" component="th" >
 
                           <Stack direction="row"
 
                           >
                             <Box mt={2}>
                               <LazyImageComponent src={upArrowIcon}
-                              />  
+                              />
                             </Box >
                             <Box ml={1.5}>
                               <Stack direction="row">
-                              <LazyImageComponent src={BitCoinIcon}
-                              /> 
+                                <LazyImageComponent src={BitCoinIcon}
+                                />
                                 <Typography color="secondary" fontWeight={400} fontSize={15} mt={0.8} ml={1} variant="body2">
-                                EUR
+                                  EUR
                                 </Typography>
                               </Stack>
                               <Typography fontSize={16} mt={1.3} color="secondary" variant="body2">
@@ -356,25 +356,25 @@ const TransactionDetailsArea = () => {
                             </Box>
                           </Stack>
 
-                          
+
 
                         </StyledTableCell>
                         <StyledTableCell align="center" >
-                          
+
                           <Typography fontSize={14} mt={1.3} color="secondary" variant="body2">
                             ID: 6728390-465322
                           </Typography>
                           <Typography fontSize={14} mt={1.3} color="secondary" variant="body2">
                             14th October, 2022
                           </Typography>
-                          
+
                         </StyledTableCell>
 
                         <StyledTableCell align="right">
                           <Stack direction="row"
-                              justifyContent={"flex-end"}
+                            justifyContent={"flex-end"}
                           >
-                            
+
                             <Box mr={1.5}>
                               <Stack direction="row">
                                 <LazyImageComponent src={BitCoinIcon}
@@ -387,7 +387,7 @@ const TransactionDetailsArea = () => {
                                 ${td.amount}
                               </Typography>
                             </Box>
-                            <Box  mt={2}>
+                            <Box mt={2}>
                               <LazyImageComponent src={downArrowIcon}
                               />
                             </Box >
@@ -411,7 +411,7 @@ const TransactionDetailsArea = () => {
           </Box>
         </Box>
       </Box>
-   </Box>
+    </Box>
   );
 };
 

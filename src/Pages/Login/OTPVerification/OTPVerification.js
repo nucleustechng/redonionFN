@@ -33,11 +33,11 @@ const OTPVerification = () => {
   useEffect(() => {
     ref.current?.inputs[0].focus();
   }, []);
-
+  // styles.mainBoxMobile
   return (
     <Box
       bgcolor={isMobile ? theme.palette.background.paper : null}
-      className={!isMobile ? styles.mainBox : styles.mainBoxMobile}
+      className={!isMobile ? styles.mainBox : ""}
     >
       <Box className={!isMobile ? styles.contentBox : styles.contentBoxMobile}>
         <Box

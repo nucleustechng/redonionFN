@@ -152,7 +152,8 @@ const ChangePasswordModal = ({ open, handleClose }) => {
     >
       <Box
         bgcolor="background.paper"
-        className={styles.changePasswordModalBody}
+        className={!isMobile ? styles.changePasswordModalBody : ""}
+        p={isMobile ? 3 : 0}
       >
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "right" }}

@@ -84,10 +84,10 @@ const Wallets = () => {
           Authentication Successfull!
         </Alert>
       </Snackbar> */}
-      <AuthProgress
+      {/* <AuthProgress
         open={openAuthProgressModal}
         onClose={handleCloseAuthProgressModal}
-      />
+      /> */}
       {/* <TwoFAPinModal
         open={true}
         onClose={handleCloseTwoFAPin}

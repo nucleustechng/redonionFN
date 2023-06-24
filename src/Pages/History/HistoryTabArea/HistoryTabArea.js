@@ -29,16 +29,11 @@ const LazyImageComponent = React.lazy(() =>
 
 // Lazy Component
 const AvailableRewards = React.lazy(() =>
-  import("../RewardTabArea/AvailableRewards")
+  import("./Sold")
 );
-const AvailableRewardsMobile = React.lazy(() =>
-  import("../RewardTabArea/AvailableRewardsMobile")
-);
-const MyRewards = React.lazy(() => import("../RewardTabArea/MyRewards"));
-const MyRewardsMobile = React.lazy(() =>
-  import("../RewardTabArea/MyRewardsMobile")
-);
-const Transaction = React.lazy(() => import("../RewardTabArea/Transaction"));
+
+const MyRewards = React.lazy(() => import("./Bought"));
+
 
 const RewardTabArea = () => {
   const [tabValue, setTabValue] = React.useState(0);
@@ -52,9 +47,7 @@ const RewardTabArea = () => {
   };
 
   return (
-    <Box 
-    className={styles.mainBox}
-    >
+    <Box className={styles.mainBox}>
       {/* Tab component */}
       {/* {!isMobile ? ( */}
         <Box

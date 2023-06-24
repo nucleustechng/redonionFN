@@ -1,40 +1,63 @@
 [
   {
+    "id": "",
+    "title": "Introduction",
+    "paragraphOne": "Welcome to Red Onion, a peer-to-peer (P2P) cryptocurrency exchange based in Nigeria. Our platform allows users to buy and sell cryptocurrencies with other users in a secure and decentralized manner. By using our platform, you agree to comply with these terms of service ('Terms') and any other policies or guidelines posted on our website."
+  },
+  {
     "id": "1",
-    "title": "Terms of use",
-    "paragraphOne": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae metus ullamcorper, ornare nisl a, porta ex. Integer dignissim ipsum est, sed vulputate lorem pharetra vel. Nullam nec rutrum enim. Suspendisse vehicula mattis magna, ac porta odio tincidunt id. Quisque vel dictum ex. Integer bibendum, turpis id pretium commodo, augue sem condimentum tellus, vel volutpat nibh sapien id dolor. Etiam nec venenatis erat.",
-    "paragraphTwo": "Phasellus augue leo, varius et augue ut, dictum malesuada enim. Etiam aliquam lectus quam, sit amet dictum sapien sagittis a. Mauris vitae purus lacinia, feugiat nisi ac, condimentum enim. Cras tincidunt tristique lorem ut semper. Integer dui ipsum, congue id tristique at, tempus et nulla. Duis tincidunt, nisl sit amet egestas porttitor, sapien enim consectetur justo, eu gravida mauris mauris nec odio. Aenean convallis tortor quis eros condimentum mattis. Morbi condimentum dui lacus, a aliquet tellus bibendum ornare. Nullam dignissim euismod sem, vitae iaculis nunc feugiat eu. In quis sagittis ligula. Nunc viverra dapibus odio, sed efficitur augue dapibus eu. Donec tempus viverra laoreet. Praesent eget consequat nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+    "title": "Eligibility",
+    "paragraphOne": "To use our platform, you must be at least 18 years old and reside in a jurisdiction where the use of cryptocurrencies is legal. By using our platform, you represent and warrant that you meet these eligibility requirements."
   },
   {
     "id": "2",
-    "title": "Use of information and materials",
-    "paragraphOne": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae metus ullamcorper, ornare nisl a, porta ex. Integer dignissim ipsum est, sed vulputate lorem pharetra vel. Nullam nec rutrum enim. Suspendisse vehicula mattis magna, ac porta odio tincidunt id. Quisque vel dictum ex. Integer bibendum, turpis id pretium commodo, augue sem condimentum tellus, vel volutpat nibh sapien id dolor. Etiam nec venenatis erat.",
-    "paragraphTwo": "Phasellus augue leo, varius et augue ut, dictum malesuada enim. Etiam aliquam lectus quam, sit amet dictum sapien sagittis a. Mauris vitae purus lacinia, feugiat nisi ac, condimentum enim. Cras tincidunt tristique lorem ut semper. Integer dui ipsum, congue id tristique at, tempus et nulla. Duis tincidunt, nisl sit amet egestas porttitor, sapien enim consectetur justo, eu gravida mauris mauris nec odio. Aenean convallis tortor quis eros condimentum mattis. Morbi condimentum dui lacus, a aliquet tellus bibendum ornare. Nullam dignissim euismod sem, vitae iaculis nunc feugiat eu. In quis sagittis ligula. Nunc viverra dapibus odio, sed efficitur augue dapibus eu. Donec tempus viverra laoreet. Praesent eget consequat nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-    "paragraphThree": "Nunc semper dolor a auctor porttitor. Cras sit amet fermentum quam. Integer velit orci, placerat sit amet metus eget, tempor pretium ante. Aliquam sollicitudin velit quis commodo tincidunt. In elit massa, accumsan vitae tristique sed, consequat in ligula. Curabitur rutrum accumsan leo quis ultrices. Maecenas auctor id neque sodales rhoncus. Integer varius leo sed neque dapibus tincidunt. Donec aliquam erat quis sapien maximus, eu dapibus purus imperdiet."
+    "title": "User Account",
+    "paragraphOne": "To use our platform, you must create an account by providing us with accurate and complete information. You are responsible for maintaining the confidentiality of your account information, including your password. You agree to notify us immediately if you become aware of any unauthorized use of your account. You are solely responsible for any and all activities that occur under your account."
   },
   {
     "id": "3",
-    "title": "No warranties",
-    "paragraphOne": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae metus ullamcorper, ornare nisl a, porta ex. Integer dignissim ipsum est, sed vulputate lorem pharetra vel. Nullam nec rutrum enim. Suspendisse vehicula mattis magna, ac porta odio tincidunt id. Quisque vel dictum ex. Integer bibendum, turpis id pretium commodo, augue sem condimentum tellus, vel volutpat nibh sapien id dolor. Etiam nec venenatis erat.",
-    "paragraphTwo": "Phasellus augue leo, varius et augue ut, dictum malesuada enim. Etiam aliquam lectus quam, sit amet dictum sapien sagittis a. Mauris vitae purus lacinia, feugiat nisi ac, condimentum enim. Cras tincidunt tristique lorem ut semper. Integer dui ipsum, congue id tristique at, tempus et nulla. Duis tincidunt, nisl sit amet egestas porttitor, sapien enim consectetur justo, eu gravida mauris mauris nec odio. Aenean convallis tortor quis eros condimentum mattis. Morbi condimentum dui lacus, a aliquet tellus bibendum ornare. Nullam dignissim euismod sem, vitae iaculis nunc feugiat eu. In quis sagittis ligula. Nunc viverra dapibus odio, sed efficitur augue dapibus eu. Donec tempus viverra laoreet. Praesent eget consequat nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+    "title": "Trading",
+    "paragraphOne": "Our platform allows users to trade cryptocurrencies with other users. You acknowledge and agree that Red Onion does not buy, sell, or exchange cryptocurrencies, and we are not responsible for any losses or damages that may result from your trading activities. You are solely responsible for conducting your own due diligence and managing your own risks when trading cryptocurrencies on our platform."
   },
-
   {
     "id": "4",
-    "title": "Transmitting over the internet",
-    "paragraphOne": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae metus ullamcorper, ornare nisl a, porta ex. Integer dignissim ipsum est, sed vulputate lorem pharetra vel. Nullam nec rutrum enim. Suspendisse vehicula mattis magna, ac porta odio tincidunt id. Quisque vel dictum ex. Integer bibendum, turpis id pretium commodo, augue sem condimentum tellus, vel volutpat nibh sapien id dolor. Etiam nec venenatis erat."
+    "title": "Fees",
+    "paragraphOne": "Red Onion charges a fee for each trade conducted on our platform. Our fees are subject to change at any time, and we will provide notice of any changes on our website. By using our platform, you agree to pay any applicable fees."
   },
   {
     "id": "5",
-    "title": "Downloading",
-    "paragraphOne": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae metus ullamcorper, ornare nisl a, porta ex. Integer dignissim ipsum est, sed vulputate lorem pharetra vel. Nullam nec rutrum enim. Suspendisse vehicula mattis magna, ac porta odio tincidunt id. Quisque vel dictum ex. Integer bibendum, turpis id pretium commodo, augue sem condimentum tellus, vel volutpat nibh sapien id dolor. Etiam nec venenatis erat.",
-    "paragraphTwo": "Phasellus augue leo, varius et augue ut, dictum malesuada enim. Etiam aliquam lectus quam, sit amet dictum sapien sagittis a. Mauris vitae purus lacinia, feugiat nisi ac, condimentum enim. Cras tincidunt tristique lorem ut semper. Integer dui ipsum, congue id tristique at, tempus et nulla. Duis tincidunt, nisl sit amet egestas porttitor, sapien enim consectetur justo, eu gravida mauris mauris nec odio. Aenean convallis tortor quis eros condimentum mattis. Morbi condimentum dui lacus, a aliquet tellus bibendum ornare. Nullam dignissim euismod sem, vitae iaculis nunc feugiat eu. In quis sagittis ligula. Nunc viverra dapibus odio, sed efficitur augue dapibus eu. Donec tempus viverra laoreet. Praesent eget consequat nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+    "title": "Compliance",
+    "paragraphOne": "Red Onion is committed to complying with all applicable laws and regulations, including anti-money laundering (AML) and know-your-customer (KYC) requirements. We may ask you to provide additional information or documentation to verify your identity or to comply with AML/KYC regulations. You acknowledge and agree that we may suspend or terminate your account if you fail to provide such information or if we suspect that you are engaged in illegal activities."
   },
   {
     "id": "6",
-    "title": "Modification",
-    "paragraphOne": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae metus ullamcorper, ornare nisl a, porta ex. Integer dignissim ipsum est, sed vulputate lorem pharetra vel. Nullam nec rutrum enim. Suspendisse vehicula mattis magna, ac porta odio tincidunt id. Quisque vel dictum ex. Integer bibendum, turpis id pretium commodo, augue sem condimentum tellus, vel volutpat nibh sapien id dolor. Etiam nec venenatis erat.",
-    "paragraphTwo": "Phasellus augue leo, varius et augue ut, dictum malesuada enim. Etiam aliquam lectus quam, sit amet dictum sapien sagittis a. Mauris vitae purus lacinia, feugiat nisi ac, condimentum enim. Cras tincidunt tristique lorem ut semper. Integer dui ipsum, congue id tristique at, tempus et nulla. Duis tincidunt, nisl sit amet egestas porttitor, sapien enim consectetur justo, eu gravida mauris mauris nec odio. Aenean convallis tortor quis eros condimentum mattis. Morbi condimentum dui lacus, a aliquet tellus bibendum ornare. Nullam dignissim euismod sem, vitae iaculis nunc feugiat eu. In quis sagittis ligula. Nunc viverra dapibus odio, sed efficitur augue dapibus eu. Donec tempus viverra laoreet. Praesent eget consequat nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-    "paragraphThree": "Nunc semper dolor a auctor porttitor. Cras sit amet fermentum quam. Integer velit orci, placerat sit amet metus eget, tempor pretium ante. Aliquam sollicitudin velit quis commodo tincidunt. In elit massa, accumsan vitae tristique sed, consequat in ligula. Curabitur rutrum accumsan leo quis ultrices. Maecenas auctor id neque sodales rhoncus. Integer varius leo sed neque dapibus tincidunt. Donec aliquam erat quis sapien maximus, eu dapibus purus imperdiet."
+    "title": "Prohibited Activities",
+    "paragraphOne": "You agree not to use our platform for any illegal or fraudulent activities, including but not limited to money laundering, terrorist financing, or the sale of illegal goods or services. You also agree not to use our platform in a manner that may harm or interfere with our operations, or the operations of other users of our platform."
+  },
+  {
+    "id": "7",
+    "title": "Limitation of Liability",
+    "paragraphOne": "Red Onion is not responsible for any losses or damages that may result from your use of our platform, including but not limited to losses resulting from trading activities, system failures, or security breaches. You acknowledge and agree that our liability is limited to the fees charged for the use of our platform, and that we are not liable for any indirect, incidental, special, or consequential damages."
+  },
+  {
+    "id": "8",
+    "title": "Indemnification",
+    "paragraphOne": "You agree to indemnify and hold Red Onion, our affiliates, and our respective officers, directors, employees, and agents, harmless from any and all claims, demands, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or in connection with your use of our platform, your breach of these Terms, or your violation of any applicable law or regulation."
+  },
+  {
+    "id": "9",
+    "title": "Termination",
+    "paragraphOne": "We may terminate your account or suspend your access to our platform at any time, with or without cause, and without prior notice. Upon termination, you agree to immediately cease using our platform."
+  },
+  {
+    "id": "10",
+    "title": "Governing Law and Jurisdiction",
+    "paragraphOne": "These Terms are governed by and construed in accordance with the laws of Nigeria. Any dispute arising out of or in connection with these Terms shall be resolved through arbitration in Nigeria, in accordance with the rules of the Nigerian Arbitration and Conciliation Act."
+  },
+  {
+    "id": "11",
+    "title": "Changes to these Terms",
+    "paragraphOne": "We may update these Terms at any time by posting the updated version on our website"
   }
+  
 ]

@@ -175,7 +175,7 @@ const CustomAppbar = ({ handleDrawerToggle, handleClickMenu }) => {
                 </Typography>
               </Box>
               <Box>
-                <Stack direction="row" alignItems="center" spacing={2}>
+                {/* <Stack direction="row" alignItems="center" spacing={2}>
                   <IconButton onClick={handleClickMenu}>
                     <SettingsIcon color={!isMobile ? "secondary" : "primary"} />
                   </IconButton>
@@ -185,7 +185,7 @@ const CustomAppbar = ({ handleDrawerToggle, handleClickMenu }) => {
                       onChange={colorMode.toggleColorMode}
                     />
                   </Box>
-                </Stack>
+                </Stack> */}
               </Box>
             </Stack>
           </Toolbar>

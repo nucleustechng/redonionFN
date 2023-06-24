@@ -123,12 +123,19 @@ const TwoFAPinModal = ({ open, onClose, openAuthorizationModal }) => {
         }
       }
     ).then((res) => {
-      console.log(res.data);
+      console.log(res.data.data);
       if (res.data.data === null || res.data.data === "") {
         setShowMsg(2)
         setShowSendSuccessfullSnackbar(true);
 
       } else {
+        const user1 = res.data.data.user;
+        const token = res.data.data.token;
+        const country = user.country;
+        const currency = user.currency;
+        const newUser = { token, user: user1, country, currency };
+        setUser(newUser);
+        localStorage.setItem("user", JSON.stringify(newUser));
         setcheckStatus(2)
       }
 
@@ -193,7 +200,7 @@ const TwoFAPinModal = ({ open, onClose, openAuthorizationModal }) => {
             >
               <Box className={styles.modalTopBar}>
 
-                <IconButton color="secondary" onClick={() => {
+                {/* <IconButton color="secondary" onClick={() => {
                   setcheckStatus(0);
                   onClose()
                 }}>
@@ -204,7 +211,7 @@ const TwoFAPinModal = ({ open, onClose, openAuthorizationModal }) => {
                   >
                     <CloseIcon fontSize="medium" />
                   </Tooltip>
-                </IconButton>
+                </IconButton> */}
               </Box>
               <Typography
                 variant="h3"
@@ -350,7 +357,7 @@ const TwoFAPinModal = ({ open, onClose, openAuthorizationModal }) => {
                           fontSize={16}
                           textAlign={'center'}
                         >
-                          You have successfully set up your 2 Factor Authentication.
+                          You have successfully set up your Two Factor Authentication.
 
                         </Typography>
 

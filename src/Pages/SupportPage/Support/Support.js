@@ -186,10 +186,10 @@ const Support = () => {
           {showMsg === 2 ? "Error processing data" : "Your message was sent!"}
         </Alert>
       </Snackbar>
-      <AuthProgress
+      {/* <AuthProgress
         open={openAuthProgressModal}
         onClose={handleCloseAuthProgressModal}
-      />
+      /> */}
 
       <Box ml={2} className={styles.infoContentTitleBox}>
         <Stack
@@ -292,7 +292,7 @@ const Support = () => {
             disableUnderline
             className="inputField"
             type="text"
-            // placeholder="joe@gmail.com"
+            // placeholder="johnjoe@gmail.com"
             variant="outlined"
             size="small"
             color="secondary"

@@ -27,7 +27,7 @@ import styles from "../Account.module.css";
 // Avatar
 import AvatarImage from "../../../../assets/profileAvatar.svg";
 
-
+import { useNavigate } from "react-router-dom";
 
 // Component Loader
 import ComponentLoader from "../../../../components/ProgressLoader/ComponentLoader";
@@ -58,6 +58,8 @@ const ProfileInfo = ({ handleClickMenu }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const [isKycSucceed, setIsKycSucceed] = useState(false);
+
+  const navigate = useNavigate();
 
 
   const handleEdit = () => {
@@ -126,7 +128,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
                     sx={{ borderRadius: "4px" }}
                     label={
                       <Stack direction="row" alignItems="center" gap={0.5}>
-                        {user?.user?.identityIsVerified ? (
+                        {user?.isKYCVerified ? (
                           <>
                             <CheckCircleIcon color="success" fontSize="small" />
                             <Typography
@@ -134,20 +136,27 @@ const ProfileInfo = ({ handleClickMenu }) => {
                               component="span"
                               color="text.success"
                             >
-                              KYC verified
+                              KYC Verified
                             </Typography>
                           </>
                         ) : (
-                          <>
-                            <ReportIcon color="error" fontSize="small" />
-                            <Typography
-                              component="span"
-                              variant="caption"
-                              color="error"
-                            >
-                              KYC Failed
-                            </Typography>
-                          </>
+                          <Box
+                          Button
+                              onClick={() => navigate("/account-setup")}
+                              sx={{ cursor: "pointer" }}
+                          >
+                           <Stack direction={"row"} >
+                                <ReportIcon color="error" fontSize="small" />
+                                <Typography
+                                  component="span"
+                                  variant="caption"
+                                  color="error"
+                                  ml={1}
+                                >
+                                  KYC Failed
+                                </Typography>
+                           </Stack>
+                          </Box>
                         )}
                       </Stack>
                     }
@@ -281,8 +290,8 @@ const ProfileInfo = ({ handleClickMenu }) => {
           </Suspense>
         </MobileNavDrawer>
       )} */}
-      {!isMobile && (
-        <Suspense fallback={<ModalSkeletons width={500} />}>
+     
+        <Suspense fallback={<ModalSkeletons width={isMobile ? 250 : 500} />}>
           <ProfileInfoModal
             open={openProfileInfoModal}
             handleClose={handleCloseProfileInfoModal}
@@ -294,7 +303,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
             setUserAvatar={setUserAvatar}
           />
         </Suspense>
-      )}
+      
     </React.Fragment>
   );
 };

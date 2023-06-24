@@ -932,7 +932,7 @@ const OnboardingPage = () => {
                     </Typography>
                   </Box>
                   <Box mt={1}>
-                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                    <a href="redonion/terms-and-condition" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
                       <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
 
                         Terms of service
@@ -942,10 +942,19 @@ const OnboardingPage = () => {
                   </Box>
 
                   <Box>
-                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                    <a href="redonion/privacy-policy" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
                       <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
 
                         Privacy policy
+
+                      </Typography>
+                    </a>
+                  </Box>
+                  <Box>
+                    <a href="redonion/aml" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
+
+                        AML
 
                       </Typography>
                     </a>
@@ -1079,7 +1088,7 @@ const OnboardingPage = () => {
             >
               <LazyImageComponent
                 className={styles.logo}
-                src={LogoDark}
+                src={MainOnboardingLogo}
               />
             </Suspense>
           </Box>
@@ -1099,7 +1108,7 @@ const OnboardingPage = () => {
                     </Typography>
                   </Box>
                   <Box mt={1}>
-                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <a href="redonion/terms-and-condition" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
                       <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
 
                         Terms of service
@@ -1109,7 +1118,7 @@ const OnboardingPage = () => {
                   </Box>
 
                   <Box>
-                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <a href="redonion/privacy-policy" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
                       <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
 
                         Privacy policy
@@ -1119,7 +1128,7 @@ const OnboardingPage = () => {
                   </Box>
 
                   <Box >
-                    <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
+                      <a href="redonion/aml" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
                       <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
 
                         Announcements
@@ -1248,7 +1257,7 @@ const OnboardingPage = () => {
             >
               <LazyImageComponent
                 className={styles.logo}
-                src={LogoDark}
+                  src={MainOnboardingLogo}
               />
             </Suspense>
           </Box>

@@ -80,7 +80,7 @@
 }
 
 .pinFieldLightMobile {
-  background-color: rgba(234, 234, 234, 0.4);
+  /* background-color: rgba(234, 234, 234, 0.4);
   color: #111;
   border: none;
   box-shadow: none;
@@ -90,7 +90,7 @@
   height: 4rem;
   text-align: center;
   transition: all 0.1s ease-in;
-  width: 3.0rem;
+  width: 3.0rem; */
 }
 
 .pinFieldDark:focus {

@@ -46,19 +46,23 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
+
+
 function renderRow(props: ListChildComponentProps) {
   const { data, index, style } = props;
+
+  
 
   const info = data[index];
   console.log(info);
   return (
     <>
-      {(info?.status === "PENDING" || info.status === "REPORTED" || info.status === "EXPIRED") ? (
+      {(info?.status === "COMPLETED" || info.status === "SUSPENDED") ? (
 
         <ListItem key={index} >
           <Box m={6} width={"100%"}>
 
-            <Stack direction="row" alignItems={"center"} justifyContent="space-between">
+            <Stack direction={ "row"} alignItems={"center"} justifyContent="space-between">
               <Box>
                 <Stack direction="row"  >
                   <LazyImageComponent sx={{ marginRight: 4 }} src={UpArrow} />
@@ -203,6 +207,8 @@ const MyRewards = () => {
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const navigate = useNavigate();
 

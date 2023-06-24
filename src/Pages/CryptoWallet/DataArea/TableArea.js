@@ -152,7 +152,9 @@ const TableArea = (prop) => {
               />
 
           <Box className={styles.mainBox}>
-            <Box className={!isTablet ? styles.tableArea : styles.tableAreaTab}>
+            <Box 
+            className={!isTablet ? styles.tableArea : styles.tableAreaTab}
+            >
               <TableContainer>
                 <Table>
                   <TableHead>

@@ -106,7 +106,7 @@ const SignInInterface = () => {
 
             </Button>
             <Typography
-              className={!isMobile ? styles.titleBox : styles.titleBox}
+              className={styles.titleBox}
               variant="h3"
               color="secondary"
               fontWeight={500}

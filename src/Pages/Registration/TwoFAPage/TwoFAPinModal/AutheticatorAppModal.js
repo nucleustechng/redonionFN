@@ -72,7 +72,22 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
    
     authApp();
    
-  }, []);
+  }, []); 
+  
+  async function copyContent() {
+    try {
+      await navigator.clipboard.writeText(userAuth?.base32 );
+      console.log('Content copied to clipboard');
+      setShowMsg(3)
+      setShowSendSuccessfullSnackbar(true);
+      /* Resolved - text copied to clipboard successfully */
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      /* Rejected - text failed to copy to the clipboard */
+    }
+  }
+
+
 
   const authApp = () => {
     setLoading(true);
@@ -162,7 +177,9 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
         setcheckStatus(0);
       }}
     >
-      <Box className={!isMobile ? styles.modalStyle : styles.modalStyleMobile}>
+      <Box 
+      className={!isMobile ? styles.modalStyle : styles.modalStyleMobile}
+      >
         <Box>
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -179,9 +196,9 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
               icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
               sx={{ fontSize: "1rem" }}
               onClose={handleCloseSendSnackbar}
-              severity={showMsg === 1 || showMsg === 2 ? "error" :  "success"}
+              severity={showMsg === 1 || showMsg === 2 ? "error" : showMsg === 3 ? "primary" : "success"}
             >
-              {showMsg === 1 ? "Your code must be 6 digit long" : "Sorry, invalid token"}
+              {showMsg === 1 ? "Your code must be 6 digit long" : showMsg === 3 ? "Copied" : "Sorry, invalid token"}
             </Alert>
           </Snackbar>
           {/* <Box
@@ -283,18 +300,24 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
 
                     </Typography>
 
-                    <Typography
-                      color={"#3063E9"}
-                      variant="caption"
-                      mt={!isMobile ? 4 : 8}
-                      mb={5}
-                      component="p"
-                      fontSize={20}
-                      textAlign={'center'}
+                    <Button
+                      onClick={copyContent}
                     >
-                      {userAuth?.base32}
+                      <Typography
+                        color={"#3063E9"}
+                        variant="caption"
+                        // mt={!isMobile ? 4 : 8}
+                        // mb={5}
+                        component="p"
+                        fontSize={20}
+                        textAlign={'center'}
+                      >
+                        {userAuth?.base32}
 
-                    </Typography>
+                      </Typography>
+                    </Button>
+
+                   
 
                    
                   

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Input, Typography, useTheme, useMediaQuery, Select, MenuItem, Button, Stack, Grid, styled, IconButton } from "@mui/material";
 import { Box } from "@mui/system";
 import { LoadingButton } from "@mui/lab";
-
+import Webcam from "react-webcam";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -57,23 +57,41 @@ const BankStep = (props) => {
 
   const USER_UPLOAD_URL = "/user/upload-selfie";
 
+  const dataURLtoFile = (dataurl, filename) => {
+    const arr = dataurl.split(',')
+    const mime = arr[0].match(/:(.*?);/)[1]
+    const bstr = atob(arr[1])
+    let n = bstr.length
+    const u8arr = new Uint8Array(n)
+    while (n) {
+      u8arr[n - 1] = bstr.charCodeAt(n - 1)
+      n -= 1 // to make eslint happy
+    }
+    return new File([u8arr], filename, { type: mime })
+  }
+
 
   const handleNext = () => {
+
+    // generate file from base64 string
+    const file = dataURLtoFile(Image);
+    console.log(file)
     setLoading(true);
 
 
     
 
     var formdata = new FormData();
-    formdata.append("selfie", Image, Image.name);
+    formdata.append("selfie", file, file.name);
     console.log(formdata);
     axios.post(
       USER_UPLOAD_URL,
       formdata,
       {
         headers: {
-          Accept: 'application/json',
+          // Accept: 'application/json',
           "Content-Type": "multipart/form-data",
+          'Content-Type': 'application/x-www-form-urlencoded',
           Authorization: `Bearer ${user.token}`,
         }
       }
@@ -81,13 +99,7 @@ const BankStep = (props) => {
       console.log(res.data.data.user)
       const user = res.data.data.user;
 
-      const token = user.token;
-
-      const newUser = { token, user };
      
-      localStorage.setItem("user", JSON.stringify(newUser));
-      setUser(newUser);
-      console.log(user);
       setActiveStepKYC(activeStepKYC + 2)
       
     }).catch((err) => {
@@ -134,6 +146,49 @@ const BankStep = (props) => {
     
   }, [user, getSucessUser, setUserImage, userImage]);
 
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    facingMode: "user"
+  };
+
+  const WebcamCapture = () => {
+    const webcamRef = React.useRef(null);
+    const capture = React.useCallback(
+      () => {
+        const imageSrc = webcamRef.current.getScreenshot();
+        setImage(imageSrc);
+        console.log(imageSrc);
+      },
+      [webcamRef]
+    );
+    return (
+      <>
+        <Webcam
+          audio={false}
+          height={290}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={"100%"}
+          videoConstraints={videoConstraints}
+        />
+        <Stack mt={5} >
+
+          <>
+            <Button
+              onClick={capture}
+              style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+              Capture photo
+            </Button>
+
+          </>
+
+        </Stack>
+        {/* <button onClick={capture}>Capture photo</button> */}
+      </>
+    );
+  };
+
 
 
 
@@ -141,9 +196,9 @@ const BankStep = (props) => {
     <Box
       p={!isMobile ? 5 : 3}
       bgcolor={theme.palette.background.surface}>
-      {userImage === null ? (
+      {userImage !== null ? (
         <>
-          {activeStepKYC !== 2 && (
+          {activeStepKYC === 2 && (
             <>
               <Box>
                 <Typography
@@ -184,37 +239,38 @@ const BankStep = (props) => {
                     xs={12}
                     md={12}
                   >
-                    {!frontImage ? (
+                    {!Image ? (
                       <Box className={styles.imageUploadBox}>
                         <label htmlFor="icon-button-file-upload">
                           <Box>
+                            {<WebcamCapture/>}
                             {/* <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Your ID should look like this </Typography> */}
-                            <ImageInput
+                            {/* <ImageInput
                               accept="image/*"
                               id="icon-button-file-upload"
                               type="file"
                               onChange={handleImageUploadFront}
-                            />
-                            <Stack justifyContent="center">
+                            /> */}
+                            {/* <Stack justifyContent="center">
                               <IconButton
                                 variant="outlined"
                                 aria-label="upload picture"
                                 component="span"
                               >
                                 <AddPhotoAlternateIcon sx={{ fontSize: "8.5rem" }} />
-                                {/* <LazyImageComponent src={IDShow} /> */}
+                                <LazyImageComponent src={IDShow} />
                               </IconButton>
-                            </Stack>
-                            <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Click to upload ID</Typography>
+                            </Stack> */}
+                            {/* <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Click to upload ID</Typography> */}
 
                           </Box>
                         </label>
                       </Box>
                     ) : (
                       <Box className={styles.uploadedImage}>
-                        <img src={frontImage} style={{ display: "flex", justifyContent: "center", width: "100%" }} alt="Front side" />
+                        <img src={Image} style={{ display: "flex", justifyContent: "center", width: "100%" }} alt="Front side" />
                         <Box className={styles.cancelButton}>
-                          <IconButton onClick={() => setFrontImage(null)} color="error">
+                          <IconButton onClick={() => setImage(null)} color="error">
                             <CancelIcon />
                           </IconButton>
                         </Box>
@@ -230,7 +286,7 @@ const BankStep = (props) => {
                     ) : (
                       <>
                         <Button
-                          disabled={frontImage === null ? true : false}
+                          disabled={Image === null ? true : false}
                           onClick={
                             handleNext
                           }
@@ -248,7 +304,7 @@ const BankStep = (props) => {
               </Box>
             </>
           )}
-          {activeStepKYC === 2 && (
+          {activeStepKYC !== 2 && (
             <Box mt={!isMobile ? 4 : 8}>
               <center>
                 <LazyImageComponent src={successClock} />
@@ -267,7 +323,7 @@ const BankStep = (props) => {
               <Typography
                 className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
                 variant="h3"
-                color={"#202020"}
+                // color={"#202020"}
                 fontWeight={400}
 
               >

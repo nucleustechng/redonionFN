@@ -10,14 +10,14 @@
 }
 
 .modalStyleMobile {
-  width: 90vw;
+  /* width: 80vw;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 5px;
   text-align: center;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05); */
 }
 
 .modalLogo {

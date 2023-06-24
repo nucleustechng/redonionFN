@@ -161,6 +161,20 @@
   padding-bottom: 2rem;
 }
 
+.changePasswordModalBodyMobile {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  box-shadow: 24px;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
+}
+
 .changePasswordModalContentBox {
   margin-top: 1rem;
 }

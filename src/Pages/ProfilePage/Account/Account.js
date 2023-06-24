@@ -78,7 +78,7 @@ const Account = () => {
 
   const [openWalletModal, setOpenWalletModal] = useState(false);
 
-
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   // Menu
   const [anchorElMenu, setAnchorElMenu] = React.useState(null);
 
@@ -92,11 +92,17 @@ const Account = () => {
 
 
   const handleCloseTwoFAPin = () => {
-    setShowPin(!showPin);
+    if (user?.user?.twoFactorAuthType !== "EMAIL_OTP"){
+      setShowPin(!showPin);
+    }
+   
   };
 
   const handleCloseAutheticate = () => {
-    setShowAutheticate(!showAutheticate);
+    if (user?.user?.twoFactorAuthType !== "2FA_OTP") {
+      setShowAutheticate(!showAutheticate);
+    }
+   
   };
 
   const handleWallet = () => {
@@ -194,10 +200,10 @@ const Account = () => {
           Authentication Successfull!
         </Alert>
       </Snackbar> */}
-      <AuthProgress
+      {/* <AuthProgress
         open={openAuthProgressModal}
         onClose={handleCloseAuthProgressModal}
-      />
+      /> */}
       <TwoFAPinModal
         open={
 
@@ -229,9 +235,9 @@ const Account = () => {
             />
           </Box>
 
-          <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+          <Typography ml={1.5} >
             2FA
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Enable your 2 Factor Authentication</Typography>
+            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Enable your Two Factor Authentication</Typography>
           </Typography>
 
         </AccordionSummary>
@@ -240,7 +246,7 @@ const Account = () => {
             Button
             onClick={handleCloseTwoFAPin}
             sx={{ cursor: 'pointer' }}
-            p={1.5} borderRadius={3} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
+            p={1.5} borderRadius={3} bgcolor={user?.user?.twoFactorAuthType === "EMAIL_OTP" ? "#58BD7D" : theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
             <Typography fontSize={14} >
               Email
             </Typography>
@@ -252,7 +258,7 @@ const Account = () => {
             Button
             onClick={handleCloseAutheticate}
             sx={{ cursor: 'pointer' }}
-            mt={2} p={1.5} borderRadius={3} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
+            mt={2} p={1.5} borderRadius={3} bgcolor={user?.user?.twoFactorAuthType === "2FA_OTP" ? "#58BD7D" : theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
             <Typography fontSize={14} >
               Authenticator app
             </Typography>
@@ -307,7 +313,7 @@ const Account = () => {
         </AccordionSummary>
 
       </Accordion>
-      <Accordion
+      {/* <Accordion
         Button
         onClick={handleWallet}
         sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel4'} onChange={() => handleChange('panel4')}>
@@ -327,7 +333,7 @@ const Account = () => {
             <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Connect your crypto wallet</Typography>
           </Typography>
         </AccordionSummary>
-      </Accordion>
+      </Accordion> */}
       <Accordion
         Button
         onClick={handleOpenDeleteAccountModal}
@@ -343,43 +349,43 @@ const Account = () => {
             />
           </Box>
 
-          <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+          <Typography ml={1.5} >
             Delete Account
             <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Deleting account will lead to complete loss of this account.</Typography>
           </Typography>
         </AccordionSummary>
       </Accordion>
 
-      {!isMobile ? (
+      {/* {!isMobile ? ( */}
         <Suspense fallback={<ModalSkeletons width={500} />}>
           <DeleteAccountModal
             open={openDeleteAccountModal}
             handleClose={handleOpenDeleteAccountModal}
           />
         </Suspense>
-      ) : (
-        <MobileNavDrawer
-          handleClickMenu={handleClickMenu}
-          drawerOpen={openDeleteAccountModal}
-          handleDrawerToggle={handleDeleteAccountDrawer}
-          topBarContent={"Delete Account"}
-        >
-          <Suspense fallback={<ComponentLoader />}>
-            <DeleteAccountModalMobile
-              open={openDeleteAccountModal}
-              handleClose={handleOpenDeleteAccountModal}
-            />
-          </Suspense>
-        </MobileNavDrawer>
-      )}
-      {!isMobile ? (
+      {/* // ) : (
+      //   <MobileNavDrawer
+      //     handleClickMenu={handleClickMenu}
+      //     drawerOpen={openDeleteAccountModal}
+      //     handleDrawerToggle={handleDeleteAccountDrawer}
+      //     topBarContent={"Delete Account"}
+      //   >
+      //     <Suspense fallback={<ComponentLoader />}>
+      //       <DeleteAccountModalMobile
+      //         open={openDeleteAccountModal}
+      //         handleClose={handleOpenDeleteAccountModal}
+      //       />
+      //     </Suspense>
+      //   </MobileNavDrawer>
+      // )} */}
+      {/* {!isMobile ? ( */}
         <Suspense fallback={<ModalSkeletons />}>
           <ChangePasswordModal
             open={openChangePasswordModal}
             handleClose={handleOpenChangePasswordModal}
           />
         </Suspense>
-      ) : (
+      {/* ) : (
         <MobileNavDrawer
           handleClickMenu={handleClickMenu}
           drawerOpen={openChangePasswordModal}
@@ -392,16 +398,15 @@ const Account = () => {
             />
           </Suspense>
         </MobileNavDrawer>
-      )}
+      )} */}
 
-      {!isMobile && (
-        <Suspense fallback={<ModalSkeletons />}>
+       <Suspense fallback={<ModalSkeletons />}>
           <AccountModal
             open={openAccountModal}
             handleClose={handleOpenAccountModal}
           />
         </Suspense>
-      )}
+     
 
       {!isMobile && (
         <Suspense fallback={<ModalSkeletons />}>
@@ -412,14 +417,14 @@ const Account = () => {
         </Suspense>
       )}
 
-      {!isMobile && (
+     
         <Suspense fallback={<ModalSkeletons />}>
           <AuthenticatorModal
             open={showAutheticate}
             onClose={handleCloseAutheticate}
           />
         </Suspense>
-      )}
+     
 
      
 

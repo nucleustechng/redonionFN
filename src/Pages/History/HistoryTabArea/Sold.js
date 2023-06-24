@@ -53,7 +53,7 @@ function renderRow(props: ListChildComponentProps) {
   console.log(info);
   return (
    <>
-      {(info?.status === "PENDING" || info.status === "REPORTED" || info.status === "EXPIRED") ? (
+      {(info?.status === "COMPLETED" || info.status === "SUSPENDED") ? (
 
     <ListItem key={index} >
       <Box m={6} width={"100%"}>

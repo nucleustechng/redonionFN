@@ -8,6 +8,9 @@ import ComponentLoader from "../../components/ProgressLoader/ComponentLoader";
 
 import { useMediaQuery, useTheme } from "@mui/material";
 
+// Router
+import { useNavigate } from "react-router-dom";
+
 // Axios
 import axios from "../../api/axios";
 
@@ -30,11 +33,15 @@ const CryptoWalletInterface = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const navigate = useNavigate();
+
   const [info, setInfo] = useState("");
 
   const [countryData, setCountryData] = useState([]);
 
   const [curencyData, setCurencyData] = useState([]);
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const sendData = (data) => {
     setInfo(data);
@@ -47,7 +54,6 @@ const CryptoWalletInterface = () => {
 
   // Fetching Data
   useEffect(() => {
-    var user = JSON.parse(localStorage.getItem('user'));
    
     axios.get(
       COUNTRIES_URL,
@@ -80,11 +86,15 @@ const CryptoWalletInterface = () => {
       console.log(data);
       setCurencyData(data)
 
+    }).catch((err) => {
+      if (err?.response?.status === 401) {
+        navigate("/user/sign-in")
+      } 
     });
 
    
 
-  }, []);
+  }, [user]);
 
   return (
     <Box >

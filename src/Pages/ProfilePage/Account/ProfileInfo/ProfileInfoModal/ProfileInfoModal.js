@@ -109,11 +109,13 @@ const ProfileInfoModal = ({
   };
 
 
-
+console.log(user)
   const handleRegisterUser = () => {
-    
+    // if (email === user?.user?.email || value === user?.user?.phone) {
+    //   return;
+    // }
     if (email === "" || value === "") {
-     
+       
       setShowAuthenticationSnackbar(true);
     }
     else {
@@ -179,10 +181,14 @@ const ProfileInfoModal = ({
       disableEnforceFocus
       keepMounted
       open={open}
-      onClose={handleClose}
+      onClose={()=>{
+        setStep(1);
+        handleClose()}}
     >
     
-      <Box bgcolor="background.paper" className={styles.profileInfoModalBody}>
+      <Box bgcolor="background.paper" 
+      className={!isMobile ?  styles.profileInfoModalBody : ""}
+      >
         <Snackbar
           anchorOrigin={
             !isMobile

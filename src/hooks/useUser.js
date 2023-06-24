@@ -8,6 +8,7 @@ const VERIFY_EMAIL_URL = "/auth/verify-email/";
 const LOGIN_URL = "/auth/sign-in/";
 const FORGOT_URL = "/auth/init-password-reset/";
 const CHANGE_PASSWORD_URL = "/auth/complete-password-reset/";
+const VERIFY_OTP_URL = "/auth/verify-otp/";
 
 const useUser = () => {
 
@@ -20,11 +21,11 @@ const useUser = () => {
 
   const [sucessUser, setSuccessUser] = useState(false);
 
- 
-  
+
+
   const authHeader = {
 
-    headers:{ "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" }
   };
 
   // Sign Up
@@ -50,10 +51,14 @@ const useUser = () => {
 
       const token = res.data.data.accessToken;
 
+      const country = null;
+
+      const currency = null;
+
       setAuthError("success");
-      const newUser = { token, user };
-      console.log(newUser);
+      const newUser = { token, user, country, currency };
       setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
 
       navigate("/registration/verify-email");
 
@@ -67,34 +72,75 @@ const useUser = () => {
   };
 
   // Verify Email
-  const verifyEmail = (token, navigate) => {
+  const verifyEmail = (code, navigate) => {
     setIsLoading(true); //It will holds the loading state
 
     // Email verification
     axios.get(
-      VERIFY_EMAIL_URL + token,
+      VERIFY_EMAIL_URL + code,
       authHeader
     ).then((res) => {
 
+      console.log(res)
 
 
       setAuthError("");
-      const user = res.data.data.user;
 
-      const token = res.data.data.accessToken;
+      var userInfo = JSON.parse(localStorage.getItem('user'));
 
-      const newUser = { token, user };
-      setUser(newUser);
+      const user = userInfo.user;
 
-      localStorage.setItem("user", JSON.stringify(newUser));
+      const token = userInfo.token;
+      console.log(token)
 
-      if (!user.emailVerified) {
-        navigate("/registration/verify-email");
-      } else if (user.identityDocument === "") {
-        navigate("/account-setup");
-      } else {
-        navigate("/dashboard/exchange");
-      }
+      getAdditionalUser(user, token, navigate, 1);
+
+
+
+      // const newUser = { token, user };
+      // setUser(newUser);
+
+      // localStorage.setItem("user", JSON.stringify(newUser));
+
+      // if (!user.emailVerified) {
+      //   navigate("/registration/verify-email");
+      // } else if (user.identityDocument === "") {
+      //   navigate("/account-setup");
+      // } else {
+      //   navigate("/dashboard/exchange");
+      // }
+
+    }).catch((err) => {
+      console.log(err.response.data);
+      setAuthError(err.response.data.msg);
+
+    })
+      .finally(() => setIsLoading(false));
+  };
+
+  // Verify OTP
+  const verifyOtp = (code, navigate) => {
+    setIsLoading(true); //It will holds the loading state
+
+    // Email verification
+    axios.get(
+      VERIFY_OTP_URL + code,
+      authHeader
+    ).then((res) => {
+
+      console.log(res)
+
+
+      setAuthError("");
+
+      var userInfo = res.data.data;
+
+      const user = userInfo.user;
+
+      const token = userInfo.token;
+      console.log(token)
+
+      getAdditionalUser(user, token, navigate, 1);
 
     }).catch((err) => {
       console.log(err.response.data);
@@ -128,14 +174,31 @@ const useUser = () => {
       // return () => clearInterval(showPinModal);
       const user = res.data.data.user;
 
-      const token = res.data.data.accessToken;
+      const token = res?.data?.data?.accessToken ;
 
      
 
-      getAdditionalUser(user, token, navigate);
 
+      if (token === undefined && user?.twoFactorEnabled) {
+        const country = null;
 
-     
+        const currency = null;
+
+        const newUser = { token, user, country, currency };
+        setUser(newUser);
+
+        localStorage.setItem("user", JSON.stringify(newUser));
+
+        if (user.twoFactorAuthType === "EMAIL_OTP") {
+          navigate("/twofa-email");
+
+        } else {
+          console.log(res);
+        }
+
+      } else {
+        getAdditionalUser(user, token, navigate, 2);
+      }
 
 
 
@@ -205,8 +268,8 @@ const useUser = () => {
 
   }
 
-  const getAdditionalUser = (user, token, navigate) => {
-   
+  const getAdditionalUser = (user, token, navigate, type) => {
+
     const COUNTRIES_URL = "/user/get-countries";
 
     axios.get(
@@ -214,25 +277,25 @@ const useUser = () => {
       authHeader
     ).then((res) => {
       let data = res.data.data.countries;
-     
-     Object.keys(data).map((keys) => {
-        if (user.countryId === data[keys].id) 
-          return getCurrency(user, token, data[keys], navigate);
-        
+
+      Object.keys(data).map((keys) => {
+        if (user.countryId === data[keys].id)
+          return getCurrency(user, token, data[keys], navigate, type);
+
 
       });
 
-     
+
 
 
     });
 
-    
+
   }
 
-  const getCurrency = (user, token, country, navigate) => {
+  const getCurrency = (user, token, country, navigate, type) => {
     const CURENCY_URL = "/user/get-currencies?countryId=";
-   
+
     axios.get(
       CURENCY_URL + country?.id,
       {
@@ -242,24 +305,38 @@ const useUser = () => {
         }
       }
     ).then((res) => {
-      
+
       let currency = res.data.data.currencies[0];
 
-      const newUser = { token, user, country, currency};
+      const newUser = { token, user, country, currency };
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
+      console.log(newUser)
+      if (type === 1) {
 
-      if (!newUser.emailVerified) {
-        navigate("/registration/verify-email");
-      } else if (newUser.identityDocument === "") {
-        navigate("/account-setup");
+        if (newUser.user.identityDocument === "") {
+          navigate("/account-setup");
+        }
+        else {
+          navigate("/dashboard/exchange");
+        }
+
       } else {
-        navigate("/dashboard/exchange");
+        console.log(newUser.user.emailVerified)
+        if (!newUser.user.emailVerified) {
+          navigate("/registration/verify-email");
+        }else{
+          navigate("/dashboard/exchange");
+        }
+        
+
       }
-     
 
 
-    }).catch(function(err) {
+
+
+
+    }).catch(function (err) {
       // console.log(err);
     }
     );
@@ -279,10 +356,10 @@ const useUser = () => {
 
   // SignOut
   const logOut = () => {
-    
+
     setUser({})
     localStorage.removeItem("user");
-  
+
   };
 
 
@@ -302,6 +379,7 @@ const useUser = () => {
     getUser,
     sucessUser,
     logOut,
+    verifyOtp,
     showPin,
     setShowPin,
   };

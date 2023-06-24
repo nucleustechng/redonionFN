@@ -13,7 +13,7 @@ import {
   useTheme,
   useMediaQuery,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
@@ -177,7 +177,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
     >
       <Box
         bgcolor="background.paper"
-        className={styles.changePasswordModalBody}
+        className={!isMobile ? styles.changePasswordModalBody : ""}
       >
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
