@@ -323,11 +323,11 @@ const useUser = () => {
 
       } else {
         console.log(newUser.user.emailVerified)
-        if (!newUser.user.emailVerified) {
-          navigate("/registration/verify-email");
-        }else{
+        // if (!newUser.user.emailVerified) {
+        //   navigate("/registration/verify-email");
+        // }else{
           navigate("/dashboard/exchange");
-        }
+        // }
         
 
       }

@@ -26,6 +26,8 @@ import MainLogoDark from "../../assets/mainLogo.svg";
 
 import ArrowDown from "../../assets/downArrow.svg";
 import LocationIcon from "../../assets/location.svg";
+import LocationIconWhite from "../../assets/locationwhite.svg";
+
 import TransactionIcon from "../../assets/transaction.svg";
 import TransactionIconWhite from "../../assets/transactionWhite.svg";
 
@@ -115,7 +117,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
               fontWeight={400}
               ml={3}
               // py={3}
-              color="secondary"
+              color={location.pathname !== `/account` ? "secondary" : "background.light"}
               variant="body2"
             >
               {user?.user?.firstName}  {user?.user?.lastName}
@@ -133,7 +135,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
             direction="row">
             <LazyImageComponent
               style={{ width: 13 }}
-              src={LocationIcon}
+              src={location.pathname === `/account` ? LocationIconWhite : LocationIcon}
 
             />
             <Typography
@@ -141,7 +143,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
               ml={1}
               fontSize={12}
               // py={3}
-              color="secondary"
+              color={location.pathname !== `/account` ? "secondary" : "background.light"}
               variant="body2"
             >
               {user?.country.name}
