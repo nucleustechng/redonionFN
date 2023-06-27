@@ -90,7 +90,7 @@ const BankStep = (props) => {
       {
         headers: {
           // Accept: 'application/json',
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data",
           'Content-Type': 'application/x-www-form-urlencoded',
           Authorization: `Bearer ${user.token}`,
         }

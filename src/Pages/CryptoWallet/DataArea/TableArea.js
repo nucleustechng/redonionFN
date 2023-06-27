@@ -96,39 +96,30 @@ const TableArea = (prop) => {
   const USER_UPLOAD_URL = "/transaction/get-offers";
 
 
-  const handleNext = () => {
-    var user = JSON.parse(localStorage.getItem('user'));
-    setLoading(true);
-    console.log(prop.data)
-    axios.post(
-      USER_UPLOAD_URL,
-      JSON.stringify(prop.data),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        }
-      }
-    ).then((res) => {
-      setCoinData(res.data.data)
-      console.log(res.data.data)
-
-    }).catch((err) => {
-      console.log(err)
-    })
-      .finally(() => setLoading(false));
-
-
-
-  }
 
   // Loading coin data
   useEffect(() => {
     if (prop.data !== "") {
-      handleNext();
-    }
+      var user = JSON.parse(localStorage.getItem("user"));
+      setLoading(true);
 
-  }, [prop]);
+      axios
+        .post(USER_UPLOAD_URL, JSON.stringify(prop.data), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then((res) => {
+          setCoinData(res.data.data);
+          console.log(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [prop, USER_UPLOAD_URL, setCoinData, setLoading]);
 
   return (
     <>

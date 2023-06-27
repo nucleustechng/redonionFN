@@ -107,34 +107,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   
   var user = JSON.parse(localStorage.getItem('user'));
 
-  const getCypto = () => {
-
-
-    axios.get(
-      GET_CURRENCY_URL,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        }
-      }
-    ).then((res) => {
-      console.log(res.data.data.cryptoCurrencies)
-      setCoinNamesData(res.data.data.cryptoCurrencies);
-    }).catch((err) => {
-      // console.log(err?.response?.status);
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      }
-    })
-      .finally(() => { });
-
-
-
-
-
-  };
-
+  
 
   const getCyptoExchangeRate = (coin) => {
     setLoading(true);
@@ -204,8 +177,25 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   };
 
   useEffect(() => {
-    getCypto();
-  }, []);
+    axios
+      .get(GET_CURRENCY_URL, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data.cryptoCurrencies);
+        setCoinNamesData(res.data.data.cryptoCurrencies);
+      })
+      .catch((err) => {
+        // console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        }
+      })
+      .finally(() => {});
+  }, [user, GET_CURRENCY_URL, navigate, setCoinNamesData]);
 
   
 

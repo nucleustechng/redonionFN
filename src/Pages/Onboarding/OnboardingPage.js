@@ -33,11 +33,11 @@ import Close from "../../assets/close.svg";
 
 import Image1 from "../../assets/landingImage1.svg";
 import ImageMobile1 from "../../assets/landingImageMobile1.svg";
-import Image2 from "../../assets/landingImage2.svg";
+import ExchangeDemo from "../../assets/exchange-demo.png";
 import Image3 from "../../assets/landingImage3.svg";
 import ImageMobile3 from "../../assets/landingImageMobile3.svg";
-import Image4 from "../../assets/landingImage4.svg";
-import Image5 from "../../assets/landingImage5.svg";
+import HalfPhone from "../../assets/halfiphone.png";
+import Phone from "../../assets/phone.png";
 import Image6 from "../../assets/landingImage6.svg";
 import Image7 from "../../assets/landingImage7.svg";
 import ImageNum1 from "../../assets/landingImageN1.svg";
@@ -335,7 +335,7 @@ const OnboardingPage = () => {
                         src={ImageNum3}
                       />
                     </Box>
-                    <Box mr={3}>
+                    <Box mt={-1} mr={3}>
                       <LazyImageComponent
                         src={ImageSearch}
                       />
@@ -370,7 +370,7 @@ const OnboardingPage = () => {
                     fallback={<Skeleton variant="rectangular" />}
                   >
                     <LazyImageComponent
-                      src={Image2}
+                      src={Phone}
                       className={styles.transa40}
                     />
                   </Suspense>
@@ -414,7 +414,7 @@ const OnboardingPage = () => {
                   >
                     <LazyImageComponent
                       className={styles.transa40}
-                      src={Image4}
+                      src={HalfPhone}
                     />
                   </Suspense>
                 </center>
@@ -472,7 +472,7 @@ const OnboardingPage = () => {
                   >
                     <LazyImageComponent
                       className={styles.transa}
-                      src={Image5}
+                      src={ExchangeDemo}
 
                     />
                   </Suspense>
@@ -753,7 +753,7 @@ const OnboardingPage = () => {
                       >
                         <LazyImageComponent
                           className={styles.transa100}
-                          src={Image4}
+                          src={HalfPhone}
                         />
                       </Suspense>
                     </center>
@@ -811,7 +811,7 @@ const OnboardingPage = () => {
                       >
                         <LazyImageComponent
                           className={styles.transa100}
-                          src={Image5}
+                          src={ExchangeDemo}
 
                         />
                       </Suspense>

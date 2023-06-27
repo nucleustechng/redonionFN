@@ -86,9 +86,7 @@ const AccountSetup = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
-  // var user = JSON.parse(localStorage.getItem('user'));
-
-  const {getUser } = useAuth();
+ 
 
   const navigate = useNavigate();
 
@@ -96,7 +94,6 @@ const AccountSetup = () => {
 
   useEffect(() => {
 
-    getUser();
 
   }, []);
 

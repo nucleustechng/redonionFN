@@ -217,40 +217,34 @@ const MyRewards = () => {
 
   const GET_CURRENCY_URL = "/transaction/my-transactions";
 
-  const getMyTransaction = () => {
-
-
-    axios.post(
-      GET_CURRENCY_URL,
-      JSON.stringify({
-        start: 0
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        }
-      }
-    ).then((res) => {
-      // console.log(res.data.data)
-      setTransaz(res.data.data.offers);
-    }).catch((err) => {
-      // console.log(err?.response?.status);
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      }
-    })
-      .finally(() => { });
-
-
-
-
-
-  };
+  
 
   useEffect(() => {
-    getMyTransaction();
-  }, []);
+    axios
+      .post(
+        GET_CURRENCY_URL,
+        JSON.stringify({
+          start: 0,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res.data.data)
+        setTransaz(res.data.data.offers);
+      })
+      .catch((err) => {
+        // console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        }
+      })
+      .finally(() => {});
+  }, [user, navigate, setTransaz, GET_CURRENCY_URL]);
 
 
   return (

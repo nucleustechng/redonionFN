@@ -54,47 +54,40 @@ const CryptoWalletInterface = () => {
 
   // Fetching Data
   useEffect(() => {
-   
-    axios.get(
-      COUNTRIES_URL,
-      {
+    axios
+      .get(COUNTRIES_URL, {
         headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    ).then((res) => {
-      let data = res.data.data.countries;
-      Object.keys(data).map((keys) => {
-         if (user.user.countryId === data[keys].id){
-           return setCountryData(data[keys]);
-         }
-       
+          "Content-Type": "application/json",
+        },
       })
-      
-    });
+      .then((res) => {
+        let data = res.data.data.countries;
+        Object.keys(data).map((keys) => {
+          if (user.user.countryId === data[keys].id) {
+            return setCountryData(data[keys]);
+          }
+          return 0;
+        });
+      });
 
-    axios.get(
-      CURENCY_URL + user?.user?.countryId,
-      {
+    axios
+      .get(CURENCY_URL + user?.user?.countryId, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        let data = res.data.data.currencies[0];
+        console.log(data);
+        setCurencyData(data);
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
         }
-      }
-    ).then((res) => {
-      let data = res.data.data.currencies[0];
-      console.log(data);
-      setCurencyData(data)
-
-    }).catch((err) => {
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      } 
-    });
-
-   
-
-  }, [user]);
+      });
+  }, [user, navigate]);
 
   return (
     <Box >

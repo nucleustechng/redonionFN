@@ -89,38 +89,34 @@ const ChangePasswordModal = ({ open, handleClose }) => {
   const ACCOUNT_URL = "/user/add-bank-account";
 
   useEffect(() => {
-
-    authApp();
-   
-  }, []);
-
-  const authApp = () => {
     setLoading(true);
 
-    axios.get(
-      GET_ACCOUNT_URL,
-     
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+    axios
+      .get(
+        GET_ACCOUNT_URL,
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
         }
-      }
-    ).then((res) => {
-      // console.log(res.data);
-      setUserAuth(res.data.data.bankAccount);
-    
-      // setcheckStatus(true);
-    }).catch((err) => {
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      }
-    })
+      )
+      .then((res) => {
+        // console.log(res.data);
+        setUserAuth(res.data.data.bankAccount);
+
+        // setcheckStatus(true);
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        }
+      })
       .finally(() => setLoading(false));
+  }, [navigate, user]);
 
-
-
-  };
+  
  
 
   const verifyBankApp = () => {

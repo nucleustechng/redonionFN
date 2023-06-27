@@ -279,13 +279,15 @@ const useUser = () => {
       let data = res.data.data.countries;
 
       Object.keys(data).map((keys) => {
-        if (user.countryId === data[keys].id)
-          return getCurrency(user, token, data[keys], navigate, type);
-
+        if (user.countryId === data[keys].id){
+           return getCurrency(user, token, data[keys], navigate, type);
+        }
+         
+        return 0;
 
       });
 
-
+      
 
 
     });

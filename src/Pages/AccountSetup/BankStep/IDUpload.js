@@ -125,11 +125,12 @@ const BankStep = (props) => {
       let data = res.data.data.countries;
      
       Object.keys(data).map((keys) => {
-        if (user.country?.id === data[keys].id)
+        if (user.country?.id === data[keys].id){
           return getCurrency(data[keys], user);
-
-
-      });
+        }
+          
+        return 0;
+    });
 
 
 
