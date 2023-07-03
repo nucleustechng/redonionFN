@@ -121,9 +121,9 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
       keepMounted
       open={open}
       onClose={(_, reason) => {
-        if (reason !== "backdropClick") {
-          onClose();
-        }
+        // if (reason !== "backdropClick") {
+          if (firstModalA === 2) onClose();
+        // }
       }}
     >
 

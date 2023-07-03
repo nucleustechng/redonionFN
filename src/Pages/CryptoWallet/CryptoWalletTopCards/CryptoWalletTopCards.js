@@ -232,7 +232,7 @@ const CryptoWalletTopCards = (props) => {
               <Box
                 position={"absolute"}
                 borderRadius={"50%"}
-                top={50}
+                top={isMobile ? 105 : 50}
 
                 width={25}
                 height={25}

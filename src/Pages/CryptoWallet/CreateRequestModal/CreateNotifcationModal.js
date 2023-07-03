@@ -17,7 +17,8 @@ import {
   Zoom,
   IconButton,
   Snackbar,
-  Alert,
+  Paper,
+  List,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
@@ -55,47 +56,7 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-function renderRow(props: ListChildComponentProps) {
-  const { data, index, style } = props;
 
-  const info = data[index];
-
-  return (
-    <>
-      <ListItem key={index}>
-        <Box m={1} width={"100%"}>
-          <Box mb={2}>
-            <Stack direction="row">
-              <Typography mt={0.2} fontSize={14}>
-                {info.message}
-              </Typography>
-            </Stack>
-
-            <Box>
-              <Stack
-                direction="row"
-                justifyContent={"right"}
-                alignItems={"right"}
-              >
-                <Typography
-                  color="secondary"
-                  fontWeight={400}
-                  fontSize={12}
-                  mt={0.8}
-                  variant="body2"
-                >
-                  {moment(info?.timestamp).format("Do MMMM YYYY")}
-                </Typography>
-              </Stack>
-            </Box>
-          </Box>
-
-          <Divider />
-        </Box>
-      </ListItem>
-    </>
-  );
-}
 
 const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
   const theme = useTheme();
@@ -202,39 +163,72 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
               </Typography>
             </Stack>
           </Box>
-
-          {notifiData.length > 0 ? (
-            <FixedSizeList
-              height={600}
-              width={"100%"}
-              itemSize={50}
-              itemCount={notifiData.length}
-              overscanCount={5}
-              itemData={notifiData}
-            >
-              {renderRow}
-            </FixedSizeList>
-          ) : (
-            <>
-              <Stack
-                mb={2}
-                direction="row"
-                alignItems={"center"}
-                justifyContent="center"
+          <Paper style={{ maxHeight: 700, overflow: "auto" }}>
+            {notifiData.length > 0 ? (
+              <List
+              // height={600}
+              // width={"100%"}
+              // itemSize={500}
+              // itemCount={notifiData.length}
+              // overscanCount={500}
+              // itemData={notifiData}
               >
-                <Box mb={3}>
-                  <Typography
-                    variant="caption"
-                    textTransform={"none"}
-                    fontSize={20}
-                    color="background.light"
-                  >
-                    No Notification
-                  </Typography>
-                </Box>
-              </Stack>
-            </>
-          )}
+                {notifiData.map((info) => (
+                  <ListItem>
+                    <Box m={1} width={"100%"}>
+                      <Box mb={2}>
+                        <Stack direction="row">
+                          <Typography mt={0.2} fontSize={14}>
+                            {info.message}
+                          </Typography>
+                        </Stack>
+
+                        <Box>
+                          <Stack
+                            direction="row"
+                            justifyContent={"right"}
+                            alignItems={"right"}
+                          >
+                            <Typography
+                              color="secondary"
+                              fontWeight={400}
+                              fontSize={12}
+                              mt={0.8}
+                              variant="body2"
+                            >
+                              {moment(info?.timestamp).format("Do MMMM YYYY")}
+                            </Typography>
+                          </Stack>
+                        </Box>
+                      </Box>
+
+                      <Divider />
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <>
+                <Stack
+                  mb={2}
+                  direction="row"
+                  alignItems={"center"}
+                  justifyContent="center"
+                >
+                  <Box mb={3}>
+                    <Typography
+                      variant="caption"
+                      textTransform={"none"}
+                      fontSize={20}
+                      color="background.light"
+                    >
+                      No Notification
+                    </Typography>
+                  </Box>
+                </Stack>
+              </>
+            )}
+          </Paper>
         </Box>
       </Box>
     </Modal>

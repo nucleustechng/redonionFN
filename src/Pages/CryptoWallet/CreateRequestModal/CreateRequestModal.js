@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useCallback } from "react";
 import {
   Divider, Modal, Stack, Typography, useMediaQuery, Input, Button,
   Radio, Tooltip,
@@ -54,6 +54,9 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
 
   const [coinNamesData, setCoinNamesData] = useState([]);
   const [coinNames, setCoinNames] = useState("0");
+
+
+  const [coinName, setCoinName] = useState("");
 
   const [coinRate, setCoinRate] = useState("0");
 
@@ -150,7 +153,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         }
       }
     ).then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       setAmountFees(res.data.data)
 
     }).catch((err) => {
@@ -168,38 +171,45 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
 
   const handleCoinNameSelection = (e) => {
     setCoinNames(e.target.value);
-    console.log(e.target.value);
+    setCoinName(coinNamesData[e.target.value]);
+    console.log(coinNamesData[coinNames]?.abbreviation);
     if (e.target.value !== "0") {
-      getCyptoExchangeRate(e.target.value);
-      getFees(e.target.value);
+      getCyptoExchangeRate(coinNamesData[e.target.value]);
+      getFees(coinNamesData[e.target.value]);
     }
 
   };
 
+   const getCryto = useCallback(() => {
+     axios
+       .get(GET_CURRENCY_URL, {
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: `Bearer ${user.token}`,
+         },
+       })
+       .then((res) => {
+         setCoinNamesData(res.data.data.cryptoCurrencies);
+       })
+       .catch((err) => {
+         // console.log(err?.response?.status);
+         if (err?.response?.status === 401) {
+           navigate("/user/sign-in");
+         }
+       })
+       .finally(() => {});
+   }, [navigate, user]);
+ 
   useEffect(() => {
-    axios
-      .get(GET_CURRENCY_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data.data.cryptoCurrencies);
-        setCoinNamesData(res.data.data.cryptoCurrencies);
-      })
-      .catch((err) => {
-        // console.log(err?.response?.status);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      })
-      .finally(() => {});
-  }, [user, GET_CURRENCY_URL, navigate, setCoinNamesData]);
+    getCryto();
+  }, [getCryto]);
 
+
+ 
   
 
   const onVerify = () => {
+
 
     if (transactionID === "") {
       return;
@@ -208,41 +218,44 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
     // console.log(transactionID)
     setLoading(true);
 
-    axios.post(
-      CREATE_OFFER_URL,
-      JSON.stringify({
-        amountInCrypto:amount,
-        cryptoCurrencyId: coinNames?.id,
-        currencyId: user?.currency?.id,
-        tokenPricePerUnit: infoRadio === "rate" ? parseFloat((amount / payTextField)) : parseFloat((payTextField/amount )),
-        transactionId: transactionID
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+    axios
+      .post(
+        CREATE_OFFER_URL,
+        JSON.stringify({
+          amountInCrypto: Number(amount),
+          cryptoCurrencyId: coinName?.id,
+          currencyId: user?.currency?.id,
+          tokenPricePerUnit:
+            infoRadio === "rate"
+              ? parseFloat(amount / payTextField)
+              : parseFloat(payTextField / amount),
+          transactionId: transactionID,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
         }
-      }
-    ).then((res) => {
-      console.log(res.data);
-      if (res.data.data === null) {
-        setShowMsg(res.data.msg)
-        setShowSendSuccessfullSnackbar(true);
-
-      } else {
-        setFirstModalA(2)
-      }
-     
-     
-    }).catch((err) => {
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      } else {
-        console.log(err?.response?.data.message);
-        setShowMsg(err?.response?.data.message);
-        setShowSendSuccessfullSnackbar(true)
-      }
-    })
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.data === null) {
+          setShowMsg(res.data.msg);
+          setShowSendSuccessfullSnackbar(true);
+        } else {
+          setFirstModalA(2);
+        }
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        } else {
+          console.log(err?.response?.data.message);
+          setShowMsg(err?.response?.data.message);
+          setShowSendSuccessfullSnackbar(true);
+        }
+      })
       .finally(() => setLoading(false));
 
 
@@ -256,13 +269,10 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
       keepMounted
       open={open}
       onClose={(_, reason) => {
-        
         if (reason !== "backdropClick") {
           onClose();
           setFirstModal(false);
-          
         }
-       
       }}
     >
       <Box className={!isMobile ? styles.modalStyle : styles.modalStyleMobile}>
@@ -291,116 +301,151 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
           className={styles.modalContentBox}
         >
           <Box p={4} borderRadius="10px">
-
-{firstModalA !==3 &&(
-            <Stack direction="row" justifyContent="space-between" spacing={"5px"}>
-             
-                <>
-              {firstModal && (
-              <Typography
-                // variant="body2"
-                color="primary"
-                sx={{ cursor: "pointer" }}
-                onClick={ () => setFirstModal(false)}
+            {firstModalA !== 3 && (
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                spacing={"5px"}
               >
-                  <LazyImageComponent src={Back} />
-              </Typography>
-              )}
-            
-                  <Typography variant="caption" fontSize={16} fontWeight={500} color="primary">
-                    {firstModal ? "Create Offer" : "Sell"}
-                  </Typography>
-                </>
-             
-                
+                <>
+                  {firstModal && (
                     <Typography
                       // variant="body2"
                       color="primary"
                       sx={{ cursor: "pointer" }}
-                      onClick={onClose}
+                      onClick={() => setFirstModal(false)}
                     >
-                      <CloseIcon />
+                      <LazyImageComponent src={Back} />
                     </Typography>
-                  {/* ) :
+                  )}
+
+                  <Typography
+                    variant="caption"
+                    fontSize={16}
+                    fontWeight={500}
+                    color="primary"
+                  >
+                    {firstModal ? "Create Offer" : "Sell"}
+                  </Typography>
+                </>
+
+                <Typography
+                  // variant="body2"
+                  color="primary"
+                  sx={{ cursor: "pointer" }}
+                  onClick={onClose}
+                >
+                  <CloseIcon />
+                </Typography>
+                {/* ) :
                     (
                       <Box />
                     )} */}
-            
-              
-            </Stack>
+              </Stack>
             )}
 
             {!firstModal ? (
               <>
-                <Box mt={2} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"} fullWidth p={2} borderRadius={2}>
-
-
-
-                  <Box pl={4} pr={4} mt={2} mb={2} >
+                <Box
+                  mt={2}
+                  bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}
+                  fullWidth
+                  p={2}
+                  borderRadius={2}
+                >
+                  <Box pl={4} pr={4} mt={2} mb={2}>
                     {infoRadio === "rate" ? (
                       <>
-                        <Stack direction="row" justifyContent={"center"} alignItems={"center"} >
+                        <Stack
+                          direction="row"
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                        >
                           <Box mr={1.5}>
-                            <Typography variant="caption" fontSize={15} fontWeight={400} >
-                              Amount  Received:  {currency?.currencyCode} {parseFloat((amount / payTextField) || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                            <Typography
+                              variant="caption"
+                              fontSize={15}
+                              fontWeight={400}
+                            >
+                              Amount Received: {currency?.currencyCode}{" "}
+                              {parseFloat(
+                                amount / payTextField || 0
+                              ).toLocaleString(undefined, {
+                                maximumFractionDigits: 2,
+                              })}
                             </Typography>
                           </Box>
-
                         </Stack>
                       </>
                     ) : (
                       <>
-                        <Stack direction="row" justifyContent={"center"} alignItems={"center"} >
+                        <Stack
+                          direction="row"
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                        >
                           <Box mr={1.5}>
-                            <Typography variant="caption" fontSize={15} fontWeight={400} >
-                              1 {coinNames?.abbreviation || "--"}
+                            <Typography
+                              variant="caption"
+                              fontSize={15}
+                              fontWeight={400}
+                            >
+                              1 {coinName?.abbreviation || "--"}
                             </Typography>
                           </Box>
                           <Box mr={1.5}>
                             <LazyImageComponent src={ExchanageIcon} />
                           </Box>
-                          <Box >
-                            <Typography variant="caption" fontSize={15} fontWeight={400} >
-                              {currency?.currencyCode} {parseFloat((payTextField / amount) || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                          <Box>
+                            <Typography
+                              variant="caption"
+                              fontSize={15}
+                              fontWeight={400}
+                            >
+                              {currency?.currencyCode}{" "}
+                              {parseFloat(
+                                payTextField / amount || 0
+                              ).toLocaleString(undefined, {
+                                maximumFractionDigits: 2,
+                              })}
                             </Typography>
                           </Box>
                         </Stack>
                       </>
-
                     )}
-
-
-
-
                   </Box>
-
-
 
                   <Divider color="#3063E9" />
 
-                  <Box mt={1} >
-                    <Stack direction="row" justifyContent="space-between" >
+                  <Box mt={1}>
+                    <Stack direction="row" justifyContent="space-between">
                       <Box>
-
-                        <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="#838383"
+                        >
                           Red Onion rate:
                         </Typography>
-
                       </Box>
 
                       <Box>
-
-                        <Typography variant="caption" fontSize={14} fontWeight={600} >
-                          1 {coinNames?.abbreviation || "--"} =  {currency?.currencyCode} {parseFloat(coinRate?.averageExchangeRate || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={600}
+                        >
+                          1 {coinName?.abbreviation || "--"} ={" "}
+                          {currency?.currencyCode}{" "}
+                          {parseFloat(
+                            coinRate?.averageExchangeRate || 0
+                          ).toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}
                         </Typography>
-
                       </Box>
-
-
                     </Stack>
-
-
-
                   </Box>
                 </Box>
 
@@ -415,7 +460,6 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                       direction="row"
                       justifyContent="space-between"
                       alignItems="center"
-
                     >
                       <Box className={styles.radioBox}>
                         <Box>
@@ -429,10 +473,8 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                             }
                           />
                         </Box>
-
                       </Box>
                       <Box className={styles.radioBox}>
-
                         <FormControlLabel
                           value="amount"
                           control={<Radio />}
@@ -442,79 +484,107 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                             </Typography>
                           }
                         />
-
-
-
                       </Box>
-
                     </Stack>
-
                   </RadioGroup>
                 </Box>
-                <Box
-                  mt={3}
-
-                >
-
+                <Box mt={3}>
                   <Box mt={2}>
-                    <Stack direction="row" >
-                      <Typography variant="caption" fontSize={16} textAlign={"left"} fontWeight={500} color="secondary" mb={1}>
+                    <Stack direction="row">
+                      <Typography
+                        variant="caption"
+                        fontSize={16}
+                        textAlign={"left"}
+                        fontWeight={500}
+                        color="secondary"
+                        mb={1}
+                      >
                         Offer
                       </Typography>
                     </Stack>
 
-
-                    <Box borderRadius={2} height={50} >
+                    <Box borderRadius={2} height={50}>
                       <Stack direction="row">
-
                         <Select
-                          className={theme.palette.mode === "dark" ? styles.currencyBoxDark : styles.currencyBox}
-                          sx={{ width: isMobile ? "100%" : "100%", height: 50, border: 0 }}
+                          className={
+                            theme.palette.mode === "dark"
+                              ? styles.currencyBoxDark
+                              : styles.currencyBox
+                          }
+                          sx={{
+                            width: isMobile ? "100%" : "100%",
+                            height: 50,
+                            border: 0,
+                          }}
                           value={coinNames}
                           onChange={handleCoinNameSelection}
                         >
                           <MenuItem value="0">
-                            <Typography textAlign={"left"} >Select a coin</Typography>
+                            <Typography textAlign={"left"}>
+                              Select a coin
+                            </Typography>
                           </MenuItem>
-                          {coinNamesData.map(({ id, name, imgUri, network, abbreviation }, index) => (
-                            <MenuItem key={id} value={coinNamesData[index]}>
-                              <Stack direction="row" alignItems="center" spacing={2}>
-                                <Suspense
-                                  fallback={
-                                    <Skeleton
-                                      animation="wave"
-                                      variant="circular"
-                                      width={40}
-                                      height={40}
-                                      sx={{
-                                        backgroundColor: `${theme.palette.mode === "dark" ? "#111" : "#f5f5f5"
-                                          }`,
-                                      }}
-                                    />
-                                  }
+                          {coinNamesData.map(
+                            (
+                              { id, name, imgUri, network, abbreviation },
+                              index
+                            ) => (
+                              <MenuItem key={id} value={index}>
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={2}
                                 >
-                                  <LazyImageComponent className={styles.coinIcons} src={imgUri} />
-                                </Suspense>
-                                <Typography>{abbreviation} - {network}</Typography>
-                              </Stack>
-                            </MenuItem>
-                          ))}
+                                  <Suspense
+                                    fallback={
+                                      <Skeleton
+                                        animation="wave"
+                                        variant="circular"
+                                        width={40}
+                                        height={40}
+                                        sx={{
+                                          backgroundColor: `${
+                                            theme.palette.mode === "dark"
+                                              ? "#111"
+                                              : "#f5f5f5"
+                                          }`,
+                                        }}
+                                      />
+                                    }
+                                  >
+                                    <LazyImageComponent
+                                      className={styles.coinIcons}
+                                      src={imgUri}
+                                    />
+                                  </Suspense>
+                                  <Typography>
+                                    {abbreviation} - {network}
+                                  </Typography>
+                                </Stack>
+                              </MenuItem>
+                            )
+                          )}
                         </Select>
                       </Stack>
                     </Box>
                   </Box>
 
                   <Box mt={2}>
-                    <Stack direction="row" >
-                      <Typography variant="caption" fontSize={16} textAlign={"left"} fontWeight={500} color="secondary" mb={1}>
+                    <Stack direction="row">
+                      <Typography
+                        variant="caption"
+                        fontSize={16}
+                        textAlign={"left"}
+                        fontWeight={500}
+                        color="secondary"
+                        mb={1}
+                      >
                         Amount
                       </Typography>
                     </Stack>
 
-
-                    <Box borderRadius={2} height={50} >
-                      <Stack direction="row" justifyItems={"center"} >
-
+                    <Box borderRadius={2} height={50}>
+                      <Stack direction="row" justifyItems={"center"}>
                         <Input
                           fullWidth
                           // sx={{ width: isMobile ? 120 : 400}}
@@ -535,16 +605,21 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                   </Box>
 
                   <Box mt={2}>
-                    <Stack direction="row" >
-                      <Typography variant="caption" fontSize={16} textAlign={"left"} fontWeight={500} color="secondary" mb={1}>
+                    <Stack direction="row">
+                      <Typography
+                        variant="caption"
+                        fontSize={16}
+                        textAlign={"left"}
+                        fontWeight={500}
+                        color="secondary"
+                        mb={1}
+                      >
                         {infoRadio === "rate" ? "Rate" : "Receive"}
                       </Typography>
                     </Stack>
 
-
-                    <Box borderRadius={2} height={50} >
-                      <Stack direction="row" justifyItems={"center"} >
-
+                    <Box borderRadius={2} height={50}>
+                      <Stack direction="row" justifyItems={"center"}>
                         <Input
                           fullWidth
                           // sx={{ width: isMobile ? 120 : 400}}
@@ -563,12 +638,9 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                       </Stack>
                     </Box>
                   </Box>
-
                 </Box>
 
-
-                <Stack direction="row" mt={5} justifyContent="space-between" >
-
+                <Stack direction="row" mt={5} justifyContent="space-between">
                   {loading ? (
                     <LoadingButton fullWidth loading variant="outlined">
                       Login
@@ -577,268 +649,352 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                     <>
                       <Button
                         onClick={onClickSuccess}
-                        fullWidth style={{ height: 50, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                        Create Offer  <LazyImageComponent src={FrontArrow} />
+                        fullWidth
+                        style={{
+                          height: 50,
+                          borderRadius: 10,
+                          fontSize: 20,
+                          textTransform: "none",
+                        }}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Create Offer <LazyImageComponent src={FrontArrow} />
                       </Button>
-
                     </>
                   )}
-
-
                 </Stack>
               </>
-            ):(
-             <>
-                  {firstModalA === 1 ? (
-                    <>
+            ) : (
+              <>
+                {firstModalA === 1 ? (
+                  <>
+                    <Box mt={3}>
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={500}
+                      >
+                        Send your tokens to Wallet Address provided below
+                      </Typography>
+                    </Box>
 
-                      <Box mt={3}>
-                        <Typography variant="caption" fontSize={14} fontWeight={500} >
-                          Send your tokens to Wallet Address provided below
-                        </Typography>
-                      </Box>
+                    <Stack
+                      mt={3}
+                      direction="row"
+                      justifyContent="space-between"
+                      spacing={"5px"}
+                    >
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        Network:
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        {coinNames?.network}
+                      </Typography>
+                    </Stack>
 
-                      <Stack mt={3} direction="row" justifyContent="space-between" spacing={"5px"}>
-                        <Typography variant="caption" fontSize={14} fontWeight={400} >
-                          Network:
-                        </Typography>
-                        <Typography
-                          variant="caption" fontSize={14} fontWeight={400}
+                    <Stack
+                      mt={2}
+                      direction="row"
+                      justifyContent="space-between"
+                      spacing={"5px"}
+                    >
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        Offer Value:
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        {amount || 0} {coinNames?.abbreviation}
+                      </Typography>
+                    </Stack>
+
+                    <Stack
+                      mt={2}
+                      mb={2}
+                      direction="row"
+                      justifyContent="space-between"
+                      spacing={"5px"}
+                    >
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        Fee:
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        {amountFees?.feeAmount || 0} {coinNames?.abbreviation}
+                      </Typography>
+                    </Stack>
+                    <Divider color="#3063E9" />
+
+                    <Stack
+                      mt={2}
+                      direction="row"
+                      justifyContent="space-between"
+                      spacing={"5px"}
+                    >
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        Total:
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={400}
+                      >
+                        {parseInt(amount + amountFees?.feeAmount)}{" "}
+                        {coinNames?.abbreviation}
+                      </Typography>
+                    </Stack>
+
+                    <Box mt={3}>
+                      <Typography
+                        variant="caption"
+                        fontSize={14}
+                        fontWeight={500}
+                      >
+                        Wallet Address
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      mt={3}
+                      bgcolor={
+                        theme.palette.mode === "dark" ? "#333" : "#E8E8F3"
+                      }
+                      fullWidth
+                      p={2}
+                      borderRadius={2}
+                    >
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Input
+                          disableUnderline
+                          value={coinName?.depositWalletAddress}
+                          readOnly
+                          fullWidth
+                        />
+                        <CopyToClipboard
+                          text={coinName?.depositWalletAddress}
+                          onCopy={() => setCopied(true)}
                         >
-                          {coinNames?.network}
-                        </Typography>
-                      </Stack>
-
-                      <Stack mt={2} direction="row" justifyContent="space-between" spacing={"5px"}>
-                        <Typography variant="caption" fontSize={14} fontWeight={400} >
-                          Offer Value:
-                        </Typography>
-                        <Typography
-                          variant="caption" fontSize={14} fontWeight={400}
-                        >
-                          {amount || 0}  {coinNames?.abbreviation}
-                        </Typography>
-                      </Stack>
-
-                      <Stack mt={2} mb={2} direction="row" justifyContent="space-between" spacing={"5px"}>
-                        <Typography variant="caption" fontSize={14} fontWeight={400} >
-                          Fee:
-                        </Typography>
-                        <Typography
-                          variant="caption" fontSize={14} fontWeight={400}
-                        >
-                          {amountFees?.feeAmount || 0}  {coinNames?.abbreviation}
-                        </Typography>
-                      </Stack>
-                      <Divider color="#3063E9" />
-
-                      <Stack mt={2} direction="row" justifyContent="space-between" spacing={"5px"}>
-                        <Typography variant="caption" fontSize={14} fontWeight={400} >
-                          Total:
-                        </Typography>
-                        <Typography
-                          variant="caption" fontSize={14} fontWeight={400}
-                        >
-                          {parseInt(amount + amountFees?.feeAmount)} {coinNames?.abbreviation}
-                        </Typography>
-                      </Stack>
-
-                      <Box mt={3}>
-                        <Typography variant="caption" fontSize={14} fontWeight={500} >
-                          Wallet Address
-                        </Typography>
-                      </Box>
-
-                      <Box mt={3} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"} fullWidth p={2} borderRadius={2} >
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
-                          <Input
-                            disableUnderline
-                            value={coinNames?.depositWalletAddress}
-                            readOnly
-                            fullWidth
-                          />
-                          <CopyToClipboard
-                            text={coinNames?.depositWalletAddress}
-                            onCopy={() => setCopied(true)}
-                          >
-                            <Tooltip
-                              title={
-                                copied ? (
-                                  <Typography variant="caption" color="text.success">
-                                    Address Copied!
-                                  </Typography>
-                                ) : (
-                                  "Copy"
-                                )
-                              }
-                              TransitionComponent={Zoom}
-                            >
-                              <IconButton>
-                                {theme.palette.mode === "dark" ? (
-                                  <img
-                                    src={CopyIconDark}
-                                    alt="Scan QR"
-                                    style={{ width: "100%", height: "100%" }}
-                                  />
-                                ) : (
-                                  <img
-                                    src={CopyIcon}
-                                    alt="Scan QR"
-                                    style={{ width: "100%", height: "100%" }}
-                                  />
-                                )}
-                              </IconButton>
-                            </Tooltip>
-                          </CopyToClipboard>
-                        </Stack>
-                      </Box>
-
-                      <Box mt={3} mb={5} >
-                        <Typography color={"#ff0000"} lineHeight={1.4} fontSize={13} fontWeight={300} >
-                          Ensure you send the total  specified above, which is a sum of the offer Value
-                          and Fee, not just the Offer Value. Verification will fail for Transactions that
-                          do not include the Fee
-                        </Typography>
-                      </Box>
-
-                      {loading ? (
-                        <LoadingButton fullWidth loading variant="outlined">
-                          Login
-                        </LoadingButton>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={() => setFirstModalA(2)}
-                            fullWidth style={{ height: 50, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                            Complete  <LazyImageComponent src={FrontArrow} />
-                          </Button>
-
-                        </>
-                      )}
-                    </>
-                  ) : (
-                     <>
-                        {firstModalA === 2 ? (
-
-                          <>
-                            <Box mt={1}>
-                             
-                              <Typography
-                                variant="h3"
-                                mt={!isMobile ? 2 : 8}
-                                color="secondary"
-                                fontSize={20}
-                                fontWeight={500}
-                              >
-                                Transaction ID
-                              </Typography>
-
-
-                              <Typography
-                                color="secondary"
-                                variant="caption"
-                                mt={!isMobile ? 3 : 8}
-                                mb={2}
-                                component="p"
-                                fontSize={16}
-                                textAlign={'center'}
-                              >
-                               Provide your transaction ID after completing the Transaction the verify</Typography>
-
-
-                              <Box borderRadius={2} mt={4} height={50} >
-                                <Stack direction="row" justifyItems={"center"} >
-
-                                  <Input
-                                    fullWidth
-                                    name="payInput"
-                                    value={transactionID}
-                                    type="number"
-                                    onChange={(e) => setSetTransactionID(e.target.value)
-                                    }
-
-                                    placeholder="Transaction ID"
-                                    disableUnderline
-                                    className={
-                                      theme.palette.mode === "dark"
-                                        ? "inputField"
-                                        : styles.inputFieldLight
-                                    }
-                                  />
-                                </Stack>
-                              </Box>
-
-                              <Stack direction="row" mt={5} justifyContent="space-between" >
-
-                                {loading ? (
-                                  <LoadingButton fullWidth loading variant="outlined">
-                                    Login
-                                  </LoadingButton>
-                                ) : (
-                                  <>
-                                    <Button
-                                      onClick={onVerify}
-                                      fullWidth style={{ height: 50, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                                      Verifiy Transaction  <LazyImageComponent src={FrontArrow} />
-                                    </Button>
-
-                                  </>
-                                )}
-
-
-                              </Stack>
-
-
-
-
-                            </Box>
-                          </>
-                        ) : (
-                            <>
-                              <Box mt={3}>
-                                <center>
-                                  <LazyImageComponent src={successClock} />
-                                </center>
+                          <Tooltip
+                            title={
+                              copied ? (
                                 <Typography
-                                  variant="h3"
-                                  mt={!isMobile ? 4 : 8}
-                                  color="secondary"
-                                  fontSize={24}
-                                  fontWeight={500}
-                                >
-                                  Payment successful
-                                </Typography>
-
-
-                                <Typography
-                                  color="secondary"
                                   variant="caption"
-                                  mt={!isMobile ? 3 : 8}
-                                  mb={2}
-                                  component="p"
-                                  fontSize={16}
-                                  textAlign={'center'}
+                                  color="text.success"
                                 >
-                                  You will recieve your token once your payment has been confirmed by the 2nd party. </Typography>
+                                  Address Copied!
+                                </Typography>
+                              ) : (
+                                "Copy"
+                              )
+                            }
+                            TransitionComponent={Zoom}
+                          >
+                            <IconButton>
+                              {theme.palette.mode === "dark" ? (
+                                <img
+                                  src={CopyIconDark}
+                                  alt="Scan QR"
+                                  style={{ width: "100%", height: "100%" }}
+                                />
+                              ) : (
+                                <img
+                                  src={CopyIcon}
+                                  alt="Scan QR"
+                                  style={{ width: "100%", height: "100%" }}
+                                />
+                              )}
+                            </IconButton>
+                          </Tooltip>
+                        </CopyToClipboard>
+                      </Stack>
+                    </Box>
 
+                    <Box mt={3} mb={5}>
+                      <Typography
+                        color={"#ff0000"}
+                        lineHeight={1.4}
+                        fontSize={13}
+                        fontWeight={300}
+                      >
+                        Ensure you send the total specified above, which is a
+                        sum of the offer Value and Fee, not just the Offer
+                        Value. Verification will fail for Transactions that do
+                        not include the Fee
+                      </Typography>
+                    </Box>
 
+                    {loading ? (
+                      <LoadingButton fullWidth loading variant="outlined">
+                        Login
+                      </LoadingButton>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => setFirstModalA(2)}
+                          fullWidth
+                          style={{
+                            height: 50,
+                            borderRadius: 10,
+                            fontSize: 20,
+                            textTransform: "none",
+                          }}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Complete <LazyImageComponent src={FrontArrow} />
+                        </Button>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {firstModalA === 2 ? (
+                      <>
+                        <Box mt={1}>
+                          <Typography
+                            variant="h3"
+                            mt={!isMobile ? 2 : 8}
+                            color="secondary"
+                            fontSize={20}
+                            fontWeight={500}
+                          >
+                            Transaction ID
+                          </Typography>
 
+                          <Typography
+                            color="secondary"
+                            variant="caption"
+                            mt={!isMobile ? 3 : 8}
+                            mb={2}
+                            component="p"
+                            fontSize={16}
+                            textAlign={"center"}
+                          >
+                            Provide your transaction ID after completing the
+                            Transaction the verify
+                          </Typography>
 
+                          <Box borderRadius={2} mt={4} height={50}>
+                            <Stack direction="row" justifyItems={"center"}>
+                              <Input
+                                fullWidth
+                                name="payInput"
+                                value={transactionID}
+                                type="number"
+                                onChange={(e) =>
+                                  setSetTransactionID(e.target.value)
+                                }
+                                placeholder="Transaction ID"
+                                disableUnderline
+                                className={
+                                  theme.palette.mode === "dark"
+                                    ? "inputField"
+                                    : styles.inputFieldLight
+                                }
+                              />
+                            </Stack>
+                          </Box>
 
-                              </Box>
-                            </>
-                        )}
-                     </>
-                  )}
-             </>
+                          <Stack
+                            direction="row"
+                            mt={5}
+                            justifyContent="space-between"
+                          >
+                            {loading ? (
+                              <LoadingButton
+                                fullWidth
+                                loading
+                                variant="outlined"
+                              >
+                                Login
+                              </LoadingButton>
+                            ) : (
+                              <>
+                                <Button
+                                  onClick={onVerify}
+                                  fullWidth
+                                  style={{
+                                    height: 50,
+                                    borderRadius: 10,
+                                    fontSize: 20,
+                                    textTransform: "none",
+                                  }}
+                                  variant="contained"
+                                  color="primary"
+                                >
+                                  Verifiy Transaction{" "}
+                                  <LazyImageComponent src={FrontArrow} />
+                                </Button>
+                              </>
+                            )}
+                          </Stack>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box mt={3}>
+                          <center>
+                            <LazyImageComponent src={successClock} />
+                          </center>
+                          <Typography
+                            variant="h3"
+                            mt={!isMobile ? 4 : 8}
+                            color="secondary"
+                            fontSize={24}
+                            fontWeight={500}
+                          >
+                            Payment successful
+                          </Typography>
+
+                          <Typography
+                            color="secondary"
+                            variant="caption"
+                            mt={!isMobile ? 3 : 8}
+                            mb={2}
+                            component="p"
+                            fontSize={16}
+                            textAlign={"center"}
+                          >
+                            You will recieve your token once your payment has
+                            been confirmed by the 2nd party.{" "}
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
             )}
-
-           
-
           </Box>
         </Box>
       </Box>
