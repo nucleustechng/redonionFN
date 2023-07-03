@@ -193,7 +193,7 @@ const AccountSetupStep = () => {
               color="secondary"
             />
             <Typography className={styles.nameFont} variant="body2" mt={3} mb={1}>
-              Account number
+              Account Number
             </Typography>
             <Input
               disableUnderline

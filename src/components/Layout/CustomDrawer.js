@@ -94,7 +94,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
           >
             <LazyImageComponent
               style={{ width: "65%", display: "block", marginLeft: -40 }}
-              src={theme.palette.mode === "dark" ? MainLogoDark : MainLogo}
+              src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
 
             />
           </React.Suspense>
@@ -186,7 +186,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                     color={location.pathname !== `/dashboard/transactions` ? "primary" : "background.light"}
                     variant="body2"
                   >
-                    Transactions
+                    Ongoing Transactions
                   </Typography>
                 </Stack>
               </Box>
@@ -270,7 +270,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                   color={location.pathname !== `/support/help` ? "primary" : "background.light"}
                   variant="body2"
                 >
-                  Help center
+                  Help Center
                 </Typography>
               </Stack>
             </Box>
@@ -345,7 +345,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
 
                   variant="body2"
                 >
-                  Help center
+                  Help Center
                 </Typography>
               </Stack>
             </Box>

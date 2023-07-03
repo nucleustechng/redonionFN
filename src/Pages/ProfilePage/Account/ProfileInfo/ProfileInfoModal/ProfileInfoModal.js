@@ -433,7 +433,7 @@ console.log(user)
             fontSize={16}
             textAlign={'center'}
           >
-            You have successfully changed your account number on Red Onion.
+            You have Successfully changed your Account Aumber on Red Onion.
           </Typography>
 
 

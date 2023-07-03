@@ -217,7 +217,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
               fontWeight={500}
 
             >
-              Change account details
+              Change Account details
             </Typography>
 
             <Box mt={4} pl={3} pr={3} borderRadius={2} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
@@ -234,7 +234,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   fontSize={14}
                   textAlign={'left'}
                 >
-                  Account name:
+                  Account Name:
 
                 </Typography>
 
@@ -265,7 +265,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   fontSize={14}
                   textAlign={'left'}
                 >
-                  Account number:
+                  Account Number:
 
                 </Typography>
 
@@ -323,7 +323,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                     <Button
                       onClick={()=> setStep(2) }
                       style={{ height: 60, borderRadius: 10, fontSize: 17, textTransform: 'none' }} variant="contained" color="primary">
-                        Change account   <LazyImageComponent src={FrontArrow} />
+                        Change Account   <LazyImageComponent src={FrontArrow} />
                     </Button>
 
                   </>
@@ -430,7 +430,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   color="secondary"
                   fontWeight={500}
                 >
-                      Account number changed successfully
+                      Account Number Changed Successfully
                 </Typography>
 
 
@@ -443,7 +443,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   fontSize={16}
                   textAlign={'center'}
                 >
-                      You have successfully changed your account number on Red Onion.
+                      You have Successfully changed your Account Number on Red Onion.
                 </Typography>
 
 

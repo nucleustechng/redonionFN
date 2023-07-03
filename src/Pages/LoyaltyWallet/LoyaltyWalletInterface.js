@@ -49,7 +49,7 @@ const LoyaltyWalletInterface = () => {
 
       <Box mb={4} >
         <Typography variant="caption" fontSize={25} fontWeight={400} color="secondary">
-          Ongoing transactions </Typography>
+          Ongoing Transactions </Typography>
 
       </Box>
      

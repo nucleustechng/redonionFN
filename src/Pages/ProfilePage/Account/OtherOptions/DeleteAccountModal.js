@@ -128,7 +128,7 @@ const DeleteAccountModal = ({ open, handleClose }) => {
                     deleteAccount
                 }
                 style={{ height: 60, borderRadius: 10, fontSize: 18, textTransform: 'none' }} variant="contained" color="primary">
-                  Yes, delete my account
+                  Yes, Delete My Account
               </Button>
 
             </>

@@ -114,7 +114,7 @@ const CryptoWalletTopCards = () => {
               href="/registration/sign-up"
             >
 
-              Create a sell offer
+              Create A Sell Offer
 
             </a>
           </Typography>

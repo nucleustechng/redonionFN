@@ -115,7 +115,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   fontSize={24}
 
                 >
-                  My account
+                  My Account
                 </Typography>
                 <Stack
                   direction="row"

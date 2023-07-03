@@ -46,7 +46,7 @@ const DeleteAccountModalMobile = () => {
             color="common.black"
             fontWeight={700}
           >
-            Yes, delete my account
+            Yes, Delete My Account
           </Typography>
         </Button>
       ) : (
@@ -60,7 +60,7 @@ const DeleteAccountModalMobile = () => {
             color="common.white"
             fontWeight={700}
           >
-            Yes, delete my account
+            Yes, Delete My Account
           </Typography>
         </LightUIButtonPrimary>
       )}

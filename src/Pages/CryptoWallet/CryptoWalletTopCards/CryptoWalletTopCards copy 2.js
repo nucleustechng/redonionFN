@@ -134,7 +134,7 @@ const CryptoWalletTopCards = () => {
             <Typography variant="caption" p={0.6} textTransform={"none"} fontSize={14} color="background.light">
 
 
-              Create a sell offer
+              Create A Sell Offer
 
             </Typography>
           </Button>

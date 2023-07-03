@@ -111,7 +111,7 @@ console.log(user)
                   fontSize={24}
                   
                 >
-                 My account
+                 My Account
                 </Typography>
                 <Stack
                   direction="row"

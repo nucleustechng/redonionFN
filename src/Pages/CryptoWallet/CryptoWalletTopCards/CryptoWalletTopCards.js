@@ -301,7 +301,7 @@ const CryptoWalletTopCards = (props) => {
                   onChange={handleCoinNameSelection}
                 >
                   <MenuItem value="0">
-                    <Typography>Select a coin</Typography>
+                    <Typography>Select A Coin</Typography>
                   </MenuItem>
                   {coinNamesData.map(
                     ({ id, name, imgUri, network, abbreviation }, index) => (

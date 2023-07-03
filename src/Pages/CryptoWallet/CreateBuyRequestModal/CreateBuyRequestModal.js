@@ -360,7 +360,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                         <Box>
 
                           <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                            Account name:
+                            Account Name:
                           </Typography>
 
                         </Box>
@@ -379,7 +379,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                         <Box>
 
                           <Typography variant="caption" fontSize={14} fontWeight={400} color="#838383">
-                            Account number:
+                            Account Number:
                           </Typography>
 
                         </Box>

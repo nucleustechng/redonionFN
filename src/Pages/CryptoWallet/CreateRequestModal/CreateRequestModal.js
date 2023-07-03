@@ -521,7 +521,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                         >
                           <MenuItem value="0">
                             <Typography textAlign={"left"}>
-                              Select a coin
+                              Select A Coin
                             </Typography>
                           </MenuItem>
                           {coinNamesData.map(

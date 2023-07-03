@@ -69,7 +69,7 @@ const BankStep = () => {
           color="secondary"
         />
         <Typography variant="body2" mt={3} mb={1}>
-          Confirm account number
+          Confirm Account Number
         </Typography>
         <Input
           disableUnderline

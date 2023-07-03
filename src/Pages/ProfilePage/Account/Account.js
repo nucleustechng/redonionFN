@@ -263,7 +263,7 @@ const Account = () => {
               Authenticator app
             </Typography>
             <Typography fontSize={12} >
-              Generate a code from an authenticator app, e.g. Duo or Google Authenticator.
+              Generate a code from an authenticator app, e.g. Microsoft or Google Authenticator.
             </Typography>
           </Box>
         </AccordionDetails>
@@ -286,7 +286,7 @@ const Account = () => {
 
           <Typography ml={1.5} sx={{ flexShrink: 0 }}>
             Password
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Change your password</Typography>
+            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Change your Password</Typography>
           </Typography>
         </AccordionSummary>
 
