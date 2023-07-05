@@ -240,7 +240,7 @@ const MyRewards = () => {
                                 ml={1}
                                 variant="body2"
                               >
-                                {info?.offer?.CryptoCurrency?.abbreviation}
+                                {info?.offer?.CryptoCurrency?.abbreviation} 
                               </Typography>
                             </Stack>
                             <Stack direction="row" justifyContent="flex-end">

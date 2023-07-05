@@ -29,7 +29,6 @@ import { appTitle, appDescription } from "./Utilities/Customs";
 // Navigation Routes
 import NavRoutes from "./NavigationRoutes";
 
-
 /**********************************
           Lazy Pages
 ***********************************/
@@ -42,13 +41,12 @@ const SignUpInterface = React.lazy(() =>
   import("./Pages/Registration/SignUpInterface/SignUpInterface")
 );
 
-
 const VerifyEmailPage = React.lazy(() =>
   import("./Pages/Registration/EmailVerify/EmailVerification")
 );
 
 const TwoFAEmailPage = React.lazy(() =>
-  import("./Pages/Registration/EmailVerify/OTPVerification")
+  import("./Pages/Registration/EmailVerify/OtpVerification")
 );
 const TwoFAPage = React.lazy(() =>
   import("./Pages/Registration/TwoFAPage/TwoFAPage")
@@ -76,8 +74,6 @@ const AccountSetup = React.lazy(() =>
   import("./Pages/AccountSetup/AccountSetup")
 );
 
-
-
 const OTPVerification = React.lazy(() =>
   import("./Pages/Login/OTPVerification/OTPVerification")
 );
@@ -90,11 +86,9 @@ const Wallets = React.lazy(() => import("./Pages/Wallets/Wallets"));
 const CryptoWallet = React.lazy(() =>
   import("./Pages/CryptoWallet/CryptoWalletInterface")
 );
-const FiatWallet = React.lazy(() =>
-  import("./Pages/History/History")
-);
+const FiatWallet = React.lazy(() => import("./Pages/History/History"));
 const LoyaltyWallet = React.lazy(() =>
-  import("./Pages/LoyaltyWallet/LoyaltyWalletInterface")
+  import("./Pages/LoyaltyWallet/OngoingTransaction")
 );
 
 // Top Up
@@ -108,9 +102,7 @@ const ProfileInterface = React.lazy(() =>
   import("./Pages/ProfilePage/ProfileInteface")
 );
 
-const SupportHelp = React.lazy(() =>
-  import("./Pages/SupportPage/SupportHelp")
-);
+const SupportHelp = React.lazy(() => import("./Pages/SupportPage/SupportHelp"));
 
 // Static Page
 const StaticPageInterface = React.lazy(() =>
@@ -123,9 +115,7 @@ const PrivacyPolicy = React.lazy(() =>
   import("./Pages/StaticPages/PrivacyPolicy")
 );
 
-const AML = React.lazy(() =>
-  import("./Pages/StaticPages/AML")
-);
+const AML = React.lazy(() => import("./Pages/StaticPages/AML"));
 const About = React.lazy(() => import("./Pages/StaticPages/About"));
 const FAQ = React.lazy(() => import("./Pages/StaticPages/FAQ"));
 
@@ -140,40 +130,29 @@ const InstallationModal = React.lazy(() =>
 );
 
 // Color Context
-export const ColorModeContext = createContext({ toggleColorMode: () => { } });
-
-
-
-
-
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-
   useEffect(() => {
-
     // Update network status
     const handleStatusChange = () => {
       setIsOnline(navigator.onLine);
     };
 
-
-
     // Listen to the online status
-    window.addEventListener('online', handleStatusChange);
+    window.addEventListener("online", handleStatusChange);
 
     // Listen to the offline status
-    window.addEventListener('offline', handleStatusChange);
+    window.addEventListener("offline", handleStatusChange);
 
     // Specify how to clean up after this effect for performance improvment
     return () => {
-      window.removeEventListener('online', handleStatusChange);
-      window.removeEventListener('offline', handleStatusChange);
+      window.removeEventListener("online", handleStatusChange);
+      window.removeEventListener("offline", handleStatusChange);
     };
   }, [isOnline]);
-
-
 
   // Installation
   const [openInstallationModal, setOpenInstallationModal] = useState(false);
@@ -208,8 +187,6 @@ function App() {
     // }
   }
 
-
-
   return (
     <div>
       {isOnline ? (
@@ -234,8 +211,7 @@ function App() {
                 ]}
               />
               <Box bgcolor={theme.palette.background.default} className="App">
-                <div className="container"  >
-
+                <div className="container">
                   {/* <Suspense  fallback={<ModalSkeletons  />}>
                     <InstallationModal
                       open={openInstallationModal}
@@ -247,9 +223,7 @@ function App() {
                     <Routes>
                       <Route
                         path="/"
-                        element={
-                          <Navigate replace to="/landing-page" />
-                        }
+                        element={<Navigate replace to="/landing-page" />}
                       />
                       <Route
                         path={NavRoutes.OnboardingPage.path}
@@ -268,7 +242,6 @@ function App() {
                           </Suspense>
                         }
                       >
-
                         {/* Sign Up Page */}
                         <Route
                           path={NavRoutes.SignUp.path}

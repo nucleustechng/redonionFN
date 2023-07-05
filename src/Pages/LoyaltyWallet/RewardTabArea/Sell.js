@@ -95,7 +95,8 @@ const AvailableRewards = () => {
           <List>
             {tranz.map((info) => (
               <>
-                {(info?.status === "PENDING" ||
+                {(info?.status === "ONGOING" ||
+                  info?.status === "PENDING" ||
                   info.status === "REPORTED" ||
                   info.status === "EXPIRED") && (
                   <ListItem>
@@ -195,7 +196,7 @@ const AvailableRewards = () => {
                                 mt={0.8}
                                 variant="body2"
                               >
-                                {moment(info?.createdAt).format("h:mm a")}
+                                {moment(info?.createdAt).format("h:mm a")}{" "}
                               </Typography>
 
                               <Typography
@@ -229,10 +230,10 @@ const AvailableRewards = () => {
 
                           <Box mr={1.5} mt={2}>
                             <Stack direction="row" justifyContent="flex-end">
-                              <LazyImageComponent
+                              {/* <LazyImageComponent
                                 style={{ width: 30 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
-                              />
+                              /> */}
                               <Typography
                                 color="secondary"
                                 fontWeight={400}
@@ -242,6 +243,7 @@ const AvailableRewards = () => {
                                 variant="body2"
                               >
                                 {info?.offer?.CryptoCurrency?.abbreviation}
+                             
                               </Typography>
                             </Stack>
                             <Stack direction="row" justifyContent="flex-end">

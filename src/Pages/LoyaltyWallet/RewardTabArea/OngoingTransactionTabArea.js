@@ -28,17 +28,13 @@ const LazyImageComponent = React.lazy(() =>
 );
 
 // Lazy Component
-const AvailableRewards = React.lazy(() =>
-  import("../RewardTabArea/AvailableRewards")
-);
+const Sell = React.lazy(() => import("./Sell"));
 const AvailableRewardsMobile = React.lazy(() =>
-  import("../RewardTabArea/AvailableRewardsMobile")
+  import("./AvailableRewardsMobile")
 );
-const MyRewards = React.lazy(() => import("../RewardTabArea/MyRewards"));
-const MyRewardsMobile = React.lazy(() =>
-  import("../RewardTabArea/MyRewardsMobile")
-);
-const Transaction = React.lazy(() => import("../RewardTabArea/Transaction"));
+const Buy = React.lazy(() => import("./Buy"));
+const MyRewardsMobile = React.lazy(() => import("./MyRewardsMobile"));
+const Transaction = React.lazy(() => import("./Transaction"));
 
 const RewardTabArea = () => {
   const [tabValue, setTabValue] = React.useState(0);
@@ -52,32 +48,65 @@ const RewardTabArea = () => {
   };
 
   return (
-    <Box 
-    className={styles.mainBox}
-    >
+    <Box className={styles.mainBox}>
       {/* Tab component */}
       {/* {!isMobile ? ( */}
-        <Box
-          mt={!isTablet ? 4 : ""}
-          sx={{ borderBottom: 1, borderColor: "divider" }}
+      <Box
+        mt={!isTablet ? 4 : ""}
+        sx={{ borderBottom: 1, borderColor: "divider" }}
+      >
+        <Tabs
+          value={tabValue}
+          onChange={handleChangeTab}
+          indicatorColor="primary"
+          textColor="primary"
         >
-         
-          <Tabs
-            value={tabValue}
-            onChange={handleChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-           
-            
-          >
-            <Tab sx={{ mr: 2, backgroundColor: tabValue === 0 ? "#3063E9" : "#fff", borderTopRightRadius: 10, borderTopLeftRadius:10, marginTop: -1.4, marginBottom: -2 }} 
-              label={<Typography color={tabValue === 0 ? "#fff" : "#000"}>Sold</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 0 ? SellIcon : SellIconDark} />} />
-            <Tab sx={{ mr: 2, backgroundColor: tabValue === 1 ? "#3063E9" : "#fff", borderTopRightRadius: 10, borderTopLeftRadius: 10, marginTop: -1.4, marginBottom: -2 }}
-              label={<Typography color={tabValue === 1 ? "#fff" : "#000"}>Bought</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 1 ? BuyIconDark : BuyIcon} />} />
+          <Tab
+            sx={{
+              mr: 2,
+              backgroundColor: tabValue === 0 ? "#3063E9" : "#fff",
+              borderTopRightRadius: 10,
+              borderTopLeftRadius: 10,
+              marginTop: -1.4,
+              marginBottom: -2,
+            }}
+            label={
+              <Typography color={tabValue === 0 ? "#fff" : "#000"}>
+                Sell
+              </Typography>
+            }
+            iconPosition="start"
+            icon={
+              <LazyImageComponent
+                src={tabValue === 0 ? SellIcon : SellIconDark}
+              />
+            }
+          />
+          <Tab
+            sx={{
+              mr: 2,
+              backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
+              borderTopRightRadius: 10,
+              borderTopLeftRadius: 10,
+              marginTop: -1.4,
+              marginBottom: -2,
+            }}
+            label={
+              <Typography color={tabValue === 1 ? "#fff" : "#000"}>
+                Buy
+              </Typography>
+            }
+            iconPosition="start"
+            icon={
+              <LazyImageComponent
+                src={tabValue === 1 ? BuyIconDark : BuyIcon}
+              />
+            }
+          />
 
-            {/* <Tab sx={{ mr: 2 }} label="Transaction" /> */}
-          </Tabs>
-        </Box>
+          {/* <Tab sx={{ mr: 2 }} label="Transaction" /> */}
+        </Tabs>
+      </Box>
       {/* ) : (
         <Box mb={5} sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
@@ -111,8 +140,8 @@ const RewardTabArea = () => {
               }
             >
               {/* {!isMobile ? */}
-               <AvailableRewards /> 
-                {/* : <AvailableRewardsMobile /> */}
+              <Sell />
+              {/* : <AvailableRewardsMobile /> */}
             </Suspense>
           </Box>
         </TabPanel>
@@ -132,8 +161,8 @@ const RewardTabArea = () => {
               }
             >
               {/* {!isMobile ?  */}
-              <MyRewards /> 
-               {/* : <MyRewardsMobile />} */}
+              <Buy />
+              {/* : <MyRewardsMobile />} */}
             </Suspense>
           </Box>
         </TabPanel>
