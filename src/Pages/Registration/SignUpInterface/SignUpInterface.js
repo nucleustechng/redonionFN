@@ -197,6 +197,7 @@ const SignUpInterface = () => {
               <LazyImageComponent
                 className={styles.logo}
                 src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
+                onClick={("/landing-page")}
               />
             </Suspense>
           </Box>
@@ -599,7 +600,7 @@ const SignUpInterface = () => {
                         // sx={{ textDecoration: "underline" }}
                         >
 
-                          By clicking continue, you agree to Exchange's
+                          By clicking continue, you agree to Red Onion's
 
                         </Typography>
                         <Typography

@@ -71,12 +71,12 @@ const AML = () => {
             </Box>
           ) : null}
           <Typography variant="h6" color="primary">
-            RedOnion AML
+            Red Onion AML
           </Typography>
           {/* <Typography fontWeight={300} variant="caption">
             Last Updated: 24 May, 2021
           </Typography> */}
-          <Divider sx={{ mt: 2, mb: 1 }} />
+          <Divider sx={{ mt: 2, mb: 1 }} /> 
           <Box className={styles.termsAndConditionContentBox}>
             {privacyData.map((ppd) => (
               <Stack mt={3} direction="column" spacing={2} key={ppd.id}>

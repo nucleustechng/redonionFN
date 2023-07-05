@@ -202,7 +202,7 @@ const AccountSetup = () => {
                         fontWeight={500}
 
                       >
-                        Welcome to Exchange! Let's get your profile set up
+                        Welcome to Red Onion! Let's get your profile set up
                       </Typography>
                       <Box pt={3} mt={2}>
                         <Stepper

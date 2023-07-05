@@ -220,7 +220,7 @@ const CryptoWalletTopCards = (props) => {
               variant="contained"
               color="primary"
             >
-              Create a sell offer
+              Create A Sell Offer
             </Button>
 
             <Box

@@ -273,7 +273,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                           : "common.black"
                       }
                     >
-                     Create a  Password
+                     Create A Password
                     </Typography>
                     <Input
                       disableUnderline

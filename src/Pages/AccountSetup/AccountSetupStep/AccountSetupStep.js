@@ -172,7 +172,7 @@ const AccountSetupStep = () => {
             fontWeight={400}
 
           >
-            All fiat gotten through Exchange will be sent to this account.
+            All fiat gotten through Red Onion will be sent to this account.
           </Typography>
 
 
@@ -265,7 +265,7 @@ const AccountSetupStep = () => {
             fontWeight={400}
 
           >
-            Welcome to Exchange
+            Welcome to Red Onion
           </Typography>
 
 

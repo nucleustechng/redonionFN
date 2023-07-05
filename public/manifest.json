@@ -1,8 +1,8 @@
 {
-  "app_name": "RedOnion",
-  "short_name": "RedOnion",
-  "name": "RedOnion",
-  "description": "RedOnion A Crypto Wallet Solution, all in one place",
+  "app_name": "Red Onion",
+  "short_name": "Red Onion",
+  "name": "Red Onion",
+  "description": "Red Onion A Crypto Wallet Solution, all in one place",
   "icons": [
     {
       "src": "favicon.svg",
