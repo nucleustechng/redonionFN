@@ -75,7 +75,8 @@ const Login = () => {
             >
               <LazyImageComponent
                 className={styles.logo}
-                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogo}
+                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
+                onClick={("/landing-page")}
               />
             </Suspense>
           </Box>

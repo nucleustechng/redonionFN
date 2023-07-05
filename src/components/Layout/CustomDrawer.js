@@ -95,6 +95,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
             <LazyImageComponent
               style={{ width: "65%", display: "block", marginLeft: -40 }}
               src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
+              onClick={() => navigateAndCloseDrawer("/landing-page")}
 
             />
           </React.Suspense>

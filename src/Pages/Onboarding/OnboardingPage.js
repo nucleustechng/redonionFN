@@ -970,7 +970,7 @@ const OnboardingPage = () => {
                     </a>
                   </Box>
 
-                  <Box mt={1}>
+                     {/* <Box mt={1}>
                     <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
                       <Typography variant="caption" fontSize={18} fontWeight={300} color="#202020">
 
@@ -978,9 +978,9 @@ const OnboardingPage = () => {
 
                       </Typography>
                     </a>
-                  </Box>
+                  </Box> */}
 
-                </Box>
+                </Box> 
 
                 <Box >
                   <Box>

@@ -171,7 +171,8 @@ const AccountSetup = () => {
             >
               <LazyImageComponent
                 className={styles.logo}
-                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogo}
+                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
+              
               />
             </Suspense>
           </Box>
