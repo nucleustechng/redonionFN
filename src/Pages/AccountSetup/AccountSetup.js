@@ -207,13 +207,13 @@ const AccountSetup = () => {
                     {(activeStep === 0) && (
                       <Box
                         pl={0} mb={3} pt={0} bgcolor={theme.palette.background.surface}>
-                        <Button
+                       <Button
                           style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
 
                           color="secondary">
                           <a
 
-                            href="/"
+                            href="/dashboard/exchange"
                           >
                             <LazyImageComponent src={Back} />
                           </a>

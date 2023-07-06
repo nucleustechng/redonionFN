@@ -75,9 +75,13 @@ const OnboardingPage = () => {
     setActiveStep(4);
   };
 
+
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
+
+  const AndriodUrl = "https://play.google.com/store/apps/details?id=io.redonion.mobile"
+  const AppleUrl = "#"
 
   useEffect(() => {
     var userInfo = JSON.parse(localStorage.getItem('user'));
