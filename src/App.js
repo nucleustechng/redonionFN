@@ -46,7 +46,7 @@ const VerifyEmailPage = React.lazy(() =>
 );
 
 const TwoFAEmailPage = React.lazy(() =>
-  import("./Pages/Registration/EmailVerify/OtpVerification")
+  import("./Pages/Registration/EmailVerify/OTPVerification")
 );
 const TwoFAPage = React.lazy(() =>
   import("./Pages/Registration/TwoFAPage/TwoFAPage")
