@@ -39,7 +39,7 @@ const DeleteAccountModal = ({ open, handleClose }) => {
 
   const { logOut } = useAuth();
 
-  const DELETE_ACCOUNT_URL = "/user/add-bank-account";
+  const DELETE_ACCOUNT_URL = "/user/delete";
 
 
 

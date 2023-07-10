@@ -99,8 +99,7 @@ const MyRewards = () => {
           <List>
             {tranz.map((info) => (
               <>
-                {(info?.status === "COMPLETED" ||
-                  info.status === "SUSPENDED") && (
+               
                   <ListItem>
                     <Box m={6} width={"100%"}>
                       <Stack
@@ -300,7 +299,7 @@ const MyRewards = () => {
         </Stack> */}
                     </Box>
                   </ListItem>
-                )}
+              
               </>
             ))}
           </List>

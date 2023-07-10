@@ -275,72 +275,77 @@ const AccountSetup = () => {
 
                             return (
                               <>
-                                {
-                                  step.label !== "" && (
-                                    <Box
-                                      key={step.label}
-                                      {...stepProps}
-                                      p={2} mb={3.5} sx={{ borderRadius: "10px" }} bgcolor={activeStep === index ? "#3063E9" : "#E8E8F3"}>
-
-                                      <Stack
-
-
-                                        direction="row"
-                                        justifyContent="space-between"
-
-                                      >
-                                        <Box>
-                                          <Stack
-
-
-                                            direction="row"
-                                            justifyContent="start"
-
+                                {step.label !== "" && (
+                                  <Box
+                                    button
+                                    onClick={activeStep === index ? handleNext : null}
+                                    key={step.label}
+                                    {...stepProps}
+                                    p={2}
+                                    mb={3.5}
+                                    sx={{ borderRadius: "10px", cursor: activeStep === index ? "pointer" : "" }}
+                                    bgcolor={
+                                      activeStep === index
+                                        ? "#3063E9"
+                                        : "#E8E8F3"
+                                    }
+                                    
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      justifyContent="space-between"
+                                    >
+                                      <Box>
+                                        <Stack
+                                          direction="row"
+                                          justifyContent="start"
+                                        >
+                                          <Box
+                                            width={50}
+                                            height={50}
+                                            borderRadius={"50%"}
+                                            bgcolor={"#fff"}
                                           >
-                                            <Box width={50} height={50} borderRadius={'50%'} bgcolor={"#fff"} >
-                                              <Typography
-                                                variant="caption"
-                                                color="#3063E9"
-                                                fontWeight={500}
-                                                fontSize={24}
-                                                display={'flex'}
-                                                justifyContent={'center'}
-                                                pt={0.8}
-                                              >
-                                                {index === 2 ? index : index === 4 ? 3 : index + 1}
-                                              </Typography>
-
-                                            </Box>
-
                                             <Typography
                                               variant="caption"
-                                              color={activeStep === index ? "background.light" : "#202020"}
+                                              color="#3063E9"
                                               fontWeight={500}
-                                              fontSize={18}
-                                              display={'flex'}
-                                              alignItems={'center'}
-                                              ml={2}
+                                              fontSize={24}
+                                              display={"flex"}
+                                              justifyContent={"center"}
+                                              pt={0.8}
                                             >
-                                              {step.label}
-
+                                              {index === 2
+                                                ? index
+                                                : index === 4
+                                                ? 3
+                                                : index + 1}
                                             </Typography>
-                                          </Stack>
-                                        </Box>
-                                        {activeStep === index &&
-                                          <Button
-                                            onClick={
-                                              handleNext
+                                          </Box>
+
+                                          <Typography
+                                            variant="caption"
+                                            color={
+                                              activeStep === index
+                                                ? "background.light"
+                                                : "#202020"
                                             }
+                                            fontWeight={500}
+                                            fontSize={18}
+                                            display={"flex"}
+                                            alignItems={"center"}
+                                            ml={2}
                                           >
-                                            <LazyImageComponent src={FrontArrow} />
-                                          </Button>
-                                        }
-
-                                      </Stack>
-
-                                    </Box>
-                                  )
-                                }
+                                            {step.label}
+                                          </Typography>
+                                        </Stack>
+                                      </Box>
+                                      {activeStep === index && (
+                                        <LazyImageComponent src={FrontArrow} />
+                                      )}
+                                    </Stack>
+                                  </Box>
+                                )}
                               </>
                             );
                           })}

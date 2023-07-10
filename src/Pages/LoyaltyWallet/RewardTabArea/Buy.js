@@ -77,7 +77,7 @@ const MyRewards = () => {
         }
       )
       .then((res) => {
-        // console.log(res.data.data)
+        console.log(res.data.data)
         setTransaz(res.data.data.offers);
       })
       .catch((err) => {

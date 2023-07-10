@@ -196,9 +196,9 @@ const BankStep = (props) => {
     <Box
       p={!isMobile ? 5 : 3}
       bgcolor={theme.palette.background.surface}>
-      {userImage !== null ? (
+      {userImage === null ? (
         <>
-          {activeStepKYC === 2 && (
+          {activeStepKYC === 0 && (
             <>
               <Box>
                 <Typography
@@ -304,7 +304,7 @@ const BankStep = (props) => {
               </Box>
             </>
           )}
-          {activeStepKYC !== 2 && (
+          {activeStepKYC === 2 && (
             <Box mt={!isMobile ? 4 : 8}>
               <center>
                 <LazyImageComponent src={successClock} />

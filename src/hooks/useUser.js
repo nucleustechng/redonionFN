@@ -96,20 +96,6 @@ const useUser = () => {
       getAdditionalUser(user, token, navigate, 1);
 
 
-
-      // const newUser = { token, user };
-      // setUser(newUser);
-
-      // localStorage.setItem("user", JSON.stringify(newUser));
-
-      // if (!user.emailVerified) {
-      //   navigate("/registration/verify-email");
-      // } else if (user.identityDocument === "") {
-      //   navigate("/account-setup");
-      // } else {
-      //   navigate("/dashboard/exchange");
-      // }
-
     }).catch((err) => {
       console.log(err.response.data);
       setAuthError(err.response.data.msg);
@@ -167,17 +153,13 @@ const useUser = () => {
       // const prevDestination = location?.state?.from || "/";
       // navigate(prevDestination); //It will navigate to homepage or the destination that the user came from
       setAuthError("");
-      // const showPinModal = setTimeout(() => {
-      //   setShowPin(true);
-      // }, 5000);
-
-      // return () => clearInterval(showPinModal);
+      
       const user = res.data.data.user;
 
       const token = res?.data?.data?.accessToken ;
 
      
-
+     
 
       if (token === undefined && user?.twoFactorEnabled) {
         const country = null;
@@ -197,6 +179,7 @@ const useUser = () => {
         }
 
       } else {
+         
         getAdditionalUser(user, token, navigate, 2);
       }
 
