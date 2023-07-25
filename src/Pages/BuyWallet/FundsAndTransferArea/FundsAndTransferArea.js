@@ -39,8 +39,12 @@ const FundsAndTransferArea = (prop) => {
   const [fromDateValue, setFromDateValue] = React.useState(null);
   const [toDateValue, setToDateValue] = React.useState(null);
 
+   const [count, setCount] = React.useState(0);
+
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  
 
   useEffect(() => {
     console.log(prop.info)
@@ -48,17 +52,19 @@ const FundsAndTransferArea = (prop) => {
 
   return (
     <Box className={styles.headerArea}>
-     
       <Box>
         <TabPanel value={tabValue} index={0}>
-        
           <Box mt={3}>
             <Suspense fallback={<TableSkeleton />}>
-              <TableArea data={prop.info} country={prop.country} currency={prop.currency} />
+              <TableArea
+                handleBuyModal={prop.handleBuyModal}
+                data={prop.info}
+                country={prop.country}
+                currency={prop.currency}
+              />
             </Suspense>
           </Box>
         </TabPanel>
-        
       </Box>
     </Box>
   );

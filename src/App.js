@@ -84,7 +84,7 @@ const PrivateRoute = React.lazy(() => import("./Private/PrivateRoute"));
 // Wallets
 const Wallets = React.lazy(() => import("./Pages/Wallets/Wallets"));
 const CryptoWallet = React.lazy(() =>
-  import("./Pages/CryptoWallet/CryptoWalletInterface")
+  import("./Pages/BuyWallet/BuyWalletInterface")
 );
 const FiatWallet = React.lazy(() => import("./Pages/History/History"));
 const LoyaltyWallet = React.lazy(() =>
@@ -117,6 +117,7 @@ const PrivacyPolicy = React.lazy(() =>
 
 const AML = React.lazy(() => import("./Pages/StaticPages/AML"));
 const About = React.lazy(() => import("./Pages/StaticPages/About"));
+const Contact = React.lazy(() => import("./Pages/SupportPage/ContactPage"));
 const FAQ = React.lazy(() => import("./Pages/StaticPages/FAQ"));
 
 // Onboarding
@@ -478,6 +479,15 @@ function App() {
                           element={
                             <Suspense fallback={<ProgressLoader />}>
                               <About />
+                            </Suspense>
+                          }
+                        />
+                        {/* Contact */}
+                        <Route
+                          path={NavRoutes.ContactPage.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <Contact />
                             </Suspense>
                           }
                         />

@@ -271,7 +271,6 @@ const OnboardingPage = () => {
         </Stack>
         {!isMobile ? (
           <Box className={styles.marl}>
-           
             <Box mt={"35%"}>
               <Typography
                 variant="caption"
@@ -1174,6 +1173,25 @@ const OnboardingPage = () => {
                       </Typography>
                     </a>
                   </Box>
+                  <Box>
+                    <a
+                      href="redonion/contact"
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        textTransform: "none",
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        fontSize={18}
+                        fontWeight={300}
+                        color="#202020"
+                      >
+                        Contact Us
+                      </Typography>
+                    </a>
+                  </Box>
 
                   {/* <Box mt={1}>
                     <a href="https://" style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}>
@@ -1438,7 +1456,7 @@ const OnboardingPage = () => {
                         fontWeight={300}
                         color="#202020"
                       >
-                        Announcements
+                        AML
                       </Typography>
                     </a>
                   </Box>
@@ -1458,7 +1476,26 @@ const OnboardingPage = () => {
                         fontWeight={300}
                         color="#202020"
                       >
-                        Fees
+                        Announcements
+                      </Typography>
+                    </a>
+                  </Box>
+                  <Box mt={1}>
+                    <a
+                      href="redonion/contact"
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        textTransform: "none",
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        fontSize={18}
+                        fontWeight={300}
+                        color="#202020"
+                      >
+                        Contact Us
                       </Typography>
                     </a>
                   </Box>

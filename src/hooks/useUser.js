@@ -126,7 +126,9 @@ const useUser = () => {
       const token = userInfo.token;
       console.log(token)
 
-      getAdditionalUser(user, token, navigate, 1);
+      navigate("/auth/sign-in");
+
+      // getAdditionalUser(user, token, navigate, 1);
 
     }).catch((err) => {
       console.log(err.response.data);

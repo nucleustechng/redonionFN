@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from "react";
 import { Box } from "@mui/system";
 import {
-  Alert,
+  Grid,
   Button,
   Input,
   InputAdornment,
@@ -24,7 +24,10 @@ import BitCoinIcon from "../../../assets/bitCoinIcon.svg";
 import EthereumIcon from "../../../assets/EthereumVectorLogo.svg";
 import CardanoIcon from "../../../assets/CardanoVectorLogo.svg";
 import LiteCoinIcon from "../../../assets/LiteCoinVectorLogo.svg";
+import Tron from "../../../assets/tron.svg";
+import Token from "../../../assets/token.svg";
 import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
+import TableArea from "../Table/TableArea";
 
 // Component Loader
 import ComponentLoader from "../../../components/ProgressLoader/ComponentLoader";
@@ -142,211 +145,268 @@ const TopUpCardMobile = () => {
     <Box
       className={styles.cardBoxMobile}
       bgcolor={
-        theme.palette.mode === "dark"
-          ? theme.palette.background.paper
-          : theme.palette.background.card
+        theme.palette.mode === "dark" ? theme.palette.background.paper : "#fff"
       }
     >
-      <Box>
-        <Typography
-          variant="caption"
-          textAlign="justify"
-          component="p"
-          color="text.secondary"
-        >
-          Moonpay is a secure way to buy cryptocurrency with your payment
-          method. Start by entering an amount below to get a quote before making
-          a purchase
-        </Typography>
-        <Typography mt={2} mb={1} variant="button" component="p">
-          you topup
-        </Typography>
-        <Select
-          className={theme.palette.mode === "dark" ? "" : styles.currencyBox}
-          fullWidth
-          value={coinNames}
-          onChange={handleCoinNameSelection}
-        >
-          {coinNamesData.map(({ id, name, icon }) => (
-            <MenuItem key={id} value={name}>
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <Suspense
-                  fallback={
-                    <Skeleton
-                      animation="wave"
-                      variant="circular"
-                      width={40}
-                      height={40}
-                      sx={{
-                        backgroundColor: `${
-                          theme.palette.mode === "dark" ? "#111" : "#f5f5f5"
-                        }`,
-                      }}
-                    />
-                  }
+      <Grid>
+        <Grid item xs={12}>
+          <Box
+            borderRadius={4}
+            // height={250}
+            px={2}
+            py={2}
+            bgcolor={"#3063E9"}
+          >
+            <Stack>
+              <Box>
+                <Typography
+                  fontWeight={500}
+                  fontSize={16}
+                  color={"#fff"}
+                  variant="body2"
                 >
-                  <LazyImageComponent className={styles.coinIcons} src={icon} />
-                </Suspense>
-                <Typography>{name}</Typography>
-              </Stack>
-            </MenuItem>
-          ))}
-        </Select>
-        <Typography mt={2} mb={1} variant="button" component="p">
-          you pay
-        </Typography>
-        <Stack
-          direction="row"
-          alignItems="stretch"
-          justifyContent="space-between"
-          spacing={2}
-        >
-          <Input
-            fullWidth
-            type="number"
-            inputProps={{ inputMode: "decimal" }}
-            name="payInput"
-            placeholder="00 (Min $24)"
-            disableUnderline
-            value={payInputText}
-            onChange={(e) => setPayInputText(e.target.value)}
-            className={
-              theme.palette.mode === "dark"
-                ? "inputField"
-                : styles.inputFieldLight
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Button
-                    onClick={() => setPayInputText("100")}
-                    className={styles.payInputCoupon}
-                  >
-                    100
-                  </Button>
-                  <Button
-                    onClick={() => setPayInputText("200")}
-                    className={styles.payInputCoupon}
-                  >
-                    200
-                  </Button>
+                  Total Balance
+                </Typography>
+                <Typography
+                  mt={1}
+                  fontWeight={500}
+                  color={"#fff"}
+                  fontSize={28}
+                  variant="body2"
+                >
+                  ₦2,564,530
+                </Typography>
+                <Typography
+                  fontWeight={500}
+                  fontSize={15}
+                  mt={1}
+                  color={"#fff"}
+                  variant="body2"
+                >
+                  Wallet ID
+                </Typography>
+
+                <Box
+                  mt={2.5}
+                  border={1}
+                  borderColor={"#fff"}
+                  borderRadius={3}
+                  p={1.6}
+                >
+                  <Stack direction="row" justifyContent={"center"}>
+                    <Typography
+                      textAlign={"center"}
+                      color={"#fff"}
+                      variant="body2"
+                      mr={1}
+                    >
+                      Send Token
+                    </Typography>
+                    <LazyImageComponent src={Token} />
+                  </Stack>
+                </Box>
+              </Box>
+            </Stack>
+          </Box>
+          <Box
+            mt={0}
+            py={2.4}
+            px={1.0}
+            borderRadius={5}
+            // height={760}
+            // bgcolor={"#E8E8F3"}
+          >
+            <Typography
+              fontSize={16}
+              fontWeight={500}
+              mb={2}
+              mt={2}
+              variant="h6"
+              color="secondary"
+            >
+              Cryptocurrency
+            </Typography>
+            <Box
+              borderRadius={4}
+              my={2}
+              // bgcolor={"#F6F0F8"}
+            >
+              <Stack
+                direction="row"
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Stack
+                  direction="row"
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <LazyImageComponent style={{ width: 35 }} src={Tron} />
+
+                  <Box>
+                    <Typography
+                      mt={0.3}
+                      fontWeight={500}
+                      ml={1}
+                      fontSize={16}
+                      variant="body2"
+                    >
+                      USDT
+                    </Typography>
+                    <Typography
+                      mt={-0.4}
+                      fontWeight={500}
+                      ml={1}
+                      fontSize={12}
+                      variant="body2"
+                      sx={{ opacity: 0.6 }}
+                    >
+                      ₦90,000
+                    </Typography>
+                  </Box>
                 </Stack>
-              </InputAdornment>
-            }
-          />
-          <Select
-            className={theme.palette.mode === "dark" ? "" : styles.currencyBox}
-            value={currencyName}
-            onChange={handleCurrencyNameSelection}
-          >
-            {currenciesData.map(({ id, name }) => (
-              <MenuItem key={id} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </Stack>
-        <Typography mt={2} mb={1} variant="button" component="p">
-          you receive
-        </Typography>
-        <Typography color="secondary" mt={1} variant="subtitle1">
-          ~0.05{" "}
-          <Typography
-            color="primary"
-            fontWeight={500}
-            variant="subtitle1"
-            component="span"
-          >
-            BTC
-          </Typography>
-        </Typography>
-        <Typography variant="subtitle1">
-          <Typography
-            color="secondary"
-            variant="body2"
-            sx={{ textTransform: "capitalize" }}
-            component="span"
-          >
-            TRANSACTION FEE: 0.0004
-          </Typography>
-          <Typography
-            color="primary"
-            sx={{ textTransform: "capitalize", fontSize: "10px" }}
-            component="span"
-          >
-            {" "}
-            BTC
-          </Typography>
-        </Typography>
-        <Typography variant="subtitle1" mb={2}>
-          <Typography
-            color="secondary"
-            variant="body2"
-            sx={{ textTransform: "capitalize" }}
-            component="span"
-          >
-            RATE: 1BTC = $41,834.80
-          </Typography>
-          <Typography
-            color="primary"
-            sx={{ textTransform: "capitalize", fontSize: "10px" }}
-            component="span"
-          >
-            {" "}
-            USD
-          </Typography>
-        </Typography>
-        <Box>
-          <Suspense fallback={<ComponentLoader />}>
-            <ProviderSelect />
-          </Suspense>
-        </Box>
-        {theme.palette.mode === "dark" ? (
-          <Button
-            fullWidth
-            onClick={handleTopUp}
-            className={styles.topUpCardButton}
-            color="primary"
-            variant="contained"
-          >
-            Continue
-          </Button>
-        ) : (
-          <LightUIButtonPrimary
-            fullWidth
-            onClick={handleTopUp}
-            className={styles.topUpCardButton}
-            color="primary"
-          >
-            Continue
-          </LightUIButtonPrimary>
-        )}
-      </Box>
-      {/* Loading Modal */}
-      <Box>
-        <Suspense fallback={<ComponentLoader />}>
-          <TopUpAuthorization
-            open={showAuthorization}
-            handleClose={handleCloseAuthorizationModal}
-            message={"Processing"}
-          />
-        </Suspense>
-      </Box>
-      {/* Authorize Payment Success Snackbar */}
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={showSuccessSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSuccessSnackbar}
-      >
-        <Alert
-          onClose={handleCloseSuccessSnackbar}
-          severity="success"
-          sx={{ width: "100%", mt: 1 }}
-        >
-          Topup Successfull
-        </Alert>
-      </Snackbar>
+
+                <Box
+                  height={25}
+                  borderRadius={3}
+                  py={0.4}
+                  px={0.9}
+                  bgcolor={"#49AC2780"}
+                >
+                  <Typography
+                    fontWeight={500}
+                    fontSize={11}
+                    sx={{ opacity: 1, color: "#49AC27" }}
+                    variant="body2"
+                  >
+                    +0.25%
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Stack direction="column" justifyItems={"flex-end"}>
+                    <Typography
+                      textAlign={"right"}
+                      ml={0.5}
+                      fontWeight={500}
+                      fontSize={16}
+                      color={"#000"}
+                    >
+                      2,000
+                    </Typography>
+                    <Typography
+                      mt={-0.4}
+                      fontWeight={500}
+                      ml={1}
+                      fontSize={12}
+                      variant="body2"
+                      sx={{ opacity: 0.6 }}
+                    >
+                      ₦890,340
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Stack>
+              <hr color="#f2f2f2" />
+            </Box>
+
+            <Box
+              borderRadius={4}
+              my={2}
+              // bgcolor={"#F6F0F8"}
+            >
+              <Stack
+                direction="row"
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Stack
+                  direction="row"
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <LazyImageComponent style={{ width: 35 }} src={Tron} />
+
+                  <Box>
+                    <Typography
+                      mt={0.3}
+                      fontWeight={500}
+                      ml={1}
+                      fontSize={16}
+                      variant="body2"
+                    >
+                      USDT
+                    </Typography>
+                    <Typography
+                      mt={-0.4}
+                      fontWeight={500}
+                      ml={1}
+                      fontSize={12}
+                      variant="body2"
+                      sx={{ opacity: 0.6 }}
+                    >
+                      ₦90,000
+                    </Typography>
+                  </Box>
+                </Stack>
+
+                <Box
+                  height={25}
+                  borderRadius={3}
+                  py={0.4}
+                  px={0.9}
+                  bgcolor={"#49AC2780"}
+                >
+                  <Typography
+                    fontWeight={500}
+                    fontSize={11}
+                    sx={{ opacity: 1, color: "#49AC27" }}
+                    variant="body2"
+                  >
+                    +0.25%
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Stack direction="column" justifyItems={"flex-end"}>
+                    <Typography
+                      textAlign={"right"}
+                      ml={0.5}
+                      fontWeight={500}
+                      fontSize={16}
+                      color={"#000"}
+                    >
+                      2,000
+                    </Typography>
+                    <Typography
+                      mt={-0.4}
+                      fontWeight={500}
+                      ml={1}
+                      fontSize={12}
+                      variant="body2"
+                      sx={{ opacity: 0.6 }}
+                    >
+                      ₦890,340
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Stack>
+            </Box>
+            <Box mt={4} >
+              <Typography
+                fontSize={18}
+                fontWeight={500}
+                mb={0}
+                variant="h6"
+                color="secondary"
+              >
+                Recent Transactions
+              </Typography>
+              <TableArea />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

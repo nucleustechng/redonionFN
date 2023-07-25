@@ -37,6 +37,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { LoadingButton } from "@mui/lab";
 
+import Star from "../../../assets/star.svg"
+
 import CreateBuyRequestModal from "../CreateBuyRequestModal/CreateBuyRequestModal";
 
 // Lazy Image Loader
@@ -55,9 +57,9 @@ const tableHeader = [
   {
     name: "Available",
   },
-  // {
-  //   name: "Value",
-  // },
+  {
+    name: "Selling Rate",
+  },
   {
     name: "Take Action",
   },
@@ -80,13 +82,11 @@ const TableArea = (prop) => {
 
   const [showSingleData, setShowSingleData] = useState();
 
-
-
-  const handleCloseTwoFAPin = (data) => {
-    console.log(data)
-    setShowSingleData(data);
-    setShowPin(!showPin);
-  };
+  // const handleBuyModal = (data) => {
+  //   // console.log(data)
+  //   setShowSingleData(data);
+  //   // setShowPin(!showPin);
+  // };
 
   // Table Handler
   const handleChangePage = (event, newPage) => {
@@ -94,8 +94,6 @@ const TableArea = (prop) => {
   };
 
   const USER_UPLOAD_URL = "/transaction/get-offers";
-
-
 
   // Loading coin data
   useEffect(() => {
@@ -123,37 +121,47 @@ const TableArea = (prop) => {
 
   return (
     <>
-      {
-        loading ? (
-        <Box >
-            <LoadingButton fullWidth
-              style={{ height: 120, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-              loading  >
-              Sign Up
-            </LoadingButton >
+      {loading ? (
+        <Box>
+          <LoadingButton
+            fullWidth
+            style={{
+              height: 120,
+              borderRadius: 10,
+              fontSize: 20,
+              textTransform: "none",
+            }}
+            loading
+          >
+            Sign Up
+          </LoadingButton>
         </Box>
-        ) : (
-
-          <>
-              <CreateBuyRequestModal
+      ) : (
+        <>
+          {/* <CreateBuyRequestModal
                 dataSingle={showSingleData}
                 datao={prop}
                 open={showPin}
                 onClose={handleCloseTwoFAPin}
-              />
+              /> */}
 
           <Box className={styles.mainBox}>
-            <Box 
-            className={!isTablet ? styles.tableArea : styles.tableAreaTab}
-            >
+            <Box className={!isTablet ? styles.tableArea : styles.tableAreaTab}>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
                       {tableHeader.map((th) => (
                         <StyledTableCell key={th.name}>
-                          <Typography variant="caption" textTransform={"none"} fontWeight={600} fontSize={16} color="primary">
-                            {th.name}</Typography>
+                          <Typography
+                            variant="caption"
+                            textTransform={"none"}
+                            fontWeight={600}
+                            fontSize={16}
+                            color="primary"
+                          >
+                            {th.name}
+                          </Typography>
                         </StyledTableCell>
                       ))}
                     </TableRow>
@@ -174,17 +182,31 @@ const TableArea = (prop) => {
                             sx={{ cursor: "pointer" }}
                           >
                             <Stack direction="row" spacing={3}>
-
-                              <Box mt={-0.5}> {prop.currency.currencyCode} {parseFloat(cd.tokenPricePerUnit * prop.data.amount).toFixed(2)}</Box>
+                              <Box mt={-0.5}>
+                                {" "}
+                                {prop.currency.currencyCode}{" "}
+                                {parseFloat(
+                                  cd.tokenPricePerUnit * prop.data.amount
+                                ).toFixed(2)}
+                              </Box>
                             </Stack>
                           </StyledTableCell>
                           <StyledTableCell align="left">
-                            {prop.data.coinAbb}  1 =  {parseFloat(cd.tokenPricePerUnit).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                            {prop.data.coinAbb} 1 ={" "}
+                            {parseFloat(cd.tokenPricePerUnit).toLocaleString(
+                              undefined,
+                              { maximumFractionDigits: 2 }
+                            )}
                           </StyledTableCell>
                           <StyledTableCell align="left">
                             {prop.data.coinAbb} {cd.amountInCrypto}
                           </StyledTableCell>
-                        
+
+                          <StyledTableCell align="left">
+                            <LazyImageComponent src={Star} />
+                            4.5
+                          </StyledTableCell>
+
                           <StyledTableCell align="left">
                             <Stack direction="row" spacing={2}>
                               <Button
@@ -193,7 +215,7 @@ const TableArea = (prop) => {
                                 className={styles.depositButton}
                                 variant="text"
                                 // onClick={() => navigate(`/wallets/${cd.coinName}`)}
-                                onClick={() => handleCloseTwoFAPin(cd)}
+                                onClick={() => prop.handleBuyModal(cd)}
                               >
                                 <Typography
                                   variant="caption"
@@ -240,10 +262,8 @@ const TableArea = (prop) => {
               />
             </Box>
           </Box>
-
-          </>
-
-        )}
+        </>
+      )}
     </>
   );
 };

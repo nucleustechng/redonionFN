@@ -195,7 +195,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
           </List>
 </Box>
         <Toolbar />
-        <Toolbar />
+       
         
         <List >
           {LayoutRoutes.map((routes) => (
@@ -240,7 +240,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
 
         </List>
 
-        <Toolbar />
+       
         <Toolbar />
         <Toolbar />
         <Toolbar />

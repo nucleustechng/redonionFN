@@ -8,7 +8,7 @@ const NavRoutes = {
   TwoFactorAuth: { path: "two-factor-auth" },
   TwoFactorPin: { path: "two-factor-pin" },
   SignInUser: { path: "user/sign-in" },
- 
+
   Login: { path: "/auth" },
 
   SignIn: { path: "sign-in" },
@@ -17,8 +17,8 @@ const NavRoutes = {
   OtpVerification: { path: "otp-verification" },
   AccountSetup: { path: "/account-setup" },
   Wallets: { path: "/dashboard" },
-  CryptoWallet: { path: "exchange" },
-  TopUp: { path: "transactionsa" },
+  CryptoWallet: { path: "buy" },
+  TopUp: { path: "exchange" },
   FiatWallet: { path: "history" },
   LoyaltyWallet: { path: "transactions" },
   Account: { path: "/account" },
@@ -27,6 +27,7 @@ const NavRoutes = {
   TermsAndConditions: { path: "terms-and-condition" },
   PrivacyPolicy: { path: "privacy-policy" },
   AboutPage: { path: "about" },
+  ContactPage: { path: "contact" },
   FAQ: { path: "FAQ" },
   AML: { path: "aml" },
 };

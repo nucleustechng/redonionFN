@@ -1,12 +1,26 @@
 import React, { Suspense, useState, useEffect, useCallback } from "react";
 import {
-  Divider, Modal, Stack, Typography, useMediaQuery, Input, Button,
-  Radio, Tooltip,
-  RadioGroup, FormControlLabel, Select, MenuItem, Skeleton, Zoom, IconButton, Snackbar, Alert
+  Divider,
+  Modal,
+  Stack,
+  Typography,
+  useMediaQuery,
+  Input,
+  Button,
+  Radio,
+  Tooltip,
+  RadioGroup,
+  FormControlLabel,
+  Select,
+  MenuItem,
+  Skeleton,
+  Zoom,
+  IconButton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
-
 
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
@@ -55,7 +69,6 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   const [coinNamesData, setCoinNamesData] = useState([]);
   const [coinNames, setCoinNames] = useState("0");
 
-
   const [coinName, setCoinName] = useState("");
 
   const [coinRate, setCoinRate] = useState("0");
@@ -68,9 +81,11 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const [firstModal, setFirstModal] = useState(false);
+  const [firstModal, setFirstModal] = useState(true);
 
-  const [firstModalA, setFirstModalA] = useState(0);
+  const [firstModalA, setFirstModalA] = useState(2);
+
+  const [addi, setAdd] = useState(0);
 
   const [copied, setCopied] = useState(false);
 
@@ -80,13 +95,9 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
     useState(false);
 
-
   const handleCloseSendSnackbar = () => {
     setShowSendSuccessfullSnackbar(false);
   };
-
-
-
 
   const GET_CURRENCY_URL = "/user/get-crypto-currencies";
 
@@ -100,73 +111,60 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
     if (amount === 0 || coinNames === "0" || payTextField === "") {
       return;
     } else {
-
       setFirstModal(true);
       setFirstModalA(1);
     }
+  };
 
-  }
-
-  
-  var user = JSON.parse(localStorage.getItem('user'));
-
-  
+  var user = JSON.parse(localStorage.getItem("user"));
 
   const getCyptoExchangeRate = (coin) => {
     setLoading(true);
 
-    axios.get(
-      GET_CURRENCY_RATE_URL + coin?.id,
-      {
+    axios
+      .get(GET_CURRENCY_RATE_URL + coin?.id, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setCoinRate(res.data.data);
+      })
+      .catch((err) => {
+        // console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
         }
-      }
-    ).then((res) => {
-      console.log(res.data)
-      setCoinRate(res.data.data)
-
-    }).catch((err) => {
-      // console.log(err?.response?.status);
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      }
-    })
-      .finally(() => { setLoading(false); });
-
-
-
-
-
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const getFees = (coin) => {
     setLoading(true);
 
-    axios.get(
-      GET_FEES_URL + coin?.id,
-      {
+    axios
+      .get(GET_FEES_URL + coin?.id, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res.data)
+        setAmountFees(res.data.data);
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          // navigate("/user/sign-in")
         }
-      }
-    ).then((res) => {
-      // console.log(res.data)
-      setAmountFees(res.data.data)
-
-    }).catch((err) => {
-      if (err?.response?.status === 401) {
-        // navigate("/user/sign-in")
-      }
-    })
-      .finally(() => { setLoading(false); });
-
-
-
-
-
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleCoinNameSelection = (e) => {
@@ -177,40 +175,40 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
       getCyptoExchangeRate(coinNamesData[e.target.value]);
       getFees(coinNamesData[e.target.value]);
     }
-
   };
 
-   const getCryto = useCallback(() => {
-     axios
-       .get(GET_CURRENCY_URL, {
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: `Bearer ${user.token}`,
-         },
-       })
-       .then((res) => {
-         setCoinNamesData(res.data.data.cryptoCurrencies);
-       })
-       .catch((err) => {
-         // console.log(err?.response?.status);
-         if (err?.response?.status === 401) {
-           navigate("/user/sign-in");
-         }
-       })
-       .finally(() => {});
-   }, [navigate, user]);
- 
+  const getCryto = useCallback(() => {
+   
+      axios
+        .get(GET_CURRENCY_URL, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then((res) => {
+          // eslint-disable-next-line
+          setAdd(addi++);
+          setCoinNamesData(res.data.data.cryptoCurrencies);
+        })
+        .catch((err) => {
+          // console.log(err?.response?.status);
+          if (err?.response?.status === 401) {
+            navigate("/user/sign-in");
+          }
+        })
+        .finally(() => {});
+    
+  }, [navigate, user, addi]);
+
   useEffect(() => {
-    getCryto();
-  }, [getCryto]);
-
-
- 
-  
+   
+    //  if (addi === 1) 
+    //    console.log(addi);
+        getCryto();
+  }, [getCryto, addi]);
 
   const onVerify = () => {
-
-
     if (transactionID === "") {
       return;
     }
@@ -257,9 +255,6 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         }
       })
       .finally(() => setLoading(false));
-
-
-
   };
 
   return (
