@@ -83,8 +83,8 @@ const PrivateRoute = React.lazy(() => import("./Private/PrivateRoute"));
 
 // Wallets
 const Wallets = React.lazy(() => import("./Pages/Wallets/Wallets"));
-const CryptoWallet = React.lazy(() =>
-  import("./Pages/BuyWallet/BuyWalletInterface")
+const Dashboard = React.lazy(() =>
+  import("./Pages/BuyWallet/Dashboard")
 );
 const FiatWallet = React.lazy(() => import("./Pages/History/History"));
 const LoyaltyWallet = React.lazy(() =>
@@ -92,7 +92,7 @@ const LoyaltyWallet = React.lazy(() =>
 );
 
 // Top Up
-const TopUpPage = React.lazy(() => import("./Pages/TopUpPage/TopUpPage"));
+const TopUpPage = React.lazy(() => import("./Pages/TopUpPage/DashboardPage"));
 
 // Coin details
 const CoinDetails = React.lazy(() => import("./Pages/CoinDetails/CoinDetails"));
@@ -382,10 +382,10 @@ function App() {
                         />
                         Crypto Wallet
                         <Route
-                          path={NavRoutes.CryptoWallet.path}
+                          path={NavRoutes.Dashboard.path}
                           element={
                             <Suspense fallback={<ProgressLoader />}>
-                              <CryptoWallet />
+                              <Dashboard />
                             </Suspense>
                           }
                         />

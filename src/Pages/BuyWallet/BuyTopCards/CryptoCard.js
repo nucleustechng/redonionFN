@@ -34,6 +34,8 @@ import axios from "../../../api/axios";
 // Router
 import { useNavigate } from "react-router-dom";
 
+import SwapModal from "../CreateRequestModal/SwapModal";
+
 // Lazy Image component
 const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
@@ -49,65 +51,48 @@ const CryptoWalletTopCards = (props) => {
 
   const [amount, setAmount] = useState("");
 
+  const [loading, setLoading] = useState("");
+
   const [coinNamesData, setCoinNamesData] = useState([]);
   const [coinNames, setCoinNames] = useState(0);
+    const [coinNamesSecond, setCoinNamesSecond] = useState(0);
   const [coinNamesShow, setCoinNamesShow] = useState("");
+    const [showPin, setShowPin] = useState(false);
 
   const [coinRate, setCoinRate] = useState("0");
 
   const handleCoinNameSelection = (e) => {
     setCoinNames(e.target.value);
 
-    var coin = e.target.value;
-    setCoinNamesShow(coin.split(" ")[1]);
+    // var coin = e.target.value;
+    // setCoinNamesShow(coin.split(" ")[1]);
     // console.log(coin.split(" ")[0])
-    getCyptoExchangeRate(coin.split(" ")[0]);
+    // getCyptoExchangeRate(coin.split(" ")[0]);
   };
 
-  const handleCurrencyNameSelection = (e) => {
-    setCurrencyName(e.target.value);
+  const handleSelectionSecond = (e) => {
+    console.log(e.target.value);
+    setCoinNamesSecond(e.target.value);
   };
+
+   const handleCurrencyNameSelection = (e) => {
+     setCurrencyName(e.target.value);
+   };
 
   var user = JSON.parse(localStorage.getItem("user"));
 
   const GET_CURRENCY_URL = "/user/get-crypto-currencies";
 
   const onClickSuccess = () => {
-    if (amount === "" || coinNames === "0") {
+    if (amount === "" || coinNames === "0" || coinNamesSecond === "0") {
       return;
     } else {
-      props.sendData({
-        cryptoCurrencyId: coinNames.split(" ")[0],
-        amount: parseFloat(amount),
-        coinAbb: coinNames.split(" ")[1],
-        coinImg: coinNames.split(" ")[2],
-      });
+      // getCyptoExchangeRate();
+       setShowPin(!showPin);
     }
   };
 
-  const GET_CURRENCY_RATE_URL = "/transaction/get-exchange-rate/";
-
-  const getCyptoExchangeRate = (coin) => {
-    // setLoading(true);
-    console.log(coin);
-    axios
-      .get(GET_CURRENCY_RATE_URL + coin, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setCoinRate(res.data.data);
-      })
-      .catch((err) => {
-        // console.log(err?.response?.status);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      });
-  };
+ 
 
   useEffect(() => {
     axios
@@ -122,7 +107,7 @@ const CryptoWalletTopCards = (props) => {
         setCoinNamesData(res.data.data.cryptoCurrencies);
       })
       .catch((err) => {
-        // console.log(err?.response?.status);
+        console.log(err);
         if (err?.response?.status === 401) {
           navigate("/user/sign-in");
         }
@@ -138,6 +123,13 @@ const CryptoWalletTopCards = (props) => {
         borderColor={"#D048DC"}
         borderRadius={10}
       >
+        <SwapModal
+          fromCurrency={coinNames}
+          toCurrency={coinNamesSecond}
+          amount={amount}
+          open={showPin}
+          onClose={onClickSuccess}
+        />
         <Box
           className={styles.cardBox}
           bgcolor={theme.palette.mode === "dark" ? "#222" : "#E8E8F3"}
@@ -176,10 +168,7 @@ const CryptoWalletTopCards = (props) => {
 
                   {coinNamesData.map(
                     ({ id, name, imgUri, network, abbreviation }, index) => (
-                      <MenuItem
-                        key={id}
-                        value={id + " " + abbreviation + " " + imgUri}
-                      >
+                      <MenuItem key={id} value={id}>
                         <Stack direction="row" alignItems="center" spacing={2}>
                           <Suspense
                             fallback={
@@ -212,7 +201,7 @@ const CryptoWalletTopCards = (props) => {
               </Box>
 
               <Box
-                ml={isTablet ? 0 : -16}
+                ml={isTablet ? 0 : -13}
                 mr={isTablet ? 0 : 4}
                 mt={isTablet ? 0 : 4.3}
                 width={isTablet ? "100%" : "25%"}
@@ -255,8 +244,8 @@ const CryptoWalletTopCards = (props) => {
                     height: 50,
                     border: 0,
                   }}
-                  value={coinNames}
-                  onChange={handleCoinNameSelection}
+                  value={coinNamesSecond}
+                  onChange={handleSelectionSecond}
                 >
                   <MenuItem value="0">
                     <Typography>Select A Coin</Typography>
@@ -264,10 +253,7 @@ const CryptoWalletTopCards = (props) => {
 
                   {coinNamesData.map(
                     ({ id, name, imgUri, network, abbreviation }, index) => (
-                      <MenuItem
-                        key={id}
-                        value={id + " " + abbreviation + " " + imgUri}
-                      >
+                      <MenuItem key={id} value={id}>
                         <Stack direction="row" alignItems="center" spacing={2}>
                           <Suspense
                             fallback={
@@ -324,7 +310,7 @@ const CryptoWalletTopCards = (props) => {
             </Stack>
           </Box>
 
-          <Stack
+          {/* <Stack
             mb={-2}
             mr={2}
             direction="row"
@@ -344,7 +330,7 @@ const CryptoWalletTopCards = (props) => {
                 { maximumFractionDigits: 2 }
               )}
             </Typography>
-          </Stack>
+          </Stack> */}
         </Box>
       </Box>
     </>

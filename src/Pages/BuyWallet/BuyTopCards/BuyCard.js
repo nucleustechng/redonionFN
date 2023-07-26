@@ -28,6 +28,7 @@ import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
 
 import ExchanageIcon from "../../../assets/exchange.svg";
 
+
 // Axios
 import axios from "../../../api/axios";
 
@@ -109,26 +110,34 @@ const CryptoWalletTopCards = (props) => {
       });
   };
 
+    const loadData = () => {
+      axios
+        .get(GET_CURRENCY_URL, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then((res) => {
+          // console.log(res.data.data.cryptoCurrencies);
+          setCoinNamesData(res.data.data.cryptoCurrencies);
+        })
+        .catch((err) => {
+          // console.log(err?.response?.status);
+          if (err?.response?.status === 401) {
+            navigate("/user/sign-in");
+          }
+        })
+        .finally(() => {});
+    };
+
+    
+
   useEffect(() => {
-    axios
-      .get(GET_CURRENCY_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data.data.cryptoCurrencies);
-        setCoinNamesData(res.data.data.cryptoCurrencies);
-      })
-      .catch((err) => {
-        // console.log(err?.response?.status);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      })
-      .finally(() => {});
-  }, [GET_CURRENCY_URL, user, navigate]);
+  
+
+    loadData();
+  });
 
   return (
     <>

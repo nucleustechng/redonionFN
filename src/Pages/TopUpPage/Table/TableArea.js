@@ -174,7 +174,7 @@ const TableArea = (prop) => {
                         tablePage * rowsPerPage + rowsPerPage
                       )
                       .map((cd) => (
-                        <StyledTableRow key={cd.id}>
+                        <StyledTableRow key={cd.coinName}>
                           <StyledTableCell
                             // onClick={() => navigate(`/wallets/${cd.coinName}`)}
                             // onClick={handleCloseTwoFAPin}

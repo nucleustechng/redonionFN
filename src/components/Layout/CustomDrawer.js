@@ -75,9 +75,9 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
 
 
   return (
-    <div >
+    <div>
       <Box height={"100%"}>
-        <Box sx={{ mt: 4, ml: 8 }} >
+        <Box sx={{ mt: 4, ml: 8 }}>
           <React.Suspense
             fallback={
               <Skeleton
@@ -86,8 +86,9 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                 width={40}
                 height={40}
                 sx={{
-                  backgroundColor: `${theme.palette.mode === "dark" ? "#111" : "#f5f5f5"
-                    }`,
+                  backgroundColor: `${
+                    theme.palette.mode === "dark" ? "#111" : "#f5f5f5"
+                  }`,
                 }}
               />
             }
@@ -96,32 +97,38 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
               style={{ width: "65%", display: "block", marginLeft: -40 }}
               src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
               onClick={() => navigateAndCloseDrawer("/landing-page")}
-
             />
           </React.Suspense>
         </Box>
 
-
-        <Box ml={1} p={1} mt={4} mb={2}
+        <Box
+          ml={1}
+          p={1}
+          mt={4}
+          mb={2}
           bgcolor={location.pathname === `/account` ? "#3063E9" : ""}
-          style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15, marginLeft: location.pathname === `/account` ? 15 : 0 }}
-          sx={{ cursor: 'pointer' }}
+          style={{
+            borderTopLeftRadius: 15,
+            borderBottomLeftRadius: 15,
+            marginLeft: location.pathname === `/account` ? 15 : 0,
+          }}
+          sx={{ cursor: "pointer" }}
           onClick={() => navigateAndCloseDrawer("/account")}
           button
         >
-
-          <Stack
-            direction="row"
-            pr={3}
-            justifyContent="space-between" >
+          <Stack direction="row" pr={3} justifyContent="space-between">
             <Typography
               fontWeight={400}
               ml={3}
               // py={3}
-              color={location.pathname !== `/account` ? "secondary" : "background.light"}
+              color={
+                location.pathname !== `/account`
+                  ? "secondary"
+                  : "background.light"
+              }
               variant="body2"
             >
-              {user?.user?.firstName}  {user?.user?.lastName}
+              {user?.user?.firstName} {user?.user?.lastName}
             </Typography>
             <LazyImageComponent
               style={{ width: 13, marginTop: 10 }}
@@ -129,62 +136,79 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
             />
           </Stack>
 
-
-
-          <Stack
-            pl={3}
-            direction="row">
+          <Stack pl={3} direction="row">
             <LazyImageComponent
               style={{ width: 13 }}
-              src={location.pathname === `/account` ? LocationIconWhite : LocationIcon}
-
+              src={
+                location.pathname === `/account`
+                  ? LocationIconWhite
+                  : LocationIcon
+              }
             />
             <Typography
               fontWeight={400}
               ml={1}
               fontSize={12}
               // py={3}
-              color={location.pathname !== `/account` ? "secondary" : "background.light"}
+              color={
+                location.pathname !== `/account`
+                  ? "secondary"
+                  : "background.light"
+              }
               variant="body2"
             >
               {user?.country.name}
             </Typography>
-
           </Stack>
-
-
         </Box>
 
-
-<Box ml={-2}>
-
-          <List >
-
-
-            <ListItem
-              sx={{ mb: 1 }}
-
-            >
-              <Box ml={1} p={1} mt={4} mb={2} width={"100%"} mr={-2}
-                bgcolor={location.pathname === `/dashboard/transactions` ? "#3063E9" : ""}
-                style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15, paddingLeft: location.pathname === `/dashboard/transactions` ? 6 : 20, marginLeft: location.pathname === `/dashboard/transactions` ? 20 : 0 }}
-                sx={{ cursor: 'pointer' }}
-                onClick={() => navigateAndCloseDrawer("/dashboard/transactions")}
+        <Box ml={-2}>
+          <List>
+            <ListItem sx={{ mb: 1 }}>
+              <Box
+                ml={1}
+                p={1}
+                mt={4}
+                mb={2}
+                width={"100%"}
+                mr={-2}
+                bgcolor={
+                  location.pathname === `/dashboard/transactions`
+                    ? "#3063E9"
+                    : ""
+                }
+                style={{
+                  borderTopLeftRadius: 15,
+                  borderBottomLeftRadius: 15,
+                  paddingLeft:
+                    location.pathname === `/dashboard/transactions` ? 6 : 20,
+                  marginLeft:
+                    location.pathname === `/dashboard/transactions` ? 20 : 0,
+                }}
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  navigateAndCloseDrawer("/dashboard/transactions")
+                }
                 button
               >
-                <Stack direction="row" ml={1}
-                  py={1.2}>
-
+                <Stack direction="row" ml={1} py={1.2}>
                   <LazyImageComponent
                     style={{ width: 20 }}
-                    src={location.pathname === `/dashboard/transactions` ? TransactionIconWhite : TransactionIcon}
-
+                    src={
+                      location.pathname === `/dashboard/transactions`
+                        ? TransactionIconWhite
+                        : TransactionIcon
+                    }
                   />
                   <Typography
                     fontWeight={400}
                     ml={1}
                     fontSize={16}
-                    color={location.pathname !== `/dashboard/transactions` ? "primary" : "background.light"}
+                    color={
+                      location.pathname !== `/dashboard/transactions`
+                        ? "primary"
+                        : "background.light"
+                    }
                     variant="body2"
                   >
                     Ongoing Transactions
@@ -193,82 +217,103 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
               </Box>
             </ListItem>
           </List>
-</Box>
+        </Box>
         <Toolbar />
-       
-        
-        <List >
-          {LayoutRoutes.map((routes) => (
-            <Box bgcolor={location.pathname === `/dashboard${routes.path}` ? "#3063E9" : ""}
-              style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15, paddingLeft: 10, marginLeft: location.pathname === `/dashboard/${routes.path}` ? 0 : 20 }}
-              key={routes.id}>
-              <ListItem
 
-                onClick={() => navigateAndCloseDrawer(`/dashboard${routes.path}`)}
+        <List>
+          {LayoutRoutes.map((routes) => (
+            <Box
+              bgcolor={
+                location.pathname === `/dashboard${routes.path}`
+                  ? "#3063E9"
+                  : ""
+              }
+              style={{
+                borderTopLeftRadius: 15,
+                borderBottomLeftRadius: 15,
+                paddingLeft: 10,
+                marginLeft:
+                  location.pathname === `/dashboard/${routes.path}` ? 0 : 20,
+              }}
+              key={routes.id}
+            >
+            
+              <ListItem
+                onClick={() =>
+                  navigateAndCloseDrawer(`/dashboard${routes.path}`)
+                }
                 button
               >
                 {/* <Typography>{ location.pathname}</Typography> */}
 
-                <Stack
-
-                  direction="row" ml={-1}
-                  py={1.2}
-
-                >
-
+                <Stack direction="row" ml={-1} py={1.2}>
                   <LazyImageComponent
                     style={{ width: 20 }}
-                    src={location.pathname !== `/dashboard${routes.path}` ? routes.icon : routes.iconLight}
-
+                    src={
+                      location.pathname !== `/dashboard${routes.path}`
+                        ? routes.icon
+                        : routes.iconLight
+                    }
                   />
                   <Typography
                     fontWeight={400}
                     ml={1}
                     // py={1.2}
                     fontSize={16}
-                    color={location.pathname !== `/dashboard${routes.path}` ? "primary" : "background.light"}
+                    color={
+                      location.pathname !== `/dashboard${routes.path}`
+                        ? "primary"
+                        : "background.light"
+                    }
                     variant="body2"
                   >
                     {routes.name}
                   </Typography>
                 </Stack>
-
-
               </ListItem>
             </Box>
           ))}
-
         </List>
 
-       
         <Toolbar />
         <Toolbar />
         <Toolbar />
-        <List >
-          <ListItem
-            sx={{ mb: 1 }}
-
-          >
-            <Box ml={1} p={1} mt={4} mb={0} width={"100%"} mr={-2}
+        <List>
+          <ListItem sx={{ mb: 1 }}>
+            <Box
+              ml={1}
+              p={1}
+              mt={4}
+              mb={0}
+              width={"100%"}
+              mr={-2}
               bgcolor={location.pathname === `/support/help` ? "#3063E9" : ""}
-              style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15, paddingLeft: location.pathname === `/support/help` ? 6 : 20, marginLeft: location.pathname === `/support/help` ? 20 : 0 }}
-              sx={{ cursor: 'pointer' }}
+              style={{
+                borderTopLeftRadius: 15,
+                borderBottomLeftRadius: 15,
+                paddingLeft: location.pathname === `/support/help` ? 6 : 20,
+                marginLeft: location.pathname === `/support/help` ? 20 : 0,
+              }}
+              sx={{ cursor: "pointer" }}
               onClick={() => navigateAndCloseDrawer("/support/help")}
               button
             >
-              <Stack direction="row" ml={1}
-                py={1.2}>
-
+              <Stack direction="row" ml={1} py={1.2}>
                 <LazyImageComponent
                   style={{ width: 20 }}
-                  src={location.pathname === `/support/help` ? helpIconW : helpIcon}
-
+                  src={
+                    location.pathname === `/support/help` ? helpIconW : helpIcon
+                  }
                 />
                 <Typography
                   fontWeight={400}
                   ml={1}
                   fontSize={16}
-                  color={location.pathname !== `/support/help` ? "primary" : "background.light"}
+                  color={
+                    location.pathname !== `/support/help`
+                      ? "primary"
+                      : "background.light"
+                  }
                   variant="body2"
                 >
                   Help Center
@@ -277,30 +322,27 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
             </Box>
           </ListItem>
 
-          <ListItem
-            onClick={() => setOpenSuccessModal(true)}
-            button
-
-          >
-            <Box ml={1} pt={1}  mt={0} mb={2} width={"100%"} mr={-2}
+          <ListItem onClick={() => setOpenSuccessModal(true)} button>
+            <Box
+              ml={1}
+              pt={1}
+              mt={0}
+              mb={2}
+              width={"100%"}
+              mr={-2}
               // bgcolor={location.pathname === `/support/help` ? "#3063E9" : ""}
-              style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15, paddingLeft: location.pathname === `/support/help` ? 6 : 20, marginLeft: location.pathname === `/support/help` ? 20 : 0 }}
-              sx={{ cursor: 'pointer' }}
+              style={{
+                borderTopLeftRadius: 15,
+                borderBottomLeftRadius: 15,
+                paddingLeft: location.pathname === `/support/help` ? 6 : 20,
+                marginLeft: location.pathname === `/support/help` ? 20 : 0,
+              }}
+              sx={{ cursor: "pointer" }}
               onClick={() => setOpenSuccessModal(true)}
               button
             >
-              <Stack
-
-                direction="row" ml={1}
-                py={0}
-
-              >
-
-                <LazyImageComponent
-                  style={{ width: 20 }}
-                  src={LogoutIcon}
-
-                />
+              <Stack direction="row" ml={1} py={0}>
+                <LazyImageComponent style={{ width: 20 }} src={LogoutIcon} />
                 <Typography
                   fontWeight={400}
                   ml={1}
@@ -385,9 +427,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
 
 
           </ListItem> */}
-
         </List>
-
       </Box>
 
       <Suspense fallback={<ModalSkeletons />}>

@@ -410,6 +410,7 @@ const TopUpPage = () => {
                         my={2}
                         py={2}
                         bgcolor={"#F6F0F8"}
+                        key={id}
                       >
                         <Stack
                           direction="row"
@@ -512,10 +513,6 @@ const TopUpPage = () => {
                 </Grid>
               )}
             </Grid>
-
-            <Box>
-              <Stack></Stack>
-            </Box>
 
             {/* <Suspense fallback={<ComponentSkeleton />}>
               <ProviderSelect />

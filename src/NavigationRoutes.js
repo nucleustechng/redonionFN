@@ -17,7 +17,7 @@ const NavRoutes = {
   OtpVerification: { path: "otp-verification" },
   AccountSetup: { path: "/account-setup" },
   Wallets: { path: "/dashboard" },
-  CryptoWallet: { path: "buy" },
+  Dashboard: { path: "buy" },
   TopUp: { path: "exchange" },
   FiatWallet: { path: "history" },
   LoyaltyWallet: { path: "transactions" },

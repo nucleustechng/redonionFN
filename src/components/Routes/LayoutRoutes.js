@@ -22,7 +22,7 @@ const LayoutRoutes = [
   },
 
   {
-    id: 2,
+    id: 3,
     path: "/history",
     icon: whiteHistoryIcon,
     iconLight: HistoryIcon,

@@ -62,7 +62,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
 
   const [amountFees, setAmountFees] = useState(0);
 
@@ -71,8 +71,8 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   const [coinNamesDataTo, setCoinNamesDataTo] = useState([]);
   const [coinNames, setCoinNames] = useState("0");
 
-  const [coinName, setCoinName] = useState("");
-
+  const [coinName, setCoinName] = useState("");;
+const [currencyNames, setcurrencyNames] = useState("USD");
   const [coinRate, setCoinRate] = useState("0");
 
   const [payTextField, setPayTextField] = useState("");
@@ -124,15 +124,15 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
     setLoading(true);
 
     axios
-      .get(GET_CURRENCY_RATE_URL + coin?.id, {
+      .get(GET_CURRENCY_RATE_URL + coin, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
       })
       .then((res) => {
-        console.log(res.data);
-        setCoinRate(res.data.data);
+        console.log(res.data.data.averageExchangeRate);
+        setCoinRate(res.data.data?.averageExchangeRate || 0);
       })
       .catch((err) => {
         // console.log(err?.response?.status);
@@ -149,15 +149,15 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
     setLoading(true);
 
     axios
-      .get(GET_FEES_URL + coin?.id, {
+      .get(GET_FEES_URL + coin, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
       })
       .then((res) => {
-        // console.log(res.data)
-        setAmountFees(res.data.data);
+        console.log(res.data)
+        setAmountFees(res.data.data.fee);
       })
       .catch((err) => {
         if (err?.response?.status === 401) {
@@ -170,13 +170,14 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   };
 
   const handleCoinNameSelection = (e) => {
+    console.log(e.target.value)
     setCoinNames(e.target.value);
-    setCoinName(coinNamesData[e.target.value]);
-    console.log(coinNamesData[coinNames]?.abbreviation);
-    if (e.target.value !== "0") {
-      getCyptoExchangeRate(coinNamesData[e.target.value]);
-      getFees(coinNamesData[e.target.value]);
-    }
+    // setCoinName(coinNamesData[e.target.value]);
+    // console.log(coinNamesData[coinNames]?.abbreviation);
+    // if (e.target.value !== "0") {
+      // getCyptoExchangeRate(coinNamesData[e.target.value]);
+      getCyptoExchangeRate(e.target.value);
+    // }
   };
 
   const getCryto = useCallback(() => {
@@ -190,8 +191,9 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
       .then((res) => {
         // eslint-disable-next-line
         // setAdd(addi++);
+        // console.log(res.data.data.cryptoCurrencies);
         setCoinNamesData(res.data.data.cryptoCurrencies);
-        setCoinNamesDataTo(res.data.data.cryptoCurrencies);
+        // setCoinNamesDataTo(res.data.data.cryptoCurrencies);
       })
       .catch((err) => {
         // console.log(err?.response?.status);
@@ -203,15 +205,13 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   }, [navigate, user]);
 
   useEffect(() => {
-    //  if (addi === 1)
-    //    console.log(addi);
     getCryto();
-  }, [getCryto, addi]);
+  }, );
 
   const onVerify = () => {
-    if (transactionID === "") {
-      return;
-    }
+    // if (transactionID === "") {
+    //   return;
+    // }
 
     // console.log(transactionID)
     setLoading(true);
@@ -221,7 +221,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         CREATE_OFFER_URL,
         JSON.stringify({
           amountInCrypto: Number(amount),
-          cryptoCurrencyId: coinName?.id,
+          cryptoCurrencyId: coinName,
           currencyId: user?.currency?.id,
           tokenPricePerUnit:
             infoRadio === "rate"
@@ -363,10 +363,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
 
                     {coinNamesData.map(
                       ({ id, name, imgUri, network, abbreviation }, index) => (
-                        <MenuItem
-                          key={id}
-                          value={id + " " + abbreviation + " " + imgUri}
-                        >
+                        <MenuItem key={id} value={id}>
                           <Stack
                             direction="row"
                             alignItems="center"
@@ -434,60 +431,22 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                       height: 50,
                       border: 0,
                     }}
-                    value={coinNames}
-                    onChange={handleCoinNameSelection}
+                    value={currencyNames}
                   >
-                    <MenuItem value="0">
-                      <Typography>Select A Coin</Typography>
+                    <MenuItem value="USD">
+                      <Typography>USD</Typography>
                     </MenuItem>
-
-                    {coinNamesDataTo.map(
-                      ({ id, name, imgUri, network, abbreviation }, index) => (
-                        <MenuItem
-                          key={id}
-                          value={id + " " + abbreviation + " " + imgUri}
-                        >
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={2}
-                          >
-                            <Suspense
-                              fallback={
-                                <Skeleton
-                                  animation="wave"
-                                  variant="circular"
-                                  width={40}
-                                  height={40}
-                                  sx={{
-                                    backgroundColor: `${
-                                      theme.palette.mode === "dark"
-                                        ? "#111"
-                                        : "#f5f5f5"
-                                    }`,
-                                  }}
-                                />
-                              }
-                            >
-                              <LazyImageComponent
-                                className={styles.coinIcons}
-                                src={imgUri}
-                              />
-                            </Suspense>
-                            <Typography>{abbreviation}</Typography>
-                          </Stack>
-                        </MenuItem>
-                      )
-                    )}
                   </Select>
                   <Input
                     disableUnderline
                     className="inputField"
                     size="small"
                     type="number"
-                    onChange={(e) => setAmount(e.target.value)}
+                    value={coinRate * amount}
+                    // onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
                     fullWidth
+                    readOnly
                   />
                 </Stack>
               </Box>
@@ -539,7 +498,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                 ) : (
                   <>
                     <Button
-                      onClick={() => setFirstModalA(2)}
+                      onClick={() => onVerify()}
                       fullWidth
                       style={{
                         height: 50,
