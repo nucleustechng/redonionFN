@@ -266,7 +266,7 @@ const TopUpCardMobile = () => {
                   </Box>
                 </Stack>
 
-                <Box
+                {/* <Box
                   height={25}
                   borderRadius={3}
                   py={0.4}
@@ -281,7 +281,7 @@ const TopUpCardMobile = () => {
                   >
                     +0.25%
                   </Typography>
-                </Box>
+                </Box> */}
 
                 <Box>
                   <Stack direction="column" justifyItems={"flex-end"}>
@@ -350,7 +350,7 @@ const TopUpCardMobile = () => {
                   </Box>
                 </Stack>
 
-                <Box
+                {/* <Box
                   height={25}
                   borderRadius={3}
                   py={0.4}
@@ -365,7 +365,7 @@ const TopUpCardMobile = () => {
                   >
                     +0.25%
                   </Typography>
-                </Box>
+                </Box> */}
 
                 <Box>
                   <Stack direction="column" justifyItems={"flex-end"}>

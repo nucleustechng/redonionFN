@@ -75,7 +75,7 @@ const TopUpPage = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
 
   const WALLET_URL = "/wallet/my-wallets";
 
@@ -251,7 +251,7 @@ const TopUpPage = () => {
                                   {cryptoCurrency?.abbreviation}
                                 </Typography>
                               </Box>
-                              <Box>
+                              {/* <Box>
                                 <Stack direction="row">
                                   <LazyImageComponent src={ArrowUp} />
                                   <Typography
@@ -263,7 +263,7 @@ const TopUpPage = () => {
                                     +0.25%
                                   </Typography>
                                 </Stack>
-                              </Box>
+                              </Box> */}
                             </Stack>
                           </Box>
                         </Grid>
@@ -450,7 +450,7 @@ const TopUpPage = () => {
                             </Box>
                           </Stack>
 
-                          <Box
+                          {/* <Box
                             height={25}
                             borderRadius={3}
                             py={0.4}
@@ -465,7 +465,7 @@ const TopUpPage = () => {
                             >
                               +0.25%
                             </Typography>
-                          </Box>
+                          </Box> */}
 
                           <Box>
                             <Stack direction="column" justifyItems={"flex-end"}>
