@@ -18,13 +18,15 @@ import {
   MenuItem,
   Input,
   useMediaQuery,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box } from "@mui/system";
-import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
+
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
+import Close from "@mui/icons-material/Close";
 
 import ExchanageIcon from "../../../assets/exchange.svg";
 
@@ -60,8 +62,19 @@ const CryptoWalletTopCards = (props) => {
   const [coinNamesSecond, setCoinNamesSecond] = useState(0);
   const [coinNamesShow, setCoinNamesShow] = useState("");
   const [showPin, setShowPin] = useState(false);
+   const [info, setInfo] = useState("");
 
   const [coinRate, setCoinRate] = useState("0");
+
+   const [showMsg, setShowMsg] = useState("");
+
+   // Send Snackbar
+   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
+     useState(false);
+
+   const handleCloseSendSnackbar = () => {
+     setShowSendSuccessfullSnackbar(false);
+   };
 
   const handleCoinNameSelection = (e) => { console.log(e.target.value);
     setCoinNames(e.target.value);
@@ -82,6 +95,7 @@ const CryptoWalletTopCards = (props) => {
   const GET_SWAP_FEE_URL = "/transaction/swap-fee";
 
   const onClickSuccess = () => {
+    //  setShowPin(!showPin);
     if (amount === "" || coinNames === "0" || coinNamesSecond === "0") {
       return;
     } else {
@@ -102,15 +116,23 @@ const CryptoWalletTopCards = (props) => {
           }
         )
         .then((res) => {
-          console.log(res);
+          if (res?.data?.data){
+            setInfo(res?.data?.data);
+            setShowPin(!showPin);
+          } else{
+              setShowSendSuccessfullSnackbar(true);
+              setShowMsg(res?.data?.msg);
+          }
           setLoading(false);
-          // setCoinRate(res?.data?.data);
-          // setShowPin(!showPin);
+         
+          
         })
         .catch((err) => {
-          console.log(err);
+         
           if (err?.response?.status === 401) {
             navigate("/user/sign-in");
+          }else{
+              // console.log(err);
           }
         })
         .finally(() => setLoading(false));
@@ -142,18 +164,38 @@ const CryptoWalletTopCards = (props) => {
 
   return (
     <>
-      
       <Box
         mt={isMobile ? -12 : -8}
         borderBottom={isMobile ? 0 : 6}
         borderColor={"#D048DC"}
         borderRadius={10}
       >
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={showSendSuccessfullSnackbar}
+          autoHideDuration={3000}
+          onClose={handleCloseSendSnackbar}
+        >
+          <Alert
+            action={
+              <IconButton onClick={handleCloseSendSnackbar} sx={{ mt: -0.5 }}>
+                <Close sx={{ fontSize: "1.5rem" }} />
+              </IconButton>
+            }
+            icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
+            sx={{ fontSize: "1rem" }}
+            onClose={handleCloseSendSnackbar}
+            severity={"error"}
+          >
+            {showMsg}
+          </Alert>
+        </Snackbar>
         <SwapModal
           fromCurrency={coinNames}
           toCurrency={coinNamesSecond}
           amount={amount}
           open={showPin}
+          info={info}
           onClose={onClickSuccess}
         />
         <Box
@@ -329,28 +371,35 @@ const CryptoWalletTopCards = (props) => {
                 mb={isTablet ? 2 : 0}
                 width={isMobile ? "115%" : isTablet ? "100%" : "15%"}
               >
-                  {loading ? (
-            <LoadingButton
-              style={{ height: 60, borderRadius: 10, fontSize: 16, textTransform: 'none' }}
-              loading variant="outlined">
-              Sign Up
-            </LoadingButton>
-          ) : (
-                <Button
-                  onClick={onClickSuccess}
-                  fullWidth
-                  style={{
-                    height: 50,
-                    borderRadius: 10,
-                    fontSize: 16,
-                    textTransform: "none",
-                  }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Swap
-                </Button>
-          )}
+                {loading ? (
+                  <LoadingButton
+                    style={{
+                      height: 60,
+                      borderRadius: 10,
+                      fontSize: 16,
+                      textTransform: "none",
+                    }}
+                    loading
+                    variant="outlined"
+                  >
+                    Sign Up
+                  </LoadingButton>
+                ) : (
+                  <Button
+                    onClick={onClickSuccess}
+                    fullWidth
+                    style={{
+                      height: 50,
+                      borderRadius: 10,
+                      fontSize: 16,
+                      textTransform: "none",
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Swap
+                  </Button>
+                )}
               </Box>
             </Stack>
           </Box>
@@ -378,7 +427,6 @@ const CryptoWalletTopCards = (props) => {
           </Stack> */}
         </Box>
       </Box>
-       
     </>
   );
 };

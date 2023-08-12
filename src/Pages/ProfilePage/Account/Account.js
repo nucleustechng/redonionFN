@@ -12,9 +12,8 @@ import {
   useMediaQuery,
   useTheme,
   Typography,
-  Button
+  Button,
 } from "@mui/material";
-
 
 import MobileNavDrawerPermanent from "../../../components/Layout/MobileNavDrawerPermanent";
 
@@ -29,7 +28,7 @@ import AuthProgress from "../../../components/AuthProgress/AuthProgress";
 import Close from "@mui/icons-material/Close";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 
-import RemoveIcon from "@mui/icons-material/Remove"
+import RemoveIcon from "@mui/icons-material/Remove";
 
 // Component Loader
 import ComponentLoader from "../../../components/ProgressLoader/ComponentLoader";
@@ -37,10 +36,10 @@ import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
 import MobileNavDrawer from "../../../components/Layout/MobileNavDrawer";
 import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
 
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TwoFA from "../../../assets/Scan.svg";
 import PasswordSquare from "../../../assets/MoreSquare.svg";
@@ -49,12 +48,18 @@ import Wallet from "../../../assets/Wallet.svg";
 import DeleteIcon from "../../../assets/delete.svg";
 
 // Lazy Components
-const DeleteAccountModal = React.lazy(() => import("./OtherOptions/DeleteAccountModal.js"));
+const DeleteAccountModal = React.lazy(() =>
+  import("./OtherOptions/DeleteAccountModal.js")
+);
 const DeleteAccountModalMobile = React.lazy(() =>
   import("./OtherOptions/DeleteAccountModalMobile")
 );
-const ChangePasswordModal = React.lazy(() => import("./OtherOptions/ChangePasswordModal"));
-const AccountModal = React.lazy(() => import("./OtherOptions/ChangeAccountModal"));
+const ChangePasswordModal = React.lazy(() =>
+  import("./OtherOptions/ChangePasswordModal")
+);
+const AccountModal = React.lazy(() =>
+  import("./OtherOptions/ChangeAccountModal")
+);
 const WalletModal = React.lazy(() => import("./OtherOptions/WalletModal"));
 const ChangePasswordModalMobile = React.lazy(() =>
   import("./OtherOptions/ChangePasswordModalMobile")
@@ -83,7 +88,7 @@ const Account = () => {
 
   const [openWalletModal, setOpenWalletModal] = useState(false);
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   // Menu
   const [anchorElMenu, setAnchorElMenu] = React.useState(null);
 
@@ -94,20 +99,16 @@ const Account = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-
-
   const handleCloseTwoFAPin = () => {
-    if (user?.user?.twoFactorAuthType !== "EMAIL_OTP"){
+    if (user?.user?.twoFactorAuthType !== "EMAIL_OTP") {
       setShowPin(!showPin);
     }
-   
   };
 
   const handleCloseAutheticate = () => {
     if (user?.user?.twoFactorAuthType !== "2FA_OTP") {
       setShowAutheticate(!showAutheticate);
     }
-   
   };
 
   const handleWallet = () => {
@@ -125,7 +126,6 @@ const Account = () => {
   const handleOpenAccountModal = () => {
     setOpenAccountModal(!openAccountModal);
   };
-
 
   const handleDeleteAccountDrawer = () => {
     setOpenDeleteAccountModal(!openDeleteAccountModal);
@@ -151,7 +151,6 @@ const Account = () => {
     setShowAuthenticationSnackbar(false);
   };
 
-
   const handleClickMenu = (event) => {
     setAnchorElMenu(event.currentTarget);
   };
@@ -162,7 +161,6 @@ const Account = () => {
   const handleChange = (panel) => {
     setExpanded(panel);
   };
-
 
   // Close the authorization modal
   useEffect(() => {
@@ -178,6 +176,42 @@ const Account = () => {
 
   return (
     <React.Fragment>
+      <TwoFAPinModal
+        open={showPin}
+        onClose={handleCloseTwoFAPin}
+        openAuthorizationModal={handleOpenAuthProgressModal}
+      />
+      <Suspense fallback={<ModalSkeletons />}>
+        <ChangePasswordModal
+          open={openChangePasswordModal}
+          handleClose={handleOpenChangePasswordModal}
+        />
+      </Suspense>
+      <Suspense fallback={<ModalSkeletons />}>
+        <AccountModal
+          open={openAccountModal}
+          handleClose={handleOpenAccountModal}
+        />
+      </Suspense>
+
+      {/* {!isMobile && ( */}
+      <Suspense fallback={<ModalSkeletons />}>
+        <WalletModal open={openWalletModal} handleClose={handleWallet} />
+      </Suspense>
+      {/* )} */}
+      <Suspense fallback={<ModalSkeletons width={500} />}>
+        <DeleteAccountModal
+          open={openDeleteAccountModal}
+          handleClose={handleOpenDeleteAccountModal}
+        />
+      </Suspense>
+
+      <Suspense fallback={<ModalSkeletons />}>
+        <AuthenticatorModal
+          open={showAutheticate}
+          onClose={handleCloseAutheticate}
+        />
+      </Suspense>
       {!isMobile && (
         <Box className={styles.mainBox}>
           {/* <Snackbar
@@ -211,11 +245,6 @@ const Account = () => {
         open={openAuthProgressModal}
         onClose={handleCloseAuthProgressModal}
       /> */}
-          <TwoFAPinModal
-            open={showPin}
-            onClose={handleCloseTwoFAPin}
-            openAuthorizationModal={handleOpenAuthProgressModal}
-          />
 
           <Box mb={3}>
             <Suspense fallback={<AccountCardSkeletons width={"100%"} />}>
@@ -383,12 +412,7 @@ const Account = () => {
           </Accordion>
 
           {/* {!isMobile ? ( */}
-          <Suspense fallback={<ModalSkeletons width={500} />}>
-            <DeleteAccountModal
-              open={openDeleteAccountModal}
-              handleClose={handleOpenDeleteAccountModal}
-            />
-          </Suspense>
+
           {/* // ) : (
       //   <MobileNavDrawer
       //     handleClickMenu={handleClickMenu}
@@ -405,12 +429,7 @@ const Account = () => {
       //   </MobileNavDrawer>
       // )} */}
           {/* {!isMobile ? ( */}
-          <Suspense fallback={<ModalSkeletons />}>
-            <ChangePasswordModal
-              open={openChangePasswordModal}
-              handleClose={handleOpenChangePasswordModal}
-            />
-          </Suspense>
+
           {/* ) : (
         <MobileNavDrawer
           handleClickMenu={handleClickMenu}
@@ -425,26 +444,6 @@ const Account = () => {
           </Suspense>
         </MobileNavDrawer>
       )} */}
-
-          <Suspense fallback={<ModalSkeletons />}>
-            <AccountModal
-              open={openAccountModal}
-              handleClose={handleOpenAccountModal}
-            />
-          </Suspense>
-
-          {!isMobile && (
-            <Suspense fallback={<ModalSkeletons />}>
-              <WalletModal open={openWalletModal} handleClose={handleWallet} />
-            </Suspense>
-          )}
-
-          <Suspense fallback={<ModalSkeletons />}>
-            <AuthenticatorModal
-              open={showAutheticate}
-              onClose={handleCloseAutheticate}
-            />
-          </Suspense>
 
           {/* <Box>
         <Suspense
@@ -484,7 +483,185 @@ const Account = () => {
         <MobileNavDrawerPermanent user={user}>
           <Box>
             <Suspense fallback={<ComponentSkeleton />}>
-              {/* <TopUpCardMobile /> */}
+              <Box className={styles.mainBox}>
+                <Box mb={3}>
+                  <Suspense fallback={<AccountCardSkeletons width={"100%"} />}>
+                    <ProfileInfo handleClickMenu={handleClickMenu} />
+                  </Suspense>
+                </Box>
+
+                <Accordion
+                  sx={{ background: theme.palette.background.default }}
+                  expanded={expanded === "panel1"}
+                  onChange={() => handleChange("panel1")}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent src={TwoFA} />
+                    </Box>
+
+                    <Typography ml={1.5}>
+                      2FA
+                      <Typography
+                        fontSize={14}
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Enable your Two Factor Authentication
+                      </Typography>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Box
+                      Button
+                      onClick={handleCloseTwoFAPin}
+                      sx={{ cursor: "pointer" }}
+                      p={1.5}
+                      borderRadius={3}
+                      bgcolor={
+                        user?.user?.twoFactorAuthType === "EMAIL_OTP"
+                          ? "#58BD7D"
+                          : theme.palette.mode === "dark"
+                          ? "#333"
+                          : "#E8E8F3"
+                      }
+                    >
+                      <Typography fontSize={14}>Email</Typography>
+                      <Typography fontSize={12}>
+                        An OTP will be sent to your email.
+                      </Typography>
+                    </Box>
+                    <Box
+                      Button
+                      onClick={handleCloseAutheticate}
+                      sx={{ cursor: "pointer" }}
+                      mt={2}
+                      p={1.5}
+                      borderRadius={3}
+                      bgcolor={
+                        user?.user?.twoFactorAuthType === "2FA_OTP"
+                          ? "#58BD7D"
+                          : theme.palette.mode === "dark"
+                          ? "#333"
+                          : "#E8E8F3"
+                      }
+                    >
+                      <Typography fontSize={14}>Authenticator app</Typography>
+                      <Typography fontSize={12}>
+                        Generate a code from an authenticator app, e.g.
+                        Microsoft or Google Authenticator.
+                      </Typography>
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+
+                <Accordion
+                  Button
+                  onClick={handleOpenChangePasswordModal}
+                  sx={{ background: theme.palette.background.default }}
+                  expanded={expanded === "panel2"}
+                  onChange={() => handleChange("panel2")}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2bh-content"
+                    id="panel2bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent src={PasswordSquare} />
+                    </Box>
+
+                    <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+                      Password
+                      <Typography
+                        fontSize={14}
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Change your Password
+                      </Typography>
+                    </Typography>
+                  </AccordionSummary>
+                </Accordion>
+                <Accordion
+                  Button
+                  onClick={handleOpenAccountModal}
+                  sx={{ background: theme.palette.background.default }}
+                  expanded={expanded === "panel3"}
+                  onChange={() => handleChange("panel3")}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel3bh-content"
+                    id="panel3bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent src={AccountDetails} />
+                    </Box>
+
+                    <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+                      Account details
+                      <Typography
+                        fontSize={14}
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Change account number
+                      </Typography>
+                    </Typography>
+                  </AccordionSummary>
+                </Accordion>
+                {/* <Accordion
+        Button
+        onClick={handleWallet}
+        sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel4'} onChange={() => handleChange('panel4')}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel4bh-content"
+          id="panel4bh-header"
+        >
+          <Box>
+            <LazyImageComponent
+              src={Wallet}
+            />
+          </Box>
+
+          <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+            Connect Wallet
+            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Connect your crypto wallet</Typography>
+          </Typography>
+        </AccordionSummary>
+      </Accordion> */}
+                <Accordion
+                  Button
+                  onClick={handleOpenDeleteAccountModal}
+                  sx={{ background: theme.palette.background.default }}
+                  expanded={expanded === "panel5"}
+                  onChange={() => handleChange("panel5")}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel5bh-content"
+                    id="panel5bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent src={DeleteIcon} />
+                    </Box>
+
+                    <Typography ml={1.5}>
+                      Delete Account
+                      <Typography
+                        fontSize={14}
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Deleting account will lead to complete loss of this
+                        account.
+                      </Typography>
+                    </Typography>
+                  </AccordionSummary>
+                </Accordion>
+              </Box>
             </Suspense>
           </Box>
         </MobileNavDrawerPermanent>

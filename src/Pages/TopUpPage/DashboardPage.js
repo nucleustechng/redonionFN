@@ -40,6 +40,9 @@ import moment from "moment";
 import TableArea from "./Table/TableArea";
 import TopUpCardMobile from "./TopUpCard/TopUpCardMobile";
 import SendTokenModal from "./ProviderSelect/SendTokenModal";
+import Notification from "../../assets/notification.svg";
+import CreateNotifcationModal from "../BuyWallet/CreateRequestModal/CreateNotifcationModal";
+
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
   import("../../components/LazyImageComponent/LazyImageComponent")
@@ -55,6 +58,8 @@ const TopUpPage = () => {
 
   const [coinData, setCoinData] = useState([]);
 
+  const [coinID, setCoinID] = useState("");
+
   const [walletData, setWalletData] = useState("");
 
   const [walletID, setWalletID] = useState("");
@@ -62,6 +67,10 @@ const TopUpPage = () => {
   const [loading, setLoading] = useState(false);
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
+
+  const [showNotification, setShowNotification] = useState(false);
+
+  const [unread, setUnread] = useState(0);
 
   const openMenu = Boolean(anchorElMenu);
 
@@ -77,6 +86,10 @@ const TopUpPage = () => {
     setShowSnackbar(false);
   };
 
+  const handleNotification = () => {
+    setShowNotification(!showNotification);
+  };
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
@@ -85,7 +98,10 @@ const TopUpPage = () => {
 
   const WALLET_MAIN_URL = "/wallet/";
 
+  const GET_UNREAD_URL = "/user/notification/unread";
+
   const getCyptoExchangeRate = (coin) => {
+    setCoinID(coin);
     setLoading(true);
     axios
       .get(WALLET_MAIN_URL + coin, {
@@ -113,6 +129,7 @@ const TopUpPage = () => {
       })
       .then((res) => {
         let data = res.data.data.wallets;
+        setCoinID(data[0]?.id);
         axios
           .get(WALLET_MAIN_URL + data[0]?.id, {
             headers: {
@@ -123,7 +140,7 @@ const TopUpPage = () => {
           .then((res) => {
             setLoading(false);
             let data = res.data.data.wallet;
-            console.log(res.data.data.wallet);
+            // console.log(res.data.data.wallet);
             setWalletData(data);
             setWalletID(data?.walletAddress);
           });
@@ -135,6 +152,23 @@ const TopUpPage = () => {
           navigate("/user/sign-in");
         }
       });
+    axios
+      .get(GET_UNREAD_URL, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        setUnread(res.data.data.unread);
+      })
+      .catch((err) => {
+        // console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        }
+      })
+      .finally(() => {});
   }, [navigate, user]);
 
   return (
@@ -161,6 +195,11 @@ const TopUpPage = () => {
           open={openSuccessModal}
         />
       </Suspense>
+      <CreateNotifcationModal
+        open={showNotification}
+        onClose={handleNotification}
+      />
+
       {!isMobile && (
         <Box
           px={3}
@@ -168,50 +207,84 @@ const TopUpPage = () => {
           className={!isTablet ? styles.mainBox : styles.mainBoxTab}
         >
           <Box borderRadius={3} px={2} py={1.5} bgcolor={"#E8E8F3"}>
-            <Stack direction="row">
-              <Typography fontSize={18} variant="h6" color="secondary">
-                Hello, {user?.user?.firstName}
-              </Typography>
-              <Typography
-                fontSize={18}
-                fontWeight={200}
-                ml={1}
-                variant="h6"
-                color="secondary"
-              >
-                |
-              </Typography>
-              <Stack mt={0.1} pl={1} direction="row">
-                <LazyImageComponent style={{ width: 15 }} src={LocationIcon} />
+            <Stack direction="row" justifyContent={"space-between"}>
+              <Stack mt={0.5} direction="row">
+                <Typography fontSize={18} variant="h6" color="secondary">
+                  Hello, {user?.user?.firstName}
+                </Typography>
                 <Typography
-                  mt={0.3}
-                  fontWeight={400}
+                  fontSize={18}
+                  fontWeight={200}
                   ml={1}
-                  fontSize={16}
-                  variant="body2"
+                  variant="h6"
+                  color="secondary"
                 >
-                  {user?.country.name}
+                  |
+                </Typography>
+                <Stack pl={1} direction="row">
+                  <Box mt={0.8}>
+                    <LazyImageComponent
+                      style={{ width: 15 }}
+                      src={LocationIcon}
+                    />
+                  </Box>
+                  <Typography
+                    mt={0.3}
+                    fontWeight={400}
+                    ml={1}
+                    fontSize={16}
+                    variant="body2"
+                  >
+                    {user?.country.name}
+                  </Typography>
+                </Stack>
+                <Typography
+                  fontSize={18}
+                  fontWeight={200}
+                  ml={1}
+                  variant="h6"
+                  color="secondary"
+                >
+                  |
+                </Typography>
+                <Typography
+                  fontSize={16}
+                  fontWeight={500}
+                  ml={1}
+                  mt={0.2}
+                  variant="h6"
+                  color="secondary"
+                >
+                  {moment().format("Do MMMM, YYYY")}
                 </Typography>
               </Stack>
-              <Typography
-                fontSize={18}
-                fontWeight={200}
-                ml={1}
-                variant="h6"
-                color="secondary"
+              <Box
+                mt={1}
+                Button
+                onClick={handleNotification}
+                sx={{ cursor: "pointer" }}
               >
-                |
-              </Typography>
-              <Typography
-                fontSize={16}
-                fontWeight={500}
-                ml={1}
-                mt={0.2}
-                variant="h6"
-                color="secondary"
-              >
-                {moment().format("Do MMMM, YYYY")}
-              </Typography>
+                <Box
+                  position={"absolute"}
+                  borderRadius={"50%"}
+                  top={isMobile ? 105 : 32}
+                  width={25}
+                  height={25}
+                  bgcolor={"#ff0000"}
+                >
+                  <center>
+                    <Typography
+                      variant="caption"
+                      fontSize={11}
+                      fontWeight={500}
+                      color="secondary"
+                    >
+                      {unread > 100 ? "99+" : unread}
+                    </Typography>
+                  </center>
+                </Box>
+                <LazyImageComponent src={Notification} />
+              </Box>
             </Stack>
           </Box>
 
@@ -423,10 +496,12 @@ const TopUpPage = () => {
                   {coinData.map(
                     ({ id, cryptoCurrency, cryptoCurrencyId }, index) => (
                       <Box
+                        border={coinID === id ? 1 : 0}
+                        borderColor={"#3063E9"}
                         borderRadius={4}
                         bgcolor={"#F6F0F8"}
                         Button
-                        sx={{ cursor: "pointer"}}
+                        sx={{ cursor: "pointer" }}
                         onClick={() => getCyptoExchangeRate(id)}
                         px={2}
                         my={2}

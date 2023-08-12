@@ -219,10 +219,10 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
                     <Typography
                       variant="caption"
                       textTransform={"none"}
-                      fontSize={20}
-                      color="background.light"
+                      fontSize={16}
+                      // color="background.light"
                     >
-                      No Notification
+                      No Notification...
                     </Typography>
                   </Box>
                 </Stack>

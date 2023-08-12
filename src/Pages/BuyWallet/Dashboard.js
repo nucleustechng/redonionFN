@@ -31,14 +31,12 @@ import FaitBuyActive from "../../assets/fiatBuyActive.svg";
 import Crpyto from "../../assets/crytoBuy.svg";
 import CrpytoActive from "../../assets/crytoBuyActive.svg";
 
-import Notification from "../../assets/notification.svg";
-
 // Axios
 import axios from "../../api/axios";
 
 import CreateRequestModal from "./CreateRequestModal/CreateRequestModal";
 
-import CreateNotifcationModal from "./CreateRequestModal/CreateNotifcationModal";
+
 
 // Lazy Image component
 const BuyWalletTopCards = React.lazy(() => import("./BuyTopCards/BuyCard"));
@@ -89,11 +87,11 @@ const CryptoWalletInterface = () => {
 
   const [showKey, setShowKey] = useState(1);
 
-  const [unread, setUnread] = useState(0);
+ 
 
   const [addi, setAdd] = useState(0);
 
-  const [showNotification, setShowNotification] = useState(false);
+  
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
@@ -117,9 +115,7 @@ const CryptoWalletInterface = () => {
     setShowSell(!showSell);
   };
 
-  const handleNotification = () => {
-    setShowNotification(!showNotification);
-  };
+
 
   const sendData = (data) => {
     setInfo(data);
@@ -144,7 +140,7 @@ const CryptoWalletInterface = () => {
 
   const CURENCY_URL = "/user/get-currencies?countryId=";
 
-  const GET_UNREAD_URL = "/user/notification/unread";
+  
 
   // Fetching Data
   useEffect(() => {
@@ -182,23 +178,7 @@ const CryptoWalletInterface = () => {
         }
       });
 
-    axios
-      .get(GET_UNREAD_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        setUnread(res.data.data.unread);
-      })
-      .catch((err) => {
-        // console.log(err?.response?.status);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      })
-      .finally(() => {});
+   
   }, [user, navigate]);
 
   return (
@@ -220,13 +200,19 @@ const CryptoWalletInterface = () => {
                 currency={curencyData}
                 onClose={handleSell}
               />
-              <CreateNotifcationModal
-                open={showNotification}
-                onClose={handleNotification}
-              />
 
               <Box mx={4} mb={2}>
                 <Stack direction="row" mt={-6} justifyContent="space-between">
+                  <Box mx={4} mb={isTablet ? -2 : 1}>
+                    <Typography
+                      variant="caption"
+                      fontSize={30}
+                      fontWeight={500}
+                      color="secondary"
+                    >
+                      Trade{" "}
+                    </Typography>
+                  </Box>
                   <Button
                     onClick={handleSell}
                     width={200}
@@ -241,46 +227,7 @@ const CryptoWalletInterface = () => {
                   >
                     Create A Sell Offer
                   </Button>
-
-                  <Box
-                    p={3}
-                    Button
-                    onClick={handleNotification}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <Box
-                      position={"absolute"}
-                      borderRadius={"50%"}
-                      top={isMobile ? 105 : 50}
-                      width={25}
-                      height={25}
-                      bgcolor={"#ff0000"}
-                    >
-                      <center>
-                        <Typography
-                          variant="caption"
-                          fontSize={11}
-                          fontWeight={500}
-                          color="secondary"
-                        >
-                          {unread > 100 ? "99+" : unread}
-                        </Typography>
-                      </center>
-                    </Box>
-                    <LazyImageComponent src={Notification} />
-                  </Box>
                 </Stack>
-              </Box>
-
-              <Box mx={4} mb={isTablet ? -2 : 1}>
-                <Typography
-                  variant="caption"
-                  fontSize={30}
-                  fontWeight={500}
-                  color="secondary"
-                >
-                  Trade{" "}
-                </Typography>
               </Box>
 
               <RadioGroup>
@@ -315,7 +262,6 @@ const CryptoWalletInterface = () => {
                         src={FaitBuy}
                       />
                     )}
-                 
                   </Box>
 
                   <Box

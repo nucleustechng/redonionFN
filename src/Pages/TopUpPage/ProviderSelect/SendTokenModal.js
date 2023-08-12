@@ -40,7 +40,9 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
+  const [rate, setRate] = useState("");
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
@@ -51,6 +53,8 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
   const TRANSFER_MAIN_URL = "/wallet/transfer";
 
   const getCyptoExchangeRate = () => {
+    setRate(wallet?.cryptoCurrency?.abbreviation);
+    console.log(wallet?.cryptoCurrency?.abbreviation);
     if (amount === "" || address === "") {
       return;
     }
@@ -73,8 +77,15 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
       )
       .then((res) => {
         setLoading(false);
-        let data = res.console.log(res.data);
-        // setWalletData(data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        } else {
+          setShowSnackbar(true);
+          setMsg(err.response?.data.msg);
+        }
       })
       .finally(() => setLoading(false));
   };
@@ -102,9 +113,10 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
       )
       .then((res) => {
         setLoading(false);
-       console.log(res?.data?.msg);
-      
-       alert(res?.data?.msg);
+        setShowSnackbar(true);
+        // console.log(res?.data?.msg);
+        setMsg(res?.data?.msg);
+        // alert(res?.data?.msg);
         // setWalletData(data);
       })
       .catch((err) => {
@@ -127,7 +139,6 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
       open={open}
       onClose={handleClose}
     >
-    
       <Box
         bgcolor="background.paper"
         className={
@@ -136,6 +147,26 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
             : styles.changePasswordModalBody
         }
       >
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={showSnackbar}
+          autoHideDuration={3000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert
+            action={
+              <IconButton onClick={handleCloseSnackbar} sx={{ mt: -0.5 }}>
+                <Close sx={{ fontSize: "1.5rem" }} />
+              </IconButton>
+            }
+            icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
+            sx={{ fontSize: "1rem" }}
+            onClose={handleCloseSnackbar}
+            severity="error"
+          >
+            {msg}
+          </Alert>
+        </Snackbar>
         <Box mt={3}>
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Typography
@@ -171,7 +202,8 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
                 if (e.target.value <= Number(wallet?.balance)) {
                   setAmount(e.target.value);
                 } else {
-                  alert("Amount is out of range!");
+                  setShowSnackbar(true);
+                  setMsg("Amount is out of range!");
                 }
               }}
               placeholder="0.00"
@@ -197,6 +229,13 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
             />
           </Box>
         </Box>
+        <Box mt={1}>
+          {rate && (
+            <Typography fontSize={14} mb={1.5} fontWeight={600}>
+              Rate: {rate}
+            </Typography>
+          )}
+        </Box>
         <Stack mt={4}>
           {loading ? (
             <LoadingButton loading variant="outlined">
@@ -204,19 +243,35 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
             </LoadingButton>
           ) : (
             <>
-              <Button
-                onClick={postTransfer}
-                style={{
-                  height: 60,
-                  borderRadius: 10,
-                  fontSize: 18,
-                  textTransform: "none",
-                }}
-                variant="contained"
-                color="primary"
-              >
-                Transfer
-              </Button>
+              {rate ? (
+                <Button
+                  onClick={postTransfer}
+                  style={{
+                    height: 60,
+                    borderRadius: 10,
+                    fontSize: 18,
+                    textTransform: "none",
+                  }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Transfer
+                </Button>
+              ) : (
+                <Button
+                  onClick={getCyptoExchangeRate}
+                  style={{
+                    height: 60,
+                    borderRadius: 10,
+                    fontSize: 18,
+                    textTransform: "none",
+                  }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Get Rate
+                </Button>
+              )}
             </>
           )}
         </Stack>

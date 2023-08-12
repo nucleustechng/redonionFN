@@ -7,14 +7,6 @@ import {
   useMediaQuery,
   Input,
   Button,
-  Radio,
-  Tooltip,
-  RadioGroup,
-  FormControlLabel,
-  Select,
-  MenuItem,
-  Skeleton,
-  Zoom,
   IconButton,
   Snackbar,
   Alert,
@@ -51,7 +43,14 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const SwapModal = ({ open, onClose, amount, fromCurrency, toCurrency }) => {
+const SwapModal = ({
+  open,
+  onClose,
+  amount,
+  fromCurrency,
+  toCurrency,
+  info,
+}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -99,10 +98,8 @@ const SwapModal = ({ open, onClose, amount, fromCurrency, toCurrency }) => {
         if (err?.response?.status === 401) {
           navigate("/user/sign-in");
         } else {
-          setShowMsg(err?.response.data.msg);
-
-          console.log(err?.response.data.msg);
           setShowSendSuccessfullSnackbar(true);
+          setShowMsg(err?.response.data.msg);
         }
       });
   };
@@ -176,6 +173,9 @@ const SwapModal = ({ open, onClose, amount, fromCurrency, toCurrency }) => {
             </Stack>
 
             <Box mt={5}>
+              <Typography>Swap Fee: {info}</Typography>
+            </Box>
+            <Box mt={2}>
               <Typography>
                 You will receive a email notifying you of the status.
               </Typography>

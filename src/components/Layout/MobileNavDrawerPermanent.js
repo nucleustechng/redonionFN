@@ -9,8 +9,8 @@ import {
   Button,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SettingsIcon from "@mui/icons-material/Settings";
+
+import axios from "../../api/axios";
 
 import { Box } from "@mui/system";
 import CreateNotifcationModal from "../../Pages/BuyWallet/CreateRequestModal/CreateNotifcationModal";
@@ -45,16 +45,42 @@ const MobileNavDrawerPermanent = ({
 
   const location = useLocation();
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [showNotification, setShowNotification] = useState(false);
 
   const handleNotification = () => {
     setShowNotification(!showNotification);
   };
+  const GET_UNREAD_URL = "/user/notification/unread";
+
+  useEffect(() => {
+    axios
+      .get(GET_UNREAD_URL, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        setUnread(res.data.data.unread);
+      })
+      .catch((err) => {
+        // console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        }
+      })
+      .finally(() => {});
+  }, [navigate, user]);
 
   return (
     <Box>
+      <CreateNotifcationModal
+        open={showNotification}
+        onClose={handleNotification}
+      />
+
       <Drawer
         variant="permanent"
         sx={{
@@ -109,6 +135,17 @@ const MobileNavDrawerPermanent = ({
               </Typography>
             )}
 
+            {location.pathname === "/account" && (
+              <Typography
+                fontWeight={600}
+                fontSize={30}
+                variant="body1"
+                color="secondary"
+              >
+                Profile
+              </Typography>
+            )}
+
             <Box Button onClick={handleNotification} sx={{ cursor: "pointer" }}>
               {/* <Box
                   position={"absolute"}
@@ -129,7 +166,35 @@ const MobileNavDrawerPermanent = ({
                     </Typography>
                   </center>
                 </Box> */}
-              <LazyImageComponent src={Notification} />
+              {location.pathname === "/dashboard/exchange" && (
+                <Box
+                  mt={1}
+                  Button
+                  onClick={handleNotification}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <Box
+                    position={"absolute"}
+                    borderRadius={"50%"}
+                    top={10}
+                    width={25}
+                    height={25}
+                    bgcolor={"#ff0000"}
+                  >
+                    <center>
+                      <Typography
+                        variant="caption"
+                        fontSize={11}
+                        fontWeight={500}
+                        color="secondary"
+                      >
+                        {unread > 100 ? "99+" : unread}
+                      </Typography>
+                    </center>
+                  </Box>
+                  <LazyImageComponent src={Notification} />
+                </Box>
+              )}
             </Box>
           </Stack>
         </Box>

@@ -49,6 +49,8 @@ const TopUpCardMobile = (prop) => {
 
   const [walletData, setWalletData] = useState("");
 
+  const [coinID, setCoinID] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const [walletID, setWalletID] = useState("");
@@ -56,6 +58,7 @@ const TopUpCardMobile = (prop) => {
    const WALLET_MAIN_URL = "/wallet/";
 
    const getCyptoExchangeRate = (coin) => {
+    setCoinID(coin);
      setLoading(true);
      axios
        .get(WALLET_MAIN_URL + coin, {
@@ -74,6 +77,7 @@ const TopUpCardMobile = (prop) => {
    };
 
   useEffect(() => {
+    setCoinID(prop.walletData?.id);
     setWalletData(prop.walletData);
     setWalletID(prop.walletID);
     setCoinData(prop.coinData);
@@ -237,6 +241,9 @@ const TopUpCardMobile = (prop) => {
             </Typography>
             {coinData.map(({ id, cryptoCurrency, cryptoCurrencyId }, index) => (
               <Box
+                border={ 1}
+                padding={1.3}
+                borderColor={coinID === id ? "#3063E9" : "#ddd"}
                 Button
                 sx={{ cursor: "pointer" }}
                 onClick={() => getCyptoExchangeRate(id)}
@@ -323,7 +330,7 @@ const TopUpCardMobile = (prop) => {
                     </Stack>
                   </Box> */}
                 </Stack>
-                <hr color="#f2f2f2" />
+                {/* {coinID != id && <hr color={"#f2f2f2"} />} */}
               </Box>
             ))}
 
