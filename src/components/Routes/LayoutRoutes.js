@@ -18,7 +18,7 @@ const LayoutRoutes = [
     path: "/buy",
     icon: BuyIcon,
     iconLight: whiteBuyIcon,
-    name: "Buy",
+    name: "Trade",
   },
 
   {

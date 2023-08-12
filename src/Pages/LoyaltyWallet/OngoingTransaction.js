@@ -7,6 +7,8 @@ import Confetti from "react-confetti";
 // Styles
 import styles from "./LoyaltyWalletInterface.module.css";
 
+import MobileNavDrawerPermanent from "../../components/Layout/MobileNavDrawerPermanent";
+
 // Component Loader
 import {
   CardSkeleton,
@@ -25,11 +27,13 @@ const OngoingTransactionTabArea = React.lazy(() =>
   import("./RewardTabArea/OngoingTransactionTabArea")
 );
 
-const LoyaltyWalletInterface = () => {
+const OngoingTransaction = () => {
   const [showConfetti, setShowConfetti] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const { width, height } = useWindowSize();
 
@@ -38,52 +42,53 @@ const LoyaltyWalletInterface = () => {
   };
 
   return (
-    <Box
-      mt={0}
-      sx={{ overflowX: "hidden" }}
-      px={!isMobile ? 5 : 1}
-      className={styles.mainBox}
-    >
-      <Box mb={4}>
-        <Typography
-          variant="caption"
-          fontSize={25}
-          fontWeight={400}
-          color="secondary"
+    <React.Fragment>
+      {!isMobile && (
+        <Box
+          mt={0}
+          sx={{ overflowX: "hidden" }}
+          px={!isMobile ? 5 : 1}
+          className={styles.mainBox}
         >
-          Ongoing Transactions{" "}
-        </Typography>
-      </Box>
+          <Box mb={4}>
+            <Typography
+              variant="caption"
+              fontSize={25}
+              fontWeight={600}
+              color="secondary"
+            >
+              Transactions{" "}
+            </Typography>
+          </Box>
 
-      {/* {!isMobile && ( */}
-      <Box className={styles.rewardInfoArea}>
-        <Grid
-          container
-          columns={{ xs: 1, sm: 1, md: 12 }}
-          spacing={{ xs: 4, sm: 2, md: 12 }}
-        >
-          <Grid item xs={12} sm={12} md={12}>
-            <Box className={styles.rewardTabArea}>
-              <Suspense fallback={<ComponentSkeleton />}>
-                <OngoingTransactionTabArea />
-              </Suspense>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-      {/* )} */}
-      {/* {isMobile && (
-        <Box>
-          {" "}
-          <Box className={styles.rewardTabArea}>
-            <Suspense fallback={<ComponentSkeleton />}>
-              <RewardTabArea />
-            </Suspense>
+          <Box className={styles.rewardInfoArea}>
+            <Grid
+              container
+              columns={{ xs: 1, sm: 1, md: 12 }}
+              spacing={{ xs: 4, sm: 2, md: 12 }}
+            >
+              <Grid item xs={12} sm={12} md={12}>
+                <Box className={styles.rewardTabArea}>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <OngoingTransactionTabArea />
+                  </Suspense>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
-      )} */}
-    </Box>
+      )}
+      {isMobile && (
+        <MobileNavDrawerPermanent user={user}>
+          <Box>
+            <Suspense fallback={<ComponentSkeleton />}>
+              <OngoingTransactionTabArea />
+            </Suspense>
+          </Box>
+        </MobileNavDrawerPermanent>
+      )}
+    </React.Fragment>
   );
 };
 
-export default LoyaltyWalletInterface;
+export default OngoingTransaction;

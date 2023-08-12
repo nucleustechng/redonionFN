@@ -58,11 +58,13 @@ const SignInInterface = () => {
   const [user, setUser] = useState("");
 
   useEffect(() => {
-    var userInfo = JSON.parse(localStorage.getItem('user'));
+    var userInfo = JSON.parse(localStorage.getItem("user"));
+    if (userInfo === null) {
+      navigate("/");
+    }
     setUser(userInfo);
     setUserEmail(userInfo.user.email);
-   
-  },[])
+  }, [navigate]);
 
 
 

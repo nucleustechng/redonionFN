@@ -64,69 +64,78 @@ const RewardTabArea = () => {
           <Tab
             sx={{
               mr: 2,
-              backgroundColor: tabValue === 0 ? "#3063E9" : "#fff",
+              width: isMobile ? "50%" : "",
+              backgroundColor: isMobile
+                ? ""
+                : tabValue === 0
+                ? "#3063E9"
+                : "inherit",
               borderTopRightRadius: 10,
               borderTopLeftRadius: 10,
               marginTop: -1.4,
               marginBottom: -2,
             }}
             label={
-              <Typography color={tabValue === 0 ? "#fff" : "#000"}>
+              <Typography
+                color={tabValue === 0 ? (isMobile ? "#000" : "#fff") : "#000"}
+              >
                 Sell
               </Typography>
             }
             iconPosition="start"
             icon={
               <LazyImageComponent
-                src={tabValue === 0 ? SellIcon : SellIconDark}
+                src={
+                  tabValue === 0
+                    ? isMobile
+                      ? SellIconDark
+                      : SellIcon
+                    : SellIconDark
+                }
               />
             }
           />
           <Tab
             sx={{
               mr: 2,
-              backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
+              width: isMobile ? "50%" : "",
+              backgroundColor: isMobile
+                ? ""
+                : tabValue === 1
+                ? "#3063E9"
+                : "#inherit",
               borderTopRightRadius: 10,
               borderTopLeftRadius: 10,
               marginTop: -1.4,
               marginBottom: -2,
             }}
             label={
-              <Typography color={tabValue === 1 ? "#fff" : "#000"}>
+              <Typography
+                color={tabValue === 1 ? (isMobile ? "#000" : "#fff") : "#000"}
+              >
                 Buy
               </Typography>
             }
             iconPosition="start"
             icon={
-              <LazyImageComponent
-                src={tabValue === 1 ? BuyIconDark : BuyIcon}
-              />
+              isMobile ? (
+                <LazyImageComponent src={BuyIcon} />
+              ) : (
+                <LazyImageComponent
+                  src={tabValue === 1 ? BuyIconDark : BuyIcon}
+                />
+              )
             }
           />
 
           {/* <Tab sx={{ mr: 2 }} label="Transaction" /> */}
         </Tabs>
       </Box>
-      {/* ) : (
-        <Box mb={5} sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            scrollButtons
-            sx={{ background: theme.palette.background.paper, px: 3 }}
-            value={tabValue}
-            onChange={handleChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            <Tab sx={{ fontSize: "12px" }} label="Available Rewards" />
-            <Tab sx={{ fontSize: "12px" }} label="My Rewards" />
-            <Tab sx={{ fontSize: "12px" }} label="Transaction" />
-          </Tabs>
-        </Box>
-      )} */}
-      <Box className={styles.tabPanelBox}>
+
+      <Box>
         {/* Available Rewards */}
         <TabPanel value={tabValue} index={0}>
-          <Box className={styles.tabPanel}>
+          <Box bgcolor={"inherit"}>
             <Suspense
               fallback={
                 <GridCardSkeleton
@@ -141,13 +150,14 @@ const RewardTabArea = () => {
             >
               {/* {!isMobile ? */}
               <Sell />
+
               {/* : <AvailableRewardsMobile /> */}
             </Suspense>
           </Box>
         </TabPanel>
         {/* My Rewards */}
         <TabPanel value={tabValue} index={1}>
-          <Box className={styles.tabPanel}>
+          <Box bgcolor={"inherit"}>
             <Suspense
               fallback={
                 <GridCardSkeleton
@@ -161,7 +171,7 @@ const RewardTabArea = () => {
               }
             >
               {/* {!isMobile ?  */}
-              <Buy />
+              {/* <Buy /> */}
               {/* : <MyRewardsMobile />} */}
             </Suspense>
           </Box>

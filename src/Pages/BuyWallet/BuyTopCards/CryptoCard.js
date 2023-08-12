@@ -36,6 +36,8 @@ import { useNavigate } from "react-router-dom";
 
 import SwapModal from "../CreateRequestModal/SwapModal";
 
+import { LoadingButton } from "@mui/lab";
+
 // Lazy Image component
 const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
@@ -51,23 +53,18 @@ const CryptoWalletTopCards = (props) => {
 
   const [amount, setAmount] = useState("");
 
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [coinNamesData, setCoinNamesData] = useState([]);
   const [coinNames, setCoinNames] = useState(0);
-    const [coinNamesSecond, setCoinNamesSecond] = useState(0);
+  const [coinNamesSecond, setCoinNamesSecond] = useState(0);
   const [coinNamesShow, setCoinNamesShow] = useState("");
-    const [showPin, setShowPin] = useState(false);
+  const [showPin, setShowPin] = useState(false);
 
   const [coinRate, setCoinRate] = useState("0");
 
-  const handleCoinNameSelection = (e) => {
+  const handleCoinNameSelection = (e) => { console.log(e.target.value);
     setCoinNames(e.target.value);
-
-    // var coin = e.target.value;
-    // setCoinNamesShow(coin.split(" ")[1]);
-    // console.log(coin.split(" ")[0])
-    // getCyptoExchangeRate(coin.split(" ")[0]);
   };
 
   const handleSelectionSecond = (e) => {
@@ -75,26 +72,53 @@ const CryptoWalletTopCards = (props) => {
     setCoinNamesSecond(e.target.value);
   };
 
-   const handleCurrencyNameSelection = (e) => {
-     setCurrencyName(e.target.value);
-   };
+  const handleCurrencyNameSelection = (e) => {
+    setCurrencyName(e.target.value);
+  };
 
   var user = JSON.parse(localStorage.getItem("user"));
 
   const GET_CURRENCY_URL = "/user/get-crypto-currencies";
+  const GET_SWAP_FEE_URL = "/transaction/swap-fee";
 
   const onClickSuccess = () => {
     if (amount === "" || coinNames === "0" || coinNamesSecond === "0") {
       return;
     } else {
-      // getCyptoExchangeRate();
-       setShowPin(!showPin);
+      setLoading(true);
+      axios
+        .post(
+          GET_SWAP_FEE_URL,
+          JSON.stringify({
+            amount: Number(amount),
+            fromCryptoCurrencyId: coinNames,
+            toCryptoCurrencyId: coinNamesSecond,
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+          // setCoinRate(res?.data?.data);
+          // setShowPin(!showPin);
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err?.response?.status === 401) {
+            navigate("/user/sign-in");
+          }
+        })
+        .finally(() => setLoading(false));
     }
   };
 
- 
-
   useEffect(() => {
+     
     axios
       .get(GET_CURRENCY_URL, {
         headers: {
@@ -103,6 +127,7 @@ const CryptoWalletTopCards = (props) => {
         },
       })
       .then((res) => {
+        
         // console.log(res.data.data.cryptoCurrencies);
         setCoinNamesData(res.data.data.cryptoCurrencies);
       })
@@ -112,14 +137,15 @@ const CryptoWalletTopCards = (props) => {
           navigate("/user/sign-in");
         }
       })
-      .finally(() => {});
+      .finally(() =>   setLoading(false));
   }, [GET_CURRENCY_URL, user, navigate]);
 
   return (
     <>
+      
       <Box
-        mt={isMobile ? 0 : -8}
-        borderBottom={6}
+        mt={isMobile ? -12 : -8}
+        borderBottom={isMobile ? 0 : 6}
         borderColor={"#D048DC"}
         borderRadius={10}
       >
@@ -131,8 +157,14 @@ const CryptoWalletTopCards = (props) => {
           onClose={onClickSuccess}
         />
         <Box
-          className={styles.cardBox}
-          bgcolor={theme.palette.mode === "dark" ? "#222" : "#E8E8F3"}
+          className={!isMobile ? styles.cardBox : ""}
+          bgcolor={
+            !isMobile
+              ? theme.palette.mode === "dark"
+                ? "#222"
+                : "#E8E8F3"
+              : ""
+          }
         >
           <Box>
             <Stack
@@ -141,7 +173,10 @@ const CryptoWalletTopCards = (props) => {
               alignItems="center"
               p={1}
             >
-              <Box mb={isTablet ? 2 : 0} width={isTablet ? "100%" : "25%"}>
+              <Box
+                mb={isTablet ? 2 : 0}
+                width={isMobile ? "115%" : isTablet ? "100%" : "25%"}
+              >
                 <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
                     From
@@ -204,7 +239,7 @@ const CryptoWalletTopCards = (props) => {
                 ml={isTablet ? 0 : -13}
                 mr={isTablet ? 0 : 4}
                 mt={isTablet ? 0 : 4.3}
-                width={isTablet ? "100%" : "25%"}
+                width={isMobile ? "115%" : isTablet ? "100%" : "25%"}
               >
                 {/* <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
@@ -226,7 +261,10 @@ const CryptoWalletTopCards = (props) => {
                 <LazyImageComponent src={ExchanageIcon} />
               </Box>
 
-              <Box mb={isMobile ? 2 : 0} width={isTablet ? "100%" : "25%"}>
+              <Box
+                mb={isMobile ? 2 : 0}
+                width={isMobile ? "115%" : isTablet ? "100%" : "25%"}
+              >
                 <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
                     To
@@ -289,8 +327,15 @@ const CryptoWalletTopCards = (props) => {
                 ml={isTablet ? 0 : -10}
                 mt={4}
                 mb={isTablet ? 2 : 0}
-                width={isTablet ? "100%" : "15%"}
+                width={isMobile ? "115%" : isTablet ? "100%" : "15%"}
               >
+                  {loading ? (
+            <LoadingButton
+              style={{ height: 60, borderRadius: 10, fontSize: 16, textTransform: 'none' }}
+              loading variant="outlined">
+              Sign Up
+            </LoadingButton>
+          ) : (
                 <Button
                   onClick={onClickSuccess}
                   fullWidth
@@ -304,8 +349,8 @@ const CryptoWalletTopCards = (props) => {
                   color="primary"
                 >
                   Swap
-                  {/* <SearchIcon color="background.light" /> */}
                 </Button>
+          )}
               </Box>
             </Stack>
           </Box>
@@ -333,6 +378,7 @@ const CryptoWalletTopCards = (props) => {
           </Stack> */}
         </Box>
       </Box>
+       
     </>
   );
 };

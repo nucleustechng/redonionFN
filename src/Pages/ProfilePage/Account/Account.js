@@ -14,7 +14,12 @@ import {
   Typography,
   Button
 } from "@mui/material";
-import SettingsMenu from "../../../components/Layout/SettingsMenu";
+
+
+import MobileNavDrawerPermanent from "../../../components/Layout/MobileNavDrawerPermanent";
+
+// Component Loader
+import { ComponentSkeleton } from "../../../components/Skeletons/ComponentSkeletons";
 // Component Loader
 import { AccountCardSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
 import useAuth from "../../../hooks/useAuth";
@@ -172,8 +177,10 @@ const Account = () => {
   }, [openAuthProgressModal]);
 
   return (
-    <Box className={styles.mainBox}>
-      {/* <Snackbar
+    <React.Fragment>
+      {!isMobile && (
+        <Box className={styles.mainBox}>
+          {/* <Snackbar
         anchorOrigin={
           !isMobile
             ? { vertical: "top", horizontal: "right" }
@@ -200,120 +207,136 @@ const Account = () => {
           Authentication Successfull!
         </Alert>
       </Snackbar> */}
-      {/* <AuthProgress
+          {/* <AuthProgress
         open={openAuthProgressModal}
         onClose={handleCloseAuthProgressModal}
       /> */}
-      <TwoFAPinModal
-        open={
+          <TwoFAPinModal
+            open={showPin}
+            onClose={handleCloseTwoFAPin}
+            openAuthorizationModal={handleOpenAuthProgressModal}
+          />
 
-          showPin
-        }
-        onClose={handleCloseTwoFAPin}
-        openAuthorizationModal={handleOpenAuthProgressModal}
-      />
-
-      
-      <Box mb={3}>
-        <Suspense
-          fallback={<AccountCardSkeletons width={"100%"} />}
-        >
-          <ProfileInfo handleClickMenu={handleClickMenu} />
-        </Suspense>
-      </Box>
-
-      <Accordion sx={{ background: theme.palette.background.default, }} expanded={expanded === 'panel1'} onChange={() => handleChange('panel1')}>
-        <AccordionSummary
-
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Box>
-            <LazyImageComponent
-              src={TwoFA}
-            />
+          <Box mb={3}>
+            <Suspense fallback={<AccountCardSkeletons width={"100%"} />}>
+              <ProfileInfo handleClickMenu={handleClickMenu} />
+            </Suspense>
           </Box>
 
-          <Typography ml={1.5} >
-            2FA
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Enable your Two Factor Authentication</Typography>
-          </Typography>
+          <Accordion
+            sx={{ background: theme.palette.background.default }}
+            expanded={expanded === "panel1"}
+            onChange={() => handleChange("panel1")}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Box>
+                <LazyImageComponent src={TwoFA} />
+              </Box>
 
-        </AccordionSummary>
-        <AccordionDetails>
-          <Box
+              <Typography ml={1.5}>
+                2FA
+                <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                  Enable your Two Factor Authentication
+                </Typography>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box
+                Button
+                onClick={handleCloseTwoFAPin}
+                sx={{ cursor: "pointer" }}
+                p={1.5}
+                borderRadius={3}
+                bgcolor={
+                  user?.user?.twoFactorAuthType === "EMAIL_OTP"
+                    ? "#58BD7D"
+                    : theme.palette.mode === "dark"
+                    ? "#333"
+                    : "#E8E8F3"
+                }
+              >
+                <Typography fontSize={14}>Email</Typography>
+                <Typography fontSize={12}>
+                  An OTP will be sent to your email.
+                </Typography>
+              </Box>
+              <Box
+                Button
+                onClick={handleCloseAutheticate}
+                sx={{ cursor: "pointer" }}
+                mt={2}
+                p={1.5}
+                borderRadius={3}
+                bgcolor={
+                  user?.user?.twoFactorAuthType === "2FA_OTP"
+                    ? "#58BD7D"
+                    : theme.palette.mode === "dark"
+                    ? "#333"
+                    : "#E8E8F3"
+                }
+              >
+                <Typography fontSize={14}>Authenticator app</Typography>
+                <Typography fontSize={12}>
+                  Generate a code from an authenticator app, e.g. Microsoft or
+                  Google Authenticator.
+                </Typography>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
             Button
-            onClick={handleCloseTwoFAPin}
-            sx={{ cursor: 'pointer' }}
-            p={1.5} borderRadius={3} bgcolor={user?.user?.twoFactorAuthType === "EMAIL_OTP" ? "#58BD7D" : theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
-            <Typography fontSize={14} >
-              Email
-            </Typography>
-            <Typography fontSize={12} >
-              An OTP will be sent to your email.
-            </Typography>
-          </Box>
-          <Box
+            onClick={handleOpenChangePasswordModal}
+            sx={{ background: theme.palette.background.default }}
+            expanded={expanded === "panel2"}
+            onChange={() => handleChange("panel2")}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2bh-content"
+              id="panel2bh-header"
+            >
+              <Box>
+                <LazyImageComponent src={PasswordSquare} />
+              </Box>
+
+              <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+                Password
+                <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                  Change your Password
+                </Typography>
+              </Typography>
+            </AccordionSummary>
+          </Accordion>
+          <Accordion
             Button
-            onClick={handleCloseAutheticate}
-            sx={{ cursor: 'pointer' }}
-            mt={2} p={1.5} borderRadius={3} bgcolor={user?.user?.twoFactorAuthType === "2FA_OTP" ? "#58BD7D" : theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
-            <Typography fontSize={14} >
-              Authenticator app
-            </Typography>
-            <Typography fontSize={12} >
-              Generate a code from an authenticator app, e.g. Microsoft or Google Authenticator.
-            </Typography>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+            onClick={handleOpenAccountModal}
+            sx={{ background: theme.palette.background.default }}
+            expanded={expanded === "panel3"}
+            onChange={() => handleChange("panel3")}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3bh-content"
+              id="panel3bh-header"
+            >
+              <Box>
+                <LazyImageComponent src={AccountDetails} />
+              </Box>
 
-      <Accordion
-        Button
-        onClick={handleOpenChangePasswordModal}
-        sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel2'} onChange={() => handleChange('panel2')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
-          <Box>
-            <LazyImageComponent
-              src={PasswordSquare}
-            />
-          </Box>
-
-          <Typography ml={1.5} sx={{ flexShrink: 0 }}>
-            Password
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Change your Password</Typography>
-          </Typography>
-        </AccordionSummary>
-
-      </Accordion>
-      <Accordion
-        Button
-        onClick={handleOpenAccountModal}
-        sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel3'} onChange={() => handleChange('panel3')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
-          <Box>
-            <LazyImageComponent
-              src={AccountDetails}
-            />
-          </Box>
-
-          <Typography ml={1.5} sx={{ flexShrink: 0 }}>
-            Account details
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Change account number</Typography>
-          </Typography>
-        </AccordionSummary>
-
-      </Accordion>
-      {/* <Accordion
+              <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+                Account details
+                <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                  Change account number
+                </Typography>
+              </Typography>
+            </AccordionSummary>
+          </Accordion>
+          {/* <Accordion
         Button
         onClick={handleWallet}
         sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel4'} onChange={() => handleChange('panel4')}>
@@ -334,36 +357,39 @@ const Account = () => {
           </Typography>
         </AccordionSummary>
       </Accordion> */}
-      <Accordion
-        Button
-        onClick={handleOpenDeleteAccountModal}
-        sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel5'} onChange={() => handleChange('panel5')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel5bh-content"
-          id="panel5bh-header"
-        >
-          <Box>
-            <LazyImageComponent
-              src={DeleteIcon}
+          <Accordion
+            Button
+            onClick={handleOpenDeleteAccountModal}
+            sx={{ background: theme.palette.background.default }}
+            expanded={expanded === "panel5"}
+            onChange={() => handleChange("panel5")}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel5bh-content"
+              id="panel5bh-header"
+            >
+              <Box>
+                <LazyImageComponent src={DeleteIcon} />
+              </Box>
+
+              <Typography ml={1.5}>
+                Delete Account
+                <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                  Deleting account will lead to complete loss of this account.
+                </Typography>
+              </Typography>
+            </AccordionSummary>
+          </Accordion>
+
+          {/* {!isMobile ? ( */}
+          <Suspense fallback={<ModalSkeletons width={500} />}>
+            <DeleteAccountModal
+              open={openDeleteAccountModal}
+              handleClose={handleOpenDeleteAccountModal}
             />
-          </Box>
-
-          <Typography ml={1.5} >
-            Delete Account
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Deleting account will lead to complete loss of this account.</Typography>
-          </Typography>
-        </AccordionSummary>
-      </Accordion>
-
-      {/* {!isMobile ? ( */}
-        <Suspense fallback={<ModalSkeletons width={500} />}>
-          <DeleteAccountModal
-            open={openDeleteAccountModal}
-            handleClose={handleOpenDeleteAccountModal}
-          />
-        </Suspense>
-      {/* // ) : (
+          </Suspense>
+          {/* // ) : (
       //   <MobileNavDrawer
       //     handleClickMenu={handleClickMenu}
       //     drawerOpen={openDeleteAccountModal}
@@ -378,14 +404,14 @@ const Account = () => {
       //     </Suspense>
       //   </MobileNavDrawer>
       // )} */}
-      {/* {!isMobile ? ( */}
-        <Suspense fallback={<ModalSkeletons />}>
-          <ChangePasswordModal
-            open={openChangePasswordModal}
-            handleClose={handleOpenChangePasswordModal}
-          />
-        </Suspense>
-      {/* ) : (
+          {/* {!isMobile ? ( */}
+          <Suspense fallback={<ModalSkeletons />}>
+            <ChangePasswordModal
+              open={openChangePasswordModal}
+              handleClose={handleOpenChangePasswordModal}
+            />
+          </Suspense>
+          {/* ) : (
         <MobileNavDrawer
           handleClickMenu={handleClickMenu}
           drawerOpen={openChangePasswordModal}
@@ -400,59 +426,50 @@ const Account = () => {
         </MobileNavDrawer>
       )} */}
 
-       <Suspense fallback={<ModalSkeletons />}>
-          <AccountModal
-            open={openAccountModal}
-            handleClose={handleOpenAccountModal}
-          />
-        </Suspense>
-     
+          <Suspense fallback={<ModalSkeletons />}>
+            <AccountModal
+              open={openAccountModal}
+              handleClose={handleOpenAccountModal}
+            />
+          </Suspense>
 
-      {!isMobile && (
-        <Suspense fallback={<ModalSkeletons />}>
-          <WalletModal
-            open={openWalletModal}
-            handleClose={handleWallet}
-          />
-        </Suspense>
-      )}
+          {!isMobile && (
+            <Suspense fallback={<ModalSkeletons />}>
+              <WalletModal open={openWalletModal} handleClose={handleWallet} />
+            </Suspense>
+          )}
 
-     
-        <Suspense fallback={<ModalSkeletons />}>
-          <AuthenticatorModal
-            open={showAutheticate}
-            onClose={handleCloseAutheticate}
-          />
-        </Suspense>
-     
+          <Suspense fallback={<ModalSkeletons />}>
+            <AuthenticatorModal
+              open={showAutheticate}
+              onClose={handleCloseAutheticate}
+            />
+          </Suspense>
 
-     
-
-
-      {/* <Box>
+          {/* <Box>
         <Suspense
           fallback={<AccountCardSkeletons width={"100%"} />}
         >
           <BankInfo handleClickMenu={handleClickMenu} />
         </Suspense>
       </Box> */}
-      {/* <Divider /> */}
-      {/* <Box>
+          {/* <Divider /> */}
+          {/* <Box>
         <Suspense
           fallback={<AccountCardSkeletons width={!isMobile ? "58%" : "100%"} />}
         >
           <KYCInfo handleClickMenu={handleClickMenu} />
         </Suspense>
       </Box> */}
-      {/* <Divider /> */}
-      {/* <Box>
+          {/* <Divider /> */}
+          {/* <Box>
         <Suspense
           fallback={<AccountCardSkeletons width={!isMobile ? "58%" : "100%"} />}
         >
           <OtherOptions handleClickMenu={handleClickMenu} />
         </Suspense>
       </Box> */}
-      {/* {isMobile && (
+          {/* {isMobile && (
         <Box>
           <SettingsMenu
             open={openMenu}
@@ -461,7 +478,18 @@ const Account = () => {
           />
         </Box>
       )} */}
-    </Box>
+        </Box>
+      )}
+      {isMobile && (
+        <MobileNavDrawerPermanent user={user}>
+          <Box>
+            <Suspense fallback={<ComponentSkeleton />}>
+              {/* <TopUpCardMobile /> */}
+            </Suspense>
+          </Box>
+        </MobileNavDrawerPermanent>
+      )}
+    </React.Fragment>
   );
 };
 

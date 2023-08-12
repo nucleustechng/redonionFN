@@ -11,7 +11,13 @@ import { ThemeProvider } from "@mui/system";
 import Helmet from "react-helmet";
 
 // Router
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+
 
 // Styles
 import "./App.css";
@@ -136,8 +142,10 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+  
+
   useEffect(() => {
-    // Update network status
+   // Update network status
     const handleStatusChange = () => {
       setIsOnline(navigator.onLine);
     };

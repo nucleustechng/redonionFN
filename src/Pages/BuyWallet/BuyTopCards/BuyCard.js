@@ -28,7 +28,6 @@ import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
 
 import ExchanageIcon from "../../../assets/exchange.svg";
 
-
 // Axios
 import axios from "../../../api/axios";
 
@@ -110,46 +109,48 @@ const CryptoWalletTopCards = (props) => {
       });
   };
 
-    const loadData = () => {
-      axios
-        .get(GET_CURRENCY_URL, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          // console.log(res.data.data.cryptoCurrencies);
-          setCoinNamesData(res.data.data.cryptoCurrencies);
-        })
-        .catch((err) => {
-          // console.log(err?.response?.status);
-          if (err?.response?.status === 401) {
-            navigate("/user/sign-in");
-          }
-        })
-        .finally(() => {});
-    };
-
-    
+  const loadData = () => {
+    axios
+      .get(GET_CURRENCY_URL, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res.data.data.cryptoCurrencies);
+        setCoinNamesData(res.data.data.cryptoCurrencies);
+      })
+      .catch((err) => {
+        // console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        }
+      })
+      .finally(() => {});
+  };
 
   useEffect(() => {
-  
-
     loadData();
   });
 
   return (
     <>
       <Box
-        mt={isMobile ? 0 : -8}
-        borderBottom={6}
+        mt={isMobile ? -12 : -8}
+        borderBottom={isMobile ? 0 : 6}
         borderColor={"#D048DC"}
         borderRadius={10}
       >
         <Box
-          className={styles.cardBox}
-          bgcolor={theme.palette.mode === "dark" ? "#222" : "#E8E8F3"}
+          className={!isMobile ? styles.cardBox : ""}
+          bgcolor={
+            !isMobile
+              ? theme.palette.mode === "dark"
+                ? "#222"
+                : "#E8E8F3"
+              : ""
+          }
         >
           <Box>
             <Stack
@@ -161,7 +162,7 @@ const CryptoWalletTopCards = (props) => {
               <Box
                 mr={isTablet ? 0 : 4}
                 mb={isTablet ? 2 : 0}
-                width={isTablet ? "100%" : "25%"}
+                width={isMobile ? "120%" : isTablet ? "100%" : "25%"}
               >
                 <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
@@ -224,7 +225,10 @@ const CryptoWalletTopCards = (props) => {
                 </Select>
               </Box>
 
-              <Box mr={isTablet ? 0 : 4} width={isTablet ? "100%" : "25%"}>
+              <Box
+                mr={isTablet ? 0 : 4}
+                width={isMobile ? "120%" : isTablet ? "100%" : "25%"}
+              >
                 <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
                     Amount
@@ -241,10 +245,33 @@ const CryptoWalletTopCards = (props) => {
                 ></Input>
               </Box>
 
+              {isMobile && isTablet && (
+                <Stack
+                  mt={3}
+                  mb={-1}
+                  direction="row"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Box mr={1}>
+                    <Typography fontWeight={400} fontSize={16}>
+                      Official Rate:{" "}
+                    </Typography>
+                  </Box>
+                  <Typography fontWeight={600} fontSize={16}>
+                    {" "}
+                    1 {coinNamesShow || "--"} = {user?.currency?.currencyCode}{" "}
+                    {parseFloat(
+                      coinRate?.averageExchangeRate || 0
+                    ).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  </Typography>
+                </Stack>
+              )}
+
               <Box
                 mt={4}
                 mb={isTablet ? 4 : 0}
-                width={isTablet ? "100%" : "25%"}
+                width={isMobile ? "120%" : isTablet ? "100%" : "25%"}
               >
                 <Button
                   onClick={onClickSuccess}
@@ -265,27 +292,29 @@ const CryptoWalletTopCards = (props) => {
             </Stack>
           </Box>
 
-          <Stack
-            mb={-2}
-            mr={2}
-            direction="row"
-            justifyContent={"flex-end"}
-            alignItems={"flex-end"}
-          >
-            <Box mr={1}>
-              <Typography fontWeight={400} fontSize={16}>
-                Official Rate:{" "}
+          {!isMobile && !isTablet && (
+            <Stack
+              mb={-2}
+              mr={2}
+              direction="row"
+              justifyContent={"flex-end"}
+              alignItems={"flex-end"}
+            >
+              <Box mr={1}>
+                <Typography fontWeight={400} fontSize={16}>
+                  Official Rate:{" "}
+                </Typography>
+              </Box>
+              <Typography fontWeight={600} fontSize={16}>
+                {" "}
+                1 {coinNamesShow || "--"} = {user?.currency?.currencyCode}{" "}
+                {parseFloat(coinRate?.averageExchangeRate || 0).toLocaleString(
+                  undefined,
+                  { maximumFractionDigits: 2 }
+                )}
               </Typography>
-            </Box>
-            <Typography fontWeight={600} fontSize={16}>
-              {" "}
-              1 {coinNamesShow || "--"} = {user?.currency?.currencyCode}{" "}
-              {parseFloat(coinRate?.averageExchangeRate || 0).toLocaleString(
-                undefined,
-                { maximumFractionDigits: 2 }
-              )}
-            </Typography>
-          </Stack>
+            </Stack>
+          )}
         </Box>
       </Box>
     </>

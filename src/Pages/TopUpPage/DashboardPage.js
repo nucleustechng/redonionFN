@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useCallback } from "react";
 import { Box } from "@mui/system";
 import {
   Typography,
@@ -27,7 +27,10 @@ import { LoadingButton } from "@mui/lab";
 // Route
 import { Link, useNavigate } from "react-router-dom";
 
-import { ComponentSkeleton } from "../../components/Skeletons/ComponentSkeletons";
+import {
+  ComponentSkeleton,
+  ModalSkeletons,
+} from "../../components/Skeletons/ComponentSkeletons";
 
 import LocationIcon from "../../assets/location.svg";
 import ArrowUp from "../../assets/arrowTop.svg";
@@ -36,6 +39,7 @@ import Tron from "../../assets/tron.svg";
 import moment from "moment";
 import TableArea from "./Table/TableArea";
 import TopUpCardMobile from "./TopUpCard/TopUpCardMobile";
+import SendTokenModal from "./ProviderSelect/SendTokenModal";
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
   import("../../components/LazyImageComponent/LazyImageComponent")
@@ -57,12 +61,12 @@ const TopUpPage = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+
   const openMenu = Boolean(anchorElMenu);
-  const handleClickMenu = (event) => {
-    setAnchorElMenu(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorElMenu(null);
+
+  const handleOpenSuccessModal = () => {
+    setOpenSuccessModal(!openSuccessModal);
   };
 
   // Copy Snackbar
@@ -96,12 +100,6 @@ const TopUpPage = () => {
         console.log(res.data.data.wallet);
         setWalletData(data);
         setWalletID(data?.walletAddress);
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
       });
   };
 
@@ -115,7 +113,21 @@ const TopUpPage = () => {
       })
       .then((res) => {
         let data = res.data.data.wallets;
-        console.log(data);
+        axios
+          .get(WALLET_MAIN_URL + data[0]?.id, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          })
+          .then((res) => {
+            setLoading(false);
+            let data = res.data.data.wallet;
+            console.log(res.data.data.wallet);
+            setWalletData(data);
+            setWalletID(data?.walletAddress);
+          });
+
         setCoinData(data);
       })
       .catch((err) => {
@@ -123,7 +135,7 @@ const TopUpPage = () => {
           navigate("/user/sign-in");
         }
       });
-  }, [navigate, WALLET_URL, user, setCoinData]);
+  }, [navigate, user]);
 
   return (
     <React.Fragment>
@@ -142,6 +154,13 @@ const TopUpPage = () => {
           Address Copied!
         </Alert>
       </Snackbar>
+      <Suspense fallback={<ModalSkeletons />}>
+        <SendTokenModal
+          wallet={walletData}
+          handleClose={handleOpenSuccessModal}
+          open={openSuccessModal}
+        />
+      </Suspense>
       {!isMobile && (
         <Box
           px={3}
@@ -220,7 +239,7 @@ const TopUpPage = () => {
                                   style={{ width: 60, height: 60 }}
                                   src={cryptoCurrency?.imgUri}
                                 />
-                                <Typography
+                                {/* <Typography
                                   mt={0.5}
                                   fontWeight={600}
                                   ml={1}
@@ -228,8 +247,8 @@ const TopUpPage = () => {
                                   variant="body2"
                                 >
                                   2,000
-                                </Typography>
-                                <Typography
+                                </Typography> */}
+                                {/* <Typography
                                   mt={-0.4}
                                   fontWeight={500}
                                   ml={1}
@@ -238,7 +257,7 @@ const TopUpPage = () => {
                                   sx={{ opacity: 0.4 }}
                                 >
                                   ₦890,000
-                                </Typography>
+                                </Typography> */}
                                 <Typography
                                   mt={2}
                                   fontWeight={500}
@@ -360,6 +379,9 @@ const TopUpPage = () => {
                             border={1}
                             borderColor={"#fff"}
                             borderRadius={3}
+                            button
+                            onClick={handleOpenSuccessModal}
+                            sx={{ cursor: "pointer" }}
                             p={1.6}
                           >
                             <Stack direction="row" justifyContent={"center"}>
@@ -402,14 +424,13 @@ const TopUpPage = () => {
                     ({ id, cryptoCurrency, cryptoCurrencyId }, index) => (
                       <Box
                         borderRadius={4}
-                        // height={250}
+                        bgcolor={"#F6F0F8"}
                         Button
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer"}}
                         onClick={() => getCyptoExchangeRate(id)}
                         px={2}
                         my={2}
                         py={2}
-                        bgcolor={"#F6F0F8"}
                         key={id}
                       >
                         <Stack
@@ -437,7 +458,7 @@ const TopUpPage = () => {
                               >
                                 {cryptoCurrency?.abbreviation}
                               </Typography>
-                              <Typography
+                              {/* <Typography
                                 mt={-0.4}
                                 fontWeight={500}
                                 ml={1}
@@ -446,7 +467,7 @@ const TopUpPage = () => {
                                 sx={{ opacity: 0.6 }}
                               >
                                 ₦90,000
-                              </Typography>
+                              </Typography> */}
                             </Box>
                           </Stack>
 
@@ -467,7 +488,7 @@ const TopUpPage = () => {
                             </Typography>
                           </Box> */}
 
-                          <Box>
+                          {/* <Box>
                             <Stack direction="column" justifyItems={"flex-end"}>
                               <Typography
                                 textAlign={"right"}
@@ -489,7 +510,7 @@ const TopUpPage = () => {
                                 ₦890,340
                               </Typography>
                             </Stack>
-                          </Box>
+                          </Box> */}
                         </Stack>
                       </Box>
                     )
@@ -531,7 +552,11 @@ const TopUpPage = () => {
         >
           <Box className={styles.contentBoxMobile}>
             <Suspense fallback={<ComponentSkeleton />}>
-              <TopUpCardMobile />
+              <TopUpCardMobile
+                walletData={walletData}
+                walletID={walletID}
+                coinData={coinData}
+              />
             </Suspense>
           </Box>
         </MobileNavDrawerPermanent>

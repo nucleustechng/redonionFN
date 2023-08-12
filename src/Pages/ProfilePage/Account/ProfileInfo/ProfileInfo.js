@@ -96,7 +96,6 @@ const ProfileInfo = ({ handleClickMenu }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log(user)
   return (
     <React.Fragment>
       <Grid  columns={{ xs: 1, sm: 12, md: 12 }}>

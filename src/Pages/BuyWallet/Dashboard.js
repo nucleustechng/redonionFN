@@ -21,6 +21,10 @@ import {
 // Router
 import { useNavigate } from "react-router-dom";
 
+import MobileNavDrawerPermanent from "../../components/Layout/MobileNavDrawerPermanent";
+
+import { ComponentSkeleton } from "../../components/Skeletons/ComponentSkeletons";
+
 // Card Images
 import FaitBuy from "../../assets/fiatBuy.svg";
 import FaitBuyActive from "../../assets/fiatBuyActive.svg";
@@ -54,6 +58,10 @@ const FundsAndTransferAreaMobile = React.lazy(() =>
 
 const CreateBuyRequestModal = React.lazy(() =>
   import("./CreateBuyRequestModal/CreateBuyRequestModal")
+);
+
+const MobileTrade = React.lazy(() =>
+  import("./Mobile/index")
 );
 
 // Lazy Image component
@@ -194,168 +202,200 @@ const CryptoWalletInterface = () => {
   }, [user, navigate]);
 
   return (
-    <Box>
-      {showPin ? (
-        <CreateBuyRequestModal
-          dataSingle={data}
-          datao={data}
-          open={showPin}
-          onClose={handleCloseTwoFAPin}
-        />
-      ) : (
-        <>
-          <CreateRequestModal
-            open={showSell}
-            country={countryData}
-            currency={curencyData}
-            onClose={handleSell}
-          />
-          <CreateNotifcationModal
-            open={showNotification}
-            onClose={handleNotification}
-          />
-
-          <Box mx={4} mb={2}>
-            <Stack direction="row" mt={-6} justifyContent="space-between">
-              <Button
-                onClick={handleSell}
-                width={200}
-                style={{
-                  height: 50,
-                  borderRadius: 10,
-                  fontSize: 16,
-                  textTransform: "none",
-                }}
-                variant="contained"
-                color="primary"
-              >
-                Create A Sell Offer
-              </Button>
-
-              <Box
-                p={3}
-                Button
-                onClick={handleNotification}
-                sx={{ cursor: "pointer" }}
-              >
-                <Box
-                  position={"absolute"}
-                  borderRadius={"50%"}
-                  top={isMobile ? 105 : 50}
-                  width={25}
-                  height={25}
-                  bgcolor={"#ff0000"}
-                >
-                  <center>
-                    <Typography
-                      variant="caption"
-                      fontSize={11}
-                      fontWeight={500}
-                      color="secondary"
-                    >
-                      {unread > 100 ? "99+" : unread}
-                    </Typography>
-                  </center>
-                </Box>
-                <LazyImageComponent src={Notification} />
-              </Box>
-            </Stack>
-          </Box>
-
-          <Box mx={4} mb={isTablet ? -2 : 1}>
-            <Typography
-              variant="caption"
-              fontSize={30}
-              fontWeight={500}
-              color="secondary"
-            >
-              Buy{" "}
-            </Typography>
-          </Box>
-
-          <RadioGroup>
-            <Stack
-              direction={isTablet ? "column" : "row"}
-              mx={4}
-              spacing={isTablet ? 0 : 3}
-              my={2}
-              mb={isTablet ? 10 : 15}
-            >
-              <Box
-                onClick={() => handleFiat(1)}
-                button
-                sx={{ cursor: "pointer" }}
-                width={"100%"}
-                key={1}
-              >
-                <FormControlLabel
-                  value={"fiat"}
-                  control={<Radio style={{ display: "none" }} />}
-                  // label={<LazyImageComponent src={img} />}
-                />
-                <LazyImageComponent
-                  style={{ width: "100%" }}
-                  src={showKey === 1 ? FaitBuyActive : FaitBuy}
-                />
-              </Box>
-
-              <Box
-                onClick={() => handleFiat(2)}
-                button
-                sx={{ cursor: "pointer" }}
-                width={"100%"}
-                key={2}
-              >
-                <FormControlLabel
-                  value={"crypto"}
-                  control={<Radio style={{ display: "none" }} />}
-                  // label={<LazyImageComponent src={img} />}
-                />
-                <LazyImageComponent
-                  style={{ width: "100%" }}
-                  src={showKey === 1 ? Crpyto : CrpytoActive}
-                />
-              </Box>
-            </Stack>
-          </RadioGroup>
-          {showKey === 1 ? (
-            <>
-              <Box px={3}>
-                <Suspense fallback={<ComponentLoader />}>
-                  <BuyWalletTopCards
-                    sendData={sendData}
-                    country={countryData}
-                    currency={curencyData}
-                  />
-                </Suspense>
-              </Box>
-              <Box px={3}>
-                <Suspense fallback={<ComponentLoader />}>
-                  <FundsAndTransferArea
-                    handleBuyModal={handleBuyModal}
-                    info={info}
-                    country={countryData}
-                    currency={curencyData}
-                  />
-                </Suspense>
-              </Box>
-            </>
+    <React.Fragment>
+      {!isMobile && (
+        <Box>
+          {showPin ? (
+            <CreateBuyRequestModal
+              dataSingle={data}
+              datao={data}
+              open={showPin}
+              onClose={handleCloseTwoFAPin}
+            />
           ) : (
             <>
-              <Box px={3}>
-                <Suspense fallback={<ComponentLoader />}>
-                  <CryptoWalletTopCards
-                    sendData={sendData}
-                    country={countryData}
-                    currency={curencyData}
-                  />
-                </Suspense>
+              <CreateRequestModal
+                open={showSell}
+                country={countryData}
+                currency={curencyData}
+                onClose={handleSell}
+              />
+              <CreateNotifcationModal
+                open={showNotification}
+                onClose={handleNotification}
+              />
+
+              <Box mx={4} mb={2}>
+                <Stack direction="row" mt={-6} justifyContent="space-between">
+                  <Button
+                    onClick={handleSell}
+                    width={200}
+                    style={{
+                      height: 50,
+                      borderRadius: 10,
+                      fontSize: 16,
+                      textTransform: "none",
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Create A Sell Offer
+                  </Button>
+
+                  <Box
+                    p={3}
+                    Button
+                    onClick={handleNotification}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <Box
+                      position={"absolute"}
+                      borderRadius={"50%"}
+                      top={isMobile ? 105 : 50}
+                      width={25}
+                      height={25}
+                      bgcolor={"#ff0000"}
+                    >
+                      <center>
+                        <Typography
+                          variant="caption"
+                          fontSize={11}
+                          fontWeight={500}
+                          color="secondary"
+                        >
+                          {unread > 100 ? "99+" : unread}
+                        </Typography>
+                      </center>
+                    </Box>
+                    <LazyImageComponent src={Notification} />
+                  </Box>
+                </Stack>
               </Box>
+
+              <Box mx={4} mb={isTablet ? -2 : 1}>
+                <Typography
+                  variant="caption"
+                  fontSize={30}
+                  fontWeight={500}
+                  color="secondary"
+                >
+                  Trade{" "}
+                </Typography>
+              </Box>
+
+              <RadioGroup>
+                <Stack
+                  direction={isTablet ? "column" : "row"}
+                  mx={4}
+                  spacing={isTablet ? 0 : 3}
+                  my={2}
+                  mb={isTablet ? 10 : 15}
+                >
+                  <Box
+                    onClick={() => handleFiat(1)}
+                    button
+                    sx={{ cursor: "pointer" }}
+                    width={"100%"}
+                    key={1}
+                  >
+                    <FormControlLabel
+                      value={"fiat"}
+                      control={<Radio style={{ display: "none" }} />}
+                      // label={<LazyImageComponent src={img} />}
+                    />
+                    {showKey === 1 && (
+                      <LazyImageComponent
+                        style={{ width: "100%" }}
+                        src={FaitBuyActive}
+                      />
+                    )}
+                    {showKey === 2 && (
+                      <LazyImageComponent
+                        style={{ width: "100%" }}
+                        src={FaitBuy}
+                      />
+                    )}
+                 
+                  </Box>
+
+                  <Box
+                    onClick={() => handleFiat(2)}
+                    button
+                    sx={{ cursor: "pointer" }}
+                    width={"100%"}
+                    key={2}
+                  >
+                    <FormControlLabel
+                      value={"crypto"}
+                      control={<Radio style={{ display: "none" }} />}
+                      // label={<LazyImageComponent src={img} />}
+                    />
+                    {showKey === 1 && (
+                      <LazyImageComponent
+                        style={{ width: "100%" }}
+                        src={Crpyto}
+                      />
+                    )}
+                    {showKey === 2 && (
+                      <LazyImageComponent
+                        style={{ width: "100%" }}
+                        src={CrpytoActive}
+                      />
+                    )}
+                  </Box>
+                </Stack>
+              </RadioGroup>
+
+              {showKey === 1 && (
+                <>
+                  <Box px={3}>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <BuyWalletTopCards
+                        sendData={sendData}
+                        country={countryData}
+                        currency={curencyData}
+                      />
+                    </Suspense>
+                  </Box>
+                  <Box px={3}>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <FundsAndTransferArea
+                        handleBuyModal={handleBuyModal}
+                        info={info}
+                        country={countryData}
+                        currency={curencyData}
+                      />
+                    </Suspense>
+                  </Box>
+                </>
+              )}
+              {showKey === 2 && (
+                <>
+                  <Box px={3}>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <CryptoWalletTopCards
+                        sendData={sendData}
+                        country={countryData}
+                        currency={curencyData}
+                      />
+                    </Suspense>
+                  </Box>
+                </>
+              )}
             </>
           )}
-        </>
+        </Box>
       )}
-    </Box>
+      {isMobile && (
+        <MobileNavDrawerPermanent user={user}>
+          <Box>
+            <Suspense fallback={<ComponentSkeleton />}>
+              <MobileTrade />
+            </Suspense>
+          </Box>
+        </MobileNavDrawerPermanent>
+      )}
+    </React.Fragment>
   );
 };
 
