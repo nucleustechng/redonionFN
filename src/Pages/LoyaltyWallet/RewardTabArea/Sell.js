@@ -23,6 +23,8 @@ import Back from "../../../assets/backArrow.svg";
 import Chat from "../../../assets/chat.svg";
 import Confirmed from "../../../assets/confirmed.svg";
 
+import { LoadingButton } from "@mui/lab";
+
 // Image
 
 import BitCoinIcon from "../../../assets/bitCoinIcon.svg";
@@ -62,10 +64,36 @@ const AvailableRewards = () => {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const GET_CURRENCY_URL = "/transaction/my-offers";
+
+  const GET_ESCROW_URL = "/transaction/withdraw-from-offer";
+
+  const escrowSubmit = () => {
+    setLoading(true);
+    axios
+      .post(
+        GET_ESCROW_URL,
+        JSON.stringify({
+          amount: 0.01,
+          offerId: "1317730a-2873-4007-82b1-00a52a9fa3e8",
+          reason: "I no wan do again, na your business?",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     axios
@@ -626,8 +654,24 @@ const AvailableRewards = () => {
                   direction="row"
                   justifyContent={isMobile ? " " : "flex-end"}
                 >
+                   {loading ? (
+                  <Box>
+                    <LoadingButton
+                      fullWidth
+                      style={{
+                        height: 120,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      loading
+                    >
+                      Sign Up
+                    </LoadingButton>
+                  </Box>
+                ) : (
                   <Button
-                    // onClick={handleCloseTwoFAPin}
+                    onClick={escrowSubmit}
                     fullWidth={isMobile ? true : false}
                     variant="contained"
                     color="primary"
@@ -642,6 +686,7 @@ const AvailableRewards = () => {
                       Withdraw from Escrow
                     </Typography>
                   </Button>
+                )}
                 </Stack>
               </Box>
             </ListItem>
