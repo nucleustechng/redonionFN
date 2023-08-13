@@ -63,8 +63,7 @@ const AvailableRewards = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const navigate = useNavigate();
-
-  var user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const GET_CURRENCY_URL = "/transaction/my-offers";
 
@@ -93,76 +92,76 @@ const AvailableRewards = () => {
         }
       })
       .finally(() => {});
-  }, [user, navigate, setTransaz, GET_CURRENCY_URL]);
+  }, [user, navigate]);
 
   return (
     <React.Fragment>
       {secondStep === 0 && (
         <>
-          {/* {tranz.length > 0 ? ( */}
-          <List>
-            {/* {tranz.map((info) => (
-              <>
-                {(info?.status === "ONGOING" ||
-                  info?.status === "PENDING" ||
-                  info.status === "REPORTED" ||
-                  info.status === "EXPIRED") && ( */}
-            <ListItem
-              button
-              onClick={() => setSecondStep(1)}
-              sx={{ cursor: "pointer" }}
-            >
-              <Box m={isMobile ? 0 : 3} width={"100%"}>
-                <Stack
-                  direction="row"
-                  alignItems={"center"}
-                  justifyContent="space-between"
-                >
-                  <Box>
-                    <Stack direction="row">
-                      <LazyImageComponent
-                        sx={{ marginRight: 4 }}
-                        src={UpArrow}
-                      />
-                      <Typography mt={0.2} fontSize={14}>
-                        Sent
-                      </Typography>
-                    </Stack>
-                    <Stack mt={2} ml={-1} direction="row">
-                      <Box ml={1.5}>
-                        <Stack alignItems={"left"}>
-                          <Typography
-                            color="secondary"
-                            fontWeight={400}
-                            fontSize={15}
-                            mt={0.8}
-                            variant="body2"
-                          >
-                            {/* {info?.offer?.currency?.currencyCode} */}
-                            code
-                          </Typography>
+          {tranz.length > 0 ? (
+            <List>
+              {tranz.map((info) => (
+                <>
+                  {(info?.status === "ONGOING" ||
+                    info?.status === "PENDING" ||
+                    info.status === "REPORTED" ||
+                    info.status === "EXPIRED") && (
+                    <ListItem
+                      button
+                      onClick={() => setSecondStep(1)}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <Box m={isMobile ? 0 : 3} width={"100%"}>
+                        <Stack
+                          direction="row"
+                          alignItems={"center"}
+                          justifyContent="space-between"
+                        >
+                          <Box>
+                            <Stack direction="row">
+                              <LazyImageComponent
+                                sx={{ marginRight: 4 }}
+                                src={UpArrow}
+                              />
+                              <Typography mt={0.2} fontSize={14}>
+                                Sent
+                              </Typography>
+                            </Stack>
+                            <Stack mt={2} ml={-1} direction="row">
+                              <Box ml={1.5}>
+                                <Stack alignItems={"left"}>
+                                  <Typography
+                                    color="secondary"
+                                    fontWeight={400}
+                                    fontSize={15}
+                                    mt={0.8}
+                                    variant="body2"
+                                  >
+                                    {info?.offer?.currency?.currencyCode}
+                                    {/* code */}
+                                  </Typography>
 
-                          <Box
-                          // sx={{
-                          //   borderBottom: 1,
-                          //   borderBottomStyle: "dashed",
-                          // }}
-                          >
-                            <Typography
-                              fontSize={18}
-                              fontWeight={600}
-                              mt={0.4}
-                              color="secondary"
-                              variant="body2"
-                            >
-                              {"776.00"}
-                              {/* {parseFloat(
-                                      info?.amountInFiat || 0
-                                    ).toFixed(2)} */}
-                            </Typography>
-                          </Box>
+                                  <Box
+                                  // sx={{
+                                  //   borderBottom: 1,
+                                  //   borderBottomStyle: "dashed",
+                                  // }}
+                                  >
+                                    <Typography
+                                      fontSize={18}
+                                      fontWeight={600}
+                                      mt={0.4}
+                                      color="secondary"
+                                      variant="body2"
+                                    >
+                                      {/* {"776.00"} */}
+                                      {parseFloat(
+                                        info?.amountInFiat || 0
+                                      ).toFixed(2)}
+                                    </Typography>
+                                  </Box>
 
-                          {/* <Typography
+                                  {/* <Typography
                           color="secondary"
                           fontWeight={400}
                           fontSize={12}
@@ -175,30 +174,30 @@ const AvailableRewards = () => {
                           date
                         </Typography> */}
 
-                          <Typography
-                            color="secondary"
-                            fontWeight={600}
-                            fontSize={16}
-                            mt={2}
-                            variant="body2"
-                          >
-                            Status
-                          </Typography>
-                        </Stack>
-                      </Box>
-                    </Stack>
-                  </Box>
+                                  <Typography
+                                    color="secondary"
+                                    fontWeight={600}
+                                    fontSize={16}
+                                    mt={2}
+                                    variant="body2"
+                                  >
+                                    Status
+                                  </Typography>
+                                </Stack>
+                              </Box>
+                            </Stack>
+                          </Box>
 
-                  <Box>
-                    <Stack
-                      direction="row"
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      mt={4}
-                    >
-                      <LazyImageComponent src={ExchanageIcon} />
-                    </Stack>
-                    {/* <Box ml={0}>
+                          <Box>
+                            <Stack
+                              direction="row"
+                              justifyContent={"center"}
+                              alignItems={"center"}
+                              mt={4}
+                            >
+                              <LazyImageComponent src={ExchanageIcon} />
+                            </Stack>
+                            {/* <Box ml={0}>
                     <center>
                       <Typography
                         color="secondary"
@@ -224,56 +223,60 @@ const AvailableRewards = () => {
                       </Typography>
                     </center>
                   </Box> */}
-                  </Box>
+                          </Box>
 
-                  <Box>
-                    <Stack direction="row" mr={2} justifyContent="flex-end">
-                      <LazyImageComponent
-                        sx={{ marginRight: 4 }}
-                        src={DownArrow}
-                      />
-                      <Typography mt={0.2} fontSize={14}>
-                        To receive
-                      </Typography>
-                    </Stack>
+                          <Box>
+                            <Stack
+                              direction="row"
+                              mr={2}
+                              justifyContent="flex-end"
+                            >
+                              <LazyImageComponent
+                                sx={{ marginRight: 4 }}
+                                src={DownArrow}
+                              />
+                              <Typography mt={0.2} fontSize={14}>
+                                To receive
+                              </Typography>
+                            </Stack>
 
-                    <Box mr={1.5} mt={2}>
-                      <Stack direction="row" justifyContent="flex-end">
-                        {/* <LazyImageComponent
+                            <Box mr={1.5} mt={2}>
+                              <Stack direction="row" justifyContent="flex-end">
+                                {/* <LazyImageComponent
                                 style={{ width: 30 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
                               /> */}
-                        <Typography
-                          color="secondary"
-                          fontWeight={400}
-                          fontSize={15}
-                          mt={0.8}
-                          variant="body2"
-                        >
-                          receuve
-                          {/* {info?.offer?.CryptoCurrency?.abbreviation} */}
-                        </Typography>
-                      </Stack>
-                      <Stack direction="row" justifyContent="flex-end">
-                        <Box
-                        // sx={{
-                        //   borderBottom: 1,
-                        //   borderBottomStyle: "dashed",
-                        // }}
-                        >
-                          <Typography
-                            fontSize={18}
-                            fontWeight={600}
-                            mt={0.4}
-                            color="secondary"
-                            variant="body2"
-                          >
-                            {/* ~ {info?.amountInCrypto} */}
-                            5667
-                          </Typography>
-                        </Box>
-                      </Stack>
-                      {/* <Stack direction="row" justifyContent="flex-end">
+                                <Typography
+                                  color="secondary"
+                                  fontWeight={400}
+                                  fontSize={15}
+                                  mt={0.8}
+                                  variant="body2"
+                                >
+                                  {/* receuve */}
+                                  {info?.offer?.CryptoCurrency?.abbreviation}
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" justifyContent="flex-end">
+                                <Box
+                                // sx={{
+                                //   borderBottom: 1,
+                                //   borderBottomStyle: "dashed",
+                                // }}
+                                >
+                                  <Typography
+                                    fontSize={18}
+                                    fontWeight={600}
+                                    mt={0.4}
+                                    color="secondary"
+                                    variant="body2"
+                                  >
+                                    ~ {info?.amountInCrypto}
+                                    {/* 5667 */}
+                                  </Typography>
+                                </Box>
+                              </Stack>
+                              {/* <Stack direction="row" justifyContent="flex-end">
                       <Typography
                         color="secondary"
                         fontWeight={400}
@@ -285,23 +288,23 @@ const AvailableRewards = () => {
                         {moment(info?.createdAt).format("Do MMMM YYYY")}
                       </Typography>
                     </Stack> */}
-                      <Stack direction="row" justifyContent="flex-end">
-                        <Typography
-                          color="primary"
-                          fontWeight={600}
-                          fontSize={16}
-                          mt={2}
-                          variant="body2"
-                        >
-                          paid
-                          {/* {info?.status} */}
-                        </Typography>
-                      </Stack>
-                    </Box>
-                  </Box>
-                </Stack>
+                              <Stack direction="row" justifyContent="flex-end">
+                                <Typography
+                                  color="primary"
+                                  fontWeight={600}
+                                  fontSize={16}
+                                  mt={2}
+                                  variant="body2"
+                                >
+                                  {/* paid */}
+                                  {info?.status}
+                                </Typography>
+                              </Stack>
+                            </Box>
+                          </Box>
+                        </Stack>
 
-                {/* <Stack mt={4} direction="row" justifyContent="flex-end">
+                        {/* <Stack mt={4} direction="row" justifyContent="flex-end">
                 <Button
                   onClick={handleCloseTwoFAPin}
                   variant="contained"
@@ -318,40 +321,42 @@ const AvailableRewards = () => {
                   </Typography>
                 </Button>
               </Stack> */}
-              </Box>
-            </ListItem>
-            {/* )}
-              </>
-            ))} */}
-          </List>
-          {/* ) : (
-          <Box height={400} p={4}>
-            <Box height={200}></Box>
-            <center>
-              <Typography
-                variant="caption"
-                textTransform={"none"}
-                fontSize={14}
-                color="background.dark"
-              >
-                You do not have any pending transactions.
-              </Typography>
-              <br />
-              <Stack direction={"row"} justifyContent={"center"}>
-                <Typography mr={0.5} fontSize={14} sx={{ color: "#3063E9" }}>
-                  Check your history
-                </Typography>
+                      </Box>
+                    </ListItem>
+                  )}
+                </>
+              ))}
+            </List>
+          ) : (
+            <Box height={400} p={4}>
+              <Box height={200}></Box>
+              <center>
                 <Typography
                   variant="caption"
                   textTransform={"none"}
                   fontSize={14}
                   color="background.dark"
-                > to view completed transactions
+                >
+                  You do not have any sell pending transactions.
                 </Typography>
-              </Stack>
-            </center>
-          </Box>
-        )} */}
+                <br />
+                <Stack direction={"row"} justifyContent={"center"}>
+                  <Typography mr={0.5} fontSize={14} sx={{ color: "#3063E9" }}>
+                    Check your history
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    textTransform={"none"}
+                    fontSize={14}
+                    color="background.dark"
+                  >
+                    {" "}
+                    to view completed transactions
+                  </Typography>
+                </Stack>
+              </center>
+            </Box>
+          )}
         </>
       )}
       {secondStep === 1 && (

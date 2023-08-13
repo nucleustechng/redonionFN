@@ -199,7 +199,7 @@ const MobileNavDrawerPermanent = ({
           </Stack>
         </Box>
 
-        <Box>{children}</Box>
+        <Box mb={12}>{children}</Box>
         <Box
           style={{ position: "fixed" }}
           px={3}

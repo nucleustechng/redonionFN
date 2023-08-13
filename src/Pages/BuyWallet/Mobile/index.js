@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import {
   Grid,
@@ -36,7 +36,7 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const TradeMobile = () => {
+const TradeMobile = (props) => {
   const [showKey, setShowKey] = useState(1);
 
   const [showsell, setShowSell] = useState(0);
@@ -47,14 +47,24 @@ const TradeMobile = () => {
 
   const [curencyData, setCurencyData] = useState([]);
 
+
+  const [coinNamesData, setCoinNamesData] = useState([]);
+
   const handleFiat = (key) => {
-    console.log(key);
+    
     setShowKey(key);
   };
 
   const sendData = (data) => {
     setInfo(data);
   };
+
+  useEffect(() => {
+    console.log(props);
+    setCurencyData(props.currency);
+    setCountryData(props.country);
+    setCoinNamesData(props.coinNamesData);
+  }, [props]);
 
   const theme = useTheme();
   return (
@@ -120,6 +130,7 @@ const TradeMobile = () => {
               open={true}
               country={countryData}
               currency={curencyData}
+              coin={coinNamesData}
               // onClose={handleSell}
             />
           </Box>
@@ -169,6 +180,7 @@ const TradeMobile = () => {
               <Box px={3}>
                 <Suspense fallback={<ComponentLoader />}>
                   <BuyWalletTopCards
+                    coinNamesData={coinNamesData}
                     sendData={sendData}
                     country={countryData}
                     currency={curencyData}
@@ -180,6 +192,7 @@ const TradeMobile = () => {
                 <Box px={3}>
                   <Suspense fallback={<ComponentLoader />}>
                     <CryptoWalletTopCards
+                      coinNamesData={coinNamesData}
                       sendData={sendData}
                       country={countryData}
                       currency={curencyData}

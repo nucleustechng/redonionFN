@@ -68,9 +68,10 @@ const CryptoWalletTopCards = (props) => {
     setCurrencyName(e.target.value);
   };
 
-  var user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  const GET_CURRENCY_URL = "/user/get-crypto-currencies";
+
+
 
   const onClickSuccess = () => {
     if (amount === "" || coinNames === "0") {
@@ -109,30 +110,12 @@ const CryptoWalletTopCards = (props) => {
       });
   };
 
-  const loadData = () => {
-    axios
-      .get(GET_CURRENCY_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data.data.cryptoCurrencies);
-        setCoinNamesData(res.data.data.cryptoCurrencies);
-      })
-      .catch((err) => {
-        // console.log(err?.response?.status);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      })
-      .finally(() => {});
-  };
+
 
   useEffect(() => {
-    loadData();
-  });
+    setCoinNamesData(props.coinNamesData);
+  }, [props]);
+
 
   return (
     <>

@@ -170,8 +170,16 @@ const ChangePasswordModal = ({ open, handleClose }) => {
       keepMounted
       open={open}
       onClose={handleClose}
+      sx={{
+        overflow: "scroll",
+        marginTop: isMobile ? 10 : 0,
+        marginLeft: isMobile ? 2 : 0,
+        marginRight: isMobile ? 2 : 0,
+      }}
     >
       <Box
+        p={2}
+        pb={4}
         bgcolor="background.paper"
         className={!isMobile ? styles.changePasswordModalBody : ""}
       >
@@ -195,11 +203,10 @@ const ChangePasswordModal = ({ open, handleClose }) => {
             {"Error changing account details"}
           </Alert>
         </Snackbar>
-       
+
         {step === 1 ? (
           <Box>
             <Box className={styles.modalTopBar}>
-
               <IconButton color="secondary" onClick={handleClose}>
                 <Tooltip
                   placement="right"
@@ -215,16 +222,18 @@ const ChangePasswordModal = ({ open, handleClose }) => {
               className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
               color="secondary"
               fontWeight={500}
-
             >
               Change Account details
             </Typography>
 
-            <Box mt={4} pl={3} pr={3} borderRadius={2} bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}>
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-              >
+            <Box
+              mt={4}
+              pl={3}
+              pr={3}
+              borderRadius={2}
+              bgcolor={theme.palette.mode === "dark" ? "#333" : "#E8E8F3"}
+            >
+              <Stack direction={"row"} justifyContent={"space-between"}>
                 <Typography
                   color="secondary"
                   variant="caption"
@@ -232,10 +241,9 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={1}
                   component="p"
                   fontSize={14}
-                  textAlign={'left'}
+                  textAlign={"left"}
                 >
                   Account Name:
-
                 </Typography>
 
                 <Typography
@@ -245,17 +253,12 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={1}
                   component="p"
                   fontSize={14}
-                  textAlign={'left'}
+                  textAlign={"left"}
                 >
-                  {user?.user?.firstName}   {user?.user?.lastName}
-
-
+                  {user?.user?.firstName} {user?.user?.lastName}
                 </Typography>
               </Stack>
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-              >
+              <Stack direction={"row"} justifyContent={"space-between"}>
                 <Typography
                   color="secondary"
                   variant="caption"
@@ -263,10 +266,9 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={1}
                   component="p"
                   fontSize={14}
-                  textAlign={'left'}
+                  textAlign={"left"}
                 >
                   Account Number:
-
                 </Typography>
 
                 <Typography
@@ -276,17 +278,12 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={1}
                   component="p"
                   fontSize={14}
-                  textAlign={'left'}
+                  textAlign={"left"}
                 >
-                  {userAuth?.number} 
-
-
+                  {userAuth?.number}
                 </Typography>
               </Stack>
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-              >
+              <Stack direction={"row"} justifyContent={"space-between"}>
                 <Typography
                   color="secondary"
                   variant="caption"
@@ -294,10 +291,9 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={2}
                   component="p"
                   fontSize={14}
-                  textAlign={'left'}
+                  textAlign={"left"}
                 >
                   Bank:
-
                 </Typography>
 
                 <Typography
@@ -307,132 +303,146 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={2}
                   component="p"
                   fontSize={14}
-                  textAlign={'left'}
+                  textAlign={"left"}
                 >
-                  {userAuth?.bankName} 
-
-
+                  {userAuth?.bankName}
                 </Typography>
               </Stack>
             </Box>
 
             <Box mt={4}>
-              <Stack mt={5} >
-              
-                  <>
-                    <Button
-                      onClick={()=> setStep(2) }
-                      style={{ height: 60, borderRadius: 10, fontSize: 17, textTransform: 'none' }} variant="contained" color="primary">
-                        Change Account   <LazyImageComponent src={FrontArrow} />
-                    </Button>
-
-                  </>
-               
+              <Stack mt={5}>
+                <>
+                  <Button
+                    onClick={() => setStep(2)}
+                    style={{
+                      height: 60,
+                      borderRadius: 10,
+                      fontSize: 17,
+                      textTransform: "none",
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Change Account <LazyImageComponent src={FrontArrow} />
+                  </Button>
+                </>
               </Stack>
-             
             </Box>
-
           </Box>
         ) : (
           <>
             {step === 2 ? (
-                <Box>
-                  <Box className={styles.modalTopBarspace}>
-                    <IconButton color="secondary" onClick={()=>setStep(1)}>
-                      <Tooltip
-                        placement="right"
-                        TransitionComponent={Zoom}
-                        title="Back"
-                      >
-                        <LazyImageComponent src={Back} />
-                      </Tooltip>
-                    </IconButton>
+              <Box>
+                <Box className={styles.modalTopBarspace}>
+                  <IconButton color="secondary" onClick={() => setStep(1)}>
+                    <Tooltip
+                      placement="right"
+                      TransitionComponent={Zoom}
+                      title="Back"
+                    >
+                      <LazyImageComponent src={Back} />
+                    </Tooltip>
+                  </IconButton>
 
-                    <IconButton color="secondary" onClick={handleClose}>
-                      <Tooltip
-                        placement="right"
-                        TransitionComponent={Zoom}
-                        title="Close Modal"
-                      >
-                        <CloseIcon fontSize="medium" />
-                      </Tooltip>
-                    </IconButton>
-                  </Box>
-                  <Typography
-                    className={styles.titleBox}
-                    variant="h3"
-                    color="secondaryDark"
-                    fontWeight={600}
-
-                  >
-                    Add account details
-                  </Typography>
-
-                  <Box mt={4}>
-                   
-                    <Typography className={styles.nameFont} variant="body2" mt={3} mb={1}>
-                      Account number
-                    </Typography>
-                    <Input
-                      disableUnderline
-                      className="inputField"
-                      type="number"
-                      variant="outlined"
-                      onChange={(e) => setAccountNumber(e.target.value)}
-                      size="small"
-                      fullWidth
-                      color="secondary"
-                    />
-                    <Typography className={styles.nameFont} variant="body2" mt={3} mb={1}>
-                      Bank
-                    </Typography>
-                    <Input
-                      disableUnderline
-                      className="inputField"
-                      type="text"
-                      variant="outlined"
-                      onChange={(e) => setUserBank(e.target.value)}
-                      size="small"
-                      fullWidth
-                      color="secondary"
-                    />
-                
-                    <Stack mt={5} >
-                      {loading ? (
-                        <LoadingButton loading variant="outlined">
-                          Login
-                        </LoadingButton>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={
-                                verifyBankApp
-                            }
-                            style={{ height: 60, borderRadius: 10, fontSize: 18, textTransform: 'none' }} variant="contained" color="primary">
-                              Complete {" "} <LazyImageComponent  src={FrontArrow} />
-                          </Button>
-
-                        </>
-                      )}
-                    </Stack>
-                  </Box>
+                  <IconButton color="secondary" onClick={handleClose}>
+                    <Tooltip
+                      placement="right"
+                      TransitionComponent={Zoom}
+                      title="Close Modal"
+                    >
+                      <CloseIcon fontSize="medium" />
+                    </Tooltip>
+                  </IconButton>
                 </Box>
+                <Typography
+                  className={styles.titleBox}
+                  variant="h3"
+                  color="secondaryDark"
+                  fontWeight={600}
+                >
+                  Add account details
+                </Typography>
+
+                <Box mt={4}>
+                  <Typography
+                    className={styles.nameFont}
+                    variant="body2"
+                    mt={3}
+                    mb={1}
+                  >
+                    Account number
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="number"
+                    variant="outlined"
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                    size="small"
+                    fullWidth
+                    color="secondary"
+                  />
+                  <Typography
+                    className={styles.nameFont}
+                    variant="body2"
+                    mt={3}
+                    mb={1}
+                  >
+                    Bank
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="text"
+                    variant="outlined"
+                    onChange={(e) => setUserBank(e.target.value)}
+                    size="small"
+                    fullWidth
+                    color="secondary"
+                  />
+
+                  <Stack mt={5}>
+                    {loading ? (
+                      <LoadingButton loading variant="outlined">
+                        Login
+                      </LoadingButton>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={verifyBankApp}
+                          style={{
+                            height: 60,
+                            borderRadius: 10,
+                            fontSize: 18,
+                            textTransform: "none",
+                          }}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Complete <LazyImageComponent src={FrontArrow} />
+                        </Button>
+                      </>
+                    )}
+                  </Stack>
+                </Box>
+              </Box>
             ) : (
-              <Box pt={4} >
+              <Box pt={4}>
                 <center>
                   <LazyImageComponent src={successClock} />
                 </center>
                 <Typography
                   variant="h3"
                   mt={!isMobile ? 4 : 8}
-
-                  className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
+                  className={
+                    !isMobile ? styles.titleBox : styles.titleBoxMobile
+                  }
                   color="secondary"
                   fontWeight={500}
                 >
-                      Account Number Changed Successfully
+                  Account Number Changed Successfully
                 </Typography>
-
 
                 <Typography
                   color="secondary"
@@ -441,21 +451,15 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                   mb={2}
                   component="p"
                   fontSize={16}
-                  textAlign={'center'}
+                  textAlign={"center"}
                 >
-                      You have Successfully changed your Account Number on Red Onion.
+                  You have Successfully changed your Account Number on Red
+                  Onion.
                 </Typography>
-
-
-
-
-
               </Box>
             )}
           </>
         )}
-
-
       </Box>
     </Modal>
   );

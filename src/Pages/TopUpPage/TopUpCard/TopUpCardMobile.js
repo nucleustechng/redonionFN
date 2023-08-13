@@ -55,6 +55,8 @@ const TopUpCardMobile = (prop) => {
 
   const [walletID, setWalletID] = useState("");
 
+  const [walletBalance, setWalletBalance] = useState("");
+
    const WALLET_MAIN_URL = "/wallet/";
 
    const getCyptoExchangeRate = (coin) => {
@@ -81,6 +83,7 @@ const TopUpCardMobile = (prop) => {
     setWalletData(prop.walletData);
     setWalletID(prop.walletID);
     setCoinData(prop.coinData);
+    setWalletBalance(prop.walletBalance)
   }, [prop]);
 
   // Copy Snackbar
@@ -143,7 +146,7 @@ const TopUpCardMobile = (prop) => {
                   color={"#fff"}
                   variant="body2"
                 >
-                  Total Balance
+                  Balance
                 </Typography>
                 {loading ? (
                   <Box>
@@ -169,7 +172,9 @@ const TopUpCardMobile = (prop) => {
                       fontSize={28}
                       variant="body2"
                     >
-                      {walletData?.balance}
+                      {walletBalance.length > 10
+                        ? walletBalance.substr(0, 10) + "\u2026"
+                        : walletBalance}
                     </Typography>
 
                     <CopyToClipboard
@@ -237,11 +242,11 @@ const TopUpCardMobile = (prop) => {
               variant="h6"
               color="secondary"
             >
-              Cryptocurrency
+              Cryptocurrencies
             </Typography>
             {coinData.map(({ id, cryptoCurrency, cryptoCurrencyId }, index) => (
               <Box
-                border={ 1}
+                border={1}
                 padding={1.3}
                 borderColor={coinID === id ? "#3063E9" : "#ddd"}
                 Button
@@ -274,7 +279,10 @@ const TopUpCardMobile = (prop) => {
                         fontSize={16}
                         variant="body2"
                       >
-                        {cryptoCurrency?.abbreviation}
+                        {
+                          cryptoCurrency?.name + " - " + cryptoCurrency
+                            ?.abbreviation
+                        }
                       </Typography>
                       {/* <Typography
                         mt={-0.4}

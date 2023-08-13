@@ -148,6 +148,7 @@ const ChangePasswordModal = ({ open, handleClose }) => {
       disableEnforceFocus
       keepMounted
       open={open}
+      sx={{ overflow: "scroll", marginTop: isMobile ? 10 : 0, marginLeft: isMobile ?  2 : 0, marginRight: isMobile ? 2 : 0 }}
       onClose={handleClose}
     >
       <Box
@@ -176,7 +177,6 @@ const ChangePasswordModal = ({ open, handleClose }) => {
           </Alert>
         </Snackbar>
         <Box className={styles.modalTopBar}>
-
           <IconButton color="secondary" onClick={handleClose}>
             <Tooltip
               placement="right"
@@ -216,89 +216,91 @@ const ChangePasswordModal = ({ open, handleClose }) => {
           </Box>
         ) : (
           <> */}
-            { step === 1 ? (
-              <Box>
-                <Box mt={-4}>
-                  <Typography variant="h6" component="h2">
-                    Change Password
-                  </Typography>
-                </Box>
+        {step === 1 ? (
+          <Box>
+            <Box mt={-4}>
+              <Typography variant="h6" component="h2">
+                Change Password
+              </Typography>
+            </Box>
 
-                <Box
-                  component="form"
-                  onSubmit={handleSubmitUserPassword}
-                  className={styles.changePasswordModalContentBox}
+            <Box
+              component="form"
+              onSubmit={handleSubmitUserPassword}
+              className={styles.changePasswordModalContentBox}
+            >
+              <Stack spacing={1} mb={2}>
+                <Typography
+                  variant="body2"
+                  color={
+                    theme.palette.mode === "dark"
+                      ? "text.secondary"
+                      : "common.black"
+                  }
                 >
-                  <Stack spacing={1} mb={2}>
-                    <Typography
-                      variant="body2"
-                      color={
-                        theme.palette.mode === "dark"
-                          ? "text.secondary"
-                          : "common.black"
-                      }
-                    >
-                      Current Password
-                    </Typography>
-                    <Input
-                      disableUnderline
-                      className={styles.inputField}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPasswordCurrent(!showPasswordCurrent)}
-                          >
-                            {showPasswordCurrent ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      name="passwordOld"
-                      onChange={handleChangePassword}
-                      type={showPasswordCurrent ? "text" : "password"}
-                      variant="filled"
-                      color="secondary"
-                      size="small"
-                    />
-                  </Stack>
-                  <Stack spacing={1} mb={2}>
-                    <Typography
-                      variant="body2"
-                      color={
-                        theme.palette.mode === "dark"
-                          ? "text.secondary"
-                          : "common.black"
-                      }
-                    >
-                     Create A Password
-                    </Typography>
-                    <Input
-                      disableUnderline
-                      className={styles.inputField}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPasswordNew(!showPasswordNew)}
-                          >
-                            {showPasswordNew ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      name="passwordNew"
-                      onChange={handleChangePassword}
-                      type={showPasswordNew ? "text" : "password"}
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                    />
-                  </Stack>
+                  Current Password
+                </Typography>
+                <Input
+                  disableUnderline
+                  className={styles.inputField}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          setShowPasswordCurrent(!showPasswordCurrent)
+                        }
+                      >
+                        {showPasswordCurrent ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  name="passwordOld"
+                  onChange={handleChangePassword}
+                  type={showPasswordCurrent ? "text" : "password"}
+                  variant="filled"
+                  color="secondary"
+                  size="small"
+                />
+              </Stack>
+              <Stack spacing={1} mb={2}>
+                <Typography
+                  variant="body2"
+                  color={
+                    theme.palette.mode === "dark"
+                      ? "text.secondary"
+                      : "common.black"
+                  }
+                >
+                  Create A Password
+                </Typography>
+                <Input
+                  disableUnderline
+                  className={styles.inputField}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPasswordNew(!showPasswordNew)}
+                      >
+                        {showPasswordNew ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  name="passwordNew"
+                  onChange={handleChangePassword}
+                  type={showPasswordNew ? "text" : "password"}
+                  variant="outlined"
+                  color="secondary"
+                  size="small"
+                />
+              </Stack>
               <Typography
                 variant="h3"
                 mt={-1}
@@ -307,113 +309,116 @@ const ChangePasswordModal = ({ open, handleClose }) => {
                 fontWeight={500}
                 fontSize={12}
               >
-                Your password must be at least 8 characters long and must contain a mix of letters, numbers and special characters
+                Your password must be at least 8 characters long and must
+                contain a mix of letters, numbers and special characters
               </Typography>
-                  <Stack spacing={1} mb={2}>
-                    <Typography
-                      variant="body2"
-                      color={
-                        theme.palette.mode === "dark"
-                          ? "text.secondary"
-                          : "common.black"
-                      }
-                    >
-                      Confirm Password
-                    </Typography>
-                    <Input
-                      disableUnderline
-                      className={styles.inputField}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() =>
-                              setShowPasswordConfirmed(!showPasswordConfirmed)
-                            }
-                          >
-                            {showPasswordConfirmed ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      error={passError ? true : false}
-                      name="passwordNewConfirmed"
-                      onChange={handleChangePassword}
-                      type={showPasswordConfirmed ? "text" : "password"}
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                    />
-                    <Typography variant="caption" color="error">
-                      {passError && passError}
-                    </Typography>
-                  </Stack>
+              <Stack spacing={1} mb={2}>
+                <Typography
+                  variant="body2"
+                  color={
+                    theme.palette.mode === "dark"
+                      ? "text.secondary"
+                      : "common.black"
+                  }
+                >
+                  Confirm Password
+                </Typography>
+                <Input
+                  disableUnderline
+                  className={styles.inputField}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          setShowPasswordConfirmed(!showPasswordConfirmed)
+                        }
+                      >
+                        {showPasswordConfirmed ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  error={passError ? true : false}
+                  name="passwordNewConfirmed"
+                  onChange={handleChangePassword}
+                  type={showPasswordConfirmed ? "text" : "password"}
+                  variant="outlined"
+                  color="secondary"
+                  size="small"
+                />
+                <Typography variant="caption" color="error">
+                  {passError && passError}
+                </Typography>
+              </Stack>
               <Stack mt={4} mb={2}>
                 {loading ? (
                   <LoadingButton
-                    style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-                    loading variant="outlined">
+                    style={{
+                      height: 60,
+                      borderRadius: 10,
+                      fontSize: 20,
+                      textTransform: "none",
+                    }}
+                    loading
+                    variant="outlined"
+                  >
                     Sign Up
                   </LoadingButton>
                 ) : (
                   <>
                     <Button
-                    type="submit"
+                      type="submit"
                       // onClick={verifyAuthApp}
-                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
                       color="primary"
                       variant="contained"
                       fullWidth
                     >
-                        Update Password
+                      Update Password
                     </Button>
                   </>
                 )}
               </Stack>
-                
+            </Box>
+          </Box>
+        ) : (
+          <Box>
+            <center>
+              <LazyImageComponent src={successClock} />
+            </center>
+            <Typography
+              variant="h3"
+              mt={!isMobile ? 4 : 8}
+              className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
+              color="secondary"
+              fontWeight={500}
+            >
+              Password change successful
+            </Typography>
 
-                </Box>
-              </Box>
-            ):(
-                  <Box >
-                    <center>
-                      <LazyImageComponent src={successClock} />
-                    </center>
-                    <Typography
-                      variant="h3"
-                      mt={!isMobile ? 4 : 8}
-                      className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
-                      color="secondary"
-                      fontWeight={500}
-                    >
-                      Password change successful
-                    </Typography>
-
-
-                    <Typography
-                      color="secondary"
-                      variant="caption"
-                      mt={!isMobile ? 2 : 8}
-                      mb={2}
-                      component="p"
-                      fontSize={16}
-                      textAlign={'center'}
-                    >
-                      You have successfully changed your Red Onion log in password.
-                    </Typography>
-
-
-
-
-
-                  </Box>
-            )}
-            {/* </>
+            <Typography
+              color="secondary"
+              variant="caption"
+              mt={!isMobile ? 2 : 8}
+              mb={2}
+              component="p"
+              fontSize={16}
+              textAlign={"center"}
+            >
+              You have successfully changed your Red Onion log in password.
+            </Typography>
+          </Box>
+        )}
+        {/* </>
         )} */}
-
-
       </Box>
     </Modal>
   );

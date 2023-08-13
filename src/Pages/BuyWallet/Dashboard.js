@@ -86,6 +86,7 @@ const CryptoWalletInterface = () => {
   const [curencyData, setCurencyData] = useState([]);
 
   const [showKey, setShowKey] = useState(1);
+  const [coinNamesData, setCoinNamesData] = useState([]);
 
  
 
@@ -140,6 +141,8 @@ const CryptoWalletInterface = () => {
 
   const CURENCY_URL = "/user/get-currencies?countryId=";
 
+  const GET_CURRENCY_URL = "/user/get-crypto-currencies";
+
   
 
   // Fetching Data
@@ -178,11 +181,40 @@ const CryptoWalletInterface = () => {
         }
       });
 
+        const loadData = () => {
+          axios
+            .get(GET_CURRENCY_URL, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+            })
+            .then((res) => {
+              // console.log(res.data.data.cryptoCurrencies);
+              setCoinNamesData(res.data.data.cryptoCurrencies);
+            })
+            .catch((err) => {
+              // console.log(err?.response?.status);
+              if (err?.response?.status === 401) {
+                navigate("/user/sign-in");
+              }
+            })
+            .finally(() => {});
+        };
+        loadData();
+
    
   }, [user, navigate]);
 
   return (
     <React.Fragment>
+      <CreateRequestModal
+        open={showSell}
+        country={countryData}
+        coin={coinNamesData}
+        currency={curencyData}
+        onClose={handleSell}
+      />
       {!isMobile && (
         <Box>
           {showPin ? (
@@ -194,13 +226,6 @@ const CryptoWalletInterface = () => {
             />
           ) : (
             <>
-              <CreateRequestModal
-                open={showSell}
-                country={countryData}
-                currency={curencyData}
-                onClose={handleSell}
-              />
-
               <Box mx={4} mb={2}>
                 <Stack direction="row" mt={-6} justifyContent="space-between">
                   <Box mx={4} mb={isTablet ? -2 : 1}>
@@ -233,8 +258,10 @@ const CryptoWalletInterface = () => {
               <RadioGroup>
                 <Stack
                   direction={isTablet ? "column" : "row"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
                   mx={4}
-                  spacing={isTablet ? 0 : 3}
+                  spacing={isTablet ? 0 : 10}
                   my={2}
                   mb={isTablet ? 10 : 15}
                 >
@@ -242,7 +269,7 @@ const CryptoWalletInterface = () => {
                     onClick={() => handleFiat(1)}
                     button
                     sx={{ cursor: "pointer" }}
-                    width={"100%"}
+                    // width={"80%"}
                     key={1}
                   >
                     <FormControlLabel
@@ -268,7 +295,7 @@ const CryptoWalletInterface = () => {
                     onClick={() => handleFiat(2)}
                     button
                     sx={{ cursor: "pointer" }}
-                    width={"100%"}
+                    // width={"80%"}
                     key={2}
                   >
                     <FormControlLabel
@@ -297,6 +324,7 @@ const CryptoWalletInterface = () => {
                   <Box px={3}>
                     <Suspense fallback={<ComponentLoader />}>
                       <BuyWalletTopCards
+                        coinNamesData={coinNamesData}
                         sendData={sendData}
                         country={countryData}
                         currency={curencyData}
@@ -320,6 +348,7 @@ const CryptoWalletInterface = () => {
                   <Box px={3}>
                     <Suspense fallback={<ComponentLoader />}>
                       <CryptoWalletTopCards
+                        coinNamesData={coinNamesData}
                         sendData={sendData}
                         country={countryData}
                         currency={curencyData}
@@ -336,7 +365,12 @@ const CryptoWalletInterface = () => {
         <MobileNavDrawerPermanent user={user}>
           <Box>
             <Suspense fallback={<ComponentSkeleton />}>
-              <MobileTrade />
+              <MobileTrade
+                coinNamesData={coinNamesData}
+                sendData={sendData}
+                country={countryData}
+                currency={curencyData}
+              />
             </Suspense>
           </Box>
         </MobileNavDrawerPermanent>

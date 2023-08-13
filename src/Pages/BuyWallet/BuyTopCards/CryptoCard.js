@@ -140,27 +140,8 @@ const CryptoWalletTopCards = (props) => {
   };
 
   useEffect(() => {
-     
-    axios
-      .get(GET_CURRENCY_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        
-        // console.log(res.data.data.cryptoCurrencies);
-        setCoinNamesData(res.data.data.cryptoCurrencies);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      })
-      .finally(() =>   setLoading(false));
-  }, [GET_CURRENCY_URL, user, navigate]);
+    setCoinNamesData(props.coinNamesData);
+  }, [props]);
 
   return (
     <>

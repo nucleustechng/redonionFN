@@ -64,6 +64,9 @@ const TopUpPage = () => {
 
   const [walletID, setWalletID] = useState("");
 
+
+  const [walletBalance, setWalletBalance] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
@@ -116,6 +119,7 @@ const TopUpPage = () => {
         console.log(res.data.data.wallet);
         setWalletData(data);
         setWalletID(data?.walletAddress);
+        setWalletBalance(data?.balance.toString());
       });
   };
 
@@ -143,6 +147,7 @@ const TopUpPage = () => {
             // console.log(res.data.data.wallet);
             setWalletData(data);
             setWalletID(data?.walletAddress);
+            setWalletBalance(data?.balance.toString());
           });
 
         setCoinData(data);
@@ -291,14 +296,14 @@ const TopUpPage = () => {
           <Box mt={6} px={2}>
             <Grid container spacing={2}>
               <Grid item xs={isTablet ? 12 : 9}>
-                <Grid container spacing={5}>
+                {/* <Grid container spacing={5}>
                   {coinData.map(({ id, cryptoCurrency, icon }, index) => (
                     <>
                       {index <= 3 && (
                         <Grid item xs={isTablet ? 12 : 3}>
                           <Box
                             borderRadius={4}
-                            // height={250}
+                          
                             px={3}
                             py={2}
                             bgcolor={"#E8E8F3"}
@@ -312,25 +317,7 @@ const TopUpPage = () => {
                                   style={{ width: 60, height: 60 }}
                                   src={cryptoCurrency?.imgUri}
                                 />
-                                {/* <Typography
-                                  mt={0.5}
-                                  fontWeight={600}
-                                  ml={1}
-                                  fontSize={19}
-                                  variant="body2"
-                                >
-                                  2,000
-                                </Typography> */}
-                                {/* <Typography
-                                  mt={-0.4}
-                                  fontWeight={500}
-                                  ml={1}
-                                  fontSize={14}
-                                  variant="body2"
-                                  sx={{ opacity: 0.4 }}
-                                >
-                                  ₦890,000
-                                </Typography> */}
+                               
                                 <Typography
                                   mt={2}
                                   fontWeight={500}
@@ -343,7 +330,7 @@ const TopUpPage = () => {
                                   {cryptoCurrency?.abbreviation}
                                 </Typography>
                               </Box>
-                              {/* <Box>
+                              <Box>
                                 <Stack direction="row">
                                   <LazyImageComponent src={ArrowUp} />
                                   <Typography
@@ -355,17 +342,17 @@ const TopUpPage = () => {
                                     +0.25%
                                   </Typography>
                                 </Stack>
-                              </Box> */}
+                              </Box>
                             </Stack>
                           </Box>
                         </Grid>
                       )}
                     </>
                   ))}
-                </Grid>
+                </Grid> */}
 
                 {!isTablet && (
-                  <Box mt={4}>
+                  <Box mt={0}>
                     <Typography
                       fontSize={20}
                       fontWeight={500}
@@ -375,7 +362,7 @@ const TopUpPage = () => {
                     >
                       Recent Transactions
                     </Typography>
-                    <TableArea />
+                    <TableArea coinID={coinID} />
                   </Box>
                 )}
               </Grid>
@@ -395,7 +382,7 @@ const TopUpPage = () => {
                         color={"#fff"}
                         variant="body2"
                       >
-                        Total Balance
+                        Balance
                       </Typography>
                       {loading ? (
                         <Box>
@@ -421,7 +408,10 @@ const TopUpPage = () => {
                             fontSize={28}
                             variant="body2"
                           >
-                            {walletData?.balance}
+                            {/* {walletBalance} */}
+                            {walletBalance.length > 10
+                              ? walletBalance.substr(0, 10) + "\u2026"
+                              : walletBalance}
                           </Typography>
 
                           <CopyToClipboard
@@ -490,7 +480,7 @@ const TopUpPage = () => {
                     variant="h6"
                     color="secondary"
                   >
-                    Current Official Rate
+                    Cryptocurrencies
                   </Typography>
 
                   {coinData.map(
@@ -531,7 +521,10 @@ const TopUpPage = () => {
                                 fontSize={16}
                                 variant="body2"
                               >
-                                {cryptoCurrency?.abbreviation}
+                                {cryptoCurrency?.name +
+                                  " - " +
+                                  cryptoCurrency?.abbreviation}
+                               
                               </Typography>
                               {/* <Typography
                                 mt={-0.4}
@@ -628,6 +621,7 @@ const TopUpPage = () => {
           <Box className={styles.contentBoxMobile}>
             <Suspense fallback={<ComponentSkeleton />}>
               <TopUpCardMobile
+                walletBalance={walletBalance}
                 walletData={walletData}
                 walletID={walletID}
                 coinData={coinData}

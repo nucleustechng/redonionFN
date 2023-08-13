@@ -14,7 +14,7 @@ import {
   MenuItem,
   Snackbar,
   useMediaQuery,
-  Alert
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
@@ -30,15 +30,14 @@ import styles from "../../Account.module.css";
 import useAuth from "../../../../../hooks/useAuth";
 import { LoadingButton } from "@mui/lab";
 
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 // Axios
 import axios from "../../../../../api/axios";
 
 // Custom Theme
 import { useTheme } from "@mui/material/styles";
-
 
 import successClock from "../../../../../assets/clockSuccess.svg";
 
@@ -76,12 +75,18 @@ const ProfileInfoModal = ({
 
   const [step, setStep] = useState(1);
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  const [value, setValue] = useState(user?.country?.ext + " " + user?.user?.phoneNumber)
+  const [value, setValue] = useState(
+    user?.country?.ext + " " + user?.user?.phoneNumber
+  );
   const [countryData, setCountryData] = useState([]);
-  const [country, setCountry] = useState(user?.country?.id + " " + user?.country?.code);
-  const [countrySplit, setCountrySplit] = useState(user?.country?.id + " " + user?.country?.code);
+  const [country, setCountry] = useState(
+    user?.country?.id + " " + user?.country?.code
+  );
+  const [countrySplit, setCountrySplit] = useState(
+    user?.country?.id + " " + user?.country?.code
+  );
   const [countryID, setCountryID] = useState(user?.country?.id);
 
   const [email, setEmail] = useState(user?.user?.email);
@@ -104,75 +109,63 @@ const ProfileInfoModal = ({
   const handleCountrySelection = (e) => {
     var con = e.target.value;
     setCountry(con);
-    setCountryID(con.split(' ')[0]);
-    setCountrySplit(con.split(' ')[1]);
+    setCountryID(con.split(" ")[0]);
+    setCountrySplit(con.split(" ")[1]);
   };
 
-
-console.log(user)
+  console.log(user);
   const handleRegisterUser = () => {
     // if (email === user?.user?.email || value === user?.user?.phone) {
     //   return;
     // }
     if (email === "" || value === "") {
-       
       setShowAuthenticationSnackbar(true);
-    }
-    else {
-
+    } else {
       setLoading(true);
 
-      axios.patch(
-        UPDATE_USER_URL,
-        JSON.stringify({
-          "email": email,
-          "firstName": user?.user?.firstName,
-          "lastName": user?.user?.lastName,
-          "middleName": user?.user?.middleName,
-          "phoneNumber": value
-
-        }),
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            Accept: 'application/json',
-            "Content-Type": "application/json",
-
+      axios
+        .patch(
+          UPDATE_USER_URL,
+          JSON.stringify({
+            email: email,
+            firstName: user?.user?.firstName,
+            lastName: user?.user?.lastName,
+            middleName: user?.user?.middleName,
+            phoneNumber: value,
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
-        }
-      ).then((res) => {
-        console.log(res);
+        )
+        .then((res) => {
+          console.log(res);
 
-       setStep(2);
-
-      }).catch((err) => {
-        console.log(err)
-      })
+          setStep(2);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
         .finally(() => setLoading(false));
-
-
-
     }
   };
 
-  
-
-
   // Fetching Data
   useEffect(() => {
-    axios.get(
-      COUNTRIES_URL,
-      {
+    axios
+      .get(COUNTRIES_URL, {
         headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    ).then((res) => {
-      let data = res.data.data.countries;
-      data.sort((a, b) => a.name.localeCompare(b.name));
-      setCountryData(data);
-    });
-
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        let data = res.data.data.countries;
+        data.sort((a, b) => a.name.localeCompare(b.name));
+        setCountryData(data);
+      });
   }, []);
 
   return (
@@ -181,13 +174,16 @@ console.log(user)
       disableEnforceFocus
       keepMounted
       open={open}
-      onClose={()=>{
+      sx={{ overflow: "scroll" }}
+      onClose={() => {
         setStep(1);
-        handleClose()}}
+        handleClose();
+      }}
     >
-    
-      <Box bgcolor="background.paper" 
-      className={!isMobile ?  styles.profileInfoModalBody : ""}
+      <Box
+        bgcolor="background.paper"
+        p={2}
+        className={!isMobile ? styles.profileInfoModalBody : ""}
       >
         <Snackbar
           anchorOrigin={
@@ -218,230 +214,234 @@ console.log(user)
         </Snackbar>
         {step === 1 ? (
           <>
-        <Box className={styles.modalTopBar}>
-          
-          <IconButton color="secondary" onClick={handleClose}>
-            <Tooltip
-              placement="right"
-              TransitionComponent={Zoom}
-              title="Close Modal"
-            >
-              <CloseIcon fontSize="medium" />
-            </Tooltip>
-          </IconButton>
-        </Box>
-       
-       <center>
-          <Box>
-            <Typography
+            <Box className={styles.modalTopBar}>
+              <IconButton color="secondary" onClick={handleClose}>
+                <Tooltip
+                  placement="right"
+                  TransitionComponent={Zoom}
+                  title="Close Modal"
+                >
+                  <CloseIcon fontSize="medium" />
+                </Tooltip>
+              </IconButton>
+            </Box>
 
-              fontWeight={400}
-              color="primary"
-              fontSize={20}
-              letterSpacing={1}
-            >
-              Account Information
-            </Typography>
+            <center>
+              <Box>
+                <Typography
+                  fontWeight={400}
+                  color="primary"
+                  fontSize={20}
+                  letterSpacing={1}
+                >
+                  Account Information
+                </Typography>
+              </Box>
+            </center>
 
-          </Box>
-       </center>
-       
-        <Box className={styles.profileInfoModalContentBox}>
-
-          <Box   mt={4}>
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body1"
-                color={theme.palette.text.primary}
-                fontSize={16}
-              >
-                *First Name
-              </Typography>
-              <Input
-                disableUnderline
-                className="inputField"
-                type="text"
-                disabled
-                variant="outlined"
-                value={user?.user?.firstName}
-                size="small"
-                color="secondary"
-                name="fname"
-
-              />
-            </Stack>
-
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body1"
-                color={theme.palette.text.primary}
-                fontSize={16}
-              >
-                *Last Name
-              </Typography>
-              <Input
-                disableUnderline
-                className="inputField"
-                type="text"
-                disabled
-                value={user?.user?.lastName}
-                variant="outlined"
-                size="small"
-                color="secondary"
-                name="lname"
-              // onChange={handleUserInfo}
-              />
-            </Stack>
-
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body1"
-                color={theme.palette.text.primary}
-                fontSize={16}
-              >
-                Middle Name
-              </Typography>
-              <Input
-                disableUnderline
-                className="inputField"
-                type="text"
-                disabled
-                variant="outlined"
-                value={user?.user?.middleName}
-                size="small"
-                color="secondary"
-                name="mname"
-              // onChange={handleUserInfo}
-              />
-            </Stack>
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body1"
-                color={theme.palette.text.primary}
-                fontSize={16}
-              >
-                *Email
-              </Typography>
-              <Input
-                disableUnderline
-                className="inputField"
-                type="email"
-                placeholder="joe@gmail.com"
-                variant="outlined"
-                value={email}
-                size="small"
-                color="secondary"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-
-              />
-            </Stack>
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body1"
-                color={theme.palette.text.primary}
-                fontSize={16}
-              >
-                *Country
-              </Typography>
-              <Select
-                disabled
-                className={theme.palette.mode === "dark" ? "" : styles.currencyBox}
-                value={country}
-                onChange={handleCountrySelection}
-              >
-                {countryData.map(({ id, name, code, ext, regex }) => (
-                  <MenuItem key={id} value={id + " " + code}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Stack>
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body1"
-                color={theme.palette.text.primary}
-                fontSize={16}
-              >
-                *Phone Number
-              </Typography>
-              <PhoneInput
-                inputStyle={{ width: "100%", height: 53, fontSize: 16, background: "#f3f3f3", border: 0 }}
-                country={country === user?.country?.id + " " + user?.country?.code ? user?.country?.code.toLowerCase() : countrySplit.toLowerCase()}
-                placeholder="Enter phone number"
-                value={value}
-                disableDropdown={true}
-                onChange={setValue}
-              />
-
-            </Stack>
-
-            <Stack mt={4} mb={2}>
-              {loading ? (
-                <LoadingButton
-                  style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-                  loading variant="outlined">
-                  Sign Up
-                </LoadingButton>
-              ) : (
-                <>
-                  <Button
-                      onClick={
-                        handleRegisterUser
-                      }
-                     
-                    // className={styles.userButton}
-                    style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
+            <Box className={styles.profileInfoModalContentBox}>
+              <Box mt={4}>
+                <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
                   >
-                    Update Details
-                  </Button>
+                    *First Name
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="text"
+                    disabled
+                    variant="outlined"
+                    value={user?.user?.firstName}
+                    size="small"
+                    color="secondary"
+                    name="fname"
+                  />
+                </Stack>
 
-                </>
-              )}
-            </Stack>
+                <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
+                  >
+                    *Last Name
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="text"
+                    disabled
+                    value={user?.user?.lastName}
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    name="lname"
+                    // onChange={handleUserInfo}
+                  />
+                </Stack>
 
+                <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
+                  >
+                    Middle Name
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="text"
+                    disabled
+                    variant="outlined"
+                    value={user?.user?.middleName}
+                    size="small"
+                    color="secondary"
+                    name="mname"
+                    // onChange={handleUserInfo}
+                  />
+                </Stack>
+                <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
+                  >
+                    *Email
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="email"
+                    placeholder="joe@gmail.com"
+                    variant="outlined"
+                    value={email}
+                    size="small"
+                    color="secondary"
+                    name="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Stack>
+                <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
+                  >
+                    *Country
+                  </Typography>
+                  <Select
+                    disabled
+                    className={
+                      theme.palette.mode === "dark" ? "" : styles.currencyBox
+                    }
+                    value={country}
+                    onChange={handleCountrySelection}
+                  >
+                    {countryData.map(({ id, name, code, ext, regex }) => (
+                      <MenuItem key={id} value={id + " " + code}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Stack>
+                <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
+                  >
+                    *Phone Number
+                  </Typography>
+                  <PhoneInput
+                    inputStyle={{
+                      width: "100%",
+                      height: 53,
+                      fontSize: 16,
+                      background: "#f3f3f3",
+                      border: 0,
+                    }}
+                    country={
+                      country === user?.country?.id + " " + user?.country?.code
+                        ? user?.country?.code.toLowerCase()
+                        : countrySplit.toLowerCase()
+                    }
+                    placeholder="Enter phone number"
+                    value={value}
+                    disableDropdown={true}
+                    onChange={setValue}
+                  />
+                </Stack>
 
-          </Box>
-        </Box>
+                <Stack mt={4} mb={2}>
+                  {loading ? (
+                    <LoadingButton
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      loading
+                      variant="outlined"
+                    >
+                      Sign Up
+                    </LoadingButton>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={handleRegisterUser}
+                        // className={styles.userButton}
+                        style={{
+                          height: 60,
+                          borderRadius: 10,
+                          fontSize: 20,
+                          textTransform: "none",
+                        }}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                      >
+                        Update Details
+                      </Button>
+                    </>
+                  )}
+                </Stack>
+              </Box>
+            </Box>
           </>
         ) : (
-        <Box pt={4} >
-          <center>
-            <LazyImageComponent src={successClock} />
-          </center>
-          <Typography
-            variant="h3"
-            mt={!isMobile ? 4 : 8}
+          <Box pt={4}>
+            <center>
+              <LazyImageComponent src={successClock} />
+            </center>
+            <Typography
+              variant="h3"
+              mt={!isMobile ? 4 : 8}
+              className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
+              color="secondary"
+              fontWeight={500}
+            >
+              Account Information changed successfully
+            </Typography>
 
-            className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
-            color="secondary"
-            fontWeight={500}
-          >
-            Account Information changed successfully
-          </Typography>
-
-
-          <Typography
-            color="secondary"
-            variant="caption"
-            mt={!isMobile ? 2 : 8}
-            mb={2}
-            component="p"
-            fontSize={16}
-            textAlign={'center'}
-          >
-            You have Successfully changed your Account Aumber on Red Onion.
-          </Typography>
-
-
-
-
-
-        </Box>
-            )}
+            <Typography
+              color="secondary"
+              variant="caption"
+              mt={!isMobile ? 2 : 8}
+              mb={2}
+              component="p"
+              fontSize={16}
+              textAlign={"center"}
+            >
+              You have Successfully changed your Account Aumber on Red Onion.
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Modal>
   );

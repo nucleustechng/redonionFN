@@ -57,22 +57,22 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const CreateRequestModal = ({ open, onClose, country, currency }) => {
+const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(0);
 
   const [amountFees, setAmountFees] = useState(0);
 
   const [coinNamesData, setCoinNamesData] = useState([]);
 
-  const [coinNamesDataTo, setCoinNamesDataTo] = useState([]);
+  const [coinNamesDataTo, setCoinNamesDataTo] = useState("");
   const [coinNames, setCoinNames] = useState("0");
 
   const [coinName, setCoinName] = useState("");
-  const [currencyNames, setcurrencyNames] = useState("USD");
+  const [currencyNames, setcurrencyNames] = useState("");
   const [coinRate, setCoinRate] = useState("0");
 
   const [payTextField, setPayTextField] = useState("");
@@ -92,6 +92,8 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   const [copied, setCopied] = useState(false);
 
   const [showMsg, setShowMsg] = useState("");
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   // Send Snackbar
   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
@@ -118,8 +120,6 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
     }
   };
 
-  var user = JSON.parse(localStorage.getItem("user"));
-
   const getCyptoExchangeRate = (coin) => {
     setLoading(true);
 
@@ -131,7 +131,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         },
       })
       .then((res) => {
-        console.log(res.data.data.averageExchangeRate);
+        // console.log(res.data.data.averageExchangeRate);
         setCoinRate(res.data.data?.averageExchangeRate || 0);
       })
       .catch((err) => {
@@ -170,50 +170,27 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
   };
 
   const handleCoinNameSelection = (e) => {
-    console.log(e.target.value);
-    setCoinNames(e.target.value);
-    // setCoinName(coinNamesData[e.target.value]);
-    // console.log(coinNamesData[coinNames]?.abbreviation);
-    // if (e.target.value !== "0") {
-    // getCyptoExchangeRate(coinNamesData[e.target.value]);
-    getCyptoExchangeRate(e.target.value);
-    // }
+    const nameCryptos = e.target.value;
+
+    let dataa = coinNamesData.find((data) => data.id === nameCryptos);
+
+    console.log(dataa);
+    setCoinNames(nameCryptos);
+    setCoinNamesDataTo(dataa?.abbreviation);
+    if (e.target.value !== "0") {
+      // getCyptoExchangeRate(coinNamesData[e.target.value]);
+      getCyptoExchangeRate(e.target.value);
+    }
   };
 
-  const getCryto = useCallback(() => {
-    axios
-      .get(GET_CURRENCY_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        // eslint-disable-next-line
-        // setAdd(addi++);
-        // console.log(res.data.data.cryptoCurrencies);
-        setCoinNamesData(res.data.data.cryptoCurrencies);
-        // setCoinNamesDataTo(res.data.data.cryptoCurrencies);
-      })
-      .catch((err) => {
-        // console.log(err?.response?.status);
-        if (err?.response?.status === 401) {
-          navigate("/user/sign-in");
-        }
-      })
-      .finally(() => {});
-  }, [navigate, user]);
-
   useEffect(() => {
-    getCryto();
-  });
+    console.log(2, coin);
+    setCoinNamesData(coin);
+    setcurrencyNames(currency);
+  }, [coin, currency, user]);
 
   const onVerify = () => {
-    // if (transactionID === "") {
-    //   return;
-    // }
-
-    // console.log(transactionID)
+    
     setLoading(true);
 
     axios
@@ -221,13 +198,9 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         CREATE_OFFER_URL,
         JSON.stringify({
           amountInCrypto: Number(amount),
-          cryptoCurrencyId: coinName,
-          currencyId: user?.currency?.id,
-          tokenPricePerUnit:
-            infoRadio === "rate"
-              ? parseFloat(amount / payTextField)
-              : parseFloat(payTextField / amount),
-          transactionId: transactionID,
+          cryptoCurrencyId: coinNames,
+          currencyId: currency?.id,
+          tokenPricePerUnit: Number(amountFees),
         }),
         {
           headers: {
@@ -237,7 +210,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.data === null) {
           setShowMsg(res.data.msg);
           setShowSendSuccessfullSnackbar(true);
@@ -249,8 +222,8 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
         if (err?.response?.status === 401) {
           navigate("/user/sign-in");
         } else {
-          console.log(err?.response?.data.message);
-          setShowMsg(err?.response?.data.message);
+          // console.log(err?.response?.data);
+          setShowMsg(err?.response?.data.msg);
           setShowSendSuccessfullSnackbar(true);
         }
       })
@@ -426,30 +399,20 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                     </Box>
                   </Stack>
                   <Box mb={3}>
-                    <Stack direction={"row"}>
-                      <Select
-                        className={
-                          theme.palette.mode === "dark"
-                            ? styles.currencyBoxDark
-                            : styles.currencyBox
-                        }
-                        sx={{
-                          width: "35%",
-                          height: 50,
-                          border: 0,
-                        }}
-                        value={currencyNames}
-                      >
-                        <MenuItem value="USD">
-                          <Typography>USD</Typography>
-                        </MenuItem>
-                      </Select>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                    >
+                      <Box mr={2}>
+                        <Typography>Amount</Typography>
+                      </Box>
                       <Input
                         disableUnderline
                         className="inputField"
                         size="small"
                         type="number"
-                        value={coinRate * amount}
+                        value={amountFees * amount}
                         // onChange={(e) => setAmount(e.target.value)}
                         placeholder="0.00"
                         fullWidth
@@ -459,50 +422,60 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                   </Box>
                 </Box>
 
-                <Box>
-                  <Stack direction={"row"}>
-                    <Box mb={1}>
-                      <Typography fontSize={17} fontWeight={400}>
-                        Rate
-                      </Typography>
-                    </Box>
-                  </Stack>
-                  <Box
-                    mb={3}
-                    borderRadius={5}
-                    p={2}
-                    py={2}
-                    fullWidth
-                    bgcolor={"#dddddd50"}
-                  >
-                    <Stack
-                      direction={"row"}
-                      px={2}
-                      justifyContent="space-between"
+                {coinNamesDataTo !== "" && (
+                  <Box>
+                    <Stack direction={"row"}>
+                      <Box mb={1}>
+                        <Typography fontSize={17} fontWeight={400}>
+                          Rate
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Box
+                      mb={3}
+                      borderRadius={5}
+                      p={2}
+                      py={2}
+                      fullWidth
+                      bgcolor={"#dddddd50"}
                     >
-                      <Typography fontSize={20} fontWeight={400}>
-                        1$
-                      </Typography>
-                      <Typography
-                        fontSize={20}
-                        color="primary"
-                        fontWeight={400}
+                      <Stack
+                        direction={"row"}
+                        px={2}
+                        alignItems={"center"}
+                        justifyContent="space-between"
                       >
-                        =
-                      </Typography>
-                      <Typography fontSize={20} fontWeight={400}>
-                        ₦700.00
-                      </Typography>
+                        <Typography fontSize={20} fontWeight={400}>
+                          1 {coinNamesDataTo}
+                        </Typography>
+                        <Typography
+                          fontSize={20}
+                          color="primary"
+                          fontWeight={400}
+                        >
+                          =
+                        </Typography>
+                        <Input
+                          disableUnderline
+                          className="inputField"
+                          size="small"
+                          type="number"
+                          // value={coinRate * amount}
+                          onChange={(e) => setAmountFees(e.target.value)}
+                          placeholder="0.00"
+                        />
+                      </Stack>
+                    </Box>
+                    <Stack mb={4} direction={"row"}>
+                      <Box mt={-2} mb={1}>
+                        <Typography fontSize={16} fontWeight={400}>
+                          Official rate: 1{coinNamesDataTo} ={" "}
+                          {currencyNames?.currencyCode} {coinRate}
+                        </Typography>
+                      </Box>
                     </Stack>
                   </Box>
-                  <Stack mb={4} direction={"row"}>
-                    <Box mt={-2} mb={1}>
-                      <Typography fontSize={16} fontWeight={400}>
-                        Official rate: 1BTC = ₦433.72
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Box>
+                )}
 
                 <Stack direction={"row"}>
                   <>
@@ -531,7 +504,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                   </>
 
                   <Button
-                    onClick={() => setFirstModalA(2)}
+                    onClick={() => onClose()}
                     fullWidth
                     style={{
                       height: 50,
@@ -582,32 +555,8 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
           </Box>
         </Modal>
       ) : (
-        <Box
-           >
-          <Box pt={1} px={0.5} >
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={"5px"}
-            >
-              <>
-                {/* {firstModal && (
-                    <Typography
-                      // variant="body2"
-                      color="primary"
-                      sx={{ cursor: "pointer" }}
-                      onClick={() => setFirstModal(false)}
-                    >
-                      <LazyImageComponent src={Back} />
-                    </Typography>
-                  )} */}
-
-               
-              </>
-
-             
-            </Stack>
-
+        <Box>
+          <Box pt={1} px={0.5}>
             <Box>
               <Stack direction={"row"}>
                 <Box mb={1} mt={3}>
@@ -625,7 +574,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                         : styles.currencyBox
                     }
                     sx={{
-                      width: "100%",
+                      width: "35%",
                       height: 50,
                       border: 0,
                     }}
@@ -694,30 +643,20 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                 </Box>
               </Stack>
               <Box mb={3}>
-                <Stack direction={"row"}>
-                  <Select
-                    className={
-                      theme.palette.mode === "dark"
-                        ? styles.currencyBoxDark
-                        : styles.currencyBox
-                    }
-                    sx={{
-                      width: "100%",
-                      height: 50,
-                      border: 0,
-                    }}
-                    value={currencyNames}
-                  >
-                    <MenuItem value="USD">
-                      <Typography>USD</Typography>
-                    </MenuItem>
-                  </Select>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Box mr={2}>
+                    <Typography>Amount</Typography>
+                  </Box>
                   <Input
                     disableUnderline
                     className="inputField"
                     size="small"
                     type="number"
-                    value={coinRate * amount}
+                    value={amountFees * amount}
                     // onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
                     fullWidth
@@ -727,42 +666,56 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
               </Box>
             </Box>
 
-            <Box>
-              <Stack direction={"row"}>
-                <Box mb={1}>
-                  <Typography fontSize={17} fontWeight={400}>
-                    Rate
-                  </Typography>
+            {coinNamesDataTo !== "" && (
+              <Box>
+                <Stack direction={"row"}>
+                  <Box mb={1}>
+                    <Typography fontSize={17} fontWeight={400}>
+                      Rate
+                    </Typography>
+                  </Box>
+                </Stack>
+                <Box
+                  mb={3}
+                  borderRadius={5}
+                  p={2}
+                  py={2}
+                  fullWidth
+                  bgcolor={"#dddddd50"}
+                >
+                  <Stack
+                    direction={"row"}
+                    px={2}
+                    alignItems={"center"}
+                    justifyContent="space-between"
+                  >
+                    <Typography fontSize={20} fontWeight={400}>
+                      1 {coinNamesDataTo}
+                    </Typography>
+                    <Typography fontSize={20} color="primary" fontWeight={400}>
+                      =
+                    </Typography>
+                    <Input
+                      disableUnderline
+                      className="inputField"
+                      size="small"
+                      type="number"
+                      // value={coinRate * amount}
+                      onChange={(e) => setAmountFees(e.target.value)}
+                      placeholder="0.00"
+                    />
+                  </Stack>
                 </Box>
-              </Stack>
-              <Box
-                mb={3}
-                borderRadius={5}
-                p={2}
-                py={2}
-                fullWidth
-                bgcolor={"#dddddd50"}
-              >
-                <Stack direction={"row"} px={2} justifyContent="space-between">
-                  <Typography fontSize={20} fontWeight={400}>
-                    1$
-                  </Typography>
-                  <Typography fontSize={20} color="primary" fontWeight={400}>
-                    =
-                  </Typography>
-                  <Typography fontSize={20} fontWeight={400}>
-                    ₦700.00
-                  </Typography>
+                <Stack mb={4} direction={"row"}>
+                  <Box mt={-2} mb={1}>
+                    <Typography fontSize={16} fontWeight={400}>
+                      Official rate: 1{coinNamesDataTo} ={" "}
+                      {currencyNames?.currencyCode} {coinRate}
+                    </Typography>
+                  </Box>
                 </Stack>
               </Box>
-              <Stack mb={4} direction={"row"}>
-                <Box mt={-2} mb={1}>
-                  <Typography fontSize={16} fontWeight={400}>
-                    Official rate: 1BTC = ₦433.72
-                  </Typography>
-                </Box>
-              </Stack>
-            </Box>
+            )}
 
             <Stack direction={"row"}>
               <>

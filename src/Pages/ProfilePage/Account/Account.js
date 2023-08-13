@@ -93,6 +93,7 @@ const Account = () => {
   const [anchorElMenu, setAnchorElMenu] = React.useState(null);
 
   const [expanded, setExpanded] = React.useState(false);
+  const [expanded1, setExpanded1] = React.useState(false);
 
   const openMenu = Boolean(anchorElMenu);
 
@@ -254,8 +255,10 @@ const Account = () => {
 
           <Accordion
             sx={{ background: theme.palette.background.default }}
-            expanded={expanded === "panel1"}
-            onChange={() => handleChange("panel1")}
+            expanded={expanded1}
+            onChange={() => {
+               setExpanded1(!expanded1);
+            }}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -483,7 +486,7 @@ const Account = () => {
         <MobileNavDrawerPermanent user={user}>
           <Box>
             <Suspense fallback={<ComponentSkeleton />}>
-              <Box className={styles.mainBox}>
+              <Box px={2.5} className={styles.mainBox}>
                 <Box mb={3}>
                   <Suspense fallback={<AccountCardSkeletons width={"100%"} />}>
                     <ProfileInfo handleClickMenu={handleClickMenu} />
@@ -492,8 +495,10 @@ const Account = () => {
 
                 <Accordion
                   sx={{ background: theme.palette.background.default }}
-                  expanded={expanded === "panel1"}
-                  onChange={() => handleChange("panel1")}
+                  expanded={expanded1}
+                  onChange={() => {
+                    setExpanded1(!expanded1);
+                  }}
                 >
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

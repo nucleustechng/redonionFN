@@ -1,5 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Modal, Tooltip, Zoom, Stack, Typography, useMediaQuery, Snackbar, Alert, IconButton, Button, Input } from "@mui/material";
+import {
+  Modal,
+  Tooltip,
+  Zoom,
+  Stack,
+  Typography,
+  useMediaQuery,
+  Snackbar,
+  Alert,
+  IconButton,
+  Button,
+  Input,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 
@@ -39,7 +51,7 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loading, setLoading] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const [payTextField, setPayTextField] = useState("");
@@ -48,15 +60,13 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
 
   const [showMsg, setShowMsg] = useState("");
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   // Send Snackbar
   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
     useState(false);
 
   const ref = useRef(null);
-
-
 
   const handleCloseSendSnackbar = () => {
     setShowSendSuccessfullSnackbar(false);
@@ -96,71 +106,61 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
         }
       })
       .finally(() => setLoading(false));
-  }, [user, navigate, AUTH_TWO_URL]); 
+  }, [user, navigate, AUTH_TWO_URL]);
 
-  
   async function copyContent() {
     try {
-      await navigator.clipboard.writeText(userAuth?.base32 );
-      console.log('Content copied to clipboard');
-      setShowMsg(3)
+      await navigator.clipboard.writeText(userAuth?.base32);
+      console.log("Content copied to clipboard");
+      setShowMsg(3);
       setShowSendSuccessfullSnackbar(true);
       /* Resolved - text copied to clipboard successfully */
     } catch (err) {
-      console.error('Failed to copy: ', err);
+      console.error("Failed to copy: ", err);
       /* Rejected - text failed to copy to the clipboard */
     }
   }
 
-
-
-
   const verifyAuthApp = () => {
-
-    if(payTextField.length !== 6){
-      setShowMsg(1)
+    if (payTextField.length !== 6) {
+      setShowMsg(1);
       setShowSendSuccessfullSnackbar(true);
       return;
     }
 
-
     setLoading(true);
 
-    axios.post(
-      VERIFY_AUTH_TWO_URL,
-      JSON.stringify({
-        token:payTextField,
-        userId: userAuth?.userId
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+    axios
+      .post(
+        VERIFY_AUTH_TWO_URL,
+        JSON.stringify({
+          token: payTextField,
+          userId: userAuth?.userId,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
         }
-      }
-    ).then((res) => {
-      console.log(res.data);
-      if (res.data.data === null || res.data.data === ""){
-        setShowMsg(2)
-        setShowSendSuccessfullSnackbar(true);
-       
-      }else{
-        setcheckStatus(2)
-      }
-     
-    }).catch((err) => {
-      if (err?.response?.status === 401) {
-        navigate("/user/sign-in")
-      }else{
-       
-      }
-    })
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.data === null || res.data.data === "") {
+          setShowMsg(2);
+          setShowSendSuccessfullSnackbar(true);
+        } else {
+          setcheckStatus(2);
+        }
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        } else {
+        }
+      })
       .finally(() => setLoading(false));
-
-
-
   };
-
 
   return (
     <Modal
@@ -168,6 +168,7 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
       disableEscapeKeyDown
       keepMounted
       open={open}
+      sx={{ overflow: "scroll" }}
       onClose={(_, reason) => {
         onClose();
         setcheckStatus(0);
@@ -318,17 +319,29 @@ const AutheticatorAppModal = ({ open, onClose, openAuthorizationModal }) => {
                     </Typography>
 
                     <Button onClick={copyContent}>
-                      <Typography
-                        color={"#3063E9"}
-                        variant="caption"
-                        // mt={!isMobile ? 4 : 8}
-                        // mb={5}
-                        component="p"
-                        fontSize={20}
-                        textAlign={"center"}
+                      <Box
+                        ml={isMobile ? 1.5 : 0}
+                        style={{
+                          flexWrap: "wrap",
+                          wordWrap: "break-word",
+                          overflow: "hidden",
+                          width: isMobile ? "300px" : "100%",
+                        }}
                       >
-                        {userAuth?.base32}
-                      </Typography>
+                        <center>
+                          <Typography
+                            color={"#3063E9"}
+                            variant="caption"
+                            // mt={!isMobile ? 4 : 8}
+                            // mb={5}
+                            component="p"
+                            fontSize={20}
+                            textAlign={"center"}
+                          >
+                            {userAuth?.base32}
+                          </Typography>
+                        </center>
+                      </Box>
                     </Button>
 
                     <Stack mt={4} mb={2}>

@@ -81,13 +81,21 @@ const DeleteAccountModal = ({ open, handleClose }) => {
       disableEnforceFocus
       keepMounted
       open={open}
+      sx={{
+        overflow: "scroll",
+        marginTop: isMobile ? 10 : 0,
+        marginLeft: isMobile ? 2 : 0,
+        marginRight: isMobile ? 2 : 0,
+      }}
       onClose={handleClose}
     >
-      <Box bgcolor="background.paper" 
-      className={!isMobile ? styles.deleteAccountModalBody : ""}
+      <Box
+        p={2}
+        pb={4}
+        bgcolor="background.paper"
+        className={!isMobile ? styles.deleteAccountModalBody : ""}
       >
         <Box className={styles.modalTopBar}>
-         
           <IconButton color="secondary" onClick={handleClose}>
             <Tooltip
               placement="right"
@@ -103,7 +111,7 @@ const DeleteAccountModal = ({ open, handleClose }) => {
             Delete Account
           </Typography>
         </center>
-       
+
         <Box className={styles.deleteAccountModalContentBox}>
           <Typography
             mb={3}
@@ -116,7 +124,7 @@ const DeleteAccountModal = ({ open, handleClose }) => {
             be recovered again.
           </Typography>
         </Box>
-        <Stack mt={1} >
+        <Stack mt={1}>
           {loading ? (
             <LoadingButton loading variant="outlined">
               Login
@@ -124,17 +132,21 @@ const DeleteAccountModal = ({ open, handleClose }) => {
           ) : (
             <>
               <Button
-                onClick={
-                    deleteAccount
-                }
-                style={{ height: 60, borderRadius: 10, fontSize: 18, textTransform: 'none' }} variant="contained" color="primary">
-                  Yes, Delete My Account
+                onClick={deleteAccount}
+                style={{
+                  height: 60,
+                  borderRadius: 10,
+                  fontSize: 18,
+                  textTransform: "none",
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Yes, Delete My Account
               </Button>
-
             </>
           )}
         </Stack>
-        
       </Box>
     </Modal>
   );

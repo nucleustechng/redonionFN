@@ -100,9 +100,9 @@ const ProfileInfo = ({ handleClickMenu }) => {
     <React.Fragment>
       <Grid  columns={{ xs: 1, sm: 12, md: 12 }}>
         <Grid item xs={12} sm={12} md={12}>
-          <Box className={styles.profileInfo}>
+          <Box  className={styles.profileInfo}>
             {/* Header */}
-            <Box ml={2} className={styles.infoContentTitleBox}>
+            <Box ml={0} className={styles.infoContentTitleBox}>
               <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -238,7 +238,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
 
                 </Box>
 
-                <Box mr={-2}>
+                <Box mr={0}>
                   <Button
                     onClick={handleOpenProfileInfoModal}
                     color="primary"

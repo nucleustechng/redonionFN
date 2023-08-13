@@ -45,14 +45,14 @@ const AvailableRewards = () => {
   const [openRewardModal, setOpenRewardModal] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
   const [tranz, setTransaz] = useState([]);
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const navigate = useNavigate();
-
-  var user = JSON.parse(localStorage.getItem("user"));
 
   const GET_CURRENCY_URL = "/transaction/my-offers";
 
@@ -71,7 +71,6 @@ const AvailableRewards = () => {
         }
       )
       .then((res) => {
-        // console.log(res.data.data)
         setTransaz(res.data.data.offers);
       })
       .catch((err) => {
@@ -81,7 +80,7 @@ const AvailableRewards = () => {
         }
       })
       .finally(() => {});
-  }, [user, navigate, setTransaz, GET_CURRENCY_URL]);
+  }, [user, navigate]);
 
   return (
     <React.Fragment>
@@ -229,7 +228,6 @@ const AvailableRewards = () => {
                               variant="body2"
                             >
                               {info?.offer?.CryptoCurrency?.abbreviation}{" "}
-                             
                             </Typography>
                           </Stack>
                           <Stack direction="row" justifyContent="flex-end">
@@ -293,25 +291,20 @@ const AvailableRewards = () => {
             ))}
           </List>
         ) : (
-          <>
-            <Stack
-              mt={6}
-              direction="row"
-              alignItems={"center"}
-              justifyContent="center"
-            >
-              <Button variant="contained" color="primary">
-                <Typography
-                  variant="caption"
-                  textTransform={"none"}
-                  fontSize={20}
-                  color="background.light"
-                >
-                  No pending transaction
-                </Typography>
-              </Button>
-            </Stack>
-          </>
+          <Box height={400} p={4}>
+            <Box height={200}></Box>
+            <center>
+              <Typography
+                variant="caption"
+                textTransform={"none"}
+                fontSize={14}
+                color="background.dark"
+              >
+                You do not have any sell history.
+              </Typography>
+             
+            </center>
+          </Box>
         )}
       </Box>
     </React.Fragment>

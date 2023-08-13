@@ -46,7 +46,6 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-
 const MyRewards = () => {
   const [openRewardModal, setOpenRewardModal] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -57,8 +56,7 @@ const MyRewards = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const navigate = useNavigate();
-
-  var user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const GET_CURRENCY_URL = "/transaction/my-transactions";
 
@@ -77,8 +75,8 @@ const MyRewards = () => {
         }
       )
       .then((res) => {
-        console.log(res.data.data)
-        setTransaz(res.data.data.offers);
+        console.log(res);
+        setTransaz(res.data.data.transactions);
       })
       .catch((err) => {
         // console.log(err?.response?.status);
@@ -87,12 +85,11 @@ const MyRewards = () => {
         }
       })
       .finally(() => {});
-  }, [user, navigate, setTransaz, GET_CURRENCY_URL]);
+  }, [user, navigate]);
 
   return (
     <React.Fragment>
-      <Paper style={{ maxHeight: "100%", overflow: "auto" }}>
-        {tranz.length > 0 ? (
+     {tranz.length > 0 ? (
           <List>
             {tranz.map((info) => (
               <>
@@ -303,27 +300,36 @@ const MyRewards = () => {
             ))}
           </List>
         ) : (
-          <>
-            <Stack
-              mt={6}
-              direction="row"
-              alignItems={"center"}
-              justifyContent="center"
-            >
-              <Button variant="contained" color="primary">
+          <Box height={400} p={4}>
+            <Box height={200}></Box>
+            <center>
+              <Typography
+                variant="caption"
+                textTransform={"none"}
+                fontSize={14}
+                color="background.dark"
+              >
+                You do not have any pending buy transactions.
+              </Typography>
+              <br />
+              <Stack direction={"row"} justifyContent={"center"}>
+                <Typography mr={0.5} fontSize={14} sx={{ color: "#3063E9" }}>
+                  Check your history
+                </Typography>
                 <Typography
                   variant="caption"
                   textTransform={"none"}
-                  fontSize={20}
-                  color="background.light"
+                  fontSize={14}
+                  color="background.dark"
                 >
-                  No pending transaction
+                  {" "}
+                  to view completed transactions
                 </Typography>
-              </Button>
-            </Stack>
-          </>
+              </Stack>
+            </center>
+          </Box>
         )}
-      </Paper>
+      
     </React.Fragment>
   );
 };

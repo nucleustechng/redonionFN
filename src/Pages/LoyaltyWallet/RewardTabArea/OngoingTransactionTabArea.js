@@ -171,7 +171,7 @@ const RewardTabArea = () => {
               }
             >
               {/* {!isMobile ?  */}
-              {/* <Buy /> */}
+              <Buy />
               {/* : <MyRewardsMobile />} */}
             </Suspense>
           </Box>

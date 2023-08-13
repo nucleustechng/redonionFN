@@ -206,7 +206,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
     //  if (addi === 1) 
     //    console.log(addi);
         // getCryto();
-  }, [getCryto, addi]);
+  }, []);
 
   const onVerify = () => {
     if (transactionID === "") {
