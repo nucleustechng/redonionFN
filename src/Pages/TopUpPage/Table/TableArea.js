@@ -97,8 +97,8 @@ const TableArea = (props) => {
 
   // Loading coin data
   useEffect(() => {
-    console.log(props.coinID);
-    if (props.data !== "") {
+  //  console.log(props.coinID);
+    if (props.coinID !== "") {
       var user = JSON.parse(localStorage.getItem("user"));
       setLoading(true);
 

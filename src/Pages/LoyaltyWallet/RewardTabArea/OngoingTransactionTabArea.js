@@ -77,7 +77,17 @@ const RewardTabArea = () => {
             }}
             label={
               <Typography
-                color={tabValue === 0 ? (isMobile ? "#000" : "#fff") : "#000"}
+                color={
+                  tabValue === 0
+                    ? isMobile
+                      ? theme.palette.mode === "dark"
+                        ? "#fff"
+                        : "#000"
+                      : "#fff"
+                    : theme.palette.mode === "dark"
+                    ? "#fff"
+                    : "#000"
+                }
               >
                 Sell
               </Typography>
@@ -111,7 +121,17 @@ const RewardTabArea = () => {
             }}
             label={
               <Typography
-                color={tabValue === 1 ? (isMobile ? "#000" : "#fff") : "#000"}
+                color={
+                  tabValue === 1
+                    ? isMobile
+                      ? theme.palette.mode === "dark"
+                        ? "#fff"
+                        : "#000"
+                      : "#fff"
+                    : theme.palette.mode === "dark"
+                    ? "#fff"
+                    : "#000"
+                }
               >
                 Buy
               </Typography>

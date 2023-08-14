@@ -211,7 +211,12 @@ const TopUpPage = () => {
           mt={-8}
           className={!isTablet ? styles.mainBox : styles.mainBoxTab}
         >
-          <Box borderRadius={3} px={2} py={1.5} bgcolor={"#E8E8F3"}>
+          <Box
+            borderRadius={3}
+            px={2}
+            py={1.5}
+            bgcolor={theme.palette.mode === "dark" ? "#222" : "#E8E8F3"}
+          >
             <Stack direction="row" justifyContent={"space-between"}>
               <Stack mt={0.5} direction="row">
                 <Typography fontSize={18} variant="h6" color="secondary">
@@ -470,7 +475,7 @@ const TopUpPage = () => {
                   px={3.0}
                   borderRadius={5}
                   // height={760}
-                  bgcolor={"#E8E8F3"}
+                  bgcolor={theme.palette.mode === "dark" ? "#222" : "#E8E8F3"}
                 >
                   <Typography
                     fontSize={16}
@@ -489,7 +494,9 @@ const TopUpPage = () => {
                         border={coinID === id ? 1 : 0}
                         borderColor={"#3063E9"}
                         borderRadius={4}
-                        bgcolor={"#F6F0F8"}
+                        bgcolor={
+                          theme.palette.mode === "dark" ? "#333" : "#F6F0F8"
+                        }
                         Button
                         sx={{ cursor: "pointer" }}
                         onClick={() => getCyptoExchangeRate(id)}
@@ -521,10 +528,9 @@ const TopUpPage = () => {
                                 fontSize={16}
                                 variant="body2"
                               >
-                                {cryptoCurrency?.name +
+                                {cryptoCurrency?.abbreviation +
                                   " - " +
-                                  cryptoCurrency?.abbreviation}
-                               
+                                  cryptoCurrency?.blockchain?.standard}
                               </Typography>
                               {/* <Typography
                                 mt={-0.4}
@@ -597,7 +603,7 @@ const TopUpPage = () => {
                     >
                       Recent Transactions
                     </Typography>
-                    <TableArea />
+                    <TableArea coinID={coinID} />
                   </Box>
                 </Grid>
               )}
@@ -625,6 +631,7 @@ const TopUpPage = () => {
                 walletData={walletData}
                 walletID={walletID}
                 coinData={coinData}
+                coinID={coinID}
               />
             </Suspense>
           </Box>

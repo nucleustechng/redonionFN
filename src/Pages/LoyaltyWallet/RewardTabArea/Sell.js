@@ -368,20 +368,26 @@ const AvailableRewards = () => {
                   You do not have any sell pending transactions.
                 </Typography>
                 <br />
-                <Stack direction={"row"} justifyContent={"center"}>
-                  <Typography mr={0.5} fontSize={14} sx={{ color: "#3063E9" }}>
-                    Check your history
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    textTransform={"none"}
-                    fontSize={14}
-                    color="background.dark"
-                  >
-                    {" "}
-                    to view completed transactions
-                  </Typography>
-                </Stack>
+                {!isMobile && (
+                  <Stack direction={"row"} justifyContent={"center"}>
+                    <Typography
+                      mr={0.5}
+                      fontSize={14}
+                      sx={{ color: "#3063E9" }}
+                    >
+                      Check your history
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      textTransform={"none"}
+                      fontSize={14}
+                      color="background.dark"
+                    >
+                      {" "}
+                      to view completed transactions
+                    </Typography>
+                  </Stack>
+                )}
               </center>
             </Box>
           )}
@@ -654,39 +660,39 @@ const AvailableRewards = () => {
                   direction="row"
                   justifyContent={isMobile ? " " : "flex-end"}
                 >
-                   {loading ? (
-                  <Box>
-                    <LoadingButton
-                      fullWidth
-                      style={{
-                        height: 120,
-                        borderRadius: 10,
-                        fontSize: 20,
-                        textTransform: "none",
-                      }}
-                      loading
+                  {loading ? (
+                    <Box>
+                      <LoadingButton
+                        fullWidth
+                        style={{
+                          height: 120,
+                          borderRadius: 10,
+                          fontSize: 20,
+                          textTransform: "none",
+                        }}
+                        loading
+                      >
+                        Sign Up
+                      </LoadingButton>
+                    </Box>
+                  ) : (
+                    <Button
+                      onClick={escrowSubmit}
+                      fullWidth={isMobile ? true : false}
+                      variant="contained"
+                      color="primary"
                     >
-                      Sign Up
-                    </LoadingButton>
-                  </Box>
-                ) : (
-                  <Button
-                    onClick={escrowSubmit}
-                    fullWidth={isMobile ? true : false}
-                    variant="contained"
-                    color="primary"
-                  >
-                    <Typography
-                      variant="caption"
-                      p={0.6}
-                      textTransform={"none"}
-                      fontSize={14}
-                      color="background.light"
-                    >
-                      Withdraw from Escrow
-                    </Typography>
-                  </Button>
-                )}
+                      <Typography
+                        variant="caption"
+                        p={0.6}
+                        textTransform={"none"}
+                        fontSize={14}
+                        color="background.light"
+                      >
+                        Withdraw from Escrow
+                      </Typography>
+                    </Button>
+                  )}
                 </Stack>
               </Box>
             </ListItem>

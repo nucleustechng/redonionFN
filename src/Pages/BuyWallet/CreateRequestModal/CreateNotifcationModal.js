@@ -126,6 +126,7 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
       disableAutoFocus
       disableEscapeKeyDown
       keepMounted
+      sx={{ overflow: "scroll" }}
       open={open}
       onClose={(_, reason) => {
         if (reason !== "backdropClick") {

@@ -72,14 +72,16 @@ const TopUpCardMobile = (prop) => {
        .then((res) => {
          setLoading(false);
          let data = res.data.data.wallet;
-         console.log(res.data.data.wallet);
+         console.log(data?.balance);
          setWalletData(data);
          setWalletID(data?.walletAddress);
+         setWalletBalance(data?.balance);
        });
    };
 
   useEffect(() => {
-    setCoinID(prop.walletData?.id);
+    console.log(prop)
+    setCoinID(prop.coinID);
     setWalletData(prop.walletData);
     setWalletID(prop.walletID);
     setCoinData(prop.coinData);
@@ -279,10 +281,9 @@ const TopUpCardMobile = (prop) => {
                         fontSize={16}
                         variant="body2"
                       >
-                        {
-                          cryptoCurrency?.name + " - " + cryptoCurrency
-                            ?.abbreviation
-                        }
+                        {cryptoCurrency?.abbreviation +
+                          " - " +
+                          cryptoCurrency?.blockchain?.standard}
                       </Typography>
                       {/* <Typography
                         mt={-0.4}
@@ -352,7 +353,7 @@ const TopUpCardMobile = (prop) => {
               >
                 Recent Transactions
               </Typography>
-              <TableArea />
+              <TableArea coinID={coinID} />
             </Box>
           </Box>
         </Grid>

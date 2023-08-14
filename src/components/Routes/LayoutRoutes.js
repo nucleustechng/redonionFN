@@ -11,7 +11,7 @@ const LayoutRoutes = [
     path: "/exchange",
     icon: DashboardIconBlue,
     iconLight: DashboardIcon,
-    name: "Dashbaord",
+    name: "Dashboard",
   },
   {
     id: 2,

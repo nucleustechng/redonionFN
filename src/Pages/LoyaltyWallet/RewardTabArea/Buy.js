@@ -54,6 +54,7 @@ const MyRewards = () => {
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -312,6 +313,7 @@ const MyRewards = () => {
                 You do not have any pending buy transactions.
               </Typography>
               <br />
+               {!isMobile && (
               <Stack direction={"row"} justifyContent={"center"}>
                 <Typography mr={0.5} fontSize={14} sx={{ color: "#3063E9" }}>
                   Check your history
@@ -326,6 +328,7 @@ const MyRewards = () => {
                   to view completed transactions
                 </Typography>
               </Stack>
+               )}
             </center>
           </Box>
         )}
