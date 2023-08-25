@@ -172,7 +172,10 @@ const CryptoWalletTopCards = (props) => {
                   </MenuItem>
 
                   {coinNamesData.map(
-                    ({ id, name, imgUri, network, abbreviation }, index) => (
+                    (
+                      { id, name, imgUri, network, abbreviation, blockchain },
+                      index
+                    ) => (
                       <MenuItem
                         key={id}
                         value={id + " " + abbreviation + " " + imgUri}
@@ -200,7 +203,12 @@ const CryptoWalletTopCards = (props) => {
                               src={imgUri}
                             />
                           </Suspense>
-                          <Typography>{abbreviation}</Typography>
+                          <Typography>
+                            
+                            {abbreviation +
+                              " - " +
+                              blockchain?.standard}
+                          </Typography>
                         </Stack>
                       </MenuItem>
                     )

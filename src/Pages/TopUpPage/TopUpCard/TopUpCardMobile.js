@@ -174,8 +174,8 @@ const TopUpCardMobile = (prop) => {
                       fontSize={28}
                       variant="body2"
                     >
-                      {walletBalance.length > 10
-                        ? walletBalance.substr(0, 10) + "\u2026"
+                      {walletBalance.toString().length > 10
+                        ? walletBalance.toString().substr(0, 10) + "\u2026"
                         : walletBalance}
                     </Typography>
 

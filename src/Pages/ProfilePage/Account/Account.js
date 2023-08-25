@@ -46,6 +46,7 @@ import PasswordSquare from "../../../assets/MoreSquare.svg";
 import AccountDetails from "../../../assets/AccountDetails.svg";
 import Wallet from "../../../assets/Wallet.svg";
 import DeleteIcon from "../../../assets/delete.svg";
+import LogoutIcon from "../../../assets/logout.svg";
 
 // Lazy Components
 const DeleteAccountModal = React.lazy(() =>
@@ -67,6 +68,10 @@ const ChangePasswordModalMobile = React.lazy(() =>
 
 const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
+);
+
+const LogOutModal = React.lazy(() =>
+  import("../../../Pages/SupportPage/Support/LogOutModal")
 );
 
 // Lazy Components
@@ -94,6 +99,8 @@ const Account = () => {
 
   const [expanded, setExpanded] = React.useState(false);
   const [expanded1, setExpanded1] = React.useState(false);
+
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
   const openMenu = Boolean(anchorElMenu);
 
@@ -163,6 +170,10 @@ const Account = () => {
     setExpanded(panel);
   };
 
+   const handleOpenSuccessModal = () => {
+     setOpenSuccessModal(!openSuccessModal);
+   };
+
   // Close the authorization modal
   useEffect(() => {
     if (openAuthProgressModal) {
@@ -182,6 +193,12 @@ const Account = () => {
         onClose={handleCloseTwoFAPin}
         openAuthorizationModal={handleOpenAuthProgressModal}
       />
+      <Suspense fallback={<ModalSkeletons />}>
+        <LogOutModal
+          open={openSuccessModal}
+          handleClose={handleOpenSuccessModal}
+        />
+      </Suspense>
       <Suspense fallback={<ModalSkeletons />}>
         <ChangePasswordModal
           open={openChangePasswordModal}
@@ -257,7 +274,7 @@ const Account = () => {
             sx={{ background: theme.palette.background.default }}
             expanded={expanded1}
             onChange={() => {
-               setExpanded1(!expanded1);
+              setExpanded1(!expanded1);
             }}
           >
             <AccordionSummary
@@ -664,6 +681,29 @@ const Account = () => {
                         account.
                       </Typography>
                     </Typography>
+                  </AccordionSummary>
+                </Accordion>
+
+                <Accordion
+                  Button
+                  onClick={() => setOpenSuccessModal(true)}
+                  sx={{ background: theme.palette.background.default }}
+                  expanded={expanded === "panel6"}
+                  onChange={() => handleChange("panel6")}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel5bh-content"
+                    id="panel5bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent
+                        style={{ width: 20 }}
+                        src={LogoutIcon}
+                      />
+                    </Box>
+
+                    <Typography ml={1.5}>Log Out</Typography>
                   </AccordionSummary>
                 </Accordion>
               </Box>

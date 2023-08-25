@@ -70,7 +70,7 @@ const LogOutModal = ({ open, handleClose }) => {
           </center>
           <Typography
             variant="h3"
-            mt={!isMobile ? 4 : 8}
+            mt={!isMobile ? 4 : 2}
             className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
             color="secondary"
             fontWeight={500}

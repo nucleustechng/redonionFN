@@ -93,6 +93,8 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
 
   const [showMsg, setShowMsg] = useState("");
 
+    const [msgShow, setMsgShow] = useState("");
+
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   // Send Snackbar
@@ -212,6 +214,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
       .then((res) => {
         // console.log(res.data);
         if (res.data.data === null) {
+           setMsgShow("success");
           setShowMsg(res.data.msg);
           setShowSendSuccessfullSnackbar(true);
         } else {
@@ -247,7 +250,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
           icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
           sx={{ fontSize: "1rem" }}
           onClose={handleCloseSendSnackbar}
-          severity={"error"}
+          severity={msgShow==="success" ? "success" : "error"}
         >
           {showMsg}
         </Alert>
@@ -340,7 +343,14 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
 
                         {coinNamesData.map(
                           (
-                            { id, name, imgUri, network, abbreviation },
+                            {
+                              id,
+                              name,
+                              imgUri,
+                              network,
+                              abbreviation,
+                              blockchain,
+                            },
                             index
                           ) => (
                             <MenuItem key={id} value={id}>
@@ -371,7 +381,9 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                                     src={imgUri}
                                   />
                                 </Suspense>
-                                <Typography>{abbreviation}</Typography>
+                                <Typography>
+                                  {abbreviation + " - " + blockchain?.standard}
+                                </Typography>
                               </Stack>
                             </MenuItem>
                           )
@@ -582,11 +594,14 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                     onChange={handleCoinNameSelection}
                   >
                     <MenuItem value="0">
-                      <Typography>Select A Coin</Typography>
+                      <Typography>Select</Typography>
                     </MenuItem>
 
                     {coinNamesData.map(
-                      ({ id, name, imgUri, network, abbreviation }, index) => (
+                      (
+                        { id, name, imgUri, network, abbreviation, blockchain },
+                        index
+                      ) => (
                         <MenuItem key={id} value={id}>
                           <Stack
                             direction="row"
@@ -615,7 +630,9 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                                 src={imgUri}
                               />
                             </Suspense>
-                            <Typography>{abbreviation}</Typography>
+                            <Typography>
+                              {abbreviation + " - " + blockchain?.standard}
+                            </Typography>
                           </Stack>
                         </MenuItem>
                       )

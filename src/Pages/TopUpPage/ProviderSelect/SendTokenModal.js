@@ -41,8 +41,10 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
   const [rate, setRate] = useState("");
+  const [fee, setFee] = useState("");
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [msg, setMsg] = useState("");
+  const [msgShow, setMsgShow] = useState("");
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
@@ -77,7 +79,8 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
       )
       .then((res) => {
         setLoading(false);
-        console.log(res.data);
+        console.log(res.data.data);
+        setFee(res.data.data?.estimatedGasFee);
       })
       .catch((err) => {
         if (err?.response?.status === 401) {
@@ -115,6 +118,7 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
         setLoading(false);
         setShowSnackbar(true);
         // console.log(res?.data?.msg);
+        setMsgShow("success");
         setMsg(res?.data?.msg);
         // alert(res?.data?.msg);
         // setWalletData(data);
@@ -162,7 +166,7 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
             icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
             sx={{ fontSize: "1rem" }}
             onClose={handleCloseSnackbar}
-            severity="error"
+            severity={msgShow ==="success" ? "success" : "error"}
           >
             {msg}
           </Alert>
@@ -232,7 +236,7 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
         <Box mt={1}>
           {rate && (
             <Typography fontSize={14} mb={1.5} fontWeight={600}>
-              Rate: {rate}
+              Fee: {rate} {fee}
             </Typography>
           )}
         </Box>
@@ -269,7 +273,7 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
                   variant="contained"
                   color="primary"
                 >
-                  Get Rate
+                  Get Fee
                 </Button>
               )}
             </>
