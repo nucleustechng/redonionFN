@@ -56,8 +56,6 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-
-
 const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -73,53 +71,86 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
 
   var user = JSON.parse(localStorage.getItem("user"));
 
+  const NO_MAIN_URL = "/user/notification/clear";
+
+  const getNotification = () => {
+    setLoading(true);
+    axios
+      .delete(NO_MAIN_URL, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        onClose();
+        console.log(res)
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/user/sign-in");
+        } else {
+          // setShowSnackbar(true);
+          // setMsg(err.response?.data.msg);
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+
+  
+
   useEffect(() => {
-    if (open) {
-      axios
-        .get(GET_NOTI_URL, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          
-          setNotifiData(res.data.data.notifications);
-        })
-        .catch((err) => {
-          // console.log(err?.response?.status);
-          if (err?.response?.status === 401) {
-            navigate("/user/sign-in");
-          }
-        })
-        .finally(() => {});
-      if (notifiData.length > 0) {
-        axios
-          .post(
-            GET_NOTI_READ_URL,
-            JSON.stringify({
-              notificationIds: [notifiData[notifiData.length - 1].id],
-            }),
-            {
+      const getAllNotification = () => {
+        if (open) {
+          axios
+            .get(GET_NOTI_URL, {
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${user.token}`,
               },
-            }
-          )
-          .then((res) => {
-            // console.log(res.data.data);
-          })
-          .catch((err) => {
-            // console.log(err?.response?.status);
-            if (err?.response?.status === 401) {
-              navigate("/user/sign-in");
-            }
-          })
-          .finally(() => {});
-      }
-    }
-  }, [user, GET_NOTI_URL, navigate, setNotifiData, notifiData, open]);
+            })
+            .then((res) => {
+              setNotifiData(res.data.data.notifications);
+            })
+            .catch((err) => {
+              // console.log(err?.response?.status);
+              if (err?.response?.status === 401) {
+                navigate("/user/sign-in");
+              }
+            })
+            .finally(() => {});
+          // if (notifiData.length > 0) {
+          // axios
+          //   .post(
+          //     GET_NOTI_READ_URL,
+          //     JSON.stringify({
+          //       notificationIds: [notifiData[notifiData.length - 1].id],
+          //     }),
+          //     {
+          //       headers: {
+          //         "Content-Type": "application/json",
+          //         Authorization: `Bearer ${user.token}`,
+          //       },
+          //     }
+          //   )
+          //   .then((res) => {
+          //     // console.log(res.data.data);
+          //   })
+          //   .catch((err) => {
+          //     // console.log(err?.response?.status);
+          //     if (err?.response?.status === 401) {
+          //       navigate("/user/sign-in");
+          //     }
+          //   })
+          //   .finally(() => {});
+          // }
+        }
+      };
+
+      getAllNotification();
+  
+  }, [user, navigate, open]);
 
   return (
     <Modal
@@ -154,14 +185,26 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
                 Notification
               </Typography>
 
-              <Typography
-                // variant="body2"
-                color="primary"
-                sx={{ cursor: "pointer" }}
-                onClick={onClose}
-              >
-                <CloseIcon />
-              </Typography>
+              <Box>
+                <Typography
+                  // variant="body2"
+                  color="primary"
+                  sx={{ cursor: "pointer" }}
+                  onClick={onClose}
+                >
+                  <CloseIcon />
+                </Typography>
+                <Box pt={2}>
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    sx={{ cursor: "pointer" }}
+                    onClick={getNotification}
+                  >
+                    Clear Data
+                  </Typography>
+                </Box>
+              </Box>
             </Stack>
           </Box>
           <Paper style={{ maxHeight: 700, overflow: "auto" }}>

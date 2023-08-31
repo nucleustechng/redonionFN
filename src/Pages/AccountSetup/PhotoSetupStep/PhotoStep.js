@@ -28,7 +28,7 @@ const ImageInput = styled("input")({
   display: "none",
 });
 
-const BankStep = (props) => {
+const PhotoStep = (props) => {
   const [frontImage, setFrontImage] = useState(null);
   const [Image, setImage] = useState(null);
   const theme = useTheme();
@@ -394,4 +394,4 @@ const BankStep = (props) => {
   );
 };
 
-export default BankStep;
+export default PhotoStep;

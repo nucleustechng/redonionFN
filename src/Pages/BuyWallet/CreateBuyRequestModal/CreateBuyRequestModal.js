@@ -85,7 +85,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
       USER_SUBMIT_URL,
       JSON.stringify({
         "amountInCrypto": parseFloat(payTextField),
-        "buyerWalletAddress": payAddress,
+        // "buyerWalletAddress": payAddress,
         "offerId": dataSingle?.id
       }),
       // formdata,
@@ -147,13 +147,13 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
         </Alert>
       </Snackbar>
       <Box
-        bgcolor={theme.palette.background.paper}
+        // bgcolor={theme.palette.background.paper}
         className={styles.modalContentBox}
       >
         <Box px={4}>
           {firstModalA === 0 ? (
             <>
-              <Box mt={-5}>
+              {/* <Box mt={-5}>
                 <Button
                   // onClick={handleCloseTwoFAPin}
                   width={200}
@@ -168,7 +168,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                 >
                   Create A Sell Offer
                 </Button>
-              </Box>
+              </Box> */}
 
               <Stack
                 my={5}
@@ -182,7 +182,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                 </Box>
                 <Typography
                   variant="caption"
-                  fontSize={18}
+                  fontSize={20}
                   fontWeight={500}
                   color="primary"
                 >
@@ -402,7 +402,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                   </Box>
                 </Box>
 
-                <Box width={"100%"}>
+                {/* <Box width={"100%"}>
                   <Typography
                     variant="body2"
                     fontSize={16}
@@ -434,134 +434,145 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                       </Stack>
                     </Box>
                   </Box>
-                </Box>
+                </Box> */}
               </Stack>
 
-              {payAddress !== "" &&
-                payTextField <= dataSingle?.amountInCrypto && (
-                  <>
-                    <Box
-                      mt={4}
-                      bgcolor={"#E8E8F3"}
-                      fullWidth
-                      p={2}
-                      borderRadius={2}
-                    >
-                      <Stack direction="row" justifyContent="space-between">
-                        <Box>
-                          <Typography
-                            variant="caption"
-                            fontSize={14}
-                            fontWeight={400}
-                            color="#838383"
-                          >
-                            Account Name:
-                          </Typography>
-                        </Box>
+              {payTextField > 0 &&
+              payTextField <= dataSingle?.amountInCrypto && (
+                <>
+                  <Box
+                    mt={4}
+                    bgcolor={"#E8E8F3"}
+                    fullWidth
+                    p={2}
+                    borderRadius={2}
+                  >
+                    <Stack direction="row" justifyContent="space-between">
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="#838383"
+                        >
+                          Account Name:
+                        </Typography>
+                      </Box>
 
-                        <Box>
-                          <Typography
-                            variant="caption"
-                            fontSize={14}
-                            fontWeight={400}
-                            color="#111"
-                          >
-                            {dataSingle?.createdBy.firstName}{" "}
-                            {dataSingle?.createdBy.lastName}{" "}
-                            {dataSingle?.createdBy.middleName}
-                          </Typography>
-                        </Box>
-                      </Stack>
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="#111"
+                        >
+                          {dataSingle?.createdBy.firstName}{" "}
+                          {dataSingle?.createdBy.lastName}{" "}
+                          {dataSingle?.createdBy.middleName}
+                        </Typography>
+                      </Box>
+                    </Stack>
 
-                      <Stack direction="row" justifyContent="space-between">
-                        <Box>
-                          <Typography
-                            variant="caption"
-                            fontSize={14}
-                            fontWeight={400}
-                            color="#838383"
-                          >
-                            Account Number:
-                          </Typography>
-                        </Box>
+                    <Stack direction="row" justifyContent="space-between">
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="#838383"
+                        >
+                          Account Number:
+                        </Typography>
+                      </Box>
 
-                        <Box>
-                          <Typography
-                            variant="caption"
-                            fontSize={14}
-                            fontWeight={400}
-                            color="primary"
-                          >
-                            {dataSingle?.createdBy.bankAccount.number}
-                          </Typography>
-                        </Box>
-                      </Stack>
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="primary"
+                        >
+                          {dataSingle?.createdBy.bankAccount.number}
+                        </Typography>
+                      </Box>
+                    </Stack>
 
-                      <Stack direction="row" justifyContent="space-between">
-                        <Box>
-                          <Typography
-                            variant="caption"
-                            fontSize={14}
-                            fontWeight={400}
-                            color="#838383"
-                          >
-                            Bank:
-                          </Typography>
-                        </Box>
+                    <Stack direction="row" justifyContent="space-between">
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="#838383"
+                        >
+                          Bank:
+                        </Typography>
+                      </Box>
 
-                        <Box>
-                          <Typography
-                            variant="caption"
-                            fontSize={14}
-                            fontWeight={400}
-                            color="#111"
-                          >
-                            {dataSingle?.createdBy.bankAccount.bankName}
-                          </Typography>
-                        </Box>
-                      </Stack>
-                    </Box>
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          fontSize={14}
+                          fontWeight={400}
+                          color="#111"
+                        >
+                          {dataSingle?.createdBy.bankAccount.bankName}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
 
-                    <Stack direction="row" mt={3} justifyContent="flex-end">
-                      {loading ? (
-                        <Box width={200}>
-                          <LoadingButton fullWidth loading variant="outlined">
-                            Login
-                          </LoadingButton>
-                        </Box>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={handleSubmit}
-                            style={{
-                              height: 50,
-                              width: 200,
-                              borderRadius: 10,
-                              fontSize: 20,
-                              textTransform: "none",
-                            }}
-                            variant="contained"
-                            color="primary"
-                          >
-                            Continue <LazyImageComponent src={FrontArrow} />
-                          </Button>
-                        </>
-                      )}
+                  <Stack direction="row" mt={3} justifyContent="flex-end">
+                    {loading ? (
+                      <Box width={200}>
+                        <LoadingButton fullWidth loading variant="outlined">
+                          Login
+                        </LoadingButton>
+                      </Box>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={handleSubmit}
+                          style={{
+                            height: 50,
+                            width: 200,
+                            borderRadius: 10,
+                            fontSize: 20,
+                            textTransform: "none",
+                          }}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Continue <LazyImageComponent src={FrontArrow} />
+                        </Button>
+                      </>
+                    )}
 
-                      {/* <Box ml={2}>
+                    {/* <Box ml={2}>
                     <Button onClick={onClose} style={{ height: 50, width: 150, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="btncolor">
                       <Typography variant="caption" fontSize={18} fontWeight={400} color="primary">
                         Close
                       </Typography>
                     </Button>
                   </Box> */}
-                    </Stack>
-                  </>
-                )}
+                  </Stack>
+                </>
+              )}
             </>
           ) : (
             <>
-              <Box mt={3}>
+              <Box mt={10}>
+                <Box mt={3} mx={4} mb={3} sx={{ cursor: "pointer" }} onClick={onClose}>
+                  <Typography
+                    variant="h3"
+                    mt={!isMobile ? 4 : 8}
+                    color="secondary"
+                    fontSize={16}
+                    fontWeight={500}
+                  >
+                   Go Back
+                  </Typography>
+                </Box>
                 <center>
                   <LazyImageComponent src={successClock} />
                 </center>
@@ -571,8 +582,9 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                   color="secondary"
                   fontSize={24}
                   fontWeight={500}
+                  textAlign={"center"}
                 >
-                  Payment successful
+                  Request Sent
                 </Typography>
 
                 <Typography
