@@ -224,10 +224,10 @@ const MyRewards = () => {
 
                           <Box mr={1.5} mt={2}>
                             <Stack direction="row" justifyContent="flex-end">
-                              <LazyImageComponent
+                              {/* <LazyImageComponent
                                 style={{ width: 30 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
-                              />
+                              /> */}
                               <Typography
                                 color="secondary"
                                 fontWeight={400}

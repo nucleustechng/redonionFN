@@ -73,15 +73,23 @@ const AvailableRewards = () => {
 
   const GET_ESCROW_URL = "/transaction/withdraw-from-offer";
 
-  const escrowSubmit = () => {
+  const GET_BY_ID_URL = "/transaction/offer/";
+
+  const GET_OFFER_URL = "/transaction/get-offers";
+
+  // transaction/offer/2592e667-b3e3-4a8c-98d2-7dc7c905d162
+
+  const getSubmit = (data) => {
+    
+   
     setLoading(true);
     axios
       .post(
-        GET_ESCROW_URL,
+        GET_OFFER_URL,
         JSON.stringify({
-          amount: 0.01,
-          offerId: "1317730a-2873-4007-82b1-00a52a9fa3e8",
-          reason: "I no wan do again, na your business?",
+          CryptoCurrencyId: data?.cryptoCurrencyId,
+          amount: data?.amountInCrypto,
+          userId: user?.id,
         }),
         {
           headers: {
@@ -91,9 +99,33 @@ const AvailableRewards = () => {
         }
       )
       .then((res) => {
+        console.log(res);
+        //  setSecondStep(1);
         setLoading(false);
       });
   };
+
+   const escrowSubmit = () => {
+     setLoading(true);
+     axios
+       .post(
+         GET_ESCROW_URL,
+         JSON.stringify({
+           amount: 0.01,
+           offerId: "1317730a-2873-4007-82b1-00a52a9fa3e8",
+           reason: "I no wan do again, na your business?",
+         }),
+         {
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${user.token}`,
+           },
+         }
+       )
+       .then((res) => {
+         setLoading(false);
+       });
+   };
 
   useEffect(() => {
     axios
@@ -136,7 +168,7 @@ const AvailableRewards = () => {
                     info.status === "EXPIRED") && (
                     <ListItem
                       button
-                      onClick={() => setSecondStep(1)}
+                      onClick={() => getSubmit(info)}
                       sx={{ cursor: "pointer" }}
                     >
                       <Box m={isMobile ? 0 : 3} width={"100%"}>
@@ -425,16 +457,16 @@ const AvailableRewards = () => {
                     <Stack mt={2} ml={-1} direction="row">
                       <Box ml={1.5}>
                         <Stack alignItems={"left"}>
-                          <Typography
+                          {/* <Typography
                             color="secondary"
                             fontWeight={400}
                             fontSize={15}
                             mt={0.8}
                             variant="body2"
                           >
-                            {/* {info?.offer?.currency?.currencyCode} */}
+                            {info?.offer?.currency?.currencyCode}
                             code
-                          </Typography>
+                          </Typography> */}
 
                           <Box
                           // sx={{
@@ -498,7 +530,7 @@ const AvailableRewards = () => {
                                 style={{ width: 30 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
                               /> */}
-                        <Typography
+                        {/* <Typography
                           color="secondary"
                           fontWeight={400}
                           fontSize={15}
@@ -506,8 +538,8 @@ const AvailableRewards = () => {
                           variant="body2"
                         >
                           receuve
-                          {/* {info?.offer?.CryptoCurrency?.abbreviation} */}
-                        </Typography>
+                          {info?.offer?.CryptoCurrency?.abbreviation}
+                        </Typography> */}
                       </Stack>
                       <Stack direction="row" justifyContent="flex-end">
                         <Box
