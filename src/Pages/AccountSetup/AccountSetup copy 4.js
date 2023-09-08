@@ -27,15 +27,10 @@ import useAuth from "../../hooks/useAuth";
 // Logo
 import MainVectorLogo from "../../assets/mainLogo.svg";
 
-// Illustrations
-import AccountStepImageDark from "../../assets/authenticationImages/accountSetupStep.svg";
-import KYCStepImageDark from "../../assets/authenticationImages/kycStep.svg";
-import KYCStepImageLight from "../../assets/authenticationImages/kycStepLight.svg";
-import BankStepImageDark from "../../assets/authenticationImages/BankStepDark.svg";
-import BankStepImageLight from "../../assets/authenticationImages/BankStepLight.svg";
 
 // MainLogo
 import MainLogo from "../../assets/mainLogoDark.svg";
+
 
 import bg from "../../assets/authBg.svg";
 
@@ -43,6 +38,7 @@ import MainLogoDark from "../../assets/mainLogo.svg";
 
 import Back from "../../assets/backArrow.svg";
 import FrontArrow from "../../assets/arrowFront.svg";
+
 
 // Components
 import AccountSetupStep from "./AccountSetupStep/AccountSetupStep";
@@ -168,13 +164,16 @@ const AccountSetup = () => {
 
   return (
     <React.Fragment>
+
       <Box
         bgcolor={theme.palette.background.default}
         className={styles.mainBox}
         style={{
           backgroundImage: `url(${isMobile ? bg : bg})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "top",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top',
+
+
         }}
       >
         <Stack
@@ -193,12 +192,14 @@ const AccountSetup = () => {
             >
               <LazyImageComponent
                 className={styles.logo}
-                src={
-                  theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark
-                }
+                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
+              
               />
             </Suspense>
           </Box>
+
+
+
         </Stack>
        <Box>
 

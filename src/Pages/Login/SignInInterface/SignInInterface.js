@@ -6,7 +6,7 @@ import {
   IconButton,
   Input,
   InputAdornment,
-  Skeleton,
+  Alert,
   Stack,
   Typography,
   useMediaQuery,
@@ -18,8 +18,6 @@ import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
 
 // Custom Theme
 import { useTheme } from "@mui/material/styles";
-
-
 
 // CSS Module
 import styles from "./SignInInterface.module.css";
@@ -55,8 +53,6 @@ const SignInInterface = () => {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-
-
   const handleLoginUser = (e) => {
     e.preventDefault();
     if (userEmail === "") {
@@ -65,21 +61,12 @@ const SignInInterface = () => {
       setFormError("Please enter a password");
     } else {
       setFormError("");
-      logInUser(
-        userEmail,
-        userPass,
-        location,
-        navigate
-      );
+      logInUser(userEmail, userPass, location, navigate);
     }
-
-
   };
 
   return (
-    <Box
-      className={!isMobile ? styles.mainBox : styles.mainBoxMobile}
-    >
+    <Box className={!isMobile ? styles.mainBox : styles.mainBoxMobile}>
       <Box
         className={!isMobile ? styles.registerBox : styles.registerBoxMobile}
       >
@@ -88,13 +75,12 @@ const SignInInterface = () => {
           className={!isMobile ? styles.contentBox : ""}
           sx={!isMobile ? { borderRadius: "10px" } : {}}
         >
-
           <Box
             bgcolor={theme.palette.background.paper}
             p={!isMobile ? 5 : 3}
             borderRadius="10px"
           >
-            <Button
+            {/* <Button
               style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
 
               color="secondary">
@@ -104,16 +90,31 @@ const SignInInterface = () => {
                 <LazyImageComponent src={Back} />
               </a>
 
-            </Button>
+            </Button> */}
             <Typography
               className={styles.titleBox}
               variant="h3"
               color="secondary"
               fontWeight={500}
-
             >
               Log in to get started
             </Typography>
+
+            {formError && (
+              <Box mt={3} mb={-3}>
+                <Alert sx={{ fontSize: "1rem" }} severity="error">
+                  {formError}
+                </Alert>
+              </Box>
+            )}
+
+            {authError && (
+              <Box mt={3} mb={-3}>
+                <Alert sx={{ fontSize: "1rem" }} severity="error">
+                  {authError}
+                </Alert>
+              </Box>
+            )}
 
             <Box
               component="form"
@@ -121,7 +122,11 @@ const SignInInterface = () => {
               mt={!isMobile ? 4 : 8}
             >
               <Stack spacing={1} mb={2}>
-                <Typography variant="body1" fontSize={20} color={theme.palette.text.primary}>
+                <Typography
+                  variant="body1"
+                  fontSize={20}
+                  color={theme.palette.text.primary}
+                >
                   Email
                 </Typography>
                 <Input
@@ -135,13 +140,15 @@ const SignInInterface = () => {
                   size="small"
                   color="secondary"
                   name="email"
-
                   onChange={(e) => setUserEmail(e.target.value)}
                 />
-
               </Stack>
               <Stack spacing={1} mb={2}>
-                <Typography variant="body1" fontSize={20} color={theme.palette.text.primary}>
+                <Typography
+                  variant="body1"
+                  fontSize={20}
+                  color={theme.palette.text.primary}
+                >
                   Password
                 </Typography>
                 <Input
@@ -170,36 +177,6 @@ const SignInInterface = () => {
                   }
                 />
               </Stack>
-              <Typography
-                sx={{
-                  textTransform: "capitalize",
-                  display: "inline-block",
-                }}
-                my={1}
-                textAlign={"center"}
-                fontSize={20}
-                variant="small"
-                color="error"
-              >
-                {formError}
-              </Typography>
-              {authError && (
-                <Typography
-                  sx={{
-                    textTransform: "capitalize",
-                    display: "inline-block",
-                  }}
-                  my={1}
-                  variant="small"
-                  color="error"
-                  textAlign={"center"}
-                  fontSize={20}
-                >
-                  {authError}
-                </Typography>
-              )}
-
-
 
               <Stack
                 alignItems="flex-end"
@@ -211,18 +188,17 @@ const SignInInterface = () => {
                   variant="body2"
                   component="span"
                   color="primary"
-
                   sx={{
                     cursor: "pointer",
                     fontSize: 17,
-                    fontWeight: 4500
+                    fontWeight: 4500,
                   }}
                   onClick={() => navigate("/auth/forgot-pass")}
                 >
                   Forgot Password
                 </Typography>
               </Stack>
-              <Stack mt={5} >
+              <Stack mt={5}>
                 {isLoading ? (
                   <LoadingButton loading variant="outlined">
                     Login
@@ -232,10 +208,17 @@ const SignInInterface = () => {
                     {/* {theme.palette.mode === "dark" ? ( */}
                     <Button
                       type="submit"
-                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                      Log in  <LazyImageComponent src={FrontArrow} />
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Log in <LazyImageComponent src={FrontArrow} />
                     </Button>
-                    
                   </>
                 )}
               </Stack>

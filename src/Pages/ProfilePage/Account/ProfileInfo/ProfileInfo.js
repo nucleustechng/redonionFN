@@ -98,9 +98,9 @@ const ProfileInfo = ({ handleClickMenu }) => {
 
   return (
     <React.Fragment>
-      <Grid  columns={{ xs: 1, sm: 12, md: 12 }}>
+      <Grid columns={{ xs: 1, sm: 12, md: 12 }}>
         <Grid item xs={12} sm={12} md={12}>
-          <Box  className={styles.profileInfo}>
+          <Box className={styles.profileInfo}>
             {/* Header */}
             <Box ml={0} className={styles.infoContentTitleBox}>
               <Stack
@@ -112,7 +112,6 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   variant={!isMobile ? "h6" : "subtitle1"}
                   color="secondary"
                   fontSize={24}
-
                 >
                   My Account
                 </Typography>
@@ -123,7 +122,6 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   alignItems="center"
                 >
                   <Chip
-                   
                     sx={{ borderRadius: "4px" }}
                     label={
                       <Stack direction="row" alignItems="center" gap={0.5}>
@@ -140,29 +138,27 @@ const ProfileInfo = ({ handleClickMenu }) => {
                           </>
                         ) : (
                           <Box
-                          Button
-                              onClick={() => navigate("/account-setup")}
-                              sx={{ cursor: "pointer" }}
+                            Button
+                            onClick={() => navigate("/account-setup")}
+                            sx={{ cursor: "pointer" }}
                           >
-                           <Stack direction={"row"} >
-                                <ReportIcon color="error" fontSize="small" />
-                                <Typography
-                                  component="span"
-                                  variant="caption"
-                                  color="error"
-                                  ml={1}
-                                >
-                                  KYC Failed
-                                </Typography>
-                           </Stack>
+                            <Stack direction={"row"}>
+                              <ReportIcon color="warning" fontSize="small" />
+                              <Typography
+                                component="span"
+                                variant="caption"
+                                color="#ffa500"
+                                ml={1}
+                              >
+                                KYC Pending
+                              </Typography>
+                            </Stack>
                           </Box>
                         )}
                       </Stack>
                     }
                   />
-
                 </Stack>
-
               </Stack>
             </Box>
 
@@ -171,8 +167,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
               <Box
                 bgcolor={theme.palette.background.default}
                 className={styles.infoContentBox}
-               sx={{  borderBottomWidth : 0 }}
-
+                sx={{ borderBottomWidth: 0 }}
               >
                 {/* <Box>
                   {user?.user?.selfieImage!="" && (
@@ -194,10 +189,8 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   )}
                 </Box> */}
 
-                <Box >
-
+                <Box>
                   <Typography
-
                     variant={!isMobile ? "body1" : "body2"}
                     color="secondary"
                     fontSize={18}
@@ -205,7 +198,6 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   >
                     {user?.user?.firstName} {user?.user?.lastName}
                   </Typography>
-
 
                   <Typography
                     mt={0}
@@ -215,13 +207,10 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   >
                     {user?.user?.email}
                   </Typography>
-                  <Stack
-                    mt={0.5}
-                    direction="row">
+                  <Stack mt={0.5} direction="row">
                     <LazyImageComponent
                       style={{ width: 13 }}
                       src={LocationIcon}
-
                     />
                     <Typography
                       fontWeight={400}
@@ -233,9 +222,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
                     >
                       {user?.country.name}
                     </Typography>
-
                   </Stack>
-
                 </Box>
 
                 <Box mr={0}>
@@ -243,29 +230,24 @@ const ProfileInfo = ({ handleClickMenu }) => {
                     onClick={handleOpenProfileInfoModal}
                     color="primary"
                     variant="contained"
-
                   >
                     <Typography
                       variant={!isMobile ? "body2" : "caption"}
                       sx={{ textTransform: "capitalize" }}
                       color="#fff"
                       fontSize={14}
-                      pl={.2}
-                      pr={.2}
+                      pl={0.2}
+                      pr={0.2}
                     >
-                      Edit  <LazyImageComponent
+                      Edit{" "}
+                      <LazyImageComponent
                         style={{ width: 13 }}
                         src={EditIcon}
-
                       />
                     </Typography>
                   </Button>
                 </Box>
-
-
               </Box>
-
-
             </Paper>
           </Box>
         </Grid>
@@ -289,20 +271,19 @@ const ProfileInfo = ({ handleClickMenu }) => {
           </Suspense>
         </MobileNavDrawer>
       )} */}
-     
-        <Suspense fallback={<ModalSkeletons width={isMobile ? 250 : 500} />}>
-          <ProfileInfoModal
-            open={openProfileInfoModal}
-            handleClose={handleCloseProfileInfoModal}
-            handleEdit={handleEdit}
-            profileInformation={profileInformation}
-            handleProfileInformationChange={handleProfileInformationChange}
-            userAvatar={userAvatar}
-            handleImageUpload={handleImageUpload}
-            setUserAvatar={setUserAvatar}
-          />
-        </Suspense>
-      
+
+      <Suspense fallback={<ModalSkeletons width={isMobile ? 250 : 500} />}>
+        <ProfileInfoModal
+          open={openProfileInfoModal}
+          handleClose={handleCloseProfileInfoModal}
+          handleEdit={handleEdit}
+          profileInformation={profileInformation}
+          handleProfileInformationChange={handleProfileInformationChange}
+          userAvatar={userAvatar}
+          handleImageUpload={handleImageUpload}
+          setUserAvatar={setUserAvatar}
+        />
+      </Suspense>
     </React.Fragment>
   );
 };

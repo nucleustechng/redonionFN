@@ -387,7 +387,7 @@ const TopUpPage = () => {
                         color={"#fff"}
                         variant="body2"
                       >
-                        Balance
+                        Wallet Balance
                       </Typography>
                       {loading ? (
                         <Box>
@@ -399,6 +399,7 @@ const TopUpPage = () => {
                               fontSize: 20,
                               textTransform: "none",
                             }}
+                           
                             loading
                           >
                             Sign Up
@@ -435,7 +436,7 @@ const TopUpPage = () => {
                                   color={"#fff"}
                                   variant="body2"
                                 >
-                                  Wallet Address:{" "}
+                                  Public Address:{" "}
                                   {walletID.substr(0, 10) + "\u2026"}
                                 </Typography>
                               </Box>

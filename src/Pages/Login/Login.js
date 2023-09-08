@@ -2,7 +2,10 @@ import React, { Suspense, useState } from "react";
 
 import { Box } from "@mui/system";
 import {
-  Grid, Skeleton, useMediaQuery, Button,
+  Grid,
+  Skeleton,
+  useMediaQuery,
+  Button,
   Typography,
   Stack,
 } from "@mui/material";
@@ -52,15 +55,11 @@ const Login = () => {
         className={!isMobile ? styles.mainBox : styles.mainBoxMobile}
         style={{
           backgroundImage: `url(${isMobile ? bg : bg})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'top',
-
-
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "top",
         }}
       >
-
         <Stack
-
           pt={isMobile ? 0 : 3}
           pl={isMobile ? 1 : 15}
           pr={isMobile ? 1 : 20}
@@ -73,28 +72,35 @@ const Login = () => {
             <Suspense
               fallback={<Skeleton variant="circular" height={30} width={110} />}
             >
-              <LazyImageComponent
-                className={styles.logo}
-                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
-                onClick={("/landing-page")}
-              />
+              <a href="/">
+                <LazyImageComponent
+                  className={styles.logo}
+                  src={
+                    theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark
+                  }
+                />
+              </a>
             </Suspense>
           </Box>
           {isMobile ? (
             <Box mt={2}>
-              <Button
-                onClick={() =>
-                  setDropdown(!dropdown)
-                }
-              >
+              <Button onClick={() => setDropdown(!dropdown)}>
                 <LazyImageComponent
                   className={styles.logo}
                   src={dropdown ? CloseDark : HandburgerDark}
-
                 />
               </Button>
-              {dropdown &&
-                <Box style={{ position: 'absolute', left: 0, right: 0, background: '#000', padding: 30, zIndex: 999  }}>
+              {dropdown && (
+                <Box
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    background: "#000",
+                    padding: 30,
+                    zIndex: 999,
+                  }}
+                >
                   <center>
                     {/* <Box >
                       <Button
@@ -116,70 +122,74 @@ const Login = () => {
                       <Button fullWidth variant="contained" color="primary">
                         <Typography variant="caption" p={0.3} color="secondary">
                           <a
-                            style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                              textTransform: "none",
+                            }}
                             href="/registration/sign-up"
                           >
-
                             Create Account
-
                           </a>
                         </Typography>
                       </Button>
                     </Box>
                   </center>
                 </Box>
-              }
+              )}
             </Box>
           ) : (
-            <Stack direction="row"
-              justifyContent="space-between">
-              <Box mr={2}>
-                <Button
-                    color="secondaryDark"
-
-                >
-                    <Typography variant="caption" p={0.3} color="secondaryDark">
+            <Stack direction="row" justifyContent="space-between">
+              {/* <Box mr={2}>
+                <Button color="secondaryDark">
+                  <Typography variant="caption" p={0.3} color="secondaryDark">
                     <a
-
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        textTransform: "none",
+                        fontSize: 15,
+                        fontWeight: 500,
+                      }}
                       href="/auth/sign-in"
                     >
                       Log in
                     </a>
                   </Typography>
                 </Button>
-              </Box>
+              </Box> */}
               <Box>
                 <Button fullWidth variant="contained" color="primary">
-                    <Typography variant="caption" p={0.3} color="background.light">
+                  <Typography
+                    variant="caption"
+                    p={0.3}
+                    color="background.light"
+                  >
                     <a
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                        href="/registration/sign-up"
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        textTransform: "none",
+                        fontSize: 15,
+                        fontWeight: 500,
+                      }}
+                      href="/registration/sign-up"
                     >
-
                       Create Account
-
                     </a>
                   </Typography>
                 </Button>
               </Box>
             </Stack>
           )}
-
-
         </Stack>
 
         <Grid columns={{ xs: 12, md: 12 }}>
-
           <Grid item xs={12} md={12}>
             <Outlet />
           </Grid>
-
         </Grid>
       </Box>
-
-
-
 
       {/* For Mobile Devices */}
       {/* <Box bgcolor={theme.palette.background.paper}>

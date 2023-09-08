@@ -47,7 +47,7 @@ const LazyImageComponent = React.lazy(() =>
 // table header
 const tableHeader = [
   {
-    name: "Address",
+    name: "To Wallet Address",
   },
   {
     name: "Date",
@@ -213,7 +213,7 @@ const TableArea = (props) => {
                       ) : (
                         <>
                           <Box mb={1} ml={1.8}>
-                            <Typography>No Transaction...</Typography>
+                            <Typography>No Transactions Available...</Typography>
                           </Box>
                         </>
                       )}
@@ -221,6 +221,7 @@ const TableArea = (props) => {
                   </TableBody>
                 </Table>
               </TableContainer>
+               {coinData.length > 0 && (
               <TablePagination
                 rowsPerPageOptions={[]}
                 component="div"
@@ -229,6 +230,7 @@ const TableArea = (props) => {
                 page={tablePage}
                 onPageChange={handleChangePage}
               />
+               )}
             </Box>
           </Box>
         </>

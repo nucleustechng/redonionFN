@@ -201,14 +201,10 @@ const Support = () => {
             variant={!isMobile ? "h6" : "subtitle1"}
             color="secondary"
             fontSize={24}
-
           >
             Help
           </Typography>
-
-
         </Stack>
-
 
         <Stack spacing={1} mt={5} mb={2}>
           <Typography
@@ -223,46 +219,34 @@ const Support = () => {
             value={category}
             onChange={handleCountrySelection}
           >
-            <MenuItem value="DISPUTE_LODGING">
-              Transaction (Disputes)
-            </MenuItem>
-            <MenuItem value="Account">
-              Account
-            </MenuItem>
-            <MenuItem value="Verification">
-              Verification
-            </MenuItem>
-            <MenuItem value="General Enquiries">
-              General Enquiries
-            </MenuItem>
-
+            <MenuItem value="DISPUTE_LODGING">Transaction (Disputes)</MenuItem>
+            <MenuItem value="Account">Account</MenuItem>
+            <MenuItem value="Verification">Verification</MenuItem>
+            <MenuItem value="General Enquiries">General Enquiries</MenuItem>
           </Select>
         </Stack>
-
-        <Stack spacing={1} mt={4} mb={2}>
-          <Typography
-            variant="body1"
-            color={theme.palette.text.primary}
-            fontSize={16}
-          >
-            Transaction ID (Optional)
-          </Typography>
-          <Input
-            disableUnderline
-            className="inputField"
-            type="text"
-            inputProps={{ maxLength: characterLimit }}
-            variant="outlined"
-            size="small"
-            color="secondary"
-            name="transID"
-            onChange={(e) =>
-              setTrasactionID(e.target.value)
-
-            }
-            
-          />
-        </Stack>
+        {category === "DISPUTE_LODGING" && (
+          <Stack spacing={1} mt={4} mb={2}>
+            <Typography
+              variant="body1"
+              color={theme.palette.text.primary}
+              fontSize={16}
+            >
+              Transaction ID (Optional)
+            </Typography>
+            <Input
+              disableUnderline
+              className="inputField"
+              type="text"
+              inputProps={{ maxLength: characterLimit }}
+              variant="outlined"
+              size="small"
+              color="secondary"
+              name="transID"
+              onChange={(e) => setTrasactionID(e.target.value)}
+            />
+          </Stack>
+        )}
         <Box
           display={"flex"}
           alignContent={"flex-end"}
@@ -277,7 +261,7 @@ const Support = () => {
           </Typography>
         </Box>
 
-        <Stack spacing={1} mt={1} >
+        <Stack spacing={1} mt={1}>
           <Typography
             variant="body1"
             color={theme.palette.text.primary}
@@ -297,12 +281,11 @@ const Support = () => {
             size="small"
             color="secondary"
             name="desc"
-            onChange={(e) => setDesc(e.target.value)
-            }
+            onChange={(e) => setDesc(e.target.value)}
           />
         </Stack>
         <Box
-        mt={1}
+          mt={1}
           display={"flex"}
           alignContent={"flex-end"}
           justifyContent={"flex-end"}
@@ -320,21 +303,34 @@ const Support = () => {
           display={"flex"}
           alignContent={"flex-end"}
           justifyContent={"flex-end"}
-          mt={6} mb={2}>
+          mt={6}
+          mb={2}
+        >
           {loading ? (
             <LoadingButton
-              style={{ height: 60, borderRadius: 10, fontSize: 16, textTransform: 'none' }}
-              loading variant="outlined">
+              style={{
+                height: 60,
+                borderRadius: 10,
+                fontSize: 16,
+                textTransform: "none",
+              }}
+              loading
+              variant="outlined"
+            >
               Sign Up
             </LoadingButton>
           ) : (
             <>
               <Button
                 onClick={verifyAuthApp}
-                style={{ height: 60, borderRadius: 10, fontSize: 18, textTransform: 'none' }}
+                style={{
+                  height: 60,
+                  borderRadius: 10,
+                  fontSize: 18,
+                  textTransform: "none",
+                }}
                 color="primary"
                 variant="contained"
-
               >
                 Submit
               </Button>
@@ -349,12 +345,6 @@ const Support = () => {
           handleClose={handleOpenSuccessModal}
         />
       </Suspense>
-
-
-
-
-
-
     </Box>
   );
 };

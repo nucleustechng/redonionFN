@@ -1,7 +1,7 @@
 const NavRoutes = {
   DashboardOverview: { path: "/dashboard/exchange" },
   TwoFAEmail: { path: "/twofa-email" },
-  OnboardingPage: { path: "/landing-page" },
+  OnboardingPage: { path: "/" },
   Registration: { path: "/registration" },
   SignUp: { path: "sign-up" },
   VerifyEmail: { path: "verify-email" },
