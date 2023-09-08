@@ -230,10 +230,10 @@ function App() {
                   </Suspense> */}
                   <BrowserRouter>
                     <Routes>
-                      <Route
+                      {/* <Route
                         path="/"
-                        element={<Navigate replace to="/landing-page" />}
-                      />
+                        element={<Navigate replace to="/a" />}
+                      /> */}
                       <Route
                         path={NavRoutes.OnboardingPage.path}
                         element={

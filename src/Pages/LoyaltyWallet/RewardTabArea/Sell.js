@@ -56,6 +56,7 @@ const AvailableRewards = () => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   const [secondStep, setSecondStep] = React.useState(0);
+   const [isloading, setIsLoading] = React.useState(false);
 
   const [tranz, setTransaz] = useState([]);
 
@@ -128,6 +129,7 @@ const AvailableRewards = () => {
    };
 
   useEffect(() => {
+     setIsLoading(true);
     axios
       .post(
         GET_CURRENCY_URL,
@@ -143,6 +145,7 @@ const AvailableRewards = () => {
       )
       .then((res) => {
         // console.log(res.data.data)
+         setIsLoading(false);
         setTransaz(res.data.data.offers);
       })
       .catch((err) => {
@@ -156,72 +159,78 @@ const AvailableRewards = () => {
 
   return (
     <React.Fragment>
-      {secondStep === 0 && (
+      {isloading ? (
+        <center>
+          <LoadingButton loading>Login</LoadingButton>
+        </center>
+      ) : (
         <>
-          {tranz.length > 0 ? (
-            <List>
-              {tranz.map((info) => (
-                <>
-                  {(info?.status === "ONGOING" ||
-                    info?.status === "PENDING" ||
-                    info.status === "REPORTED" ||
-                    info.status === "EXPIRED") && (
-                    <ListItem
-                      button
-                      onClick={() => getSubmit(info)}
-                      sx={{ cursor: "pointer" }}
-                    >
-                      <Box m={isMobile ? 0 : 3} width={"100%"}>
-                        <Stack
-                          direction="row"
-                          alignItems={"center"}
-                          justifyContent="space-between"
+          {secondStep === 0 && (
+            <>
+              {tranz.length > 0 ? (
+                <List>
+                  {tranz.map((info) => (
+                    <>
+                      {(info?.status === "ONGOING" ||
+                        info?.status === "PENDING" ||
+                        info.status === "REPORTED" ||
+                        info.status === "EXPIRED") && (
+                        <ListItem
+                          button
+                          onClick={() => getSubmit(info)}
+                          sx={{ cursor: "pointer" }}
                         >
-                          <Box>
-                            <Stack direction="row">
-                              <LazyImageComponent
-                                sx={{ marginRight: 4 }}
-                                src={UpArrow}
-                              />
-                              <Typography mt={0.2} fontSize={14}>
-                                Sent
-                              </Typography>
-                            </Stack>
-                            <Stack mt={2} ml={-1} direction="row">
-                              <Box ml={1.5}>
-                                <Stack alignItems={"left"}>
-                                  <Typography
-                                    color="secondary"
-                                    fontWeight={400}
-                                    fontSize={15}
-                                    mt={0.8}
-                                    variant="body2"
-                                  >
-                                    {info?.offer?.currency?.currencyCode}
-                                    {/* code */}
+                          <Box m={isMobile ? 0 : 3} width={"100%"}>
+                            <Stack
+                              direction="row"
+                              alignItems={"center"}
+                              justifyContent="space-between"
+                            >
+                              <Box>
+                                <Stack direction="row">
+                                  <LazyImageComponent
+                                    sx={{ marginRight: 4 }}
+                                    src={UpArrow}
+                                  />
+                                  <Typography mt={0.2} fontSize={14}>
+                                    Sent
                                   </Typography>
+                                </Stack>
+                                <Stack mt={2} ml={-1} direction="row">
+                                  <Box ml={1.5}>
+                                    <Stack alignItems={"left"}>
+                                      <Typography
+                                        color="secondary"
+                                        fontWeight={400}
+                                        fontSize={15}
+                                        mt={0.8}
+                                        variant="body2"
+                                      >
+                                        {info?.offer?.currency?.currencyCode}
+                                        {/* code */}
+                                      </Typography>
 
-                                  <Box
-                                  // sx={{
-                                  //   borderBottom: 1,
-                                  //   borderBottomStyle: "dashed",
-                                  // }}
-                                  >
-                                    <Typography
-                                      fontSize={18}
-                                      fontWeight={600}
-                                      mt={0.4}
-                                      color="secondary"
-                                      variant="body2"
-                                    >
-                                      {/* {"776.00"} */}
-                                      {parseFloat(
-                                        info?.amountInFiat || 0
-                                      ).toFixed(2)}
-                                    </Typography>
-                                  </Box>
+                                      <Box
+                                      // sx={{
+                                      //   borderBottom: 1,
+                                      //   borderBottomStyle: "dashed",
+                                      // }}
+                                      >
+                                        <Typography
+                                          fontSize={18}
+                                          fontWeight={600}
+                                          mt={0.4}
+                                          color="secondary"
+                                          variant="body2"
+                                        >
+                                          {/* {"776.00"} */}
+                                          {parseFloat(
+                                            info?.amountInFiat || 0
+                                          ).toFixed(2)}
+                                        </Typography>
+                                      </Box>
 
-                                  {/* <Typography
+                                      {/* <Typography
                           color="secondary"
                           fontWeight={400}
                           fontSize={12}
@@ -234,30 +243,30 @@ const AvailableRewards = () => {
                           date
                         </Typography> */}
 
-                                  <Typography
-                                    color="secondary"
-                                    fontWeight={600}
-                                    fontSize={16}
-                                    mt={2}
-                                    variant="body2"
-                                  >
-                                    Status
-                                  </Typography>
+                                      <Typography
+                                        color="secondary"
+                                        fontWeight={600}
+                                        fontSize={16}
+                                        mt={2}
+                                        variant="body2"
+                                      >
+                                        Status
+                                      </Typography>
+                                    </Stack>
+                                  </Box>
                                 </Stack>
                               </Box>
-                            </Stack>
-                          </Box>
 
-                          <Box>
-                            <Stack
-                              direction="row"
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                              mt={4}
-                            >
-                              <LazyImageComponent src={ExchanageIcon} />
-                            </Stack>
-                            {/* <Box ml={0}>
+                              <Box>
+                                <Stack
+                                  direction="row"
+                                  justifyContent={"center"}
+                                  alignItems={"center"}
+                                  mt={4}
+                                >
+                                  <LazyImageComponent src={ExchanageIcon} />
+                                </Stack>
+                                {/* <Box ml={0}>
                     <center>
                       <Typography
                         color="secondary"
@@ -283,60 +292,69 @@ const AvailableRewards = () => {
                       </Typography>
                     </center>
                   </Box> */}
-                          </Box>
+                              </Box>
 
-                          <Box>
-                            <Stack
-                              direction="row"
-                              mr={2}
-                              justifyContent="flex-end"
-                            >
-                              <LazyImageComponent
-                                sx={{ marginRight: 4 }}
-                                src={DownArrow}
-                              />
-                              <Typography mt={0.2} fontSize={14}>
-                                To receive
-                              </Typography>
-                            </Stack>
+                              <Box>
+                                <Stack
+                                  direction="row"
+                                  mr={2}
+                                  justifyContent="flex-end"
+                                >
+                                  <LazyImageComponent
+                                    sx={{ marginRight: 4 }}
+                                    src={DownArrow}
+                                  />
+                                  <Typography mt={0.2} fontSize={14}>
+                                    To receive
+                                  </Typography>
+                                </Stack>
 
-                            <Box mr={1.5} mt={2}>
-                              <Stack direction="row" justifyContent="flex-end">
-                                {/* <LazyImageComponent
+                                <Box mr={1.5} mt={2}>
+                                  <Stack
+                                    direction="row"
+                                    justifyContent="flex-end"
+                                  >
+                                    {/* <LazyImageComponent
                                 style={{ width: 30 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
                               /> */}
-                                <Typography
-                                  color="secondary"
-                                  fontWeight={400}
-                                  fontSize={15}
-                                  mt={0.8}
-                                  variant="body2"
-                                >
-                                  {/* receuve */}
-                                  {info?.offer?.CryptoCurrency?.abbreviation}
-                                </Typography>
-                              </Stack>
-                              <Stack direction="row" justifyContent="flex-end">
-                                <Box
-                                // sx={{
-                                //   borderBottom: 1,
-                                //   borderBottomStyle: "dashed",
-                                // }}
-                                >
-                                  <Typography
-                                    fontSize={18}
-                                    fontWeight={600}
-                                    mt={0.4}
-                                    color="secondary"
-                                    variant="body2"
+                                    <Typography
+                                      color="secondary"
+                                      fontWeight={400}
+                                      fontSize={15}
+                                      mt={0.8}
+                                      variant="body2"
+                                    >
+                                      {/* receuve */}
+                                      {
+                                        info?.offer?.CryptoCurrency
+                                          ?.abbreviation
+                                      }
+                                    </Typography>
+                                  </Stack>
+                                  <Stack
+                                    direction="row"
+                                    justifyContent="flex-end"
                                   >
-                                    ~ {info?.amountInCrypto}
-                                    {/* 5667 */}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                              {/* <Stack direction="row" justifyContent="flex-end">
+                                    <Box
+                                    // sx={{
+                                    //   borderBottom: 1,
+                                    //   borderBottomStyle: "dashed",
+                                    // }}
+                                    >
+                                      <Typography
+                                        fontSize={18}
+                                        fontWeight={600}
+                                        mt={0.4}
+                                        color="secondary"
+                                        variant="body2"
+                                      >
+                                        ~ {info?.amountInCrypto}
+                                        {/* 5667 */}
+                                      </Typography>
+                                    </Box>
+                                  </Stack>
+                                  {/* <Stack direction="row" justifyContent="flex-end">
                       <Typography
                         color="secondary"
                         fontWeight={400}
@@ -348,23 +366,26 @@ const AvailableRewards = () => {
                         {moment(info?.createdAt).format("Do MMMM YYYY")}
                       </Typography>
                     </Stack> */}
-                              <Stack direction="row" justifyContent="flex-end">
-                                <Typography
-                                  color="primary"
-                                  fontWeight={600}
-                                  fontSize={16}
-                                  mt={2}
-                                  variant="body2"
-                                >
-                                  {/* paid */}
-                                  {info?.status}
-                                </Typography>
-                              </Stack>
-                            </Box>
-                          </Box>
-                        </Stack>
+                                  <Stack
+                                    direction="row"
+                                    justifyContent="flex-end"
+                                  >
+                                    <Typography
+                                      color="primary"
+                                      fontWeight={600}
+                                      fontSize={16}
+                                      mt={2}
+                                      variant="body2"
+                                    >
+                                      {/* paid */}
+                                      {info?.status}
+                                    </Typography>
+                                  </Stack>
+                                </Box>
+                              </Box>
+                            </Stack>
 
-                        {/* <Stack mt={4} direction="row" justifyContent="flex-end">
+                            {/* <Stack mt={4} direction="row" justifyContent="flex-end">
                 <Button
                   onClick={handleCloseTwoFAPin}
                   variant="contained"
@@ -381,83 +402,83 @@ const AvailableRewards = () => {
                   </Typography>
                 </Button>
               </Stack> */}
-                      </Box>
-                    </ListItem>
-                  )}
-                </>
-              ))}
-            </List>
-          ) : (
-            <Box height={400} p={4}>
-              <Box height={200}></Box>
-              <center>
-                <Typography
-                  variant="caption"
-                  textTransform={"none"}
-                  fontSize={14}
-                  color="background.dark"
-                >
-                  You do not have any sell pending transactions.
-                </Typography>
-                <br />
-                {!isMobile && (
-                  <Stack direction={"row"} justifyContent={"center"}>
-                    <Typography
-                      mr={0.5}
-                      fontSize={14}
-                      sx={{ color: "#3063E9" }}
-                    >
-                      Check your history
-                    </Typography>
+                          </Box>
+                        </ListItem>
+                      )}
+                    </>
+                  ))}
+                </List>
+              ) : (
+                <Box height={400} p={4}>
+                  <Box height={200}></Box>
+                  <center>
                     <Typography
                       variant="caption"
                       textTransform={"none"}
                       fontSize={14}
                       color="background.dark"
                     >
-                      {" "}
-                      to view completed transactions
+                      You do not have any sell pending transactions.
                     </Typography>
-                  </Stack>
-                )}
-              </center>
-            </Box>
+                    <br />
+                    {!isMobile && (
+                      <Stack direction={"row"} justifyContent={"center"}>
+                        <Typography
+                          mr={0.5}
+                          fontSize={14}
+                          sx={{ color: "#3063E9" }}
+                        >
+                          Check your history
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          textTransform={"none"}
+                          fontSize={14}
+                          color="background.dark"
+                        >
+                          {" "}
+                          to view completed transactions
+                        </Typography>
+                      </Stack>
+                    )}
+                  </center>
+                </Box>
+              )}
+            </>
           )}
-        </>
-      )}
-      {secondStep === 1 && (
-        <>
-          <Box
-            button
-            onClick={() => setSecondStep(0)}
-            sx={{ cursor: "pointer" }}
-            mt={3}
-            ml={isMobile ? 2 : 0}
-          >
-            <LazyImageComponent src={Back} />
-          </Box>
-          <List>
-            <ListItem>
-              <Box m={isMobile ? 0 : 3} width={"100%"}>
-                <Stack
-                  direction="row"
-                  alignItems={"center"}
-                  justifyContent="space-between"
-                >
-                  <Box>
-                    <Stack direction="row">
-                      <LazyImageComponent
-                        sx={{ marginRight: 4 }}
-                        src={UpArrow}
-                      />
-                      <Typography mt={0.2} fontSize={14}>
-                        Sent
-                      </Typography>
-                    </Stack>
-                    <Stack mt={2} ml={-1} direction="row">
-                      <Box ml={1.5}>
-                        <Stack alignItems={"left"}>
-                          {/* <Typography
+          {secondStep === 1 && (
+            <>
+              <Box
+                button
+                onClick={() => setSecondStep(0)}
+                sx={{ cursor: "pointer" }}
+                mt={3}
+                ml={isMobile ? 2 : 0}
+              >
+                <LazyImageComponent src={Back} />
+              </Box>
+              <List>
+                <ListItem>
+                  <Box m={isMobile ? 0 : 3} width={"100%"}>
+                    <Stack
+                      direction="row"
+                      alignItems={"center"}
+                      justifyContent="space-between"
+                    >
+                      <Box>
+                        <Stack direction="row">
+                          <LazyImageComponent
+                            sx={{ marginRight: 4 }}
+                            src={UpArrow}
+                          />
+                          <Typography mt={0.2} fontSize={14}>
+                            Sent
+                          </Typography>
+                        </Stack>
+                        <Stack mt={2} ml={-1} direction="row">
+                          <Box ml={1.5}>
+                            <Stack alignItems={"left"}>
+                              {/* <Typography
                             color="secondary"
                             fontWeight={400}
                             fontSize={15}
@@ -468,69 +489,69 @@ const AvailableRewards = () => {
                             code
                           </Typography> */}
 
-                          <Box
-                          // sx={{
-                          //   borderBottom: 1,
-                          //   borderBottomStyle: "dashed",
-                          // }}
-                          >
-                            <Typography
-                              fontSize={18}
-                              fontWeight={600}
-                              mt={0.4}
-                              color="secondary"
-                              variant="body2"
-                            >
-                              {"776.00"}
-                              {/* {parseFloat(
+                              <Box
+                              // sx={{
+                              //   borderBottom: 1,
+                              //   borderBottomStyle: "dashed",
+                              // }}
+                              >
+                                <Typography
+                                  fontSize={18}
+                                  fontWeight={600}
+                                  mt={0.4}
+                                  color="secondary"
+                                  variant="body2"
+                                >
+                                  {"776.00"}
+                                  {/* {parseFloat(
                                       info?.amountInFiat || 0
                                     ).toFixed(2)} */}
-                            </Typography>
-                          </Box>
+                                </Typography>
+                              </Box>
 
-                          <Typography
-                            color="secondary"
-                            fontWeight={600}
-                            fontSize={16}
-                            mt={2}
-                            variant="body2"
-                          >
-                            Status
-                          </Typography>
+                              <Typography
+                                color="secondary"
+                                fontWeight={600}
+                                fontSize={16}
+                                mt={2}
+                                variant="body2"
+                              >
+                                Status
+                              </Typography>
+                            </Stack>
+                          </Box>
                         </Stack>
                       </Box>
-                    </Stack>
-                  </Box>
 
-                  <Box>
-                    <Stack
-                      direction="row"
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      mt={4}
-                    >
-                      <LazyImageComponent src={ExchanageIcon} />
-                    </Stack>
-                  </Box>
+                      <Box>
+                        <Stack
+                          direction="row"
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          mt={4}
+                        >
+                          <LazyImageComponent src={ExchanageIcon} />
+                        </Stack>
+                      </Box>
 
-                  <Box>
-                    <Stack direction="row" mr={2} justifyContent="flex-end">
-                      <LazyImageComponent
-                        sx={{ marginRight: 4 }}
-                        src={DownArrow}
-                      />
-                      <Typography mt={0.2} fontSize={14}>
-                        To receive
-                      </Typography>
-                    </Stack>
+                      <Box>
+                        <Stack direction="row" mr={2} justifyContent="flex-end">
+                          <LazyImageComponent
+                            sx={{ marginRight: 4 }}
+                            src={DownArrow}
+                          />
+                          <Typography mt={0.2} fontSize={14}>
+                            To receive
+                          </Typography>
+                        </Stack>
 
-                    <Box mr={1.5} mt={2}>
-                      <Stack direction="row" justifyContent="flex-end">
-                        {/* <LazyImageComponent
+                        <Box mr={1.5} mt={2}>
+                          <Stack direction="row" justifyContent="flex-end">
+                            {/* <LazyImageComponent
                                 style={{ width: 30 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
                               /> */}
-                        {/* <Typography
+                            {/* <Typography
                           color="secondary"
                           fontWeight={400}
                           fontSize={15}
@@ -540,27 +561,27 @@ const AvailableRewards = () => {
                           receuve
                           {info?.offer?.CryptoCurrency?.abbreviation}
                         </Typography> */}
-                      </Stack>
-                      <Stack direction="row" justifyContent="flex-end">
-                        <Box
-                        // sx={{
-                        //   borderBottom: 1,
-                        //   borderBottomStyle: "dashed",
-                        // }}
-                        >
-                          <Typography
-                            fontSize={18}
-                            fontWeight={600}
-                            mt={0.4}
-                            color="secondary"
-                            variant="body2"
-                          >
-                            {/* ~ {info?.amountInCrypto} */}
-                            5667
-                          </Typography>
-                        </Box>
-                      </Stack>
-                      {/* <Stack direction="row" justifyContent="flex-end">
+                          </Stack>
+                          <Stack direction="row" justifyContent="flex-end">
+                            <Box
+                            // sx={{
+                            //   borderBottom: 1,
+                            //   borderBottomStyle: "dashed",
+                            // }}
+                            >
+                              <Typography
+                                fontSize={18}
+                                fontWeight={600}
+                                mt={0.4}
+                                color="secondary"
+                                variant="body2"
+                              >
+                                {/* ~ {info?.amountInCrypto} */}
+                                5667
+                              </Typography>
+                            </Box>
+                          </Stack>
+                          {/* <Stack direction="row" justifyContent="flex-end">
                       <Typography
                         color="secondary"
                         fontWeight={400}
@@ -572,163 +593,169 @@ const AvailableRewards = () => {
                         {moment(info?.createdAt).format("Do MMMM YYYY")}
                       </Typography>
                     </Stack> */}
-                      <Stack direction="row" justifyContent="flex-end">
+                          <Stack direction="row" justifyContent="flex-end">
+                            <Typography
+                              color="primary"
+                              fontWeight={600}
+                              fontSize={16}
+                              mt={2}
+                              variant="body2"
+                            >
+                              paid
+                              {/* {info?.status} */}
+                            </Typography>
+                          </Stack>
+                        </Box>
+                      </Box>
+                    </Stack>
+
+                    <Box mt={2} p={1.6} borderRadius={5} bgcolor={"#E8E8F3"}>
+                      <Stack
+                        mx={0.5}
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems={"center"}
+                      >
+                        <Stack direction="row">
+                          <Typography
+                            mr={2}
+                            variant="caption"
+                            textTransform={"none"}
+                            fontSize={14}
+                            color="#202020"
+                          >
+                            @jacerodman
+                          </Typography>
+                          <LazyImageComponent src={Chat} />
+                        </Stack>
                         <Typography
-                          color="primary"
-                          fontWeight={600}
-                          fontSize={16}
-                          mt={2}
-                          variant="body2"
+                          variant="caption"
+                          textTransform={"none"}
+                          fontSize={14}
+                          color="#3063E9"
                         >
-                          paid
-                          {/* {info?.status} */}
+                          Confirm received
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          textTransform={"none"}
+                          fontSize={14}
+                          color="#202020"
+                        >
+                          $100.00
                         </Typography>
                       </Stack>
                     </Box>
-                  </Box>
-                </Stack>
 
-                <Box mt={2} p={1.6} borderRadius={5} bgcolor={"#E8E8F3"}>
-                  <Stack
-                    mx={0.5}
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems={"center"}
-                  >
-                    <Stack direction="row">
-                      <Typography
-                        mr={2}
-                        variant="caption"
-                        textTransform={"none"}
-                        fontSize={14}
-                        color="#202020"
+                    <Box mt={2} p={1.6} borderRadius={5} bgcolor={"#E8E8F3"}>
+                      <Stack
+                        mx={0.5}
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems={"center"}
                       >
-                        @jacerodman
-                      </Typography>
-                      <LazyImageComponent src={Chat} />
-                    </Stack>
-                    <Typography
-                      variant="caption"
-                      textTransform={"none"}
-                      fontSize={14}
-                      color="#3063E9"
-                    >
-                      Confirm received
-                    </Typography>
-                    <Typography
-                      variant="caption"
-                      textTransform={"none"}
-                      fontSize={14}
-                      color="#202020"
-                    >
-                      $100.00
-                    </Typography>
-                  </Stack>
-                </Box>
-
-                <Box mt={2} p={1.6} borderRadius={5} bgcolor={"#E8E8F3"}>
-                  <Stack
-                    mx={0.5}
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems={"center"}
-                  >
-                    <Stack direction="row">
-                      <Typography
-                        mr={2}
-                        variant="caption"
-                        textTransform={"none"}
-                        fontSize={14}
-                        color="#202020"
-                      >
-                        @tundeojigho
-                      </Typography>
-                      <LazyImageComponent src={Chat} />
-                    </Stack>
-                    <Stack direction="row">
-                      <Typography
-                        mr={1}
-                        variant="caption"
-                        textTransform={"none"}
-                        fontSize={14}
-                        color="#05A753"
-                      >
-                        Confirmed
-                      </Typography>
-                      <LazyImageComponent src={Confirmed} />
-                    </Stack>
-                    <Typography
-                      variant="caption"
-                      textTransform={"none"}
-                      fontSize={14}
-                      color="#202020"
-                    >
-                      $70.00
-                    </Typography>
-                  </Stack>
-                </Box>
-
-                <Stack mt={2} direction="row" justifyContent="space-between">
-                  <Typography
-                    variant="caption"
-                    textTransform={"none"}
-                    fontSize={14}
-                    color="#202020"
-                  >
-                    Amount left in escrow
-                  </Typography>
-
-                  <Typography
-                    variant="caption"
-                    textTransform={"none"}
-                    fontSize={14}
-                    color="#3063E9"
-                  >
-                    $330.00
-                  </Typography>
-                </Stack>
-                <Stack
-                  mt={4}
-                  direction="row"
-                  justifyContent={isMobile ? " " : "flex-end"}
-                >
-                  {loading ? (
-                    <Box>
-                      <LoadingButton
-                        fullWidth
-                        style={{
-                          height: 120,
-                          borderRadius: 10,
-                          fontSize: 20,
-                          textTransform: "none",
-                        }}
-                        loading
-                      >
-                        Sign Up
-                      </LoadingButton>
+                        <Stack direction="row">
+                          <Typography
+                            mr={2}
+                            variant="caption"
+                            textTransform={"none"}
+                            fontSize={14}
+                            color="#202020"
+                          >
+                            @tundeojigho
+                          </Typography>
+                          <LazyImageComponent src={Chat} />
+                        </Stack>
+                        <Stack direction="row">
+                          <Typography
+                            mr={1}
+                            variant="caption"
+                            textTransform={"none"}
+                            fontSize={14}
+                            color="#05A753"
+                          >
+                            Confirmed
+                          </Typography>
+                          <LazyImageComponent src={Confirmed} />
+                        </Stack>
+                        <Typography
+                          variant="caption"
+                          textTransform={"none"}
+                          fontSize={14}
+                          color="#202020"
+                        >
+                          $70.00
+                        </Typography>
+                      </Stack>
                     </Box>
-                  ) : (
-                    <Button
-                      onClick={escrowSubmit}
-                      fullWidth={isMobile ? true : false}
-                      variant="contained"
-                      color="primary"
+
+                    <Stack
+                      mt={2}
+                      direction="row"
+                      justifyContent="space-between"
                     >
                       <Typography
                         variant="caption"
-                        p={0.6}
                         textTransform={"none"}
                         fontSize={14}
-                        color="background.light"
+                        color="#202020"
                       >
-                        Withdraw from Escrow
+                        Amount left in escrow
                       </Typography>
-                    </Button>
-                  )}
-                </Stack>
-              </Box>
-            </ListItem>
-          </List>
+
+                      <Typography
+                        variant="caption"
+                        textTransform={"none"}
+                        fontSize={14}
+                        color="#3063E9"
+                      >
+                        $330.00
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      mt={4}
+                      direction="row"
+                      justifyContent={isMobile ? " " : "flex-end"}
+                    >
+                      {loading ? (
+                        <Box>
+                          <LoadingButton
+                            fullWidth
+                            style={{
+                              height: 120,
+                              borderRadius: 10,
+                              fontSize: 20,
+                              textTransform: "none",
+                            }}
+                            loading
+                          >
+                            Sign Up
+                          </LoadingButton>
+                        </Box>
+                      ) : (
+                        <Button
+                          onClick={escrowSubmit}
+                          fullWidth={isMobile ? true : false}
+                          variant="contained"
+                          color="primary"
+                        >
+                          <Typography
+                            variant="caption"
+                            p={0.6}
+                            textTransform={"none"}
+                            fontSize={14}
+                            color="background.light"
+                          >
+                            Withdraw from Escrow
+                          </Typography>
+                        </Button>
+                      )}
+                    </Stack>
+                  </Box>
+                </ListItem>
+              </List>
+            </>
+          )}
         </>
       )}
     </React.Fragment>

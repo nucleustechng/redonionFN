@@ -1,9 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
-import { Button, Stack, Typography, useMediaQuery, Input, Snackbar, Alert, IconButton } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Typography,
+  useMediaQuery,
+  Input,
+  Snackbar,
+  Alert,
+  IconButton,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { ReactPinField } from "react-pin-field";
-
 
 import Close from "@mui/icons-material/Close";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
@@ -15,22 +23,20 @@ import useAuth from "../../../hooks/useUser";
 // Axios
 import axios from "../../../api/axios";
 
-
 // styles
 import styles from "./OTPVerification.module.css";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
-
 import Back from "../../../assets/backArrow.svg";
 import FrontArrow from "../../../assets/frontArrow.svg";
 import bg from "../../../assets/authBg.svg";
+import { CodeSharp } from "@mui/icons-material";
 
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
-
 
 const OTPVerification = () => {
   const theme = useTheme();
@@ -60,7 +66,7 @@ const OTPVerification = () => {
 
   const RESEND_OPT_URL = "/auth/resend-otp";
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const handleCloseSendSnackbar = () => {
     setShowSendSuccessfullSnackbar(false);
@@ -68,7 +74,7 @@ const OTPVerification = () => {
 
   useEffect(() => {
     // ref.current?.inputs[0].focus();
-    
+
     const interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
@@ -91,33 +97,32 @@ const OTPVerification = () => {
 
   const resendOTP = () => {
     setLoading(true);
-   
-    axios.post(
-      RESEND_OPT_URL,
-      JSON.stringify({
-        "email": user?.user?.email,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json"
+
+    axios
+      .post(
+        RESEND_OPT_URL,
+        JSON.stringify({
+          email: user?.user?.email,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      }
-    ).then((res) => {
-      setcheckStatus(true);
-      setMinutes(1);
-      setSeconds(59);
-      setLoading(false)
-      setShowSendSuccessfullSnackbar(true)
-    }).catch((err) => {
-    })
+      )
+      .then((res) => {
+        setcheckStatus(true);
+        setMinutes(1);
+        setSeconds(59);
+        setLoading(false);
+        setShowSendSuccessfullSnackbar(true);
+      })
+      .catch((err) => {})
       .finally(() => setLoading(false));
-
-
-
   };
 
-  const handleEmailVerify = (e) => {
-    e.preventDefault();
+  const handleEmailVerify = (code) => {
+    // e.preventDefault();
     console.log(code);
     if (code.length < 6) {
       setFormError("Please enter 6 digit code sent to your mailbox!");
@@ -126,7 +131,7 @@ const OTPVerification = () => {
       verifyEmail(code, navigate);
       console.log(formError);
       if (formError === "success") {
-        setShowSendSuccessfullSnackbar(true)
+        setShowSendSuccessfullSnackbar(true);
       }
     }
   };
@@ -137,10 +142,8 @@ const OTPVerification = () => {
       className={!isMobile ? styles.mainBox : styles.mainBoxMobile}
       style={{
         backgroundImage: `url(${isMobile ? bg : bg})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'top',
-
-
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "top",
       }}
     >
       <Snackbar
@@ -160,16 +163,16 @@ const OTPVerification = () => {
           onClose={handleCloseSendSnackbar}
           severity="success"
         >
-          {checkStatus ? "Email Sent Successfully" : "Email Verification Successful"}
+          {checkStatus
+            ? "Email Sent Successfully"
+            : "Email Verification Successful"}
         </Alert>
       </Snackbar>
       {/* <Box
       bgcolor={isMobile ? theme.palette.background.paper : null}
       className={!isMobile ? styles.mainBox : styles.mainBoxMobile}
     > */}
-      <Box
-        className={!isMobile ? styles.contentBox : ''}
-        >
+      <Box className={!isMobile ? styles.contentBox : ""}>
         <Box
           bgcolor={theme.palette.background.paper}
           className={
@@ -177,15 +180,19 @@ const OTPVerification = () => {
           }
         >
           <Button
-            style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
-
-            color="secondary">
-            <a
-              href="/auth/sign-in"
-            >
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              textTransform: "none",
+              marginLeft: "-20px",
+              marginTop: "0",
+              marginBottom: "25px",
+            }}
+            color="secondary"
+          >
+            <a href="/auth/sign-in">
               <LazyImageComponent src={Back} />
             </a>
-
           </Button>
           <Typography
             variant="h3"
@@ -195,8 +202,6 @@ const OTPVerification = () => {
           >
             Email Verification
           </Typography>
-
-
           <Typography
             color="secondary"
             variant="caption"
@@ -204,12 +209,36 @@ const OTPVerification = () => {
             mb={2}
             component="p"
             fontSize={18}
-            textAlign={'center'}
+            textAlign={"center"}
           >
-            Input the verification code sent to <br />{user?.user.email}
+            Input the verification code sent to <br />
+            {user?.user.email}
           </Typography>
-          <Box component="form" onSubmit={handleEmailVerify}>
-            <Box mt={3} mb={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
+          {formError && (
+            <Box mx={3} mt={3} mb={3}>
+              <Alert sx={{ fontSize: "1rem" }} severity="error">
+                {formError}
+              </Alert>
+            </Box>
+          )}
+          {authError && (
+            <Box mx={3} mt={3} mb={3}>
+              <Alert sx={{ fontSize: "1rem" }} severity="error">
+                {authError}
+              </Alert>
+            </Box>
+          )}
+          {/* component="form" onSubmit={handleEmailVerify} */}
+          <Box>
+            <Box
+              mt={3}
+              mb={4}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               {isMobile ? (
                 //  <ReactPinField
                 //     ref={ref}
@@ -222,55 +251,62 @@ const OTPVerification = () => {
                 //     inputMode="numeric"
                 //     autoComplete="nope"
                 //   />
-                
-                  <Input
-                    fullWidth
-                    name="payInput"
-                    value={code}
-                    type="number"
-                    onChange={(e) => setCode(e.target.value)
-                    }
 
-                    placeholder="Verification Code"
-                    disableUnderline
-                    className={
-                      theme.palette.mode === "dark"
-                        ? "inputField"
-                        : styles.inputFieldLight
+                <Input
+                  fullWidth
+                  name="payInput"
+                  // value={code}
+                  type="number"
+                  onChange={(e) => {
+                    setCode(e.target.value);
+                    let coda = e.target.value;
+                    if (coda.length === 6) {
+                      handleEmailVerify(coda);
                     }
-                  />
-               
-                  
-              ):
-              (
-                  <ReactPinField
-                    ref={ref}
-                    className={
-                      theme.palette.mode === "dark"
-                        ? styles.pinFieldDark
-                        : styles.pinFieldLight
-                    }
-                    onComplete={() => { }}
-                    length={6}
-                    validate={/^[0-9]$/}
-                    onChange={setCode}
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="nope"
-                  />
+                    //
+                  }}
+                  placeholder="Verification Code"
+                  disableUnderline
+                  className={
+                    theme.palette.mode === "dark"
+                      ? "inputField"
+                      : styles.inputFieldLight
+                  }
+                />
+              ) : (
+                <ReactPinField
+                  ref={ref}
+                  className={
+                    theme.palette.mode === "dark"
+                      ? styles.pinFieldDark
+                      : styles.pinFieldLight
+                  }
+                  onComplete={(code) => handleEmailVerify(code)}
+                  length={6}
+                  validate={/^[0-9]$/}
+                  onChange={setCode}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="nope"
+                />
               )}
-              
             </Box>
 
-            <Stack direction="row" mx={2} justifyContent="space-between"
-              alignItems="center" mb={4} spacing={0.2}>
+            <Stack
+              direction="row"
+              mx={2}
+              justifyContent="space-between"
+              alignItems="center"
+              mb={4}
+              spacing={0.2}
+            >
               {seconds > 0 || minutes > 0 ? (
                 <Typography
                   color="secondary"
                   variant="caption"
                   component="span"
                   fontSize={20}
-                // sx={{ textDecoration: "underline" }}
+                  // sx={{ textDecoration: "underline" }}
                 >
                   {minutes < 10 ? `0${minutes}` : minutes}:
                   {seconds < 10 ? `0${seconds}` : seconds}
@@ -286,22 +322,19 @@ const OTPVerification = () => {
                 </Typography>
               )}
               {loading ? (
-                <LoadingButton
-                  loading >
-                  Resend OTP
-                </LoadingButton>
+                <LoadingButton loading>Resend OTP</LoadingButton>
               ) : (
                 <>
                   <Button
                     sx={{ textDecoration: "none", textTransform: "none" }}
                     disabled={seconds > 0 || minutes > 0}
-
                     onClick={resendOTP}
                   >
                     <Typography
-
                       style={{
-                        color: seconds > 0 || minutes > 0 ? "#DFE3E8" : "#3063E9", textDecoration: "none"
+                        color:
+                          seconds > 0 || minutes > 0 ? "#DFE3E8" : "#3063E9",
+                        textDecoration: "none",
                       }}
                       variant="caption"
                       component="span"
@@ -313,42 +346,36 @@ const OTPVerification = () => {
                 </>
               )}
             </Stack>
-            <Typography my={1} fontSize={20} variant="small" color="error">
-              {formError}
-            </Typography>
-            {authError && (
-              <Typography
-                sx={{
-                  display: "inline-block",
-                  textTransform: "capitalize",
-                }}
-                my={1}
-                textAlign={"center"}
-                fontSize={20}
-                variant="small"
-                color="error"
-              >
-                {/* {authError.slice(22, -2).split("-").join(" ")} */}
-                {authError}
-              </Typography>
-            )}
+
             <Stack mt={4} mb={2}>
               {isLoading ? (
                 <LoadingButton
-                  style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-                  loading variant="outlined">
+                  style={{
+                    height: 60,
+                    borderRadius: 10,
+                    fontSize: 20,
+                    textTransform: "none",
+                  }}
+                  loading
+                  variant="outlined"
+                >
                   Sign Up
                 </LoadingButton>
               ) : (
                 <>
                   <Button
-                    type="submit"
-                    style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
+                    onClick={handleEmailVerify}
+                    style={{
+                      height: 60,
+                      borderRadius: 10,
+                      fontSize: 20,
+                      textTransform: "none",
+                    }}
                     color="primary"
                     variant="contained"
                     fullWidth
                   >
-                    Verify Account{'  '} <LazyImageComponent src={FrontArrow} />
+                    Verify Account{"  "} <LazyImageComponent src={FrontArrow} />
                   </Button>
                 </>
               )}

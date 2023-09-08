@@ -215,12 +215,9 @@ const BankStep = (props) => {
 
 
   return (
-    <Box
-      p={!isMobile ? 5 : 3}
-      bgcolor={theme.palette.background.surface}>
+    <Box p={!isMobile ? 5 : 3} bgcolor={theme.palette.background.surface}>
       {userImage === null ? (
         <>
-
           {activeStepKYC !== 2 && (
             <Box>
               <Typography
@@ -228,7 +225,6 @@ const BankStep = (props) => {
                 variant="h3"
                 color="secondaryDark"
                 fontWeight={600}
-
               >
                 Required Identification
               </Typography>
@@ -238,9 +234,9 @@ const BankStep = (props) => {
                 variant="h3"
                 color="secondaryDark"
                 fontWeight={400}
-
               >
-                Please ensure you select the right ID type that matches the ID you intend to upload.
+                Please ensure you select the right ID type that matches the ID
+                you intend to upload.
               </Typography>
             </Box>
           )}
@@ -261,25 +257,28 @@ const BankStep = (props) => {
             </MenuItem>
            
           </Select> */}
-              <Typography variant="body2" className={styles.nameFont} mt={3} mb={1}>
-                Select ID
+              <Typography
+                variant="body2"
+                className={styles.nameFont}
+                mt={3}
+                mb={1}
+              >
+                Select ID Type
               </Typography>
               <Select
                 value={kycID}
                 onChange={handleChangeKycID}
                 displayEmpty
                 fullWidth
-                inputProps={{ 'aria-label': 'Without label' }}
+                inputProps={{ "aria-label": "Without label" }}
               >
-                <MenuItem value={"NIN ID"}>
-                  NIN ID
-                </MenuItem>
+                <MenuItem value={"NIN ID"}>NIN ID</MenuItem>
                 <MenuItem value={"NIN Slip"}>NIN Slip</MenuItem>
                 <MenuItem value={"Voter's Card"}>Voter's Card</MenuItem>
                 {/* <MenuItem value={"Passport"}>Passport</MenuItem> */}
                 <MenuItem value={"Driver's license"}>Driver's license</MenuItem>
               </Select>
-              <Stack mt={5} >
+              <Stack mt={5}>
                 {isLoading ? (
                   <LoadingButton loading variant="outlined">
                     Login
@@ -288,13 +287,18 @@ const BankStep = (props) => {
                   <>
                     <Button
                       disabled={kycID === "" ? true : false}
-                      onClick={
-                        handleNext
-                      }
-                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                      onClick={handleNext}
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
                       Start Verification <LazyImageComponent src={FrontArrow} />
                     </Button>
-
                   </>
                 )}
               </Stack>
@@ -309,15 +313,17 @@ const BankStep = (props) => {
                 fontWeight={400}
                 fontStyle={"italic"}
               >
-                Files uploaded can be either images (PNG OR JPEG) and cannot be larger than 1 MB
+                Files uploaded can be either images (PNG OR JPEG) and cannot be
+                larger than 1 MB
               </Typography>
               <Box mt={5}>
                 <Typography
-                  className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
+                  className={
+                    !isMobile ? styles.titleBoxA : styles.titleBoxAMobile
+                  }
                   variant="h3"
                   color="secondaryDark"
                   fontWeight={600}
-
                 >
                   {kycID}
                 </Typography>
@@ -326,10 +332,11 @@ const BankStep = (props) => {
               <Box className={styles.imageBox} mt={5}>
                 <Grid
                   sx={{
-                    border: `${theme.palette.mode === "dark"
-                      ? "3px dashed #f5f5f5"
-                      : "3px dashed #c4c4c4"
-                      }`,
+                    border: `${
+                      theme.palette.mode === "dark"
+                        ? "3px dashed #f5f5f5"
+                        : "3px dashed #c4c4c4"
+                    }`,
                     borderRadius: "10px",
                   }}
                   item
@@ -340,7 +347,16 @@ const BankStep = (props) => {
                     <Box className={styles.imageUploadBox}>
                       <label htmlFor="icon-button-file-upload">
                         <Box>
-                          <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Your ID should look like this </Typography>
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              fontSize: "1.2rem",
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            Your ID should look like this{" "}
+                          </Typography>
                           <ImageInput
                             accept="image/*"
                             id="icon-button-file-upload"
@@ -357,16 +373,35 @@ const BankStep = (props) => {
                               <LazyImageComponent src={IDShow} />
                             </IconButton>
                           </Stack>
-                          <Typography variant="caption" sx={{ fontSize: "1.2rem", display: "flex", justifyContent: "center" }}>Click to upload ID</Typography>
-
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              fontSize: "1.2rem",
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            Click to upload ID
+                          </Typography>
                         </Box>
                       </label>
                     </Box>
                   ) : (
                     <Box className={styles.uploadedImage}>
-                      <img src={frontImage} style={{ display: "flex", justifyContent: "center", width: "100%" }} alt="Front side" />
+                      <img
+                        src={frontImage}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          width: "100%",
+                        }}
+                        alt="Front side"
+                      />
                       <Box className={styles.cancelButton}>
-                        <IconButton onClick={() => setFrontImage(null)} color="error">
+                        <IconButton
+                          onClick={() => setFrontImage(null)}
+                          color="error"
+                        >
                           <CancelIcon />
                         </IconButton>
                       </Box>
@@ -374,7 +409,7 @@ const BankStep = (props) => {
                   )}
                 </Grid>
 
-                <Stack mt={5} >
+                <Stack mt={5}>
                   {loading ? (
                     <LoadingButton loading variant="outlined">
                       Login
@@ -383,20 +418,23 @@ const BankStep = (props) => {
                     <>
                       <Button
                         disabled={frontImage === null ? true : false}
-                        onClick={
-                          handleNext
-                        }
-                        style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                        Start Verification <LazyImageComponent src={FrontArrow} />
+                        onClick={handleNext}
+                        style={{
+                          height: 60,
+                          borderRadius: 10,
+                          fontSize: 20,
+                          textTransform: "none",
+                        }}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Start Verification{" "}
+                        <LazyImageComponent src={FrontArrow} />
                       </Button>
-
                     </>
                   )}
                 </Stack>
-
               </Box>
-
-
             </Box>
           )}
           {activeStepKYC === 2 && (
@@ -405,27 +443,30 @@ const BankStep = (props) => {
                 <LazyImageComponent src={successClock} />
               </center>
               <Typography
-                className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
+                className={
+                  !isMobile ? styles.titleBoxA : styles.titleBoxAMobile
+                }
                 mt={4}
                 variant="h3"
                 color="primary"
                 fontWeight={400}
-
               >
                 We are now verifying your details
               </Typography>
 
               <Typography
-                className={!isMobile ? styles.titleBoxA : styles.titleBoxAMobile}
+                className={
+                  !isMobile ? styles.titleBoxA : styles.titleBoxAMobile
+                }
                 variant="h3"
                 // color={"#202020"}
                 fontWeight={400}
-
               >
-                We will send you an email and in-app notification once we’re done verifying your documents.
+                We will send you an email and in-app notification once we’re
+                done verifying your documents.
               </Typography>
 
-              <Stack mt={5} >
+              <Stack mt={5}>
                 {isLoading ? (
                   <LoadingButton loading variant="outlined">
                     Login
@@ -433,16 +474,21 @@ const BankStep = (props) => {
                 ) : (
                   <>
                     <Button
-                        onClick={onClickSuccess}
-                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                      onClick={onClickSuccess}
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
                       Continue
                     </Button>
-
                   </>
                 )}
               </Stack>
-
-
             </Box>
           )}
         </>
@@ -455,7 +501,6 @@ const BankStep = (props) => {
               variant="h3"
               color="secondaryDark"
               fontWeight={600}
-
             >
               ID Document is Already Uploaded
             </Typography>
@@ -469,23 +514,27 @@ const BankStep = (props) => {
               variant="h3"
               color="primary"
               fontWeight={400}
-
             >
               We are now verifying your details
             </Typography>
           </Box>
 
-          <Stack mt={5} >
-
+          <Stack mt={5}>
             <>
               <Button
                 onClick={onClickSuccess}
-                style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
+                style={{
+                  height: 60,
+                  borderRadius: 10,
+                  fontSize: 20,
+                  textTransform: "none",
+                }}
+                variant="contained"
+                color="primary"
+              >
                 Continue
               </Button>
-
             </>
-
           </Stack>
         </>
       )}

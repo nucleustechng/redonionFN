@@ -148,7 +148,7 @@ const TopUpCardMobile = (prop) => {
                   color={"#fff"}
                   variant="body2"
                 >
-                  Balance
+                 Wallet Balance
                 </Typography>
                 {loading ? (
                   <Box>
@@ -195,7 +195,7 @@ const TopUpCardMobile = (prop) => {
                             color={"#fff"}
                             variant="body2"
                           >
-                            Wallet Address: {walletID.substr(0, 10) + "\u2026"}
+                            Public Address: {walletID.substr(0, 10) + "\u2026"}
                           </Typography>
                         </Box>
                       </Tooltip>

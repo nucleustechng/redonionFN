@@ -3,7 +3,7 @@ import React, { Suspense, useState, useEffect } from "react";
 // Material UI
 import {
   Button,
-  Checkbox,
+  Alert,
   Grid,
   IconButton,
   Input,
@@ -75,6 +75,12 @@ const SignUpInterface = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isCheck, setIsCheck] = useState(false);
   const [formError, setFormError] = useState("");
+  const [formError1, setFormError1] = useState("");
+  const [formError2, setFormError2] = useState("");
+  const [formError3, setFormError3] = useState("");
+  const [formError4, setFormError4] = useState("");
+  const [formError5, setFormError5] = useState("");
+  const [formError6, setFormError6] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmed, setShowPasswordConfirmed] = useState(false);
 
@@ -139,27 +145,34 @@ const SignUpInterface = () => {
 
   const handleRegisterUser = (e) => {
     e.preventDefault();
+    setFormError("");
+    setFormError1("");
+    setFormError2("");
+    setFormError3("");
+    setFormError4("");
+    setFormError5("");
+    setFormError6("");
     
     if (!userInfo.fname) {
-      setFormError("Please enter an first name");
+      setFormError("Please provide your First Name");
     } else if (!userInfo.lname) {
-      setFormError("Please enter an last name");
+      setFormError1("Please provide your Last Name");
     } else if (!userInfo.email) {
-      setFormError("Please enter an email");
+      setFormError2("Please provide your Email Address");
     } else if (countryID === "") {
-      setFormError("Please select a country");
+      setFormError3("Please select a country");
     } else if (value === "") {
-      setFormError("Please enter a phone number");
+      setFormError4("Please enter a phone number");
     } else if (!userInfo.password) {
-      setFormError("Please enter a password");
+      setFormError5("Please create a Password");
     } else if (userInfo.password.length < 8) {
-      setFormError("Password must be longer than or equal to 8 characters");
+      setFormError5("Password must be longer than or equal to 8 characters");
     } else if (!passwordRegex.test(userInfo.password)){
-      setFormError("Password must contain atleast one uppercase letter, one lowercase letter, a number and a special character!");
+      setFormError5("Password must contain atleast one uppercase letter, one lowercase letter, a number and a special character!");
     } else if (userInfo.password !== userInfo.confirmPassword) {
-      setFormError("Password is not matching!");
+      setFormError6("Your Password and Confirmation do not match");
     } else {
-      setFormError("");
+     
       registerUser(userInfo.fname, userInfo.mname, userInfo.lname, userInfo.email, 
         countryID, "+" + value, userInfo.confirmPassword, navigate);
     }
@@ -173,15 +186,11 @@ const SignUpInterface = () => {
         className={styles.mainBox}
         style={{
           backgroundImage: `url(${isMobile ? bg : bg})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'top',
-
-
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "top",
         }}
       >
-
         <Stack
-
           pt={isMobile ? 0 : 3}
           pl={isMobile ? 1 : 15}
           pr={isMobile ? 1 : 20}
@@ -190,141 +199,135 @@ const SignUpInterface = () => {
           alignItems="center"
           className={styles.topBox}
         >
-          <Box >
+          <Box>
             <Suspense
               fallback={<Skeleton variant="circular" height={30} width={110} />}
             >
-              <LazyImageComponent
-                className={styles.logo}
-                src={theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark}
-                onClick={("/landing-page")}
-              />
+              <a href="/">
+                <LazyImageComponent
+                  className={styles.logo}
+                  src={
+                    theme.palette.mode === "dark" ? MainLogoDark : MainLogoDark
+                  }
+                />
+              </a>
             </Suspense>
           </Box>
           {isMobile ? (
             <Box mt={2}>
-              <Button
-                onClick={() =>
-                  setDropdown(!dropdown)
-                }
-              >
+              <Button onClick={() => setDropdown(!dropdown)}>
                 <LazyImageComponent
                   className={styles.logo}
                   src={dropdown ? CloseDark : HandburgerDark}
-
                 />
               </Button>
-              {dropdown &&
-                <Box style={{ position: 'absolute', left: 0, right: 0, background: '#000', padding: 30, zIndex: 9999 }}>
+              {dropdown && (
+                <Box
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    background: "#000",
+                    padding: 30,
+                    zIndex: 9999,
+                  }}
+                >
                   <center>
-                    {/* <Box mb={2}>
-                      <Button
-                        color="secondary"
-
-                      >
-                        <Typography variant="caption" p={1} fontSize={16} color="background.light">
-                          <a
-
-                            style={{ textDecoration: "none", color: "inherit", textTransform: "none", }}
-                            href="/auth/sign-in"
-                          >
-                            Log in
-                          </a>
-                        </Typography>
-                      </Button>
-                    </Box> */}
                     <Box>
                       <Button fullWidth variant="contained" color="primary">
-                        <Typography fontSize={16} variant="caption" p={0.3} color="background.light">
+                        <Typography
+                          fontSize={16}
+                          variant="caption"
+                          p={0.3}
+                          color="background.light"
+                        >
                           <a
-                            style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                              textTransform: "none",
+                            }}
                             href="/auth/sign-in"
                           >
-
                             Log in
-
                           </a>
                         </Typography>
                       </Button>
                     </Box>
                   </center>
                 </Box>
-              }
+              )}
             </Box>
           ) : (
-            <Stack direction="row"
-              justifyContent="space-evenly">
-              {/* <Box mr={2}>
-                <Button
-                  color="secondaryDark"
-
-                >
-                  <Typography variant="caption" p={0.3} color="secondaryDark">
+            <Stack direction="row" justifyContent="space-evenly">
+              <Box>
+                <Button fullWidth variant="contained" color="primary">
+                  <Typography
+                    variant="caption"
+                    p={0.3}
+                    color="background.light"
+                  >
                     <a
-
-                      style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        textTransform: "none",
+                        fontSize: 15,
+                        fontWeight: 500,
+                      }}
                       href="/auth/sign-in"
                     >
                       Log in
                     </a>
                   </Typography>
                 </Button>
-              </Box> */}
-              <Box>
-                <Button fullWidth variant="contained" color="primary">
-                  <Typography variant="caption" p={0.3} color="background.light">
-                    <a
-                      style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                        href="/auth/sign-in"
-                    >
-
-                        Log in
-
-                    </a>
-                  </Typography>
-                </Button>
               </Box>
             </Stack>
           )}
-
-
         </Stack>
-        <Grid
-
-          columns={{ xs: 12, md: 12 }}
-          mt={!isMobile ? -6 : 0}
-        >
-
+        <Grid columns={{ xs: 12, md: 12 }} mt={!isMobile ? -6 : 0}>
           <Grid item xs={12} md={12}>
-            <Box
-             
-              className={styles.registerBox}>
+            <Box className={styles.registerBox}>
               {/* Form Section */}
               <Box
                 className={!isMobile ? styles.contentBox : ""}
                 borderRadius="10px"
-                bgcolor={theme.palette.background.paper}
+                bgcolor={!isMobile ? theme.palette.background.paper : "#111"}
               >
-
-                <Box  p={5}>
-                  <Button
-                    style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
-
-                    color="secondary">
+                <Box p={5}>
+                  {/* <Button
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                      textTransform: "none",
+                      marginLeft: "-20px",
+                      marginTop: "0",
+                      marginBottom: "25px",
+                    }}
+                    color="secondary"
+                  >
                     <a href="/">
                       <LazyImageComponent src={Back} />
                     </a>
-
-                  </Button>
+                  </Button> */}
                   <Typography
-                    mt={isMobile ? 0 : -5}
+                    mt={isMobile ? 0 : 3}
                     className={styles.titleBox}
                     variant="h3"
                     color="secondary"
                     fontWeight={500}
                   >
-                    Create an account <br />to get started
+                    Create an Account <br />
+                    to Get Started
                   </Typography>
+
+                  {authError && (
+                    <Box mt={3} mb={-3}>
+                      <Alert sx={{ fontSize: "1rem" }} severity="error">
+                        {authError}
+                      </Alert>
+                    </Box>
+                  )}
                   {/* <Typography className={styles.textUnderScore}></Typography> */}
                   <Box component="form" onSubmit={handleRegisterUser} mt={4}>
                     <Stack spacing={1} mb={2}>
@@ -346,7 +349,17 @@ const SignUpInterface = () => {
                         onChange={handleUserInfo}
                       />
                     </Stack>
-                   
+                    <Box mx={0.5} mb={2}>
+                      <Typography
+                        my={1}
+                        fontSize={16}
+                        variant="small"
+                        color="error"
+                      >
+                        {formError}
+                      </Typography>
+                    </Box>
+
                     <Stack spacing={1} mb={2}>
                       <Typography
                         variant="body1"
@@ -366,6 +379,16 @@ const SignUpInterface = () => {
                         onChange={handleUserInfo}
                       />
                     </Stack>
+                    <Box mx={0.5} mb={2}>
+                      <Typography
+                        my={1}
+                        fontSize={16}
+                        variant="small"
+                        color="error"
+                      >
+                        {formError1}
+                      </Typography>
+                    </Box>
 
                     <Stack spacing={1} mb={2}>
                       <Typography
@@ -406,6 +429,16 @@ const SignUpInterface = () => {
                         onChange={handleUserInfo}
                       />
                     </Stack>
+                    <Box mx={0.5} mb={2}>
+                      <Typography
+                        my={1}
+                        fontSize={16}
+                        variant="small"
+                        color="error"
+                      >
+                        {formError2}
+                      </Typography>
+                    </Box>
                     <Stack spacing={1} mb={2}>
                       <Typography
                         variant="body1"
@@ -415,7 +448,11 @@ const SignUpInterface = () => {
                         *Country
                       </Typography>
                       <Select
-                        className={theme.palette.mode === "dark" ? "" : styles.currencyBox}
+                        className={
+                          theme.palette.mode === "dark"
+                            ? ""
+                            : styles.currencyBox
+                        }
                         value={country}
                         onChange={handleCountrySelection}
                       >
@@ -426,6 +463,16 @@ const SignUpInterface = () => {
                         ))}
                       </Select>
                     </Stack>
+                    <Box mx={0.5} mb={2}>
+                      <Typography
+                        my={1}
+                        fontSize={16}
+                        variant="small"
+                        color="error"
+                      >
+                        {formError3}
+                      </Typography>
+                    </Box>
                     <Stack spacing={1} mb={2}>
                       <Typography
                         variant="body1"
@@ -435,15 +482,32 @@ const SignUpInterface = () => {
                         *Phone Number
                       </Typography>
                       <PhoneInput
-                        inputStyle={{ width: "100%", height: 53, fontSize: 16, background: "#f3f3f3", border: 0 }}
-                        country={country === "1 US" ? 'us' : countrySplit.toLowerCase()}
+                        inputStyle={{
+                          width: "100%",
+                          height: 53,
+                          fontSize: 16,
+                          background: "#f3f3f3",
+                          border: 0,
+                        }}
+                        country={
+                          country === "1 US" ? "us" : countrySplit.toLowerCase()
+                        }
                         placeholder="Enter phone number"
                         value={value}
                         disableDropdown={true}
                         onChange={setValue}
                       />
-
                     </Stack>
+                    <Box mx={0.5} mb={2}>
+                      <Typography
+                        my={1}
+                        fontSize={16}
+                        variant="small"
+                        color="error"
+                      >
+                        {formError4}
+                      </Typography>
+                    </Box>
                     <Stack spacing={1} mb={2}>
                       <Typography
                         color={theme.palette.text.primary}
@@ -475,13 +539,25 @@ const SignUpInterface = () => {
                           </InputAdornment>
                         }
                       />
-                      <Typography
+                      <Box mx={0.5} mb={2}>
+                        <Typography
+                          my={1}
+                          fontSize={16}
+                          variant="small"
+                          color="error"
+                        >
+                          {formError5}
+                        </Typography>
+                      </Box>
+                      {/* <Typography
                         color={theme.palette.text.primary}
                         variant="body1"
                         fontSize={15}
                       >
-                       Your Password must be at least eight characters long and must contian a mix letters, numbers and special characters
-                      </Typography>
+                        Your Password must be at least eight characters long and
+                        must contain a mix of letters, numbers and special
+                        characters
+                      </Typography> */}
                     </Stack>
                     <Stack spacing={1} mb={2}>
                       <Typography
@@ -504,9 +580,7 @@ const SignUpInterface = () => {
                           <InputAdornment position="end">
                             <IconButton
                               onClick={() =>
-                                setShowPasswordConfirmed(
-                                  !showPasswordConfirmed
-                                )
+                                setShowPasswordConfirmed(!showPasswordConfirmed)
                               }
                             >
                               {!showPasswordConfirmed ? (
@@ -518,25 +592,16 @@ const SignUpInterface = () => {
                           </InputAdornment>
                         }
                       />
-                      <Typography my={1} fontSize={16} variant="small" color="error">
-                        {formError}
-                      </Typography>
-                      {authError && (
+                      <Box mx={0.5} mb={2}>
                         <Typography
-                          sx={{
-                            display: "inline-block",
-                            textTransform: "capitalize",
-                          }}
                           my={1}
-                          textAlign={"center"}
                           fontSize={16}
                           variant="small"
                           color="error"
                         >
-                          {/* {authError.slice(22, -2).split("-").join(" ")} */}
-                          {authError}
+                          {formError6}
                         </Typography>
-                      )}
+                      </Box>
                     </Stack>
                     {/* <Stack spacing={1} mb={2}>
                         <Typography
@@ -570,23 +635,34 @@ const SignUpInterface = () => {
                       </Stack> */}
                     <Stack mt={4} mb={2}>
                       {isLoading ? (
-                        <LoadingButton 
-                          style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-                        loading variant="outlined">
+                        <LoadingButton
+                          style={{
+                            height: 60,
+                            borderRadius: 10,
+                            fontSize: 20,
+                            textTransform: "none",
+                          }}
+                          loading
+                          variant="outlined"
+                        >
                           Sign Up
                         </LoadingButton>
                       ) : (
                         <>
                           <Button
                             // className={styles.userButton}
-                            style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
+                            style={{
+                              height: 60,
+                              borderRadius: 10,
+                              fontSize: 20,
+                              textTransform: "none",
+                            }}
                             type="submit"
                             variant="contained"
                             color="primary"
                           >
                             Continue <LazyImageComponent src={FrontArrow} />
                           </Button>
-
                         </>
                       )}
                     </Stack>
@@ -597,53 +673,48 @@ const SignUpInterface = () => {
                           variant="body2"
                           fontWeight={400}
                           fontSize={20}
-                        // sx={{ textDecoration: "underline" }}
+                          // sx={{ textDecoration: "underline" }}
                         >
-
                           By clicking continue, you agree to Red Onion's
-
-                        </Typography>
-                        <Typography
-                          color={theme.palette.text.primary}
-                          variant="body2"
-                          fontWeight={400}
-                          fontSize={20}
-                        // sx={{ textDecoration: "underline" }}
-                        >
-
                           <Typography
-                            component="span"
-                            color="primary"
+                            color={theme.palette.text.primary}
                             variant="body2"
                             fontWeight={400}
                             fontSize={20}
-                            sx={{ cursor: "pointer" }}
-                            onClick={() => navigate("/auth/sign-in")}
+                            // sx={{ textDecoration: "underline" }}
                           >
-                            Terms of Service
-                          </Typography>
-                          {' '}and {' '}
-                          <Typography
-                            component="span"
-                            color="primary"
-                            variant="body2"
-                            fontWeight={400}
-                            fontSize={20}
-                            sx={{ cursor: "pointer" }}
-                            onClick={() => navigate("/auth/sign-in")}
-                          >
-                            Privacy Policy
+                            <Typography
+                              component="span"
+                              color="primary"
+                              variant="body2"
+                              fontWeight={400}
+                              fontSize={20}
+                              sx={{ cursor: "pointer" }}
+                              onClick={() => navigate("/auth/sign-in")}
+                            >
+                              Terms of Service
+                            </Typography>{" "}
+                            and{" "}
+                            <Typography
+                              component="span"
+                              color="primary"
+                              variant="body2"
+                              fontWeight={400}
+                              fontSize={20}
+                              sx={{ cursor: "pointer" }}
+                              onClick={() => navigate("/auth/sign-in")}
+                            >
+                              Privacy Policy
+                            </Typography>
                           </Typography>
                         </Typography>
                       </center>
                     </Stack>
-
                   </Box>
                 </Box>
               </Box>
             </Box>
           </Grid>
-
         </Grid>
       </Box>
       {/* )} */}
