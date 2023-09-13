@@ -1,6 +1,13 @@
 import React, { Suspense } from "react";
 import { Box } from "@mui/system";
-import { Tab, Tabs, useTheme, Typography, useMediaQuery } from "@mui/material";
+import {
+  Tab,
+  Tabs,
+  useTheme,
+  Typography,
+  useMediaQuery,
+  Stack,
+} from "@mui/material";
 
 // Styles
 import styles from "./RewardTabArea.module.css";
@@ -28,15 +35,14 @@ const LazyImageComponent = React.lazy(() =>
 );
 
 // Lazy Component
-const AvailableRewards = React.lazy(() =>
-  import("./Sold")
-);
+const AvailableRewards = React.lazy(() => import("./Sold"));
 
 const MyRewards = React.lazy(() => import("./Bought"));
 
-
-const RewardTabArea = () => {
+const RewardTabArea = (props) => {
   const [tabValue, setTabValue] = React.useState(0);
+
+  const [infoValue, setInfoValue] = React.useState("");
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -46,48 +52,90 @@ const RewardTabArea = () => {
     setTabValue(newValue);
   };
 
+  const handleCallback = (childData) => {
+    // Update the name in the component's state
+    setInfoValue(childData);
+    props.parentCallback(childData);
+  };
+
   return (
     <Box className={styles.mainBox}>
       {/* Tab component */}
-      {/* {!isMobile ? ( */}
+      {!isMobile && (
         <Box
           mt={!isTablet ? 4 : ""}
           sx={{ borderBottom: 1, borderColor: "divider" }}
         >
-         
           <Tabs
             value={tabValue}
             onChange={handleChangeTab}
             indicatorColor="primary"
             textColor="primary"
-           
-            
           >
-            <Tab sx={{ mr: 2, backgroundColor: tabValue === 0 ? "#3063E9" : "#fff", borderTopRightRadius: 10, borderTopLeftRadius:10, marginTop: -1.4, marginBottom: -2 }} 
-              label={<Typography color={tabValue === 0 ? "#fff" : "#000"}>Sold</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 0 ? SellIcon : SellIconDark} />} />
-            <Tab sx={{ mr: 2, backgroundColor: tabValue === 1 ? "#3063E9" : "#fff", borderTopRightRadius: 10, borderTopLeftRadius: 10, marginTop: -1.4, marginBottom: -2 }}
-              label={<Typography color={tabValue === 1 ? "#fff" : "#000"}>Bought</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 1 ? BuyIconDark : BuyIcon} />} />
+            <Tab
+              sx={{
+                mr: 2,
+                backgroundColor: tabValue === 0 ? "#3063E9" : "#fff",
+                borderTopRightRadius: 10,
+                borderTopLeftRadius: 10,
+                marginTop: -1.4,
+                marginBottom: -2,
+              }}
+              label={
+                <Typography color={tabValue === 0 ? "#fff" : "#000"}>
+                  Sold
+                </Typography>
+              }
+              iconPosition="start"
+              icon={
+                <LazyImageComponent
+                  src={tabValue === 0 ? SellIcon : SellIconDark}
+                />
+              }
+            />
+            <Tab
+              sx={{
+                mr: 2,
+                backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
+                borderTopRightRadius: 10,
+                borderTopLeftRadius: 10,
+                marginTop: -1.4,
+                marginBottom: -2,
+              }}
+              label={
+                <Typography color={tabValue === 1 ? "#fff" : "#000"}>
+                  Bought
+                </Typography>
+              }
+              iconPosition="start"
+              icon={
+                <LazyImageComponent
+                  src={tabValue === 1 ? BuyIconDark : BuyIcon}
+                />
+              }
+            />
 
             {/* <Tab sx={{ mr: 2 }} label="Transaction" /> */}
           </Tabs>
         </Box>
-      {/* ) : (
-        <Box mb={5} sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            scrollButtons
-            sx={{ background: theme.palette.background.paper, px: 3 }}
-            value={tabValue}
-            onChange={handleChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            <Tab sx={{ fontSize: "12px" }} label="Available Rewards" />
-            <Tab sx={{ fontSize: "12px" }} label="My Rewards" />
-            <Tab sx={{ fontSize: "12px" }} label="Transaction" />
-          </Tabs>
-        </Box>
-      )} */}
-      <Box className={styles.tabPanelBox}>
+      )}
+      {/* //  ) : (
+    //     <Box mb={5} sx={{ borderBottom: 1, borderColor: "divider" }}>
+    //       <Tabs
+    //         scrollButtons
+    //         sx={{ background: theme.palette.background.paper, px: 3 }}
+    //         value={tabValue}
+    //         onChange={handleChangeTab}
+    //         indicatorColor="primary"
+    //         textColor="primary"
+    //       >
+    //         <Tab sx={{ fontSize: "12px" }} label="Available Rewards" />
+    //         <Tab sx={{ fontSize: "12px" }} label="My Rewards" />
+    //         <Tab sx={{ fontSize: "12px" }} label="Transaction" />
+    //       </Tabs>
+    //     </Box>
+    //   )}  */}
+      <Box>
         {/* Available Rewards */}
         <TabPanel value={tabValue} index={0}>
           <Box className={styles.tabPanel}>
@@ -103,9 +151,10 @@ const RewardTabArea = () => {
                 />
               }
             >
-              {/* {!isMobile ? */}
-               <AvailableRewards /> 
-                {/* : <AvailableRewardsMobile /> */}
+              {!isMobile && (
+                <AvailableRewards parentCallback={handleCallback} />
+              )}
+              {/* : <AvailableRewardsMobile /> */}
             </Suspense>
           </Box>
         </TabPanel>
@@ -124,9 +173,8 @@ const RewardTabArea = () => {
                 />
               }
             >
-              {/* {!isMobile ?  */}
-              <MyRewards /> 
-               {/* : <MyRewardsMobile />} */}
+              {!isMobile && <MyRewards parentCallback={handleCallback} />}
+              {/* : <MyRewardsMobile />} */}
             </Suspense>
           </Box>
         </TabPanel>
@@ -140,6 +188,8 @@ const RewardTabArea = () => {
         </TabPanel> */}
       </Box>
     </Box>
+
+    // </Stack>
   );
 };
 

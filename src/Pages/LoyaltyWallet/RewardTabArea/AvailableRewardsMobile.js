@@ -30,7 +30,7 @@ const LazyImageComponent = React.lazy(() =>
 
 // Modal
 const ClaimRewardModal = React.lazy(() =>
-  import("../ClaimRewardModal/ClaimRewardModal")
+  import("../ReviewModal/ReviewModal")
 );
 
 // Fake Available Rewards

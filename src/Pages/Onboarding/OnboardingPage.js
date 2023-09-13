@@ -24,8 +24,8 @@ import MainOnboardingLogo from "../../assets/onboardingLogo.svg";
 import LogoDark from "../../assets/mainLogoDark.svg";
 
 // BG
-import BgColorTop from "../../assets/bgTop.svg";
-import BgColorTopMObile from "../../assets/bgTopMobile.svg";
+import BgColorTop from "../../assets/header.svg";
+import BgColorTopMObile from "../../assets/HeaderMobile.svg";
 import Buy from "../../assets/buy.svg";
 import BuyMobile from "../../assets/buyMobile.svg";
 import Handburger from "../../assets/handburger.svg";
@@ -215,7 +215,12 @@ const OnboardingPage = () => {
                 </Button>
               </Box>
               <Box>
-                <Button fullWidth variant="contained" color="primary">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{ borderRadius: "15px" }}
+                  color="primary"
+                >
                   <Typography
                     variant="caption"
                     p={0.3}
@@ -245,10 +250,14 @@ const OnboardingPage = () => {
           justifyContent="center"
           mt={8}
         >
-          <LazyImageComponent src={isMobile ? BuyMobile : Buy} />
+          {!isMobile && <LazyImageComponent src={Buy} />}
 
-          <Box mt={isMobile ? 4 : 13}>
-            <Button variant="contained" color="primary">
+          <Box mt={isMobile ? 30 : 13}>
+            <Button
+              variant="contained"
+              sx={{ borderRadius: "15px" }}
+              color="primary"
+            >
               <Typography
                 variant="caption"
                 p={isMobile ? 1 : 1}
@@ -263,7 +272,7 @@ const OnboardingPage = () => {
                   }}
                   href="/registration/sign-up"
                 >
-                  Get started for free
+                  Get Started for free
                 </a>
               </Typography>
             </Button>
@@ -297,7 +306,11 @@ const OnboardingPage = () => {
               </Typography>
             </Box>
             <Box mt={4}>
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                sx={{ borderRadius: "15px" }}
+                color="primary"
+              >
                 <Typography
                   variant="caption"
                   p={1}
@@ -314,7 +327,7 @@ const OnboardingPage = () => {
                     }}
                     href={user ? "/user/sign-in" : "/registration/sign-up"}
                   >
-                    Get started
+                    Get Started
                   </a>
                 </Typography>
               </Button>
@@ -400,7 +413,11 @@ const OnboardingPage = () => {
                   </Stack>
 
                   <Box mt={4}>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      sx={{ borderRadius: "15px" }}
+                      color="primary"
+                    >
                       <Typography
                         variant="caption"
                         p={1}
@@ -419,7 +436,7 @@ const OnboardingPage = () => {
                             user ? "/user/sign-in" : "/registration/sign-up"
                           }
                         >
-                          Get started
+                          Get Started
                         </a>
                       </Typography>
                     </Button>
@@ -508,7 +525,11 @@ const OnboardingPage = () => {
               </Box>
 
               <Box mt={6}>
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: "15px" }}
+                  color="primary"
+                >
                   <Typography
                     variant="caption"
                     p={1}
@@ -525,7 +546,7 @@ const OnboardingPage = () => {
                       }}
                       href={user ? "/user/sign-in" : "/registration/sign-up"}
                     >
-                      Get started
+                      Get Started
                     </a>
                   </Typography>
                 </Button>
@@ -586,13 +607,20 @@ const OnboardingPage = () => {
                         <LazyImageComponent src={ImageAppleStore} />
                       </Box>
 
-                      <Box ml={1.4}>
-                        <a
+                      <Box mt={-1.1} ml={1.4}>
+                        {/* <a
                           rel="noreferrer"
                           href="https://play.google.com/store/apps/details?id=io.redonion.mobile"
                           target="_blank"
                         >
                           <LazyImageComponent src={ImagePlayStore} />
+                        </a> */}
+                        <a href="https://play.google.com/store/apps/details?id=io.redonion.mobile&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                          <img
+                            style={{ width: "150px" }}
+                            alt="Get it on Google Play"
+                            src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                          />
                         </a>
                       </Box>
                     </Stack>
@@ -635,7 +663,11 @@ const OnboardingPage = () => {
                 </Box>
 
                 <Box mt={6}>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    sx={{ borderRadius: "15px" }}
+                    color="primary"
+                  >
                     <Typography
                       variant="caption"
                       p={1}
@@ -652,7 +684,7 @@ const OnboardingPage = () => {
                         }}
                         href={user ? "/user/sign-in" : "/registration/sign-up"}
                       >
-                        Get started with Red Onion
+                        Get Started with Red Onion
                       </a>
                     </Typography>
                   </Button>
@@ -696,7 +728,11 @@ const OnboardingPage = () => {
                 </Box>
 
                 <Box mt={4}>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    sx={{ borderRadius: "15px" }}
+                    color="primary"
+                  >
                     <Typography
                       variant="caption"
                       p={1}
@@ -713,7 +749,7 @@ const OnboardingPage = () => {
                         }}
                         href={user ? "/user/sign-in" : "/registration/sign-up"}
                       >
-                        Get started
+                        Get Started
                       </a>
                     </Typography>
                   </Button>
@@ -799,7 +835,11 @@ const OnboardingPage = () => {
                     </Stack>
 
                     <Box mt={4.5}>
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        sx={{ borderRadius: "15px" }}
+                        color="primary"
+                      >
                         <Typography
                           variant="caption"
                           p={1}
@@ -818,7 +858,7 @@ const OnboardingPage = () => {
                               user ? "/user/sign-in" : "/registration/sign-up"
                             }
                           >
-                            Get started
+                            Get Started
                           </a>
                         </Typography>
                       </Button>
@@ -913,7 +953,11 @@ const OnboardingPage = () => {
                   </Box>
 
                   <Box mt={4}>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      sx={{ borderRadius: "15px" }}
+                      color="primary"
+                    >
                       <Typography
                         variant="caption"
                         p={1}
@@ -932,7 +976,7 @@ const OnboardingPage = () => {
                             user ? "/user/sign-in" : "/registration/sign-up"
                           }
                         >
-                          Get started
+                          Get Started
                         </a>
                       </Typography>
                     </Button>
@@ -1001,7 +1045,13 @@ const OnboardingPage = () => {
                           </Box>
 
                           <Box ml={1.4}>
-                            <LazyImageComponent src={ImagePlayStore} />
+                            <a href="https://play.google.com/store/apps/details?id=io.redonion.mobile&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                              <img
+                                style={{ width: "150px" }}
+                                alt="Get it on Google Play"
+                                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                              />
+                            </a>
                           </Box>
                         </Stack>
                       </center>
@@ -1043,7 +1093,11 @@ const OnboardingPage = () => {
                     </Box>
 
                     <Box mt={6}>
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        sx={{ borderRadius: "15px" }}
+                        color="primary"
+                      >
                         <Typography
                           variant="caption"
                           p={1}
@@ -1062,7 +1116,7 @@ const OnboardingPage = () => {
                               user ? "/user/sign-in" : "/registration/sign-up"
                             }
                           >
-                            Get started with Red Onion
+                            Get Started with Red Onion
                           </a>
                         </Typography>
                       </Button>
@@ -1154,7 +1208,7 @@ const OnboardingPage = () => {
                     </a>
                   </Box>
 
-                  <Box>
+                  {/* <Box>
                     <a
                       href="https://"
                       style={{
@@ -1172,7 +1226,7 @@ const OnboardingPage = () => {
                         Announcements
                       </Typography>
                     </a>
-                  </Box>
+                  </Box> */}
                   <Box>
                     <a
                       href="redonion/contact"
@@ -1250,7 +1304,7 @@ const OnboardingPage = () => {
                         fontWeight={300}
                         color="#202020"
                       >
-                        +234 0000 000 000
+                        +234 706 358 1411
                       </Typography>
                     </a>
                   </Box>
@@ -1361,13 +1415,20 @@ const OnboardingPage = () => {
                   </a>
                 </Box>
 
-                <Box ml={1.4}>
-                  <a
+                <Box mt={-1.1} ml={1.4}>
+                  {/* <a
                     rel="noreferrer"
                     href="https://play.google.com/store/apps/details?id=io.redonion.mobile"
                     target="_blank"
                   >
                     <LazyImageComponent src={ImagePlayStore} />
+                  </a> */}
+                  <a href="https://play.google.com/store/apps/details?id=io.redonion.mobile&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                    <img
+                      style={{ width: "150px" }}
+                      alt="Get it on Google Play"
+                      src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                    />
                   </a>
                 </Box>
               </Stack>
@@ -1461,7 +1522,7 @@ const OnboardingPage = () => {
                     </a>
                   </Box>
 
-                  <Box mt={1}>
+                  {/* <Box mt={1}>
                     <a
                       href="https://"
                       style={{
@@ -1479,7 +1540,7 @@ const OnboardingPage = () => {
                         Announcements
                       </Typography>
                     </a>
-                  </Box>
+                  </Box> */}
                   <Box mt={1}>
                     <a
                       href="redonion/contact"
@@ -1547,7 +1608,7 @@ const OnboardingPage = () => {
                         fontWeight={300}
                         color="#202020"
                       >
-                        +234 0000 000 000
+                        +234 706 358 1411
                       </Typography>
                     </a>
                   </Box>
@@ -1659,8 +1720,15 @@ const OnboardingPage = () => {
                   />
                 </Box>
 
-                <Box mt={1}>
-                  <a
+                <Box mt={-1.2} ml={-1.1}>
+                  <a href="https://play.google.com/store/apps/details?id=io.redonion.mobile&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                    <img
+                      style={{ width: "150px" }}
+                      alt="Get it on Google Play"
+                      src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                    />
+                  </a>
+                  {/* <a
                     rel="noreferrer"
                     href="https://play.google.com/store/apps/details?id=io.redonion.mobile"
                     target="_blank"
@@ -1669,7 +1737,7 @@ const OnboardingPage = () => {
                       src={ImagePlayStore}
                       className={styles.transa40}
                     />
-                  </a>
+                  </a> */}
                 </Box>
               </Stack>
             </Box>
