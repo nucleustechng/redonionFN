@@ -148,7 +148,7 @@ const OtherOptions = ({ handleClickMenu }) => {
                     component="p"
                     color="text.secondary"
                   >
-                    Deleting account will lead to complete loss of this account.
+                    Deleting Account will lead to complete loss of this Account and Data.
                   </Typography>
                 </Box>
                 <Box>
