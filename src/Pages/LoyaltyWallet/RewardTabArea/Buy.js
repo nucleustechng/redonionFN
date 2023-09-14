@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import {
   Box,
   Grid,
@@ -17,9 +17,7 @@ import {
 import moment from "moment";
 import { LoadingButton } from "@mui/lab";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
+import Review from "../../../assets/review.svg";
 
 // Image
 
@@ -41,6 +39,8 @@ import axios from "../../../api/axios";
 
 // Router
 import { useNavigate } from "react-router-dom";
+import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
+import ReviewModal from "../ReviewModal/ReviewModal";
 
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
@@ -61,6 +61,16 @@ const MyRewards = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const GET_CURRENCY_URL = "/transaction/my-transactions";
+
+    const handleOpenRewardModal = () => {
+      console.log(23)
+      setOpenRewardModal(true);
+    };
+
+    const handleCloseRewardModal = () => {
+      setOpenRewardModal(false);
+    };
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -91,13 +101,20 @@ const MyRewards = () => {
       .finally(() => {});
   }, [user, navigate]);
 
+
+
   return (
     <React.Fragment>
+      <Suspense fallback={<ModalSkeletons width={"90vw"} height={300} />}>
+        <ReviewModal
+          open={openRewardModal}
+          handleClose={handleCloseRewardModal}
+          handleOpenSnackBar={handleOpenRewardModal}
+        />
+      </Suspense>
       {isloading ? (
         <center>
-          <LoadingButton  loading >
-            Login
-          </LoadingButton>
+          <LoadingButton loading>Login</LoadingButton>
         </center>
       ) : (
         <>
@@ -293,6 +310,15 @@ const MyRewards = () => {
                               </Stack>
                             </Box>
                           </Box>
+                        </Stack>
+                        <Stack direction="row" justifyContent={"end"}>
+                          <IconButton
+                            // sx={{ cursor: "pointer" }}
+                            onClick={handleOpenRewardModal}
+                            sx={{ mt: -0.5 }}
+                          >
+                            <LazyImageComponent src={Review} />
+                          </IconButton>
                         </Stack>
 
                         {/* <Stack mt={4} direction="row" justifyContent="flex-end">

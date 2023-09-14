@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Divider,
@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import OtpInput from "react-otp-input";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -16,15 +17,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "./CoinDetailsStyle.module.css";
 import { LightUIButtonPrimary } from "../../Utilities/LightUIButtons";
 
-const SendConfirmationModal = ({
-  open,
-  handleClose,
-  amount = "23",
-  coinName = "Bitcoin",
-  handleConfirmation,
-}) => {
+const SendConfirmationModal = ({ open, onClose, handleConfirmation }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [otp, setOtp] = useState("");
+
+  // var bcrypt = require("bcryptjs");
+
 
   return (
     <Modal
@@ -32,7 +32,7 @@ const SendConfirmationModal = ({
       disableEnforceFocus
       keepMounted
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
     >
       <Box
         bgcolor={theme.palette.background.paper}
@@ -43,36 +43,67 @@ const SendConfirmationModal = ({
         <Box>
           <Stack mb={1} direction="row" justifyContent="space-between">
             <Typography color="primary" variant="h6">
-              Are you sure?
+              Transaction Pin
             </Typography>
-            <IconButton color="secondary" onClick={handleClose}>
+            <IconButton color="secondary" onClick={onClose}>
               <CloseIcon />
             </IconButton>
           </Stack>
-          <Divider />
+          {/* <Divider /> */}
           <Typography my={4} variant="body1">
-            Once confirmed you will be sending {amount} {coinName} to the
-            reciepient
+            Create a new tansaction pin
           </Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent={"center"}
+            my={5}
+          >
+            <OtpInput
+              value={otp}
+              onChange={setOtp}
+              inputStyle={{
+                width: "60px",
+                height: "60px",
+                fontSize: "18px",
+                backgroundColor: "transparent",
+                color: theme.palette.mode === "dark" ? "#fff" : "#111",
+                borderColor: theme.palette.mode === "dark" ? "#fff" : "#111",
+                marginRight: 20,
+                borderRadius: 10,
+              }}
+              numInputs={4}
+              renderSeparator={<span></span>}
+              renderInput={(props) => <input {...props} />}
+            />
+          </Stack>
           <Stack mt={2} direction="row" alignItems="center" spacing={1}>
-            {theme.palette.mode === "dark" ? (
-              <Button
-                disableElevation
-                fullWidth
-                onClick={handleConfirmation}
-                variant="contained"
-              >
-                Yes
-              </Button>
-            ) : (
-              <LightUIButtonPrimary fullWidth onClick={handleConfirmation}>
-                Yes
-              </LightUIButtonPrimary>
-            )}
             <Button
               disableElevation
               fullWidth
-              onClick={handleClose}
+              onClick={handleConfirmation}
+              variant="contained"
+              style={{
+                height: 60,
+                borderRadius: 10,
+                fontSize: 18,
+                textTransform: "none",
+              }}
+              color="primary"
+            >
+              Create
+            </Button>
+
+            <Button
+              disableElevation
+              style={{
+                height: 60,
+                borderRadius: 10,
+                fontSize: 18,
+                textTransform: "none",
+                width: 250,
+              }}
+              onClick={onClose}
               variant="outlined"
             >
               Cancel

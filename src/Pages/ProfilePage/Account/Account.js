@@ -47,6 +47,7 @@ import AccountDetails from "../../../assets/AccountDetails.svg";
 import Wallet from "../../../assets/Wallet.svg";
 import DeleteIcon from "../../../assets/delete.svg";
 import LogoutIcon from "../../../assets/logout.svg";
+import SendConfirmationModal from "../../CoinDetails/SendConfirmationModal";
 
 // Lazy Components
 const DeleteAccountModal = React.lazy(() =>
@@ -89,6 +90,8 @@ const Account = () => {
 
   const [openDeleteAccountModal, setOpenDeleteAccountModal] = useState(false);
   const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
+  const [openTransactionPinModal, setOpenTransactionPinModal] = useState(false);
+
   const [openAccountModal, setOpenAccountModal] = useState(false);
 
   const [openWalletModal, setOpenWalletModal] = useState(false);
@@ -135,6 +138,10 @@ const Account = () => {
     setOpenAccountModal(!openAccountModal);
   };
 
+  const handleTransactionPinModal = () => {
+    setOpenTransactionPinModal(!openTransactionPinModal);
+  };
+
   const handleDeleteAccountDrawer = () => {
     setOpenDeleteAccountModal(!openDeleteAccountModal);
   };
@@ -170,9 +177,9 @@ const Account = () => {
     setExpanded(panel);
   };
 
-   const handleOpenSuccessModal = () => {
-     setOpenSuccessModal(!openSuccessModal);
-   };
+  const handleOpenSuccessModal = () => {
+    setOpenSuccessModal(!openSuccessModal);
+  };
 
   // Close the authorization modal
   useEffect(() => {
@@ -188,11 +195,6 @@ const Account = () => {
 
   return (
     <React.Fragment>
-      <TwoFAPinModal
-        open={showPin}
-        onClose={handleCloseTwoFAPin}
-        openAuthorizationModal={handleOpenAuthProgressModal}
-      />
       <Suspense fallback={<ModalSkeletons />}>
         <LogOutModal
           open={openSuccessModal}
@@ -209,6 +211,13 @@ const Account = () => {
         <AccountModal
           open={openAccountModal}
           handleClose={handleOpenAccountModal}
+        />
+      </Suspense>
+
+      <Suspense fallback={<ModalSkeletons />}>
+        <SendConfirmationModal
+          open={openTransactionPinModal}
+          onClose={handleTransactionPinModal}
         />
       </Suspense>
 
@@ -381,6 +390,31 @@ const Account = () => {
                 Account details
                 <Typography fontSize={14} sx={{ color: "text.secondary" }}>
                   Change account number
+                </Typography>
+              </Typography>
+            </AccordionSummary>
+          </Accordion>
+
+          <Accordion
+            Button
+            onClick={handleTransactionPinModal}
+            sx={{ background: theme.palette.background.default }}
+            expanded={expanded === "panel5"}
+            onChange={() => handleChange("panel5")}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3bh-content"
+              id="panel3bh-header"
+            >
+              <Box>
+                <LazyImageComponent src={AccountDetails} />
+              </Box>
+
+              <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+                Transaction Pin
+                <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                  Create your Transaction Pin
                 </Typography>
               </Typography>
             </AccordionSummary>
@@ -630,6 +664,33 @@ const Account = () => {
                         sx={{ color: "text.secondary" }}
                       >
                         Change account number
+                      </Typography>
+                    </Typography>
+                  </AccordionSummary>
+                </Accordion>
+
+                <Accordion
+                  Button
+                  onClick={handleTransactionPinModal}
+                  sx={{ background: theme.palette.background.default }}
+                  expanded={expanded === "panel5"}
+                  onChange={() => handleChange("panel5")}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel3bh-content"
+                    id="panel3bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent src={AccountDetails} />
+                    </Box>
+                    <Typography ml={1.5} sx={{ flexShrink: 0 }}>
+                      Transaction Pin
+                      <Typography
+                        fontSize={14}
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Create your Transaction Pin
                       </Typography>
                     </Typography>
                   </AccordionSummary>
