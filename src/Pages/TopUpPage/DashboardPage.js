@@ -64,7 +64,6 @@ const TopUpPage = () => {
 
   const [walletID, setWalletID] = useState("");
 
-
   const [walletBalance, setWalletBalance] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -84,9 +83,15 @@ const TopUpPage = () => {
   // Copy Snackbar
   const [showSnackbar, setShowSnackbar] = useState(false);
 
+  const [showSnackbarB, setShowSnackbarB] = useState(false);
+
   // Close Handler for Snackbar
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
+  };
+
+  const handleCloseSnackbarB = () => {
+    setShowSnackbarB(!showSnackbarB);
   };
 
   const handleNotification = () => {
@@ -116,10 +121,17 @@ const TopUpPage = () => {
       .then((res) => {
         setLoading(false);
         let data = res.data.data.wallet;
-        console.log(res.data.data.wallet);
+        // console.log(res.data.data.wallet);
         setWalletData(data);
         setWalletID(data?.walletAddress);
         setWalletBalance(data?.balance.toString());
+      })
+      .catch((err) => {
+        setLoading(false);
+        setWalletData("");
+        setWalletID("");
+        setWalletBalance("");
+        setShowSnackbarB(true);
       });
   };
 
@@ -191,6 +203,21 @@ const TopUpPage = () => {
           severity="success"
         >
           Address Copied!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        TransitionComponent={Slide}
+        open={showSnackbarB}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbarB}
+      >
+        <Alert
+          sx={{ width: "100%", mt: 1 }}
+          onClose={handleCloseSnackbarB}
+          severity="error"
+        >
+          Failed to get Wallet Balance
         </Alert>
       </Snackbar>
       <Suspense fallback={<ModalSkeletons />}>
@@ -399,7 +426,6 @@ const TopUpPage = () => {
                               fontSize: 20,
                               textTransform: "none",
                             }}
-                           
                             loading
                           >
                             Sign Up

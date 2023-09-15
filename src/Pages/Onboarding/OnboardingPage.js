@@ -1271,7 +1271,7 @@ const OnboardingPage = () => {
                   </Box>
                   <Box mt={1}>
                     <a
-                      href="https://"
+                      href="mailto:support@redonion.io"
                       style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -1291,7 +1291,7 @@ const OnboardingPage = () => {
 
                   <Box>
                     <a
-                      href="https://"
+                      href="tel:2347063581411"
                       style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -1575,7 +1575,7 @@ const OnboardingPage = () => {
                   </Box>
                   <Box mt={1}>
                     <a
-                      href="https://"
+                      href="mailto:support@redonion.io"
                       style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -1595,7 +1595,7 @@ const OnboardingPage = () => {
 
                   <Box>
                     <a
-                      href="https://"
+                      href="tel:2347063581411"
                       style={{
                         textDecoration: "none",
                         color: "inherit",
