@@ -1,0 +1,66 @@
+[
+  {
+    "id": "1",
+    "title": "Introduction",
+    "paragraphs": {
+      "paraOne": "Red Onion is a P2P crypto exchange platform that enables users to buy and sell cryptocurrencies in a safe, secure, and compliant environment. As a regulated crypto exchange, Red Onion is committed to preventing money laundering and terrorist financing activities by adhering to the Anti-Money Laundering (AML) regulations set forth by both Nigerian and Malta crypto regulatory bodies. This policy outlines Red Onion's AML procedures and guidelines to ensure compliance with all relevant laws and regulations."
+    }
+  },
+  {
+    "id": "2",
+    "title": "AML Policy:",
+    "paragraphs": {
+      "paraOne": "1. Customer Due Diligence (CDD):",
+      "paraTwo": "a. Identity Verification: Red Onion will conduct identity verification of all its customers by collecting their government-issued ID documents and verifying the identity of the customer through independent and reliable sources.",
+      "paraThree": "b. Risk Assessment: Red Onion will conduct a risk assessment of its customers, taking into consideration factors such as customer's transaction history, the source of funds, the nature of the business, and the geographic location of the customer.",
+      "paraFour": "c. Enhanced Due Diligence (EDD): Red Onion will perform EDD for high-risk customers, which includes verifying the source of funds, the customer's business background, and conducting ongoing monitoring of the customer's transactions."
+    }
+  },
+  {
+    "id": "3",
+    "title": "2. Suspicious Activity Monitoring:",
+    "paragraphs": {
+      "paraOne": "a. Red Onion will monitor its platform for suspicious activity, including but not limited to unusual transaction patterns, unusual volume, and unusual frequency of transactions.",
+      "paraTwo": "b. If any suspicious activity is identified, Red Onion will immediately report it to the relevant authorities."
+    }
+  },
+  {
+    "id": "4",
+    "title": "3. Record Keeping:",
+    "paragraphs": {
+      "paraOne": "a. Red Onion will maintain all customer and transaction records in a secure and organized manner.",
+      "paraTwo": "b. All records will be kept for a minimum of 5 years from the date of the transaction."
+    }
+  },
+  {
+    "id": "5",
+    "title": "4. Employee Training:",
+    "paragraphs": {
+      "paraOne": "a. All employees of Red Onion will be trained in AML policies and procedures.",
+      "paraTwo": "b. Regular training will be conducted to keep employees up-to-date with changes in AML laws and regulations."
+    }
+  },
+  {
+    "id": "6",
+    "title": "5. Reporting:",
+    "paragraphs": {
+      "paraOne": "a. Red Onion will report any suspicious activity to the relevant authorities as required by law.",
+      "paraTwo": "b. Red Onion will cooperate with law enforcement agencies in any investigation related to money laundering or terrorist financing."
+    }
+  },
+  {
+    "id": "7",
+    "title": "6. Compliance Officer:",
+    "paragraphs": {
+      "paraOne": "a. Red Onion will appoint a designated compliance officer who will oversee the implementation of the AML policy and procedures.",
+      "paraTwo": "b. The compliance officer will report to the management and the board of directors of Red Onion on a regular basis."
+    }
+  },
+  {
+    "id": "8",
+    "title": "Conclusion:",
+    "paragraphs": {
+      "paraOne": "Red Onion is committed to preventing money laundering and terrorist financing activities by adhering to the AML regulations set forth by both Nigerian and Malta crypto regulatory bodies. Red Onion will continuously review and update its AML policies and procedures to ensure compliance with all relevant laws and regulations. Red Onion will take all necessary measures to prevent its platform from being used for illegal activities and to maintain the integrity of the crypto industry."
+    }
+  }
+]

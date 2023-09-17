@@ -1,0 +1,57 @@
+.textUnderScore {
+  background-color: #f9e006;
+  height: 5px;
+  width: 30px;
+}
+
+.titleBox {
+  font-size: calc(0.8rem + 1vw);
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.titleBoxMobile {
+  font-size: calc(0.6rem + 1vw);
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: -40px;
+  text-align: center;
+}
+
+.titleBoxA {
+  font-size: calc(0.2rem + 1vw);
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.titleBoxAMobile{
+  font-size: calc(0.8rem + 1vw);
+  font-style: italic;
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
+    text-align: center;
+    /* margin-top: -10px; */
+}
+
+.nameFont{
+  font-size: 20px;
+}
+
+.uploadedImage {
+  border-radius: 5px;
+  position: relative;
+ 
+}
+
+.imageUploadBox {
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
