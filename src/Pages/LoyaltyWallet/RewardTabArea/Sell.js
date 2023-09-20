@@ -61,6 +61,8 @@ const AvailableRewards = () => {
 
   const [tranz, setTransaz] = useState([]);
 
+  const [stranz, setSTransaz] = useState("");
+
   const [selltranz, setSellTransaz] = useState([]);
 
   const theme = useTheme();
@@ -81,13 +83,25 @@ const AvailableRewards = () => {
 
   const GET_OFFER_URL = "/transaction/get-offers";
 
+  const GET_transaction_URL = "/transaction/transactions";
+
   // transaction/offer/2592e667-b3e3-4a8c-98d2-7dc7c905d162
 
+  //  .get(
+  //       GET_BY_ID_URL + data.id,
+
   const getSubmit = (data) => {
+    // console.log(data);
+    setSTransaz(data);
     setLoading(true);
     axios
-      .get(
-        GET_BY_ID_URL + data.id,
+      .post(
+        GET_OFFER_URL,
+        JSON.stringify({
+          cryptoCurrencyId: data?.cryptoCurrencyId,
+          currencyId: data?.currencyId,
+          amount: data?.amountInCrypto,
+        }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -96,8 +110,8 @@ const AvailableRewards = () => {
         }
       )
       .then((res) => {
-        console.log(res?.data?.data.offer);
-        setSellTransaz(res?.data?.data.offer);
+        // console.log(res?.data?.data);
+        setSellTransaz(res?.data?.data);
         setSecondStep(1);
         setLoading(false);
       });
@@ -434,7 +448,7 @@ const AvailableRewards = () => {
                 <LazyImageComponent src={Back} />
               </Box>
 
-              <SellDetail selldetail={selltranz} />
+              <SellDetail stranz={stranz} selldetail={selltranz} />
             </>
           )}
         </>

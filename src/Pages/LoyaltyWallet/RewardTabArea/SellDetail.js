@@ -61,7 +61,9 @@ const SellDetail = (props) => {
   const [amount, setAmount] = React.useState(0);
   const [reason, setReason] = React.useState("");
   const [isloading, setIsLoading] = React.useState(false);
-  const [info, setTransaz] = useState("");
+  const [transaz, setTransaz] = useState([]);
+
+  const [stransaz, setSTransaz] = useState("");
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -113,13 +115,13 @@ const SellDetail = (props) => {
       });
   };
 
-  const escrowSubmit = (data) => {
+  const escrowSubmit = () => {
      if (reason === "" )
        return alert("Please fill all input");
-     if (amount > data?.amountInCrypto)
-      return alert(
-        "amount must be less than or equal to " + data.amountInCrypto
-      );
+     if (amount > stransaz?.amountInCrypto)
+       return alert(
+         "amount must be less than or equal to " + stransaz.amountInCrypto
+       );
     
                           
     setLoading(true);
@@ -128,7 +130,7 @@ const SellDetail = (props) => {
         GET_ESCROW_URL,
         JSON.stringify({
           amount: amount,
-          offerId: data?.id,
+          offerId: stransaz?.id,
           reason: reason,
         }),
         {
@@ -151,8 +153,9 @@ const SellDetail = (props) => {
   };
 
   useEffect(() => {
-    console.log(props.selldetail);
+    console.log(props.stranz);
     setTransaz(props.selldetail);
+    setSTransaz(props.stranz);
     //  setIsLoading(true);
   }, [user, props]);
 
@@ -165,31 +168,92 @@ const SellDetail = (props) => {
       ) : (
         <>
           <>
-            {info !== "" ? (
+            {transaz.length > 0 ? (
               <>
                 <List>
-                  {/* {tranz.map((info, index) => ( */}
-                  <>
-                    <ListItem>
-                      <Box m={isMobile ? 0 : 3} width={"100%"}>
-                        <Stack
-                          direction="row"
-                          alignItems={"center"}
-                          justifyContent="space-between"
-                        >
-                          <Box>
-                            <Stack direction="row">
-                              <LazyImageComponent
-                                sx={{ marginRight: 4 }}
-                                src={UpArrow}
-                              />
-                              <Typography mt={0.2} fontSize={14}>
-                                Sent
-                              </Typography>
-                            </Stack>
-                            <Stack mt={2} ml={-1} direction="row">
-                              <Box ml={1.5}>
-                                <Stack alignItems={"left"}>
+                  {transaz.map((info, index) => (
+                    <>
+                      <ListItem>
+                        <Box m={isMobile ? 0 : 3} width={"100%"}>
+                          <Stack
+                            direction="row"
+                            alignItems={"center"}
+                            justifyContent="space-between"
+                          >
+                            <Box>
+                              <Stack direction="row">
+                                <LazyImageComponent
+                                  sx={{ marginRight: 4 }}
+                                  src={UpArrow}
+                                />
+                                <Typography mt={0.2} fontSize={14}>
+                                  Sent
+                                </Typography>
+                              </Stack>
+                              <Stack mt={2} ml={-1} direction="row">
+                                <Box ml={1.5}>
+                                  <Stack alignItems={"left"}>
+                                    <Box>
+                                      <Typography
+                                        fontSize={18}
+                                        fontWeight={600}
+                                        mt={0.4}
+                                        color="secondary"
+                                        variant="body2"
+                                      >
+                                        {info?.amountInCrypto}
+                                      </Typography>
+                                    </Box>
+
+                                    <Typography
+                                      color="secondary"
+                                      fontWeight={600}
+                                      fontSize={16}
+                                      mt={2}
+                                      variant="body2"
+                                    >
+                                      Status
+                                    </Typography>
+                                  </Stack>
+                                </Box>
+                              </Stack>
+                            </Box>
+
+                            <Box>
+                              <Stack
+                                direction="row"
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                                mt={4}
+                              >
+                                <LazyImageComponent src={ExchanageIcon} />
+                              </Stack>
+                            </Box>
+
+                            <Box>
+                              <Stack
+                                direction="row"
+                                mr={2}
+                                justifyContent="flex-end"
+                              >
+                                <LazyImageComponent
+                                  sx={{ marginRight: 4 }}
+                                  src={DownArrow}
+                                />
+                                <Typography mt={0.2} fontSize={14}>
+                                  To receive
+                                </Typography>
+                              </Stack>
+
+                              <Box mr={1.5} mt={2}>
+                                <Stack
+                                  direction="row"
+                                  justifyContent="flex-end"
+                                ></Stack>
+                                <Stack
+                                  direction="row"
+                                  justifyContent="flex-end"
+                                >
                                   <Box>
                                     <Typography
                                       fontSize={18}
@@ -198,70 +262,12 @@ const SellDetail = (props) => {
                                       color="secondary"
                                       variant="body2"
                                     >
-                                      {info?.amountInCrypto}
+                                      {info?.amountInCrypto *
+                                        info?.tokenPricePerUnit}
                                     </Typography>
                                   </Box>
-
-                                  <Typography
-                                    color="secondary"
-                                    fontWeight={600}
-                                    fontSize={16}
-                                    mt={2}
-                                    variant="body2"
-                                  >
-                                    Status
-                                  </Typography>
                                 </Stack>
-                              </Box>
-                            </Stack>
-                          </Box>
-
-                          <Box>
-                            <Stack
-                              direction="row"
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                              mt={4}
-                            >
-                              <LazyImageComponent src={ExchanageIcon} />
-                            </Stack>
-                          </Box>
-
-                          <Box>
-                            <Stack
-                              direction="row"
-                              mr={2}
-                              justifyContent="flex-end"
-                            >
-                              <LazyImageComponent
-                                sx={{ marginRight: 4 }}
-                                src={DownArrow}
-                              />
-                              <Typography mt={0.2} fontSize={14}>
-                                To receive
-                              </Typography>
-                            </Stack>
-
-                            <Box mr={1.5} mt={2}>
-                              <Stack
-                                direction="row"
-                                justifyContent="flex-end"
-                              ></Stack>
-                              <Stack direction="row" justifyContent="flex-end">
-                                <Box>
-                                  <Typography
-                                    fontSize={18}
-                                    fontWeight={600}
-                                    mt={0.4}
-                                    color="secondary"
-                                    variant="body2"
-                                  >
-                                    {info?.amountInCrypto *
-                                      info?.tokenPricePerUnit}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                              {/* <Stack direction="row" justifyContent="flex-end">
+                                {/* <Stack direction="row" justifyContent="flex-end">
                       <Typography
                         color="secondary"
                         fontWeight={400}
@@ -273,107 +279,110 @@ const SellDetail = (props) => {
                         {moment(info?.createdAt).format("Do MMMM YYYY")}
                       </Typography>
                     </Stack> */}
-                              <Stack direction="row" justifyContent="flex-end">
-                                <Typography
-                                  color="primary"
-                                  fontWeight={600}
-                                  fontSize={16}
-                                  mt={2}
-                                  variant="body2"
+                                <Stack
+                                  direction="row"
+                                  justifyContent="flex-end"
                                 >
-                                  {info?.status}
-                                </Typography>
-                              </Stack>
+                                  <Typography
+                                    color="primary"
+                                    fontWeight={600}
+                                    fontSize={16}
+                                    mt={2}
+                                    variant="body2"
+                                  >
+                                    {info?.status}
+                                  </Typography>
+                                </Stack>
+                              </Box>
                             </Box>
-                          </Box>
-                        </Stack>
+                          </Stack>
 
-                        <Box
-                          mt={2}
-                          p={1.6}
-                          borderRadius={5}
-                          bgcolor={"#E8E8F3"}
-                        >
-                          <Stack
-                            mx={0.5}
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems={"center"}
+                          <Box
+                            mt={2}
+                            p={1.6}
+                            borderRadius={5}
+                            bgcolor={"#E8E8F3"}
                           >
-                            <Stack direction="row">
+                            <Stack
+                              mx={0.5}
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems={"center"}
+                            >
+                              <Stack direction="row">
+                                <Typography
+                                  mr={2}
+                                  variant="caption"
+                                  textTransform={"none"}
+                                  fontSize={14}
+                                  color="#202020"
+                                >
+                                  {info?.createdBy?.firstName + " "}
+                                  {info?.createdBy?.lastName}
+                                </Typography>
+                                <LazyImageComponent src={Chat} />
+                              </Stack>
+                              {secondStep ? (
+                                <Stack direction="row">
+                                  <Typography
+                                    mr={1}
+                                    variant="caption"
+                                    textTransform={"none"}
+                                    fontSize={14}
+                                    color="#05A753"
+                                  >
+                                    Confirmed
+                                  </Typography>
+                                  <LazyImageComponent src={Confirmed} />
+                                </Stack>
+                              ) : (
+                                <Box
+                                  button
+                                  onClick={() => respond(info)}
+                                  sx={{ cursor: "pointer" }}
+                                >
+                                  {isloading ? (
+                                    <Box>
+                                      <LoadingButton
+                                        style={{
+                                          height: 30,
+                                          color: "black",
+                                          borderRadius: 10,
+                                          fontSize: 20,
+                                          textTransform: "none",
+                                        }}
+                                        loading
+                                      >
+                                        Sign Up
+                                      </LoadingButton>
+                                    </Box>
+                                  ) : (
+                                    <Typography
+                                      variant="caption"
+                                      textTransform={"none"}
+                                      fontSize={14}
+                                      color="#3063E9"
+                                    >
+                                      Confirm Received
+                                    </Typography>
+                                  )}
+                                </Box>
+                              )}
+
                               <Typography
-                                mr={2}
                                 variant="caption"
                                 textTransform={"none"}
                                 fontSize={14}
                                 color="#202020"
                               >
-                                {info?.createdBy?.firstName + " "}
-                                {info?.createdBy?.lastName}
+                                {info?.amountInCrypto * info?.tokenPricePerUnit}
                               </Typography>
-                              <LazyImageComponent src={Chat} />
                             </Stack>
-                            {secondStep ? (
-                              <Stack direction="row">
-                                <Typography
-                                  mr={1}
-                                  variant="caption"
-                                  textTransform={"none"}
-                                  fontSize={14}
-                                  color="#05A753"
-                                >
-                                  Confirmed
-                                </Typography>
-                                <LazyImageComponent src={Confirmed} />
-                              </Stack>
-                            ) : (
-                              <Box
-                                button
-                                onClick={() => respond(info)}
-                                sx={{ cursor: "pointer" }}
-                              >
-                                {isloading ? (
-                                  <Box>
-                                    <LoadingButton
-                                      style={{
-                                        height: 30,
-                                        color: "black",
-                                        borderRadius: 10,
-                                        fontSize: 20,
-                                        textTransform: "none",
-                                      }}
-                                      loading
-                                    >
-                                      Sign Up
-                                    </LoadingButton>
-                                  </Box>
-                                ) : (
-                                  <Typography
-                                    variant="caption"
-                                    textTransform={"none"}
-                                    fontSize={14}
-                                    color="#3063E9"
-                                  >
-                                    Confirm Received
-                                  </Typography>
-                                )}
-                              </Box>
-                            )}
-
-                            <Typography
-                              variant="caption"
-                              textTransform={"none"}
-                              fontSize={14}
-                              color="#202020"
-                            >
-                              {info?.amountInCrypto * info?.tokenPricePerUnit}
-                            </Typography>
-                          </Stack>
+                          </Box>
                         </Box>
-                      </Box>
-                    </ListItem>
-                  </>
-                  {/* ))} */}
+                      </ListItem>
+                    </>
+                  ))}
                 </List>
 
                 <Box>
@@ -413,7 +422,7 @@ const SellDetail = (props) => {
                         variant="outlined"
                         size="small"
                         placeholder={
-                          "Amount between 0 and " + info?.amountInCrypto
+                          "Amount between 0 and " + stransaz?.amountInCrypto
                         }
                         // value={userInfo?.firstName + " " + userInfo.lastName}
                         onChange={(e) => setAmount(e.target.value)}
@@ -441,7 +450,23 @@ const SellDetail = (props) => {
                         color="secondary"
                       />
 
-                      <Stack mt={5}>
+                      <Stack direction={"row"} mt={5}>
+                        <Box mr={4}>
+                          <Button
+                            onClick={() => setSecondStepInfo(false)}
+                            style={{
+                              height: 60,
+                              width: "120px",
+                              borderRadius: 10,
+                              fontSize: 20,
+                              textTransform: "none",
+                            }}
+                            variant="outlined"
+                            color="primary"
+                          >
+                            Close
+                          </Button>
+                        </Box>
                         {loading ? (
                           <LoadingButton loading variant="outlined">
                             Login
@@ -449,7 +474,8 @@ const SellDetail = (props) => {
                         ) : (
                           <>
                             <Button
-                              onClick={() => escrowSubmit(info)}
+                              fullWidth
+                              onClick={() => escrowSubmit()}
                               style={{
                                 height: 60,
                                 borderRadius: 10,

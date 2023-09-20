@@ -119,6 +119,7 @@ const CryptoWalletInterface = () => {
 
 
   const sendData = (data) => {
+     console.log(data);
     setInfo(data);
   };
 

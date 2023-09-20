@@ -74,6 +74,7 @@ const CryptoWalletTopCards = (props) => {
 
 
   const onClickSuccess = () => {
+   
     if (amount === "" || coinNames === "0") {
       return;
     } else {
@@ -90,14 +91,22 @@ const CryptoWalletTopCards = (props) => {
 
   const getCyptoExchangeRate = (coin) => {
     // setLoading(true);
-    console.log(coin);
+    // console.log(user?.currency?.id);
     axios
-      .get(GET_CURRENCY_RATE_URL + coin, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
+      .post(
+        GET_CURRENCY_RATE_URL,
+        JSON.stringify({
+          cryptoCurrencyId: coin,
+          currencyId: user?.currency?.id,
+        }),
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
         setCoinRate(res.data.data);

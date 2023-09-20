@@ -210,7 +210,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                 </Button>
 
                 <Button
-                  onClick={handleCloseTwoFAPin}
+                  // onClick={handleCloseTwoFAPin}
                   style={{
                     height: 44,
                     borderTopRightRadius: 15,
@@ -353,7 +353,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                 </Box>
               </Box>
               <Stack justifyContent={"space-between"} direction={"row"} mt={3}>
-                <Box mr={5} width={"100%"}>
+                <Box mr={0} width={"100%"}>
                   <Typography
                     variant="body2"
                     fontSize={16}

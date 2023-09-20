@@ -459,7 +459,7 @@ const Account = () => {
               <Typography ml={1.5}>
                 Delete Account
                 <Typography fontSize={14} sx={{ color: "text.secondary" }}>
-                  Deleting Account will lead to complete loss of this Account and Data.
+                  Deleting account will lead to complete loss of this account.
                 </Typography>
               </Typography>
             </AccordionSummary>
@@ -738,8 +738,8 @@ const Account = () => {
                         fontSize={14}
                         sx={{ color: "text.secondary" }}
                       >
-                        Deleting Account will lead to complete loss of this
-                        Account and Data.
+                        Deleting account will lead to complete loss of this
+                        account.
                       </Typography>
                     </Typography>
                   </AccordionSummary>

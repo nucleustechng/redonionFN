@@ -204,7 +204,7 @@ const TableArea = (prop) => {
 
                           <StyledTableCell align="left">
                             <LazyImageComponent src={Star} />
-                            4.5
+                            {cd?.rating}
                           </StyledTableCell>
 
                           <StyledTableCell align="left">

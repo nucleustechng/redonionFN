@@ -81,86 +81,49 @@ const steps = [
 
 const AccountSetup = () => {
   // Stepper states
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(new Set());
 
-  
   const navigate = useNavigate();
 
-  const baseAPIURL = "https://api.redonion.io/api/v2";
+  useEffect(() => {}, []);
 
-    const getWebToken = async (baseAPIURL) => {
-      const fetchConfig = {};
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
 
-      fetchConfig.cache = "no-cache";
-      fetchConfig.mode = "cors";
-      fetchConfig.headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
-      fetchConfig.method = "POST";
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+    console.log(newSkipped);
+  };
 
-      const URL = `${baseAPIURL}/token/`;
-      try {
-        const response = await fetch(URL, fetchConfig);
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
-        if (response.status === 200 || response.statusCode === 200) {
-          const json = await response.json();
+  const handleSkip = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
 
-          if (json.error) {
-            throw new Error(json.error);
-          }
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
-          return json;
-        }
-      } catch (e) {
-        console.log(`API: ${e.name}, ${e.message}`);
-        throw e;
-      }
-    };
-
-  // <script src="https://cdn.smileidentity.com/inline/v1/js/script.min.js"></script>;
-
-  // const configureSmileIdentityWebIntegration = (token) => {
-  //   SmileIdentity({
-  //     token,
-  //     product: "biometric_kyc",
-  //     // callback_url: `${your - API - server - URL}/callback`,
-  //     environment: "sandbox",
-  //     partner_details: {
-  //       // partner_id: `${your - smile - identity - partner - id}`,
-  //       // name: `${your - app - name}`,
-  //       // logo_url: `${your - app - logo - url}`,
-  //       // policy_url: `${your - data - privacy - policy - url}`,
-  //       theme_color: "#000",
-  //     },
-  //     onSuccess: () => {},
-  //     onClose: () => {},
-  //     onError: () => {},
-  //   });
-  // };
-
-   
-
-  
-
-  useEffect(() => {
-   const script = document.createElement("script");
-
-   script.src = "https://cdn.smileidentity.com/inline/v1/js/script.min.js";
-   script.async = true;
-
-   document.body.appendChild(script);
-
-   return () => {
-     document.body.removeChild(script);
-   };
-
-    // const { token } =  getWebToken(baseAPIURL);
-		// configureSmileIdentityWebIntegration(token);
-  }, [baseAPIURL]);
-
-
-
-
+  const sendData = (data) => {
+    setActiveStep(data);
+    // console.log(prevActiveStep);
+  };
 
   // Theme
   const theme = useTheme();
@@ -200,12 +163,353 @@ const AccountSetup = () => {
             </Suspense>
           </Box>
         </Stack>
-       <Box>
+        <Grid container columns={{ xs: 12, md: 12 }}>
+          <Grid item xs={12} md={12}>
+            <Box className={styles.stepBox}>
+              <Paper
+                className={!isMobile ? styles.contentBox : ""}
+                elevation={2}
+                sx={{ borderRadius: "10px" }}
+              >
+                {(activeStep === 0 || activeStep === 2 || activeStep === 4) && (
+                  <Box
+                    bgcolor={theme.palette.background.surface}
+                    p={!isMobile ? 5 : 3}
+                  >
+                    {activeStep === 0 && (
+                      <Box
+                        pl={0}
+                        mb={3}
+                        pt={0}
+                        bgcolor={theme.palette.background.surface}
+                      >
+                        <Button
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            textTransform: "none",
+                            marginLeft: "-20px",
+                            marginTop: "0",
+                            marginBottom: "25px",
+                          }}
+                          color="secondary"
+                        >
+                          <a href="/dashboard/exchange">
+                            <LazyImageComponent src={Back} />
+                          </a>
+                        </Button>
 
-       </Box>
+                        <Box style={{ float: "right" }}>
+                          <Button
+                            onClick={() => navigate("/dashboard/exchange")}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                              textTransform: "none",
+                              marginLeft: "-20px",
+                              marginTop: "0",
+                              marginBottom: "25px",
+                            }}
+                            color="secondary"
+                          >
+                            <Typography
+                              variant="h3"
+                              color="secondaryDark"
+                              fontWeight={500}
+                              fontSize={20}
+                            >
+                              Skip
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </Box>
+                    )}
+
+                    <Box>
+                      <Typography
+                        className={styles.titleBox}
+                        variant="h3"
+                        color="secondaryDark"
+                        fontWeight={500}
+                      >
+                        Welcome to Red Onion! Let's get your profile set up
+                      </Typography>
+                      <Box pt={3} mt={2}>
+                        <Stepper
+                          // alternativeLabel
+                          // activeStep={activeStep}
+                          orientation="vertical"
+                          // connector={<QontoConnector />}
+                        >
+                          {steps.map((step, index) => {
+                            const stepProps = {};
+                            const labelProps = {};
+                            if (isStepSkipped(index)) {
+                              stepProps.completed = false;
+                            }
+
+                            return (
+                              <>
+                                {step.label !== "" && (
+                                  <Box
+                                    button
+                                    onClick={
+                                      activeStep === index ? handleNext : null
+                                    }
+                                    key={step.label}
+                                    {...stepProps}
+                                    p={2}
+                                    mb={3.5}
+                                    sx={{
+                                      borderRadius: "10px",
+                                      cursor:
+                                        activeStep === index ? "pointer" : "",
+                                    }}
+                                    bgcolor={
+                                      activeStep === index
+                                        ? "#3063E9"
+                                        : "#E8E8F3"
+                                    }
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      justifyContent="space-between"
+                                    >
+                                      <Box>
+                                        <Stack
+                                          direction="row"
+                                          justifyContent="start"
+                                        >
+                                          <Box
+                                            width={50}
+                                            height={50}
+                                            borderRadius={"50%"}
+                                            bgcolor={"#fff"}
+                                          >
+                                            <Typography
+                                              variant="caption"
+                                              color="#3063E9"
+                                              fontWeight={500}
+                                              fontSize={24}
+                                              display={"flex"}
+                                              justifyContent={"center"}
+                                              pt={0.8}
+                                            >
+                                              {index === 2
+                                                ? index
+                                                : index === 4
+                                                ? 3
+                                                : index + 1}
+                                            </Typography>
+                                          </Box>
+
+                                          <Typography
+                                            variant="caption"
+                                            color={
+                                              activeStep === index
+                                                ? "background.light"
+                                                : "#202020"
+                                            }
+                                            fontWeight={500}
+                                            fontSize={18}
+                                            display={"flex"}
+                                            alignItems={"center"}
+                                            ml={2}
+                                          >
+                                            {step.label}
+                                          </Typography>
+                                        </Stack>
+                                      </Box>
+                                      {activeStep === index && (
+                                        <LazyImageComponent src={FrontArrow} />
+                                      )}
+                                    </Stack>
+                                  </Box>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Stepper>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+                {activeStep === 1 && (
+                  <Box>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <PhotoStep sendData={sendData} />
+                   
+                    </Suspense>
+                  </Box>
+                )}
+
+                {activeStep === 3 && (
+                  <Box>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <BankStep sendData={sendData} />
+                    </Suspense>
+                  </Box>
+                )}
+
+                {activeStep === 5 && (
+                  <Box>
+                    <Suspense fallback={<ComponentLoader />}>
+                      <AccountSetupStep />
+                    </Suspense>
+                  </Box>
+                )}
+              </Paper>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
 
-     
+      {isMobile && (
+        <Box className={styles.stepBoxMobile}>
+          <Paper className={styles.contentBoxMobile} elevation={0}>
+            <Box bgcolor={theme.palette.background.surface}>
+              <Box>
+                <Box pt={3}>
+                  <Stepper
+                    alternativeLabel
+                    activeStep={activeStep}
+                    connector={<QontoConnector />}
+                  >
+                    {steps.map((step, index) => {
+                      const stepProps = {};
+                      const labelProps = {};
+                      if (isStepSkipped(index)) {
+                        stepProps.completed = false;
+                      }
+                      return (
+                        <Step key={step.label} {...stepProps}>
+                          <StepLabel
+                            onClick={activeStep !== 0 ? handleBack : undefined}
+                            StepIconComponent={QontoStepIcon}
+                            {...labelProps}
+                          >
+                            <Typography variant="caption">
+                              {step.label}
+                            </Typography>
+                          </StepLabel>
+                        </Step>
+                      );
+                    })}
+                  </Stepper>
+                </Box>
+                {activeStep === steps.length ? (
+                  <React.Fragment>
+                    <Typography textAlign="center" sx={{ mt: 5, mb: 1 }}>
+                      All steps completed - you&apos;re finished
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        pt: 2,
+                      }}
+                    >
+                      <Box sx={{ flex: "1 1 auto" }} />
+                      <Button onClick={handleReset}>Reset</Button>
+                    </Box>
+                  </React.Fragment>
+                ) : (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    mt={2}
+                  >
+                    {activeStep === 0 && (
+                      <Box>
+                        <Suspense fallback={<ComponentLoader />}>
+                          <AccountSetupStep />
+                        </Suspense>
+                      </Box>
+                    )}
+                    {activeStep === 1 && (
+                      <Box>
+                        <Suspense fallback={<ComponentLoader />}>
+                          <KYCStep />
+                        </Suspense>
+                      </Box>
+                    )}
+                    {activeStep === 2 && (
+                      <Box>
+                        <Suspense fallback={<ComponentLoader />}>
+                          <BankStep />
+                        </Suspense>
+                      </Box>
+                    )}
+                    <Box
+                      borderRadius={"10px"}
+                      bgcolor={theme.palette.background.paper}
+                    >
+                      <Stack px={3} py={2} spacing={1}>
+                        {activeStep === steps.length - 1 ? (
+                          <>
+                            {theme.palette.mode === "dark" ? (
+                              <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={() =>
+                                  navigate("/registration/two-factor-auth")
+                                }
+                              >
+                                Finish
+                              </Button>
+                            ) : (
+                              <LightUIButtonPrimary
+                                color="primary"
+                                variant="contained"
+                                onClick={() =>
+                                  navigate("/registration/two-factor-auth")
+                                }
+                              >
+                                Finish
+                              </LightUIButtonPrimary>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {theme.palette.mode === "dark" ? (
+                              <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={handleNext}
+                              >
+                                Proceed
+                              </Button>
+                            ) : (
+                              <LightUIButtonPrimary
+                                color="primary"
+                                variant="contained"
+                                onClick={handleNext}
+                              >
+                                Proceed
+                              </LightUIButtonPrimary>
+                            )}
+                          </>
+                        )}
+
+                        <Button
+                          color="primary"
+                          variant="text"
+                          onClick={handleSkip}
+                          sx={{ mr: 1 }}
+                        >
+                          Skip
+                        </Button>
+                      </Stack>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
+      )}
     </React.Fragment>
   );
 };
