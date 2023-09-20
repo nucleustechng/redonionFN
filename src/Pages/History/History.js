@@ -170,7 +170,7 @@ const FiatWalletInterface = () => {
               <Typography fontSize={14}>Transaction ID:</Typography>
               <CopyToClipboard
                 onCopy={() => setShowSnackbar(true)}
-                text={infoValue?.cryptoTransactionId}
+                text={infoValue?.id}
               >
                 <Tooltip title="Copy Address">
                   <Box button sx={{ cursor: "pointer" }}>
@@ -181,7 +181,7 @@ const FiatWalletInterface = () => {
                       color={"#fff"}
                       variant="body2"
                     >
-                     {/* {infoValue?.cryptoTransactionId.substr(0, 15) + "\u2026"} */}
+                     {infoValue?.id.substr(0, 15) + "\u2026"}
                     </Typography>
                   </Box>
                 </Tooltip>
