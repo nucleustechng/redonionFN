@@ -7,10 +7,15 @@ import {
   useMediaQuery,
   Typography,
   Stack,
+  Slide,
+  Alert,
+  Tooltip,
 } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 // Theme
 import { useTheme } from "@mui/material/styles";
+
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import styles from "./HistoryTabArea/RewardTabArea.module.css";
 import {
@@ -43,6 +48,13 @@ const FiatWalletInterface = () => {
 
   const [infoValue, setInfoValue] = React.useState("");
 
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(!showSnackbar);
+  };
+
+
   const handleCallback = (childData) => {
     // Update the name in the component's state
     setInfoValue(childData);
@@ -59,6 +71,21 @@ const FiatWalletInterface = () => {
         px={!isMobile ? 5 : 1}
         // className={styles.mainBox}
       >
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          TransitionComponent={Slide}
+          open={showSnackbar}
+          autoHideDuration={1000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert
+            sx={{ width: "100%", mt: 1 }}
+            onClose={handleCloseSnackbar}
+            severity="success"
+          >
+            Address Copied!
+          </Alert>
+        </Snackbar>
         <Box mb={4}>
           <Typography
             variant="caption"
@@ -141,9 +168,27 @@ const FiatWalletInterface = () => {
 
             <Stack mt={2} direction="row" justifyContent={"space-between"}>
               <Typography fontSize={14}>Transaction ID:</Typography>
-              <Typography fontWeight={600} fontSize={14}>
-                {/* {infoValue?.cryptoTransactionId} */} --
-              </Typography>
+              <CopyToClipboard
+                onCopy={() => setShowSnackbar(true)}
+                text={infoValue?.id}
+              >
+                <Tooltip title="Copy Address">
+                  <Box button sx={{ cursor: "pointer" }}>
+                    <Typography
+                      fontWeight={500}
+                      fontSize={15}
+                      mt={0}
+                      color={"#fff"}
+                      variant="body2"
+                    >
+                     {infoValue?.id.substr(0, 15) + "\u2026"}
+                    </Typography>
+                  </Box>
+                </Tooltip>
+              </CopyToClipboard>
+              {/* <Typography fontWeight={600} fontSize={14}>
+                {infoValue?.cryptoTransactionId}
+              </Typography> */}
             </Stack>
             <br />
             <hr />

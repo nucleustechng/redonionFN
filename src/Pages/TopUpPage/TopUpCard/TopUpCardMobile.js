@@ -57,7 +57,13 @@ const TopUpCardMobile = (prop) => {
 
   const [walletBalance, setWalletBalance] = useState("");
 
+  const [showSnackbarB, setShowSnackbarB] = useState(false);
+
    const WALLET_MAIN_URL = "/wallet/";
+
+   const handleCloseSnackbarB = () => {
+     setShowSnackbarB(!showSnackbarB);
+   };
 
    const getCyptoExchangeRate = (coin) => {
     setCoinID(coin);
@@ -76,6 +82,13 @@ const TopUpCardMobile = (prop) => {
          setWalletData(data);
          setWalletID(data?.walletAddress);
          setWalletBalance(data?.balance);
+       })
+       .catch((err) => {
+         setLoading(false);
+         setWalletData("");
+         setWalletID("");
+         setWalletBalance("");
+         setShowSnackbarB(true);
        });
    };
 
@@ -124,6 +137,21 @@ const TopUpCardMobile = (prop) => {
           Address Copied!
         </Alert>
       </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        TransitionComponent={Slide}
+        open={showSnackbarB}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbarB}
+      >
+        <Alert
+          sx={{ width: "100%", mt: 1 }}
+          onClose={handleCloseSnackbarB}
+          severity="error"
+        >
+          Failed to get Wallet Balance
+        </Alert>
+      </Snackbar>
       <Suspense fallback={<ModalSkeletons />}>
         <SendTokenModal
           wallet={walletData}
@@ -148,7 +176,7 @@ const TopUpCardMobile = (prop) => {
                   color={"#fff"}
                   variant="body2"
                 >
-                 Wallet Balance
+                  Wallet Balance
                 </Typography>
                 {loading ? (
                   <Box>
