@@ -56,11 +56,12 @@ const SellDetail = (props) => {
   const [openRewardModal, setOpenRewardModal] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
-  const [secondStep, setSecondStep] = React.useState(false);
+  const [secondStep, setSecondStep] = React.useState("");
   const [secondStepInfo, setSecondStepInfo] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
   const [reason, setReason] = React.useState("");
   const [isloading, setIsLoading] = React.useState(false);
+  const [nloading, setNLoading] = React.useState(false);
   const [transaz, setTransaz] = useState([]);
 
   const [stransaz, setSTransaz] = useState("");
@@ -87,7 +88,7 @@ const SellDetail = (props) => {
 
   const respond = (data) => {
     console.log(data);
-    setIsLoading(true);
+    setNLoading(true);
     axios
       .post(
         GET_CURRENCY_URL,
@@ -103,27 +104,26 @@ const SellDetail = (props) => {
         }
       )
       .then((res) => {
-        console.log(res);
-        setSecondStep(res.data.success);
-        setIsLoading(false);
+        // console.log(res.data.data.transaction.id);
+        setSecondStep(res.data.data.transaction.id);
+        setNLoading(false);
       })
       .catch((err) => {
         console.log(err);
         alert("Error processing request: " + err.message);
 
-        setIsLoading(false);
+        setNLoading(false);
       });
   };
 
   const escrowSubmit = () => {
-     if (reason === "" )
-       return alert("Please fill all input");
-     if (amount > stransaz?.amountInCrypto)
-       return alert(
-         "amount must be less than or equal to " + stransaz.amountInCrypto
-       );
-    
-                          
+    console.log(stransaz);
+    if (reason === "") return alert("Please fill all input");
+    if (amount > stransaz?.amountInCrypto)
+      return alert(
+        "amount must be less than or equal to " + stransaz.amountInCrypto
+      );
+
     setLoading(true);
     axios
       .post(
@@ -153,10 +153,11 @@ const SellDetail = (props) => {
   };
 
   useEffect(() => {
-    console.log(props.stranz);
+    // console.log(props.selldetail);
     setTransaz(props.selldetail);
     setSTransaz(props.stranz);
-    //  setIsLoading(true);
+   
+   
   }, [user, props]);
 
   return (
@@ -201,7 +202,9 @@ const SellDetail = (props) => {
                                         color="secondary"
                                         variant="body2"
                                       >
-                                        {info?.amountInCrypto}
+                                        {parseFloat(
+                                          info?.amountInCrypto
+                                        ).toFixed(4)}
                                       </Typography>
                                     </Box>
 
@@ -262,8 +265,9 @@ const SellDetail = (props) => {
                                       color="secondary"
                                       variant="body2"
                                     >
-                                      {info?.amountInCrypto *
-                                        info?.tokenPricePerUnit}
+                                      {parseFloat(info?.amountInFiat).toFixed(
+                                        4
+                                      )}
                                     </Typography>
                                   </Box>
                                 </Stack>
@@ -309,8 +313,8 @@ const SellDetail = (props) => {
                               justifyContent="space-between"
                               alignItems={"center"}
                             >
-                              <Stack direction="row">
-                                <Typography
+                              {/* <Stack direction="row"> */}
+                              {/* <Typography
                                   mr={2}
                                   variant="caption"
                                   textTransform={"none"}
@@ -319,10 +323,11 @@ const SellDetail = (props) => {
                                 >
                                   {info?.createdBy?.firstName + " "}
                                   {info?.createdBy?.lastName}
-                                </Typography>
-                                <LazyImageComponent src={Chat} />
-                              </Stack>
-                              {secondStep ? (
+                                </Typography> */}
+                              {/* <LazyImageComponent src={Chat} /> */}
+                              {/* </Stack> */}
+                              {info?.sellerHasReceivedFiat ||
+                              secondStep === info?.id ? (
                                 <Stack direction="row">
                                   <Typography
                                     mr={1}
@@ -341,20 +346,18 @@ const SellDetail = (props) => {
                                   onClick={() => respond(info)}
                                   sx={{ cursor: "pointer" }}
                                 >
-                                  {isloading ? (
+                                  {nloading ? (
                                     <Box>
                                       <LoadingButton
                                         style={{
                                           height: 30,
-                                          color: "black",
+                                          color: "#000",
                                           borderRadius: 10,
-                                          fontSize: 20,
+                                          fontSize: 12,
                                           textTransform: "none",
                                         }}
-                                        loading
-                                      >
-                                        Sign Up
-                                      </LoadingButton>
+                                        nloading
+                                      ></LoadingButton>
                                     </Box>
                                   ) : (
                                     <Typography
@@ -363,7 +366,7 @@ const SellDetail = (props) => {
                                       fontSize={14}
                                       color="#3063E9"
                                     >
-                                      Confirm Received
+                                      Confirm Receipt
                                     </Typography>
                                   )}
                                 </Box>
@@ -375,7 +378,7 @@ const SellDetail = (props) => {
                                 fontSize={14}
                                 color="#202020"
                               >
-                                {info?.amountInCrypto * info?.tokenPricePerUnit}
+                                {parseFloat(info?.amountInFiat).toFixed(4)}
                               </Typography>
                             </Stack>
                           </Box>
@@ -384,9 +387,25 @@ const SellDetail = (props) => {
                     </>
                   ))}
                 </List>
-
-                <Box>
-                  {/* <Stack mt={2} direction="row" justifyContent="space-between">
+              </>
+            ) : (
+              <Box height={400} p={4}>
+                <Box height={200}></Box>
+                <center>
+                  <Typography
+                    variant="caption"
+                    textTransform={"none"}
+                    fontSize={14}
+                    color="background.dark"
+                  >
+                    You do not have any sell transactions details.
+                  </Typography>
+                </center>
+              </Box>
+            )}
+          </>
+          <Box mx={2}>
+            {/* <Stack mt={2} direction="row" justifyContent="space-between">
                     <Typography
                       variant="caption"
                       textTransform={"none"}
@@ -405,134 +424,113 @@ const SellDetail = (props) => {
                       $330.00
                     </Typography>
                   </Stack> */}
-                  {secondStepInfo ? (
-                    <Box mt={4}>
-                      <Typography
-                        className={styles.nameFont}
-                        variant="body2"
-                        mb={1}
-                      >
-                        Amount
-                      </Typography>
-                      <Input
-                        disableUnderline
-                        className="inputField"
-                        autoCapitalize="off"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        placeholder={
-                          "Amount between 0 and " + stransaz?.amountInCrypto
-                        }
-                        // value={userInfo?.firstName + " " + userInfo.lastName}
-                        onChange={(e) => setAmount(e.target.value)}
-                        fullWidth
-                        color="secondary"
-                      />
-                      <Typography
-                        className={styles.nameFont}
-                        variant="body2"
-                        mt={3}
-                        mb={1}
-                      >
-                        Reason
-                      </Typography>
+            {secondStepInfo ? (
+              <Box mt={4}>
+                <Typography className={styles.nameFont} variant="body2" mb={1}>
+                  Amount
+                </Typography>
+                <Input
+                  disableUnderline
+                  className="inputField"
+                  autoCapitalize="off"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  placeholder={
+                    "Amount between 0 and " + stransaz?.amountInCrypto
+                  }
+                  // value={userInfo?.firstName + " " + userInfo.lastName}
+                  onChange={(e) => setAmount(e.target.value)}
+                  fullWidth
+                  color="secondary"
+                />
+                <Typography
+                  className={styles.nameFont}
+                  variant="body2"
+                  mt={3}
+                  mb={1}
+                >
+                  Reason
+                </Typography>
 
-                      <Input
-                        disableUnderline
-                        className="inputField"
-                        type="text"
-                        variant="outlined"
-                        placeholder="Reason"
-                        onChange={(e) => setReason(e.target.value)}
-                        size="small"
-                        fullWidth
-                        color="secondary"
-                      />
+                <Input
+                  disableUnderline
+                  className="inputField"
+                  type="text"
+                  variant="outlined"
+                  placeholder="Reason"
+                  onChange={(e) => setReason(e.target.value)}
+                  size="small"
+                  fullWidth
+                  color="secondary"
+                />
 
-                      <Stack direction={"row"} mt={5}>
-                        <Box mr={4}>
-                          <Button
-                            onClick={() => setSecondStepInfo(false)}
-                            style={{
-                              height: 60,
-                              width: "120px",
-                              borderRadius: 10,
-                              fontSize: 20,
-                              textTransform: "none",
-                            }}
-                            variant="outlined"
-                            color="primary"
-                          >
-                            Close
-                          </Button>
-                        </Box>
-                        {loading ? (
-                          <LoadingButton loading variant="outlined">
-                            Login
-                          </LoadingButton>
-                        ) : (
-                          <>
-                            <Button
-                              fullWidth
-                              onClick={() => escrowSubmit()}
-                              style={{
-                                height: 60,
-                                borderRadius: 10,
-                                fontSize: 20,
-                                textTransform: "none",
-                              }}
-                              variant="contained"
-                              color="primary"
-                            >
-                              Withdraw
-                            </Button>
-                          </>
-                        )}
-                      </Stack>
-                    </Box>
-                  ) : (
-                    <Stack
-                      mt={4}
-                      direction="row"
-                      justifyContent={isMobile ? " " : "flex-end"}
+                <Stack direction={"row"} mt={5}>
+                  <Box mr={4}>
+                    <Button
+                      onClick={() => setSecondStepInfo(false)}
+                      style={{
+                        height: 60,
+                        width: "120px",
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      variant="outlined"
+                      color="primary"
                     >
+                      Close
+                    </Button>
+                  </Box>
+                  {loading ? (
+                    <LoadingButton loading variant="outlined">
+                      Login
+                    </LoadingButton>
+                  ) : (
+                    <>
                       <Button
-                        onClick={() => setSecondStepInfo(true)}
-                        fullWidth={isMobile ? true : false}
+                        fullWidth
+                        onClick={() => escrowSubmit()}
+                        style={{
+                          height: 60,
+                          borderRadius: 10,
+                          fontSize: 20,
+                          textTransform: "none",
+                        }}
                         variant="contained"
                         color="primary"
                       >
-                        <Typography
-                          variant="caption"
-                          p={0.6}
-                          textTransform={"none"}
-                          fontSize={14}
-                          color="background.light"
-                        >
-                          Withdraw from Escrow
-                        </Typography>
+                        Withdraw
                       </Button>
-                    </Stack>
+                    </>
                   )}
-                </Box>
-              </>
+                </Stack>
+              </Box>
             ) : (
-              <Box height={400} p={4}>
-                <Box height={200}></Box>
-                <center>
+              <Stack
+                mt={4}
+                direction="row"
+                justifyContent={isMobile ? " " : "flex-end"}
+              >
+                <Button
+                  onClick={() => setSecondStepInfo(true)}
+                  fullWidth={isMobile ? true : false}
+                  variant="contained"
+                  color="primary"
+                >
                   <Typography
                     variant="caption"
+                    p={0.6}
                     textTransform={"none"}
                     fontSize={14}
-                    color="background.dark"
+                    color="background.light"
                   >
-                    You do not have any sell transactions details.
+                    Withdraw from Escrow
                   </Typography>
-                </center>
-              </Box>
+                </Button>
+              </Stack>
             )}
-          </>
+          </Box>
         </>
       )}
     </React.Fragment>

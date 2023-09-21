@@ -85,6 +85,8 @@ const AvailableRewards = () => {
 
   const GET_transaction_URL = "/transaction/transactions";
 
+  // transaction/offer/
+
   // transaction/offer/2592e667-b3e3-4a8c-98d2-7dc7c905d162
 
   //  .get(
@@ -96,10 +98,10 @@ const AvailableRewards = () => {
     setLoading(true);
     axios
       .post(
-        GET_OFFER_URL,
+        GET_transaction_URL,
         JSON.stringify({
           cryptoCurrencyId: data?.cryptoCurrencyId,
-          currencyId: data?.currencyId,
+          offerId: data?.id,
           amount: data?.amountInCrypto,
         }),
         {
@@ -110,8 +112,8 @@ const AvailableRewards = () => {
         }
       )
       .then((res) => {
-        // console.log(res?.data?.data);
-        setSellTransaz(res?.data?.data);
+        console.log(res?.data?.data);
+        setSellTransaz(res?.data?.data.offers);
         setSecondStep(1);
         setLoading(false);
       });
