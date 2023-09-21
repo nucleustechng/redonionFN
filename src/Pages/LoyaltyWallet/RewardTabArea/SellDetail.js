@@ -398,7 +398,7 @@ const SellDetail = (props) => {
                     fontSize={14}
                     color="background.dark"
                   >
-                    You do not have any sell transactions details.
+                    You do not have any Offers yet.
                   </Typography>
                 </center>
               </Box>
