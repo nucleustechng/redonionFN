@@ -56,7 +56,7 @@ const TermsAndCondition = () => {
                   <Skeleton
                     animation="wave"
                     variant="circular"
-                    width={40}
+                    width={100}
                     height={40}
                     sx={{
                       backgroundColor: `${
@@ -66,16 +66,16 @@ const TermsAndCondition = () => {
                   />
                 }
               >
-                <LazyImageComponent src={MainLogo} />
+                {/* <LazyImageComponent src={MainLogo} /> */}
               </Suspense>
             </Box>
           ) : null}
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" fontSize={20} color="primary">
             Terms & Conditions
           </Typography>
-          <Typography fontWeight={300} variant="caption">
+            {/* <Typography fontWeight={300} color="primary" variant="caption">
             Last Updated: 18-06-2019
-          </Typography>
+          </Typography> */}
           <Divider sx={{ mt: 2, mb: 1 }} />
           <Box className={styles.termsAndConditionContentBox}>
             {termsData.map((td) => (

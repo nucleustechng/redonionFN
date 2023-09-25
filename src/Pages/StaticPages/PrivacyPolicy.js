@@ -66,16 +66,16 @@ const PrivacyPolicy = () => {
                   />
                 }
               >
-                <LazyImageComponent src={MainLogo} />
+                {/* <LazyImageComponent src={MainLogo} /> */}
               </Suspense>
             </Box>
           ) : null}
           <Typography variant="h6" color="primary">
             Privacy Policy
           </Typography>
-          <Typography fontWeight={300} variant="caption">
+          {/* <Typography fontWeight={300} variant="caption">
             Last Updated: 24 May, 2021
-          </Typography>
+          </Typography> */}
           <Divider sx={{ mt: 2, mb: 1 }} />
           <Box className={styles.termsAndConditionContentBox}>
             {privacyData.map((ppd) => (

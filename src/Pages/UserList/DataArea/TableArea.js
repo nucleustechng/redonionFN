@@ -125,6 +125,7 @@ const TransactionDetailsAreaMobile = () => {
 
   // Modal Handler
   const handleOpenTableDetailsModal = (user) => {
+    // console.log(user)
     setUserData(user)
     setShowModal(true);
   };
@@ -165,8 +166,8 @@ const TransactionDetailsAreaMobile = () => {
 
   // Loading coin data
   useEffect(() => {
-    setToDateValue(moment().format("DD/MM/YYYY").toString());
-    // console.log(toDateValue);
+    setToDateValue(moment().format("YYYY-MM-DD").toString());
+    console.log(toDateValue);
     var user = JSON.parse(localStorage.getItem("user"));
     setLoading(true);
 
@@ -185,8 +186,10 @@ const TransactionDetailsAreaMobile = () => {
         }
       )
       .then((res) => {
-        setTransactionData(res.data.data.users);
-        console.log(res.data.data.users);
+        
+         let data = res.data.data.users;
+         let datanew = data.filter((course) => course.roles[0] === "CUSTOMER");
+         setTransactionData(datanew);
       })
       .catch((err) => {
         console.log(err);
@@ -213,28 +216,9 @@ const TransactionDetailsAreaMobile = () => {
       <Grid item xs={12} sm={12} md={showModal ? 7.5 : 12}>
         <Box className={styles.mainBoxMobile}>
           <Box
-          // bgcolor={theme.palette.background.paper}
-          // className={styles.filterBoxMobile}
+         
           >
-            {/* <Box className={styles.searchAreaMobile}>
-          <Input
-            disableUnderline
-            fullWidth
-            className="inputField"
-            size="small"
-            placeholder="Search"
-            id="filled-adornment-password"
-            startAdornment={
-              <InputAdornment position="start">
-                <Box className={styles.searchBoxMobile}>
-                  <IconButton edge="start">
-                    <SearchIcon color="secondary" />
-                  </IconButton>
-                </Box>
-              </InputAdornment>
-            }
-          />
-        </Box> */}
+          
             <Box>
               <Box mb={-6}>
                 <Typography
@@ -375,29 +359,33 @@ const TransactionDetailsAreaMobile = () => {
                           tablePage * rowsPerPage + rowsPerPage
                         )
                         .map((td) => (
-                          <StyledTableRow
-                            Buttton
-                            onClick={() => handleOpenTableDetailsModal(td)}
-                            sx={{
-                              cursor: "pointer",
-                            }}
-                            key={td.id}
-                          >
-                            <StyledTableCell scope="row">
-                              <Typography fontSize={18} variant="caption">
-                                {td.firstName} {td.lastName} {td.middleName}
-                              </Typography>
-                            </StyledTableCell>
-                            <StyledTableCell align="left"></StyledTableCell>
-                            <StyledTableCell align="left"></StyledTableCell>
-                            <StyledTableCell align="left">
-                              <Tooltip title={td.countryId}>
-                                <Typography fontSize={18} variant="caption">
-                                  {td.countryId}
-                                </Typography>
-                              </Tooltip>
-                            </StyledTableCell>
-                          </StyledTableRow>
+                          <>
+                           
+                              <StyledTableRow
+                                Buttton
+                                onClick={() => handleOpenTableDetailsModal(td)}
+                                sx={{
+                                  cursor: "pointer",
+                                }}
+                                key={td.id}
+                              >
+                                <StyledTableCell scope="row">
+                                  <Typography fontSize={18} variant="caption">
+                                    {td.firstName} {td.lastName} {td.middleName}
+                                  </Typography>
+                                </StyledTableCell>
+                                <StyledTableCell align="left"></StyledTableCell>
+                                <StyledTableCell align="left"></StyledTableCell>
+                                <StyledTableCell align="left">
+                                  <Tooltip title={td.country?.name}>
+                                    <Typography fontSize={18} variant="caption">
+                                      {td.country?.name}
+                                    </Typography>
+                                  </Tooltip>
+                                </StyledTableCell>
+                              </StyledTableRow>
+                           
+                          </>
                         ))}
                     </TableBody>
                   </Table>

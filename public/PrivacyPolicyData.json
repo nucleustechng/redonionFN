@@ -1,11 +1,75 @@
 [
   {
     "id": "1",
-    "title": "Our Privacy Policy",
+    "title": "Introduction",
     "paragraphs": {
-      "paraOne": "Laculis consectetur urna tellus, nullam sed justo elit. Nulla amet ornare quam dictum nibh egestas proin dui. Auctor viverra est, nec aliquam, consequat purus aenean id amet. Magna eu magna odio id tristique congue in cursus. Urna at orci egestas enim viverra condimentum cursus phasellus suspendisse. Enim eget platea eget et elementum. Proin quam et vitae vel est id. At ultrices ac aliquam massa, urna fermentum feugiat. Pellentesque lobortis ultrices imperdiet bibendum. Nunc arcu amet dictum ornare lectus augue neque, risus Purus massa a nibh vestibulum, fermentum faucibus in. Ac in elementum pretium mi magna morbi augue.",
-      "paraTwo": "Laculis consectetur urna tellus, nullam sed justo elit. Nulla amet ornare quam dictum nibh egestas proin dui. Auctor viverra est, nec aliquam, consequat purus aenean id amet. Magna eu magna odio id tristique congue in cursus. Urna at orci egestas enim viverra condimentum cursus phasellus suspendisse. Enim eget platea eget et elementum. Proin quam et vitae vel est id. At ultrices ac aliquam massa, urna fermentum feugiat. Pellentesque lobortis ultrices imperdiet bibendum. Nunc arcu amet dictum ornare lectus augue neque, risus Purus massa a nibh vestibulum, fermentum faucibus in. Ac in elementum pretium mi magna morbi augue. aculis consectetur urna tellus, nullam sed justo elit. Nulla amet ornare quam dictum nibh egestas proin dui. Auctor viverra est, nec aliquam, consequat purus aenean id amet. Magna eu magna odio id tristique congue in cursus. Urna at orci egestas enim viverra condimentum cursus phasellus suspendisse. Enim eget platea eget et elementum. Proin quam et vitae vel est id. At ultrices ac aliquam massa, urna fermentum feugiat. Pellentesque lobortis ultrices imperdiet bibendum. Nunc arcu amet dictum ornare lectus augue neque, risus Purus massa a nibh vestibulum, fermentum faucibus in. Ac in elementum pretium mi magna morbi augue.",
-      "paraThree": "Nulla amet ornare quam dictum nibh egestas proin dui. Auctor viverra est, nec aliquam, consequat purus aenean id amet. Magna eu magna odio id tristique congue in cursus. Urna at orci egestas enim viverra condimentum cursus phasellus suspendisse. Enim eget platea eget et elementum. Proin quam et vitae vel est id. At ultrices ac aliquam massa, urna fermentum feugiat. Pellentesque lobortis ultrices imperdiet bibendum"
+      "paraOne": "This Privacy Policy governs the manner in which Red Onion collects, uses, maintains and discloses information collected from users (each, a 'User') of the Red Onion platform ('Platform'). This Privacy Policy applies to the Platform and all products and services offered by Red Onion."
+    }
+  },
+  {
+    "id": "2",
+    "title": "Personal identification information",
+    "paragraphs": {
+      "paraOne": "We may collect personal identification information from Users in a variety of ways, including, but not limited to, when Users visit our Platform, register on the Platform, and in connection with other activities, services, features or resources we make available on our Platform. Users may be asked for, as appropriate, name, email address, phone number, and other personal information. Users may, however, visit our Platform anonymously. We will collect personal identification information from Users only if they voluntarily submit such information to us. Users can always refuse to supply personally identification information, except that it may prevent them from engaging in certain Platform-related activities."
+    }
+  },
+  {
+    "id": "3",
+    "title": "Non-personal identification information",
+    "paragraphs": {
+      "paraOne": "We may collect non-personal identification information about Users whenever they interact with our Platform. Non-personal identification information may include the browser name, the type of computer and technical information about Users' means of connection to our Platform, such as the operating system and the Internet service provider's utilized and other similar information."
+    }
+  },
+  {
+    "id": "4",
+    "title": "How we use collected information",
+    "paragraphs": {
+      "paraOne": "Red Onion may collect and use Users' personal information for the following purposes:",
+      "paraTwo": "To personalize user experience: We may use information in the aggregate to understand how our Users as a group use the services and resources provided on our Platform.",
+      "paraThree": "To improve our Platform: We may use feedback you provide to improve our products and services.",
+      "paraFour": "To send periodic emails: We may use the email address to respond to their inquiries, questions, and/or other requests."
+    }
+  },
+  {
+    "id": "5",
+    "title": "How we protect your information",
+    "paragraphs": {
+      "paraOne": "We adopt appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal information, username, password, transaction information and data stored on our Platform."
+   }
+  },
+  {
+    "id": "6",
+    "title": "Sharing your personal information",
+    "paragraphs": {
+      "paraOne": "We do not sell, trade, or rent Users' personal identification information to others."
+    }
+  },
+  {
+    "id": "7",
+    "title": "Compliance with children's online privacy protection act",
+    "paragraphs": {
+      "paraOne": "Protecting the privacy of the very young is especially important. For that reason, we never collect or maintain information at our Platform from those we actually know are under 13, and no part of our Platform is structured to attract anyone under 13."
+    }
+  },
+  {
+    "id": "8",
+    "title": "Changes to this privacy policy",
+    "paragraphs": {
+      "paraOne": "Red Onion has the discretion to update this Privacy Policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this Privacy Policy periodically and become aware of modifications."
+    }
+  },
+  {
+    "id": "9",
+    "title": "Your acceptance of these terms",
+    "paragraphs": {
+      "paraOne": "By using this Platform, you signify your acceptance of this Privacy Policy. If you do not agree to this Privacy Policy, please do not use our Platform. Your continued use of the Platform following the posting of changes to this Privacy Policy will be deemed your acceptance of those changes."
+    }
+  },
+  {
+    "id": "10",
+    "title": "Contacting us",
+    "paragraphs": {
+      "paraOne": "If you have any questions about this Privacy Policy, the practices of this Platform, or your dealings with this Platform, please contact us at support@redonion.io."
     }
   }
 ]

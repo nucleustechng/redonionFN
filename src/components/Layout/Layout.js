@@ -42,7 +42,7 @@ function Layout({ children }) {
     < >
       <Box   sx={{ display: "flex" }}>
         <CssBaseline />
-        <React.Suspense
+        {/* <React.Suspense
           fallback={
             <Skeleton
               variant="rectangular"
@@ -60,12 +60,12 @@ function Layout({ children }) {
             handleClickMenu={handleClickMenu}
             handleDrawerToggle={handleDrawerToggle}
           />
-        </React.Suspense>
-        <Box
+        </React.Suspense> */}
+         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          {/* Drawer for mobile */}
+        
           <SwipeableDrawer
             anchor="left"
             variant="temporary"
@@ -89,7 +89,7 @@ function Layout({ children }) {
               <CustomDrawer handleDrawerToggle={handleDrawerToggle} />
             </React.Suspense>
           </SwipeableDrawer>
-          {/* Drawer for larger device */}
+       
           <Drawer
             variant="permanent"
             sx={{
@@ -110,7 +110,7 @@ function Layout({ children }) {
               <CustomDrawer  />
             </React.Suspense>
           </Drawer>
-        </Box>
+        </Box> 
         {/* Children */}
         <Box
           component="main"

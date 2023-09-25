@@ -163,7 +163,7 @@ const UserArea = (prop) => {
                     />
                   }
                 />
-                <Tab
+                {/* <Tab
                   sx={{
                     mr: 2,
                     backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
@@ -187,9 +187,9 @@ const UserArea = (prop) => {
                       src={tabValue === 1 ? BuyIconDark : BuyIcon}
                     />
                   }
-                />
+                /> */}
 
-                <Tab
+                {/* <Tab
                   sx={{
                     mr: 2,
                     backgroundColor: tabValue === 2 ? "#3063E9" : "#fff",
@@ -213,7 +213,7 @@ const UserArea = (prop) => {
                       src={tabValue === 2 ? BuyIconDark : BuyIcon}
                     />
                   }
-                />
+                /> */}
               </Tabs>
             </>
             <Box className={styles.tabPanelBox}>
@@ -237,7 +237,7 @@ const UserArea = (prop) => {
                 </Box>
               </TabPanel>
               {/* My Rewards */}
-              <TabPanel value={tabValue} index={1}>
+              {/* <TabPanel value={tabValue} index={1}>
                 <Box className={styles.tabPanel}>
                   <Suspense
                     fallback={
@@ -254,9 +254,9 @@ const UserArea = (prop) => {
                     <History />
                   </Suspense>
                 </Box>
-              </TabPanel>
+              </TabPanel> */}
 
-              <TabPanel value={tabValue} index={1}>
+              {/* <TabPanel value={tabValue} index={1}>
                 <Box className={styles.tabPanel}>
                   <Suspense
                     fallback={
@@ -273,7 +273,7 @@ const UserArea = (prop) => {
                     <Transaction />
                   </Suspense>
                 </Box>
-              </TabPanel>
+              </TabPanel> */}
             </Box>
           </Box>
         )}

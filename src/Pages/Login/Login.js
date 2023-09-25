@@ -80,7 +80,7 @@ const Login = () => {
             </Suspense>
           </Box>
           {isMobile ? (
-            <Box>
+            <Box mt={2}>
               <Button
                 onClick={() =>
                   setDropdown(!dropdown)
@@ -92,76 +92,12 @@ const Login = () => {
 
                 />
               </Button>
-              {dropdown &&
-                <Box style={{ position: 'absolute', left: 0, right: 0, background: '#000', padding: 30, zIndex: 999  }}>
-                  <center>
-                    <Box >
-                      <Button
-                        color="secondary"
-
-                      >
-                        <Typography variant="caption" p={0.3} color="secondary">
-                          <a
-
-                            style={{ textDecoration: "none", color: "inherit", textTransform: "none", }}
-                            href="/auth/sign-in"
-                          >
-                            Log in
-                          </a>
-                        </Typography>
-                      </Button>
-                    </Box>
-                    <Box>
-                      <Button fullWidth variant="contained" color="primary">
-                        <Typography variant="caption" p={0.3} color="secondary">
-                          <a
-                            style={{ textDecoration: "none", color: "inherit", textTransform: "none" }}
-                            href="/registration/sign-up"
-                          >
-
-                            Create Account
-
-                          </a>
-                        </Typography>
-                      </Button>
-                    </Box>
-                  </center>
-                </Box>
-              }
+             
             </Box>
           ) : (
             <Stack direction="row"
               justifyContent="space-between">
-              <Box mr={2}>
-                <Button
-                    color="secondaryDark"
-
-                >
-                    <Typography variant="caption" p={0.3} color="secondaryDark">
-                    <a
-
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                      href="/auth/sign-in"
-                    >
-                      Log in
-                    </a>
-                  </Typography>
-                </Button>
-              </Box>
-              <Box>
-                <Button fullWidth variant="contained" color="primary">
-                    <Typography variant="caption" p={0.3} color="background.light">
-                    <a
-                        style={{ textDecoration: "none", color: "inherit", textTransform: "none", fontSize: 15, fontWeight: 500 }}
-                        href="/registration/sign-up"
-                    >
-
-                      Create Account
-
-                    </a>
-                  </Typography>
-                </Button>
-              </Box>
+             
             </Stack>
           )}
 

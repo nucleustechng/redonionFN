@@ -52,9 +52,11 @@ const RewardTabArea = () => {
   };
 
   return (
-    <Box className={styles.mainBox}>
+    <Box 
+    className={styles.mainBox}
+    >
       {/* Tab component */}
-      {!isMobile ? (
+      {/* {!isMobile ? ( */}
         <Box
           mt={!isTablet ? 4 : ""}
           sx={{ borderBottom: 1, borderColor: "divider" }}
@@ -69,14 +71,14 @@ const RewardTabArea = () => {
             
           >
             <Tab sx={{ mr: 2, backgroundColor: tabValue === 0 ? "#3063E9" : "#fff", borderTopRightRadius: 10, borderTopLeftRadius:10, marginTop: -1.4, marginBottom: -2 }} 
-              label={<Typography color={tabValue === 0 ? "#fff" : "#000"}>Sell</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 0 ? SellIcon : SellIconDark} />} />
+              label={<Typography color={tabValue === 0 ? "#fff" : "#000"}>Sold</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 0 ? SellIcon : SellIconDark} />} />
             <Tab sx={{ mr: 2, backgroundColor: tabValue === 1 ? "#3063E9" : "#fff", borderTopRightRadius: 10, borderTopLeftRadius: 10, marginTop: -1.4, marginBottom: -2 }}
-              label={<Typography color={tabValue === 1 ? "#fff" : "#000"}>Buy</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 1 ? BuyIconDark : BuyIcon} />} />
+              label={<Typography color={tabValue === 1 ? "#fff" : "#000"}>Bought</Typography>} iconPosition="start" icon={<LazyImageComponent src={tabValue === 1 ? BuyIconDark : BuyIcon} />} />
 
             {/* <Tab sx={{ mr: 2 }} label="Transaction" /> */}
           </Tabs>
         </Box>
-      ) : (
+      {/* ) : (
         <Box mb={5} sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             scrollButtons
@@ -88,10 +90,10 @@ const RewardTabArea = () => {
           >
             <Tab sx={{ fontSize: "12px" }} label="Available Rewards" />
             <Tab sx={{ fontSize: "12px" }} label="My Rewards" />
-            {/* <Tab sx={{ fontSize: "12px" }} label="Transaction" /> */}
+            <Tab sx={{ fontSize: "12px" }} label="Transaction" />
           </Tabs>
         </Box>
-      )}
+      )} */}
       <Box className={styles.tabPanelBox}>
         {/* Available Rewards */}
         <TabPanel value={tabValue} index={0}>
@@ -108,7 +110,9 @@ const RewardTabArea = () => {
                 />
               }
             >
-              {!isMobile ? <AvailableRewards /> : <AvailableRewardsMobile />}
+              {/* {!isMobile ? */}
+               <AvailableRewards /> 
+                {/* : <AvailableRewardsMobile /> */}
             </Suspense>
           </Box>
         </TabPanel>
@@ -127,7 +131,9 @@ const RewardTabArea = () => {
                 />
               }
             >
-              {!isMobile ? <MyRewards /> : <MyRewardsMobile />}
+              {/* {!isMobile ?  */}
+              <MyRewards /> 
+               {/* : <MyRewardsMobile />} */}
             </Suspense>
           </Box>
         </TabPanel>

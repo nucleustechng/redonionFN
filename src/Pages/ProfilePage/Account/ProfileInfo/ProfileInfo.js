@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import {
   Grid,
   IconButton,
+  Button,
   Paper,
   Skeleton,
   Stack,
@@ -10,9 +11,13 @@ import {
   Typography,
   useMediaQuery,
   Zoom,
+  Chip
 } from "@mui/material";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-
+import ReportIcon from "@mui/icons-material/Report";
+import PublishIcon from "@mui/icons-material/Publish";
+import DownloadIcon from "@mui/icons-material/Download";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 // Theme
 import { useTheme } from "@mui/material/styles";
 
@@ -22,10 +27,14 @@ import styles from "../Account.module.css";
 // Avatar
 import AvatarImage from "../../../../assets/profileAvatar.svg";
 
+import { useNavigate } from "react-router-dom";
+
 // Component Loader
 import ComponentLoader from "../../../../components/ProgressLoader/ComponentLoader";
 import MobileNavDrawer from "../../../../components/Layout/MobileNavDrawer";
 import { ModalSkeletons } from "../../../../components/Skeletons/ComponentSkeletons";
+import LocationIcon from "../../../../assets/location.svg";
+import EditIcon from "../../../../assets/Edit.svg";
 
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
@@ -46,6 +55,12 @@ const ProfileInfo = ({ handleClickMenu }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileInformation, setProfileInformation] = useState({});
   const [userAvatar, setUserAvatar] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+  const [isKycSucceed, setIsKycSucceed] = useState(false);
+
+  const navigate = useNavigate();
+
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
@@ -81,13 +96,14 @@ const ProfileInfo = ({ handleClickMenu }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  console.log(user)
   return (
     <React.Fragment>
-      <Grid container columns={{ xs: 1, sm: 12, md: 12 }}>
-        <Grid item xs={12} sm={12} md={7}>
+      <Grid  columns={{ xs: 1, sm: 12, md: 12 }}>
+        <Grid item xs={12} sm={12} md={12}>
           <Box className={styles.profileInfo}>
             {/* Header */}
-            <Box className={styles.infoContentTitleBox}>
+            <Box ml={2} className={styles.infoContentTitleBox}>
               <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -96,50 +112,71 @@ const ProfileInfo = ({ handleClickMenu }) => {
                 <Typography
                   variant={!isMobile ? "h6" : "subtitle1"}
                   color="secondary"
+                  fontSize={24}
+
                 >
-                  Personal Info
+                  My account
                 </Typography>
-                <Box
-                  onClick={handleOpenProfileInfoModal}
-                  bgcolor={
-                    theme.palette.mode === "dark"
-                      ? theme.palette.background.paper
-                      : "rgba(234, 234,234, 0.3)"
-                  }
-                  p={"2px"}
-                  borderRadius="2px"
+                {/* <Stack
+                  direction="row"
+                  justifyContent="flex-end"
+                  spacing={2}
+                  alignItems="center"
                 >
-                  <IconButton
-                    size={!isMobile ? "medium" : "small"}
-                    color="secondary"
-                  >
-                    <BorderColorIcon fontSize="small" />
-                  </IconButton>
-                </Box>
+                  <Chip
+                   
+                    sx={{ borderRadius: "4px" }}
+                    label={
+                      <Stack direction="row" alignItems="center" gap={0.5}>
+                        {user?.isKYCVerified ? (
+                          <>
+                            <CheckCircleIcon color="success" fontSize="small" />
+                            <Typography
+                              variant="caption"
+                              component="span"
+                              color="text.success"
+                            >
+                              KYC Verified
+                            </Typography>
+                          </>
+                        ) : (
+                          <Box
+                          Button
+                              onClick={() => navigate("/account-setup")}
+                              sx={{ cursor: "pointer" }}
+                          >
+                           <Stack direction={"row"} >
+                                <ReportIcon color="error" fontSize="small" />
+                                <Typography
+                                  component="span"
+                                  variant="caption"
+                                  color="error"
+                                  ml={1}
+                                >
+                                  KYC Failed
+                                </Typography>
+                           </Stack>
+                          </Box>
+                        )}
+                      </Stack>
+                    }
+                  />
+
+                </Stack> */}
+
               </Stack>
             </Box>
-            <Paper variant="outlined">
+
+            <Paper>
               {/* Photo */}
               <Box
                 bgcolor={theme.palette.background.default}
                 className={styles.infoContentBox}
+               sx={{  borderBottomWidth : 0 }}
+
               >
-                <Box>
-                  <Tooltip
-                    title="A photo helps personalize your account"
-                    placement="right"
-                    TransitionComponent={Zoom}
-                  >
-                    <Typography
-                      variant={!isMobile ? "body1" : "body2"}
-                      color="secondary"
-                    >
-                      Photo
-                    </Typography>
-                  </Tooltip>
-                </Box>
-                <Box>
-                  {userAvatar ? (
+                {/* <Box>
+                  {user?.user?.selfieImage!="" && (
                     <Suspense
                       fallback={
                         <Skeleton
@@ -152,93 +189,89 @@ const ProfileInfo = ({ handleClickMenu }) => {
                     >
                       <LazyImageComponent
                         className={styles.avatarImage}
-                        src={userAvatar}
-                      />
-                    </Suspense>
-                  ) : (
-                    <Suspense
-                      fallback={
-                        <Skeleton
-                          animation="wave"
-                          variant="circular"
-                          width={40}
-                          height={40}
-                        />
-                      }
-                    >
-                      <LazyImageComponent
-                        className={styles.avatarImage}
-                        src={AvatarImage}
+                        src={user?.user?.selfieImage}
                       />
                     </Suspense>
                   )}
+                </Box> */}
+
+                <Box >
+
+                  <Typography
+
+                    variant={!isMobile ? "body1" : "body2"}
+                    color="secondary"
+                    fontSize={18}
+                    fontWeight={600}
+                  >
+                    {user?.user?.firstName} {user?.user?.lastName}
+                  </Typography>
+
+
+                  <Typography
+                    mt={0}
+                    variant={!isMobile ? "body1" : "body2"}
+                    color="secondary"
+                    fontSize={13}
+                  >
+                    {user?.user?.email}
+                  </Typography>
+                  <Stack
+                    mt={0.5}
+                    direction="row">
+                    <LazyImageComponent
+                      style={{ width: 13 }}
+                      src={LocationIcon}
+
+                    />
+                    <Typography
+                      fontWeight={400}
+                      ml={1}
+                      fontSize={12}
+                      // py={3}
+                      color="secondary"
+                      variant="body2"
+                    >
+                      {user?.country?.name}
+                    </Typography>
+
+                  </Stack>
+
                 </Box>
+
+                <Box mr={-2}>
+                  <Button
+                    onClick={handleOpenProfileInfoModal}
+                    color="primary"
+                    variant="contained"
+
+                  >
+                    <Typography
+                      variant={!isMobile ? "body2" : "caption"}
+                      sx={{ textTransform: "capitalize" }}
+                      color="#fff"
+                      fontSize={14}
+                      pl={.2}
+                      pr={.2}
+                    >
+                      Edit  <LazyImageComponent
+                        style={{ width: 13 }}
+                        src={EditIcon}
+
+                      />
+                    </Typography>
+                  </Button>
+                </Box>
+
+
               </Box>
-              {/* Name */}
-              <Box
-                bgcolor={theme.palette.background.default}
-                className={styles.infoContentBox}
-              >
-                <Typography
-                  variant={!isMobile ? "body1" : "body2"}
-                  color="secondary"
-                >
-                  Name
-                </Typography>
-                <Typography
-                  variant={!isMobile ? "body1" : "body2"}
-                  color="text.secondary"
-                >
-                  {profileInformation.userName
-                    ? profileInformation.userName
-                    : "John Doe"}
-                </Typography>
-              </Box>
-              {/* Email */}
-              <Box
-                bgcolor={theme.palette.background.default}
-                className={styles.infoContentBox}
-              >
-                <Typography
-                  variant={!isMobile ? "body1" : "body2"}
-                  color="secondary"
-                >
-                  Email
-                </Typography>
-                <Typography
-                  variant={!isMobile ? "body1" : "body2"}
-                  color="text.secondary"
-                >
-                  {profileInformation.userEmail
-                    ? profileInformation.userEmail
-                    : "john@doe.com"}
-                </Typography>
-              </Box>
-              {/* Phone */}
-              <Box
-                bgcolor={theme.palette.background.default}
-                className={styles.infoContentBox}
-              >
-                <Typography
-                  variant={!isMobile ? "body1" : "body2"}
-                  color="secondary"
-                >
-                  Phone
-                </Typography>
-                <Typography
-                  variant={!isMobile ? "body1" : "body2"}
-                  color="text.secondary"
-                >
-                  {profileInformation.userPhone
-                    ? profileInformation.userPhone
-                    : "+123 111222333"}
-                </Typography>
-              </Box>
+
+
             </Paper>
           </Box>
         </Grid>
       </Grid>
-      {isMobile && (
+      {/* {isMobile && (
         <MobileNavDrawer
           drawerOpen={openProfileInfoModal}
           handleDrawerToggle={handleProfileInfoDrawer}
@@ -256,9 +289,9 @@ const ProfileInfo = ({ handleClickMenu }) => {
             />
           </Suspense>
         </MobileNavDrawer>
-      )}
-      {!isMobile && (
-        <Suspense fallback={<ModalSkeletons width={500} />}>
+      )} */}
+     
+        <Suspense fallback={<ModalSkeletons width={isMobile ? 250 : 500} />}>
           <ProfileInfoModal
             open={openProfileInfoModal}
             handleClose={handleCloseProfileInfoModal}
@@ -270,7 +303,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
             setUserAvatar={setUserAvatar}
           />
         </Suspense>
-      )}
+      
     </React.Fragment>
   );
 };

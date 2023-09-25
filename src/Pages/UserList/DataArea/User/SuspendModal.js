@@ -73,7 +73,7 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage, status }) => {
             color="white"
             fontWeight={500}
           >
-            Are you sure you want to {!status ? "unsuspend" : "suspend"}
+            Are you sure you want to {!status ? "reactive" : "suspend"}
           </Typography>
           <Typography
             variant="h3"
@@ -102,7 +102,7 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage, status }) => {
                   variant="contained"
                   color="primary"
                 >
-                  Yes, {!status ? "unsuspend" : "suspend"}
+                  Yes, {!status ? "Reactive" : "Suspend"}
                 </Button>
               </>
             )}

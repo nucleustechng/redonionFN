@@ -39,6 +39,7 @@ import {
 } from "../../../components/StyledTable/StyledTable";
 import { DatePickerTextField } from "../../../components/DatePickerTextField/DatePickerTextField";
 import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
+import moment from "moment";
 
 const AddAdminModal = React.lazy(() => import("./AddAdminModal/AddAdminModal"));
 
@@ -56,7 +57,7 @@ const tableHeader = [
     // name: "Status",
   },
   {
-    name: "Position",
+    name: "Country",
   },
 ];
 
@@ -92,7 +93,6 @@ const TableArea = () => {
   const [fromDateValue, setFromDateValue] = React.useState("01/01/2023");
   const [toDateValue, setToDateValue] = React.useState("06/30/2023");
   const [transactionData, setTransactionData] = useState([]);
-  
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
@@ -164,6 +164,7 @@ const TableArea = () => {
 
   // Loading coin data
   useEffect(() => {
+    setToDateValue(moment().format("YYYY-MM-DD").toString());
     var user = JSON.parse(localStorage.getItem("user"));
     setLoading(true);
 
@@ -182,8 +183,9 @@ const TableArea = () => {
         }
       )
       .then((res) => {
-        setTransactionData(res.data.data.users);
-        console.log(res.data.data.users);
+        let data = res.data.data.users;
+        let datanew = data.filter((course) => course.roles[0] === "ADMIN");
+        setTransactionData(datanew);
       })
       .catch((err) => {
         console.log(err);
@@ -201,7 +203,6 @@ const TableArea = () => {
     toDateValue,
   ]);
 
-  
   const handleOpenSuccessModal = () => {
     setOpenSuccessModal(!openSuccessModal);
   };
@@ -216,29 +217,7 @@ const TableArea = () => {
       </Suspense>
       <Grid item xs={12} sm={12} md={showModal ? 7.5 : 12}>
         <Box className={styles.mainBoxMobile}>
-          <Box
-          // bgcolor={theme.palette.background.paper}
-          // className={styles.filterBoxMobile}
-          >
-            {/* <Box className={styles.searchAreaMobile}>
-          <Input
-            disableUnderline
-            fullWidth
-            className="inputField"
-            size="small"
-            placeholder="Search"
-            id="filled-adornment-password"
-            startAdornment={
-              <InputAdornment position="start">
-                <Box className={styles.searchBoxMobile}>
-                  <IconButton edge="start">
-                    <SearchIcon color="secondary" />
-                  </IconButton>
-                </Box>
-              </InputAdornment>
-            }
-          />
-        </Box> */}
+          <Box>
             <Box>
               <Box mb={-6}>
                 <Typography
@@ -257,7 +236,7 @@ const TableArea = () => {
                 justifyContent="flex-end"
               >
                 <Box className={styles.datePickerAreaMobile}>
-                  {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Stack direction="row" spacing={1}>
                       <DatePicker
                         disableFuture
@@ -294,8 +273,8 @@ const TableArea = () => {
                         )}
                       />
                     </Stack>
-                  </LocalizationProvider> */}
-                  <Select
+                  </LocalizationProvider>
+                  {/* <Select
                     className={
                       theme.palette.mode === "dark" ? "" : styles.currencyBox
                     }
@@ -323,16 +302,16 @@ const TableArea = () => {
                               />
                             }
                           >
-                            {/* <LazyImageComponent
+                             <LazyImageComponent
                               className={styles.coinIcons}
                               src={icon}
-                            /> */}
+                            /> 
                           </Suspense>
                           <Typography>{name}</Typography>
                         </Stack>
                       </MenuItem>
                     ))}
-                  </Select>
+                  </Select> */}
                 </Box>
 
                 <Box>
@@ -381,12 +360,8 @@ const TableArea = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {transactionData
-                        .slice(
-                          tablePage * rowsPerPage,
-                          tablePage * rowsPerPage + rowsPerPage
-                        )
-                        .map((td) => (
+                      {transactionData.map((td) => (
+                        <>
                           <StyledTableRow
                             Buttton
                             onClick={() => handleOpenTableDetailsModal(td)}
@@ -403,14 +378,15 @@ const TableArea = () => {
                             <StyledTableCell align="left"></StyledTableCell>
                             <StyledTableCell align="left"></StyledTableCell>
                             <StyledTableCell align="left">
-                              <Tooltip title={td.countryId}>
+                              <Tooltip title={td.country?.name}>
                                 <Typography fontSize={18} variant="caption">
-                                  {td.countryId}
+                                  {td.country?.name}
                                 </Typography>
                               </Tooltip>
                             </StyledTableCell>
                           </StyledTableRow>
-                        ))}
+                        </>
+                      ))}
                     </TableBody>
                   </Table>
                 </TableContainer>

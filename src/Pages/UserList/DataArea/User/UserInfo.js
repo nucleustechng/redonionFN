@@ -36,9 +36,14 @@ const LazyImageComponent = React.lazy(() =>
 const SuspendModal = React.lazy(() => import("./SuspendModal"));
 
 const UserInfo = (prop) => {
+  var user = prop.data;
   const [loading, setLoading] = useState(false);
 
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(user?.active);
+
+   const [identitystatus, setIdentityStatus] = useState(
+     user?.identityIsVerified
+   );
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -47,7 +52,7 @@ const UserInfo = (prop) => {
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
-   const [openVerifyModal, setOpenVerifyModal] = useState(false);
+  const [openVerifyModal, setOpenVerifyModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -55,30 +60,38 @@ const UserInfo = (prop) => {
     setOpenSuccessModal(!openSuccessModal);
   };
 
-   const handleOpenVerifyModal = () => {
-     setOpenVerifyModal(!openVerifyModal);
-   };
-
-  var user = prop.data;
+  const handleOpenVerifyModal = () => {
+    setOpenVerifyModal(!openVerifyModal);
+  };
 
   // console.log(user);
 
-   const [message, setMessage] = React.useState("");
-   const chooseMessage = (message) => {
-     setMessage(message);
-     if(message === "close"){
+  const [message, setMessage] = React.useState("");
+  const chooseMessage = (message) => {
+    setMessage(message);
+    if (message === "close") {
       handleOpenSuccessModal(false);
       getSuspend();
-     }
-   };
+    }
+  };
 
-   
+  const chooseVerifyMessage = (message) => {
+    setMessage(message);
+    if (message === "close") {
+      handleOpenVerifyModal(false);
+       getVerify();
+    }
+  };
+
+  var userInfo = JSON.parse(localStorage.getItem("user"));
 
   const GET_SUSPEND_URL = "/admin/set-user-status/";
 
-  const getSuspend = () => {
-    var userInfo = JSON.parse(localStorage.getItem("user"));
+  const GET_verify_URL = identitystatus
+    ? "/kyc/verify-user-identity/"
+    : "/kyc/unverify-user-identity/";
 
+  const getSuspend = () => {
     setLoading(true);
 
     axios
@@ -91,7 +104,30 @@ const UserInfo = (prop) => {
       .then((res) => {
         console.log(res.data.data);
         setStatus(res.data.data.active);
-        
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/admin/sign-in");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getVerify = () => {
+    setLoading(true);
+
+    axios
+      .get(GET_verify_URL + user?.id, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setIdentityStatus(res.data.data.identityIsVerified);
       })
       .catch((err) => {
         if (err?.response?.status === 401) {
@@ -116,7 +152,7 @@ const UserInfo = (prop) => {
       </Suspense>
       <Suspense fallback={<ModalSkeletons />}>
         <UserVeifyModal
-          // chooseMessage={chooseMessage}
+          chooseVerifyMessage={chooseVerifyMessage}
           open={openVerifyModal}
           user={user}
           status={status}
@@ -135,7 +171,7 @@ const UserInfo = (prop) => {
           </Box>
         </Box>
         <Typography fontSize={15} variant="caption">
-          {user.countryId}
+          {user.country?.name}
         </Typography>
       </Stack>
 
@@ -233,7 +269,7 @@ const UserInfo = (prop) => {
                   variant="contained"
                   color="primary"
                 >
-                  UnSuspend
+                  Reactive
                 </Button>
               )}
             </>

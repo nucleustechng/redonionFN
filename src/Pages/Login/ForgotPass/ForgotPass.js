@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Input,
@@ -9,13 +9,15 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { LightUIButtonPrimary } from "../../../Utilities/LightUIButtons";
+
+import { LoadingButton } from "@mui/lab";
 // Router
 import { useNavigate } from "react-router-dom";
 
+import useAuth from "../../../hooks/useAuth";
+
 // Styles
 import styles from "./ForgotPass.module.css";
-import { GrowwBar } from "../../../components/GrowwBar/GrowwBar";
 
 import Back from "../../../assets/backArrow.svg";
 import FrontArrow from "../../../assets/frontArrow.svg";
@@ -30,6 +32,28 @@ const ForgotPass = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const [userEmail, setUserEmail] = useState("");
+
+  const [formError, setFormError] = useState("");
+
+  // Hooks
+  const { forgotPass, authError, isLoading } = useAuth();
+
+  const handle = (e) => {
+    e.preventDefault();
+    if (userEmail === "") {
+      setFormError("Please enter an email");
+    } else {
+      setFormError("");
+      forgotPass(
+        userEmail,
+        navigate
+      );
+    }
+  }
+
+
+
   return (
     <Box
       bgcolor="Background.default"
@@ -38,11 +62,7 @@ const ForgotPass = () => {
       <Box
         className={!isMobile ? styles.contentBox : ""}
       >
-        {/* <Paper
-        
-          elevation={0}
-          sx={!isMobile ? { borderRadius: "10px" } : {}}
-        > */}
+
         <Box
 
           bgcolor="background.paper"
@@ -54,9 +74,7 @@ const ForgotPass = () => {
 
             color="secondary">
             <a
-
-              // style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-40px", marginTop: "0", marginBottom: "25px" }}
-              href="/"
+              href="/auth/sign-in"
             >
               <LazyImageComponent src={Back} />
             </a>
@@ -70,14 +88,8 @@ const ForgotPass = () => {
           >
             Forgot Password?
           </Typography>
-          {/* {!isMobile ? (
-              <Typography className={styles.textUnderScore}></Typography>
-            ) : (
-              <Box width={"10%"}>
-                <GrowwBar />
-              </Box>
-            )} */}
-          <Box component="form" mt={!isMobile ? 4 : 8}>
+
+          <Box component="form" onSubmit={handle} mt={!isMobile ? 4 : 8}>
 
             <Stack spacing={1} mb={2}>
               <Typography variant="body1" color={theme.palette.text.primary} fontSize={20}>Email</Typography>
@@ -88,17 +100,55 @@ const ForgotPass = () => {
                 variant="outlined"
                 size="small"
                 color="secondary"
+                onChange={(e) => setUserEmail(e.target.value)}
               />
             </Stack>
-            <Stack mb={4}>
-              <Button
-                style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
-                onClick={() => navigate("/auth/reset-pass")}
-                variant="contained"
-                color="primary"
+            <Typography
+              sx={{
+                textTransform: "capitalize",
+                display: "inline-block",
+              }}
+              my={1}
+              textAlign={"center"}
+              fontSize={20}
+              variant="small"
+              color="error"
+            >
+              {formError}
+            </Typography>
+            {authError && (
+              <Typography
+                sx={{
+                  textTransform: "capitalize",
+                  display: "inline-block",
+                }}
+                my={1}
+                variant="small"
+                color="error"
+                textAlign={"center"}
+                fontSize={20}
               >
-                Send reset link <LazyImageComponent src={FrontArrow} />
-              </Button>
+                {authError}
+              </Typography>
+            )}
+            <Stack mt={3} mb={4}>
+              {isLoading ? (
+                <LoadingButton loading variant="outlined">
+                  Login
+                </LoadingButton>
+              ) : (
+                <>
+                  <Button
+                    type="submit"
+                    style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }}
+                    // onClick={() => navigate("/auth/reset-pass")}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Send reset link <LazyImageComponent src={FrontArrow} />
+                  </Button>
+                </>
+              )}
 
             </Stack>
             <Stack justifyContent="flex-start" alignItems="flex-start">

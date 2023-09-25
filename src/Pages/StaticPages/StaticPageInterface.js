@@ -18,9 +18,9 @@ const StaticPageInterface = () => {
   return (
     <Box px={3} bgcolor={theme.palette.background.default}>
       <Suspense fallback={<ComponentLoader />}>
-        <Layout>
+        {/* <Layout> */}
           <Outlet />
-        </Layout>
+        {/* </Layout> */}
       </Suspense>
     </Box>
   );

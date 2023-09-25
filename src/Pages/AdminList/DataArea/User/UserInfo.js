@@ -116,7 +116,7 @@ const UserInfo = (prop) => {
           </Box>
         </Box>
         <Typography fontSize={15} variant="caption">
-          {user.countryId}
+          {user.country.name}
         </Typography>
       </Stack>
 
@@ -169,7 +169,7 @@ const UserInfo = (prop) => {
                   variant="contained"
                   color="primary"
                 >
-                  UnSuspend
+                  Reactive
                 </Button>
               )}
             </>

@@ -5,6 +5,8 @@
 /* Profile Info */
 .profileInfo {
   margin-bottom: 3rem;
+  padding: 10px;
+  
 }
 
 .profileInfoModalBody {
@@ -101,7 +103,8 @@
   padding: 1rem 1rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; 
+ 
 }
 
 .infoContentBoxMobile {
@@ -112,10 +115,10 @@
 
 .avatarImage {
   position: relative;
-  display: block;
+  /* display: block; */
   margin: 0 auto;
-  height: 40px;
-  width: 40px;
+  height: 120px;
+  width: 120px;
   border-radius: 50%;
 }
 
@@ -171,9 +174,26 @@
 /* Common Modal Styles */
 .modalTopBar {
   display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.modalTopBarspace {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.titleBox {
+  font-size: calc(0.2rem + 1vw);
+  text-align: center;
+}
+
+.titleBoxMobile {
+  font-size: calc(1.3rem + 1vw);
+  text-align: center;
 }
 
 .textUnderScore {

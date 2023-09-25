@@ -39,15 +39,16 @@ const FundsAndTransferArea = (prop) => {
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  const GET_TRANSACTION_ID_URL = "/user/update";
+  const GET_TRANSACTION_ID_URL =
+    "/transaction/4431c19c-dc36-4b56-b08b-89e4ea61ff6a";
 
   const handleRegisterUser = () => {
     setLoading(true);
 
     axios
       .get(
-        GET_TRANSACTION_ID_URL,
-       
+        "/transaction/4431c19c-dc36-4b56-b08b-89e4ea61ff6a",
+
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -118,7 +119,7 @@ const FundsAndTransferArea = (prop) => {
           ) : (
             <>
               <Button
-                // onClick={onClickSuccess}
+                onClick={handleRegisterUser}
                 fullWidth
                 style={{
                   height: 50,

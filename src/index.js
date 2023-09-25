@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import OnboardingPage from "./Pages/Onboarding/OnboardingPage";
+// import OnboardingPage from "./Pages/Onboarding/OnboardingPage";
 
 let isFirstTime = false;
 const firstTimer = localStorage.getItem("firstTimer");
@@ -35,7 +35,7 @@ if (window.matchMedia("(display-mode: standalone)").matches) {
 
 ReactDOM.render(
   <React.StrictMode>
-    {isFirstTime && isMobile && appInstalled ? <OnboardingPage /> : <App />}
+    { <App />}
   </React.StrictMode>,
   document.getElementById("root")
 );

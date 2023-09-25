@@ -1,6 +1,7 @@
 // React
-import React, { createContext, Suspense, useState } from "react";
+import React, { createContext, Suspense, useState, useEffect } from "react";
 
+import NoInternet from "./components/NoInternet";
 // Material UI
 import Box from "@mui/system/Box";
 import CustomTheme from "./Theme/CustomTheme";
@@ -32,24 +33,18 @@ import NavRoutes from "./NavigationRoutes";
           Lazy Pages
 ***********************************/
 
-// Registration
-const Registration = React.lazy(() =>
-  import("./Pages/Registration/Registration")
-);
-const SignUpInterface = React.lazy(() =>
-  import("./Pages/Registration/SignUpInterface/SignUpInterface")
-);
-const TwoFAPage = React.lazy(() =>
-  import("./Pages/Registration/TwoFAPage/TwoFAPage")
-);
-const TwoFAPin = React.lazy(() =>
-  import("./Pages/Registration/TwoFAPage/TwoFAPin")
+const TwoFAEmailPage = React.lazy(() =>
+  import("./Pages/Login/EmailVerify/OtpVerification")
 );
 
 // Login
 const Login = React.lazy(() => import("./Pages/Login/Login"));
 const SignInInterface = React.lazy(() =>
   import("./Pages/Login/SignInInterface/SignInInterface")
+);
+
+const SignInInterfaceUser = React.lazy(() =>
+  import("./Pages/Login/SignInInterface/SignInInterfaceUser")
 );
 const ForgotPass = React.lazy(() =>
   import("./Pages/Login/ForgotPass/ForgotPass")
@@ -60,6 +55,7 @@ const ResetPass = React.lazy(() => import("./Pages/Login/ResetPass/ResetPass"));
 const AccountSetup = React.lazy(() =>
   import("./Pages/AccountSetup/AccountSetup")
 );
+
 const OTPVerification = React.lazy(() =>
   import("./Pages/Login/OTPVerification/OTPVerification")
 );
@@ -69,12 +65,16 @@ const PrivateRoute = React.lazy(() => import("./Private/PrivateRoute"));
 
 // Wallets
 const Wallets = React.lazy(() => import("./Pages/Wallets/Wallets"));
-const CryptoWallet = React.lazy(() =>
-  import("./Pages/CryptoWallet/CryptoWalletInterface")
+const Users = React.lazy(() =>
+  import("./Pages/UserList/UserInterface")
 );
-const FiatWallet = React.lazy(() =>
-  import("./Pages/FiatWallet/FiatWalletInterface")
-);
+
+const Admin = React.lazy(() => import("./Pages/AdminList/AdminInterface"));
+const Complain = React.lazy(() => import("./Pages/Complaint/Complaint"));
+
+const Transaction = React.lazy(() => import("./Pages/Transaction/Transaction"));
+
+const FiatWallet = React.lazy(() => import("./Pages/History/History"));
 const LoyaltyWallet = React.lazy(() =>
   import("./Pages/LoyaltyWallet/LoyaltyWalletInterface")
 );
@@ -82,13 +82,12 @@ const LoyaltyWallet = React.lazy(() =>
 // Top Up
 const TopUpPage = React.lazy(() => import("./Pages/TopUpPage/TopUpPage"));
 
-// Coin details
-const CoinDetails = React.lazy(() => import("./Pages/CoinDetails/CoinDetails"));
-
 // Profile Page
 const ProfileInterface = React.lazy(() =>
   import("./Pages/ProfilePage/ProfileInteface")
 );
+
+const SupportHelp = React.lazy(() => import("./Pages/SupportPage/SupportHelp"));
 
 // Static Page
 const StaticPageInterface = React.lazy(() =>
@@ -100,25 +99,46 @@ const TermsAndCondition = React.lazy(() =>
 const PrivacyPolicy = React.lazy(() =>
   import("./Pages/StaticPages/PrivacyPolicy")
 );
+
+const AML = React.lazy(() => import("./Pages/StaticPages/AML"));
 const About = React.lazy(() => import("./Pages/StaticPages/About"));
 const FAQ = React.lazy(() => import("./Pages/StaticPages/FAQ"));
 
 // Onboarding
-const OnboardingPage = React.lazy(() =>
-  import("./Pages/Onboarding/OnboardingPage.js")
-);
+// const OnboardingPage = React.lazy(() =>
+//   import("./Pages/Onboarding/OnboardingPage.js")
+// );
 
 // InstallationModal
-const InstallationModal = React.lazy(() =>
-  import("./components/InstallationModal/InstallationModal")
-);
+// const InstallationModal = React.lazy(() =>
+//   import("./components/InstallationModal/InstallationModal")
+// );
 
 // Color Context
-export const ColorModeContext = createContext({ toggleColorMode: () => { } });
-
-// Title and Descriptions
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 function App() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    // Update network status
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    // Listen to the online status
+    window.addEventListener("online", handleStatusChange);
+
+    // Listen to the offline status
+    window.addEventListener("offline", handleStatusChange);
+
+    // Specify how to clean up after this effect for performance improvment
+    return () => {
+      window.removeEventListener("online", handleStatusChange);
+      window.removeEventListener("offline", handleStatusChange);
+    };
+  }, [isOnline]);
+
   // Installation
   const [openInstallationModal, setOpenInstallationModal] = useState(false);
 
@@ -154,271 +174,283 @@ function App() {
 
   return (
     <div>
-      {/* {firebaseConfig?.apiKey ? ( */}
-      <AuthProvider>
-        <ColorModeContext.Provider value={colorMode}>
-          <ThemeProvider theme={theme}>
-            <Helmet
-              bodyAttributes={
-                theme.palette.mode === "dark"
-                  ? { style: "background-color: #252628" }
-                  : { style: "background-color: #fbfbfb" }
-              }
-              title={title ? title : "Red Onion"}
-              description={description ? description : "Red Onion"}
-              link={[
-                {
-                  rel: "icon",
-                  type: "image/png",
-                  href: "../src/assets/mainLogo.svg",
-                  sizes: "16x16",
-                },
-              ]}
-            />
-            <Box bgcolor={theme.palette.background.default} className="App">
-              <div className="container"  >
+      {isOnline ? (
+        <AuthProvider>
+          <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+              <Helmet
+                bodyAttributes={
+                  theme.palette.mode === "dark"
+                    ? { style: "background-color: #252628" }
+                    : { style: "background-color: #fbfbfb" }
+                }
+                title={title ? title : "Red Onion"}
+                description={description ? description : "Red Onion"}
+                link={[
+                  {
+                    rel: "icon",
+                    type: "image/png",
+                    href: "../src/assets/mainLogo.svg",
+                    sizes: "16x16",
+                  },
+                ]}
+              />
+              <Box bgcolor={theme.palette.background.default} className="App">
+                <div className="container">
+                  <BrowserRouter>
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<Navigate replace to="/auth/sign-in" />}
+                      />
 
-                {/* <Suspense  fallback={<ModalSkeletons  />}>
-                    <InstallationModal
-                      open={openInstallationModal}
-                      handleOpen={handleOpenIstallationModal}
-                      onClose={handleCloseInstallationModal}
-                    />
-                  </Suspense> */}
-                <BrowserRouter>
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        <Navigate replace to="/landing-page" />
-                      }
-                    />
-                    <Route
-                      path={NavRoutes.OnboardingPage.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          <OnboardingPage />
-                        </Suspense>
-                      }
-                    />
-                    {/* Registration Page */}
-                    <Route
-                      path={NavRoutes.Registration.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          <Registration />
-                        </Suspense>
-                      }
-                    >
-                      {/* Sign Up Page */}
+                      {/* Sign In User Page */}
                       <Route
-                        path={NavRoutes.SignUp.path}
+                        path={NavRoutes.SignInUser.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <SignUpInterface />
+                            <SignInInterfaceUser />
                           </Suspense>
                         }
                       />
-                      {/* TwoFa Page */}
-                      <Route
-                        path={NavRoutes.TwoFactorAuth.path}
+                      {/* 2fa  Page */}
+                      {/* <Route
+                        path={NavRoutes.TwoFAEmail.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <TwoFAPage />
+                            <TwoFAEmailPage />
                           </Suspense>
                         }
-                      />
-                      {/* TwoFa Pin */}
+                      /> */}
                       <Route
-                        path={NavRoutes.TwoFactorPin.path}
+                        path={NavRoutes.Login.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <TwoFAPin />
+                            <Login />
                           </Suspense>
                         }
-                      />
-                      {/* Login Page */}
-                    </Route>
-                    <Route
-                      path={NavRoutes.Login.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          <Login />
-                        </Suspense>
-                      }
-                    >
-                      {/* Sign In Page */}
+                      >
+                        {/* Sign In Page */}
+                        <Route
+                          path={NavRoutes.SignIn.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <SignInInterface />
+                            </Suspense>
+                          }
+                        />
+
+                        {/* Forgot Pass Page */}
+                        <Route
+                          path={NavRoutes.ForgotPass.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <ForgotPass />
+                            </Suspense>
+                          }
+                        />
+                        {/* Reset Pass Page */}
+                        <Route
+                          path={NavRoutes.ResetPass.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <ResetPass />
+                            </Suspense>
+                          }
+                        />
+                        {/* OTP Verification Page */}
+                        <Route
+                          path={NavRoutes.OtpVerification.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <OTPVerification />
+                            </Suspense>
+                          }
+                        />
+                      </Route>
+                      {/* Account Setup Page */}
                       <Route
-                        path={NavRoutes.SignIn.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <SignInInterface />
-                          </Suspense>
-                        }
-                      />
-                      {/* Forgot Pass Page */}
-                      <Route
-                        path={NavRoutes.ForgotPass.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <ForgotPass />
-                          </Suspense>
-                        }
-                      />
-                      {/* Reset Pass Page */}
-                      <Route
-                        path={NavRoutes.ResetPass.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <ResetPass />
-                          </Suspense>
-                        }
-                      />
-                      {/* OTP Verification Page */}
-                      <Route
-                        path={NavRoutes.OtpVerification.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <OTPVerification />
-                          </Suspense>
-                        }
-                      />
-                    </Route>
-                    {/* Account Setup Page */}
-                    <Route
-                      path={NavRoutes.AccountSetup.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          {/* <PrivateRoute> */}
-                          <AccountSetup />
-                          {/* </PrivateRoute> */}
-                        </Suspense>
-                      }
-                    />
-                    {/* Wallets */}
-                    <Route
-                      path={NavRoutes.Wallets.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          {/* <PrivateRoute> */}
-                          <Wallets />
-                          {/* </PrivateRoute> */}
-                        </Suspense>
-                      }
-                    >
-                      <Route
-                        path="/dashboard/:coinName"
+                        path={NavRoutes.AccountSetup.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
                             <PrivateRoute>
-                              <CoinDetails />
+                              <AccountSetup />
                             </PrivateRoute>
                           </Suspense>
                         }
                       />
-                      Crypto Wallet
+                      {/* Wallets */}
                       <Route
-                        path={NavRoutes.CryptoWallet.path}
+                        path={NavRoutes.Wallets.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <CryptoWallet />
+                            <PrivateRoute>
+                              <Wallets />
+                            </PrivateRoute>
                           </Suspense>
                         }
-                      />
-                      {/* Top Up */}
+                      >
+                        {/* <Route
+                          path="/dashboard/:coinName"
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <PrivateRoute>
+                                <CoinDetails />
+                              </PrivateRoute>
+                            </Suspense>
+                          }
+                        /> */}
+                        {/* User Wallet */}
+                        <Route
+                          path={NavRoutes.Users.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <Users />
+                            </Suspense>
+                          }
+                        />
+
+                        {/* Crypto Wallet */}
+                        <Route
+                          path={NavRoutes.Admin.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <Admin />
+                            </Suspense>
+                          }
+                        />
+                        {/* Complaint Wallet */}
+                        <Route
+                          path="/dashboard/complain"
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <Complain />
+                            </Suspense>
+                          }
+                        />
+
+                        {/* Complaint Wallet */}
+                        <Route
+                          path="/dashboard/transaction"
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <Transaction />
+                            </Suspense>
+                          }
+                        />
+                        {/* Top Up */}
+                        {/* <Route
+                          path={NavRoutes.TopUp.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <TopUpPage />
+                            </Suspense>
+                          }
+                        /> */}
+                        {/* Fiat Wallet */}
+                        {/* <Route
+                          path={NavRoutes.FiatWallet.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <FiatWallet />
+                            </Suspense>
+                          }
+                        /> */}
+                        {/* Loyalty Wallet */}
+                        {/* <Route
+                          path={NavRoutes.LoyaltyWallet.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <LoyaltyWallet />
+                            </Suspense>
+                          }
+                        /> */}
+                      </Route>
                       <Route
-                        path={NavRoutes.TopUp.path}
+                        path={NavRoutes.Account.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <TopUpPage />
+                            <PrivateRoute>
+                              <ProfileInterface />
+                            </PrivateRoute>
                           </Suspense>
                         }
-                      />
-                      {/* Fiat Wallet */}
+                      ></Route>
                       <Route
-                        path={NavRoutes.FiatWallet.path}
+                        path={NavRoutes.SupportHelp.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <FiatWallet />
+                            <PrivateRoute>
+                              <SupportHelp />
+                            </PrivateRoute>
                           </Suspense>
                         }
-                      />
-                      {/* Loyalty Wallet */}
+                      ></Route>
+                      {/* Static Pages */}
                       <Route
-                        path={NavRoutes.LoyaltyWallet.path}
+                        path={NavRoutes.ThriftyWallet.path}
                         element={
                           <Suspense fallback={<ProgressLoader />}>
-                            <LoyaltyWallet />
+                            <StaticPageInterface />
                           </Suspense>
                         }
-                      />
-                    </Route>
-                    <Route
-                      path={NavRoutes.Account.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          {/* <PrivateRoute> */}
-                          <ProfileInterface />
-                          {/* </PrivateRoute> */}
-                        </Suspense>
-                      }
-                    ></Route>
-                    {/* Static Pages */}
-                    <Route
-                      path={NavRoutes.ThriftyWallet.path}
-                      element={
-                        <Suspense fallback={<ProgressLoader />}>
-                          <StaticPageInterface />
-                        </Suspense>
-                      }
-                    >
-                      {/* Terms and Condition */}
-                      <Route
-                        path={NavRoutes.TermsAndConditions.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <TermsAndCondition />
-                          </Suspense>
-                        }
-                      />
-                      {/* Terms and Condition */}
-                      <Route
-                        path={NavRoutes.PrivacyPolicy.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <PrivacyPolicy />
-                          </Suspense>
-                        }
-                      />
-                      {/* About */}
-                      <Route
-                        path={NavRoutes.AboutPage.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <About />
-                          </Suspense>
-                        }
-                      />
-                      {/* FAQ */}
-                      <Route
-                        path={NavRoutes.FAQ.path}
-                        element={
-                          <Suspense fallback={<ProgressLoader />}>
-                            <FAQ />
-                          </Suspense>
-                        }
-                      />
-                    </Route>
-                  </Routes>
-                </BrowserRouter>
-              </div>
-            </Box>
-          </ThemeProvider>
-        </ColorModeContext.Provider>
-      </AuthProvider>
-      {/* ) : (
-        <NoFirebase />
-      )} */}
+                      >
+                        {/* Terms and Condition */}
+                        <Route
+                          path={NavRoutes.TermsAndConditions.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <TermsAndCondition />
+                            </Suspense>
+                          }
+                        />
+                        {/* Terms and Condition */}
+                        <Route
+                          path={NavRoutes.PrivacyPolicy.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <PrivacyPolicy />
+                            </Suspense>
+                          }
+                        />
+                        {/* AML */}
+                        <Route
+                          path={NavRoutes.AML.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <AML />
+                            </Suspense>
+                          }
+                        />
+                        {/* About */}
+                        <Route
+                          path={NavRoutes.AboutPage.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <About />
+                            </Suspense>
+                          }
+                        />
+                        {/* FAQ */}
+                        <Route
+                          path={NavRoutes.FAQ.path}
+                          element={
+                            <Suspense fallback={<ProgressLoader />}>
+                              <FAQ />
+                            </Suspense>
+                          }
+                        />
+                      </Route>
+                    </Routes>
+                  </BrowserRouter>
+                </div>
+              </Box>
+            </ThemeProvider>
+          </ColorModeContext.Provider>
+        </AuthProvider>
+      ) : (
+        <NoInternet />
+      )}
     </div>
   );
 }

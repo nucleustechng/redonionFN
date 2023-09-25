@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Snackbar,
   Alert,
@@ -23,6 +23,7 @@ import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 // Logout authentication
 import useAuth from "../../../../hooks/useAuth";
 // Styles
+// import styles from "./Support.module.css";
 import styles from "./Support.module.css";
 
 import { useNavigate } from "react-router-dom";
@@ -30,14 +31,19 @@ import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
 import successClock from "../../../../assets/logout.svg";
-import axios from "../../../../api/axios";
 
 // Lazy image loader
 const LazyImageComponent = React.lazy(() =>
   import("../../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const UserVeifyModal = ({ open, handleClose, user, chooseMessage, status }) => {
+const UserVeifyModal = ({
+  open,
+  handleClose,
+  user,
+  chooseVerifyMessage,
+  status,
+}) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -47,72 +53,6 @@ const UserVeifyModal = ({ open, handleClose, user, chooseMessage, status }) => {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [userInfo, setuserInfo] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
-
-  const GET_KYC_URL = "kyc/view-selfie-image/";
-
-  const GET_IDEN_URL = "/kyc/view-identity-document/";
-
-  const GET_VERIFY_URL = "/kyc/verify-user-identity/";
-
-  const GET_UNVERIFY_URL = "/kyc/unverify-user-identity/";
-
-  useEffect(() => {
-    const getSelfie = () => {
-      // setLoading(true);
-
-      axios
-        .get(GET_KYC_URL + user?.id, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        })
-        .then((res) => {
-          console.log(res.data.data);
-          // setStatus(res.data.data.active);
-        })
-        .catch((err) => {
-          if (err?.response?.status === 401) {
-            navigate("/admin/sign-in");
-          }
-        })
-        .finally(() => {
-          // setLoading(false);
-        });
-    };
-
-    const getDen = () => {
-      // setLoading(true);
-
-      axios
-        .get(GET_IDEN_URL + user?.id, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        })
-        .then((res) => {
-          console.log(res.data.data);
-          // setStatus(res.data.data.active);
-        })
-        .catch((err) => {
-          if (err?.response?.status === 401) {
-            navigate("/admin/sign-in");
-          }
-        })
-        .finally(() => {
-          // setLoading(false);
-        });
-    };
-
-    getDen();
-
-    getSelfie();
-  });
 
   return (
     <Modal
@@ -127,7 +67,7 @@ const UserVeifyModal = ({ open, handleClose, user, chooseMessage, status }) => {
         className={styles.changePasswordModalBody}
       >
         <Box mt={3}>
-          {/* <center>
+          <center>
             <LazyImageComponent src={successClock} />
           </center>
           <Typography
@@ -137,7 +77,7 @@ const UserVeifyModal = ({ open, handleClose, user, chooseMessage, status }) => {
             color="white"
             fontWeight={500}
           >
-            Are you sure you want to {!status ? "unsuspend" : "suspend"}
+            Are you sure you want to {!status ? "unverify" : "verify"} KYC of
           </Typography>
           <Typography
             variant="h3"
@@ -156,7 +96,7 @@ const UserVeifyModal = ({ open, handleClose, user, chooseMessage, status }) => {
             ) : (
               <>
                 <Button
-                  onClick={() => chooseMessage(msg)}
+                  onClick={() => chooseVerifyMessage(msg)}
                   style={{
                     height: 60,
                     borderRadius: 10,
@@ -166,11 +106,11 @@ const UserVeifyModal = ({ open, handleClose, user, chooseMessage, status }) => {
                   variant="contained"
                   color="primary"
                 >
-                  Yes, {!status ? "unsuspend" : "suspend"}
+                  Yes, {!status ? "unverify" : "verify"}
                 </Button>
               </>
             )}
-          </Stack> */}
+          </Stack>
         </Box>
       </Box>
     </Modal>

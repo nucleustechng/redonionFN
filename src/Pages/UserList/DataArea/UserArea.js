@@ -163,7 +163,7 @@ const UserArea = (prop) => {
                     />
                   }
                 />
-                <Tab
+                {/* <Tab
                   sx={{
                     mr: 2,
                     backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
@@ -187,12 +187,12 @@ const UserArea = (prop) => {
                       src={tabValue === 1 ? BuyIconDark : BuyIcon}
                     />
                   }
-                />
+                /> */}
 
                 <Tab
                   sx={{
                     mr: 2,
-                    backgroundColor: tabValue === 2 ? "#3063E9" : "#fff",
+                    backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
                     borderTopRightRadius: 10,
                     borderTopLeftRadius: 10,
                     marginTop: -1.4,
@@ -202,7 +202,7 @@ const UserArea = (prop) => {
                     <Typography
                       textTransform={"none"}
                       fontSize={14}
-                      color={tabValue === 2 ? "#fff" : "#000"}
+                      color={tabValue === 1 ? "#fff" : "#000"}
                     >
                       Transaction
                     </Typography>
@@ -210,7 +210,7 @@ const UserArea = (prop) => {
                   iconPosition="start"
                   icon={
                     <LazyImageComponent
-                      src={tabValue === 2 ? BuyIconDark : BuyIcon}
+                      src={tabValue === 1 ? BuyIconDark : BuyIcon}
                     />
                   }
                 />
@@ -237,7 +237,7 @@ const UserArea = (prop) => {
                 </Box>
               </TabPanel>
               {/* My Rewards */}
-              <TabPanel value={tabValue} index={1}>
+              {/* <TabPanel value={tabValue} index={1}>
                 <Box className={styles.tabPanel}>
                   <Suspense
                     fallback={
@@ -254,9 +254,9 @@ const UserArea = (prop) => {
                     <History />
                   </Suspense>
                 </Box>
-              </TabPanel>
+              </TabPanel> */}
 
-              <TabPanel value={tabValue} index={2}>
+              <TabPanel value={tabValue} index={1}>
                 <Box className={styles.tabPanel}>
                   <Suspense
                     fallback={

@@ -1,12 +1,12 @@
 import { createContext, useEffect } from "react";
-import useFirebase from "../hooks/useFirebase";
+import useUser from "../hooks/useUser";
 import { Navigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
-  const allAuthContext = useFirebase();
-  console.log(allAuthContext)
+  const allAuthContext = useUser();
+ 
   return (
     <>
       <AuthContext.Provider value={allAuthContext}>
