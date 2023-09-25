@@ -227,7 +227,7 @@ const TransactionDetailsAreaMobile = () => {
                   color="secondary"
                   fontWeight={600}
                 >
-                  User
+                  Users
                 </Typography>
               </Box>
               <Stack

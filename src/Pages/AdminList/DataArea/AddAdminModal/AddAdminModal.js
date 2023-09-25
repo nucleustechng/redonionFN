@@ -368,7 +368,10 @@ const ProfileInfoModal = ({
                     onChange={handleRoleSelection}
                   >
                     <MenuItem key={1} value={"ADMIN"}>
-                      ADMIN
+                      Admin
+                    </MenuItem>
+                    <MenuItem key={2} value={"SUPPORT"}>
+                      Support
                     </MenuItem>
                   </Select>
                 </Stack>
@@ -422,7 +425,7 @@ const ProfileInfoModal = ({
               color="secondary"
               fontWeight={500}
             >
-              Account created successfully
+              Account Created Successfully
             </Typography>
 
             <Typography
@@ -434,7 +437,7 @@ const ProfileInfoModal = ({
               fontSize={16}
               textAlign={"center"}
             >
-              You have successfully registered a staff
+              New Administrator Account Provisioned
             </Typography>
           </Box>
         )}

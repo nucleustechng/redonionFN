@@ -88,8 +88,8 @@ const UserInfo = (prop) => {
   const GET_SUSPEND_URL = "/admin/set-user-status/";
 
   const GET_verify_URL = identitystatus
-    ? "/kyc/verify-user-identity/"
-    : "/kyc/unverify-user-identity/";
+    ? "/kyc/unverify-user-identity/"
+    : "/kyc/verify-user-identity/";
 
   const getSuspend = () => {
     setLoading(true);
@@ -212,7 +212,7 @@ const UserInfo = (prop) => {
                 </Button>
               ) : (
                 <Button
-                  // onClick={() => setOpenSuccessModal(true)}
+                  onClick={() => setOpenSuccessModal(true)}
                   // onClick={getSuspend}
                   fullWidth
                   style={{

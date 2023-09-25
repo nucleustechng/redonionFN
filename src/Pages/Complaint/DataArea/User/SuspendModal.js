@@ -102,7 +102,7 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage }) => {
                     textTransform: "none",
                   }}
                   variant="contained"
-                  color="primary"
+                  color="#accent"
                 >
                   Yes, Suspend
                 </Button>

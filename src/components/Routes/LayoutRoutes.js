@@ -18,7 +18,7 @@ const LayoutRoutes = [
     path: "/complain",
     icon: ComplainIcon,
     iconLight: ComplainIconWhite,
-    name: "Complain",
+    name: "Complaints",
   },
   {
     id: 3,

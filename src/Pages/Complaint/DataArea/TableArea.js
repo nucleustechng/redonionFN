@@ -199,7 +199,7 @@ const TransactionDetailsAreaMobile = () => {
                   color="secondary"
                   fontWeight={600}
                 >
-                  Complain
+                  Complaints
                 </Typography>
               </Box>
               <Stack

@@ -346,7 +346,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                   color={"#000"}
                   variant="body2"
                 >
-                  Log out
+                  Log Out
                 </Typography>
               </Stack>
             </Box>
