@@ -78,16 +78,19 @@ const ProfileInfoModal = ({
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  const [value, setValue] = useState("ADMIN");
-  const [countryData, setCountryData] = useState([]);
-  const [country, setCountry] = useState(1);
-  const [countrySplit, setCountrySplit] = useState(""
+  const [value, setValue] = useState(
+    user?.country?.ext + " " + user?.user?.phoneNumber
   );
-  const [countryID, setCountryID] = useState("");
+  const [countryData, setCountryData] = useState([]);
+  const [country, setCountry] = useState(
+    user?.country?.id + " " + user?.country?.code
+  );
+  const [countrySplit, setCountrySplit] = useState(
+    user?.country?.id + " " + user?.country?.code
+  );
+  const [countryID, setCountryID] = useState(user?.country?.id);
 
-  const [email, setEmail] = useState("");
-  const [fname, setFname] = useState("");
-  const [lname, setLName] = useState("");
+  const [email, setEmail] = useState(user?.user?.email);
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -102,35 +105,34 @@ const ProfileInfoModal = ({
   };
 
   const COUNTRIES_URL = "/user/get-countries";
-  const UPDATE_USER_URL = "/admin/register-staff";
+  const UPDATE_USER_URL = "/user/update";
 
   const handleCountrySelection = (e) => {
     var con = e.target.value;
     setCountry(con);
+    setCountryID(con.split(" ")[0]);
+    setCountrySplit(con.split(" ")[1]);
   };
 
-  const handleRoleSelection = (e) => {
-    var con = e.target.value;
-    setValue(con);
-  };
-
-
+  console.log(user);
   const handleRegisterUser = () => {
-   
-    if (email === "" || fname === "" || lname === "") {
+    // if (email === user?.user?.email || value === user?.user?.phone) {
+    //   return;
+    // }
+    if (email === "" || value === "") {
       setShowAuthenticationSnackbar(true);
     } else {
       setLoading(true);
 
       axios
-        .post(
+        .patch(
           UPDATE_USER_URL,
           JSON.stringify({
             email: email,
-            firstName: fname,
-            lastName: lname,
-            countryId: country,
-            roles: [value],
+            firstName: user?.user?.firstName,
+            lastName: user?.user?.lastName,
+            middleName: user?.user?.middleName,
+            phoneNumber: value,
           }),
           {
             headers: {
@@ -250,9 +252,9 @@ const ProfileInfoModal = ({
                     disableUnderline
                     className="inputField"
                     type="text"
-                    onChange={(e) => setFname(e.target.value)}
+                    disabled
                     variant="outlined"
-                    value={fname}
+                    value={user?.user?.firstName}
                     size="small"
                     color="secondary"
                     name="fname"
@@ -271,15 +273,37 @@ const ProfileInfoModal = ({
                     disableUnderline
                     className="inputField"
                     type="text"
-                    value={lname}
+                    disabled
+                    value={user?.user?.lastName}
                     variant="outlined"
                     size="small"
                     color="secondary"
                     name="lname"
-                    onChange={(e) => setLName(e.target.value)}
+                    // onChange={handleUserInfo}
                   />
                 </Stack>
 
+                {/* <Stack spacing={1} mb={2}>
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.primary}
+                    fontSize={16}
+                  >
+                    Middle Name
+                  </Typography>
+                  <Input
+                    disableUnderline
+                    className="inputField"
+                    type="text"
+                    disabled
+                    variant="outlined"
+                    value={user?.user?.middleName}
+                    size="small"
+                    color="secondary"
+                    name="mname"
+                    // onChange={handleUserInfo}
+                  />
+                </Stack> */}
                 <Stack spacing={1} mb={2}>
                   <Typography
                     variant="body1"
@@ -301,7 +325,7 @@ const ProfileInfoModal = ({
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Stack>
-                <Stack spacing={1} mb={2}>
+                {/* <Stack spacing={1} mb={2}>
                   <Typography
                     variant="body1"
                     color={theme.palette.text.primary}
@@ -310,6 +334,7 @@ const ProfileInfoModal = ({
                     *Country
                   </Typography>
                   <Select
+                    disabled
                     className={
                       theme.palette.mode === "dark" ? "" : styles.currencyBox
                     }
@@ -317,13 +342,13 @@ const ProfileInfoModal = ({
                     onChange={handleCountrySelection}
                   >
                     {countryData.map(({ id, name, code, ext, regex }) => (
-                      <MenuItem key={id} value={id}>
+                      <MenuItem key={id} value={id + " " + code}>
                         {name}
                       </MenuItem>
                     ))}
                   </Select>
-                </Stack>
-                {/* <Stack spacing={1} mb={2}>
+                </Stack> */}
+                <Stack spacing={1} mb={2}>
                   <Typography
                     variant="body1"
                     color={theme.palette.text.primary}
@@ -349,7 +374,7 @@ const ProfileInfoModal = ({
                     disableDropdown={true}
                     onChange={setValue}
                   />
-                </Stack> */}
+                </Stack>
 
                 <Stack spacing={1} mb={2}>
                   <Typography
@@ -364,12 +389,14 @@ const ProfileInfoModal = ({
                     className={
                       theme.palette.mode === "dark" ? "" : styles.currencyBox
                     }
-                    value={value}
-                    onChange={handleRoleSelection}
+                    value={1}
+                    // onChange={handleCountrySelection}
                   >
-                    <MenuItem key={1} value={"ADMIN"}>
-                      ADMIN
-                    </MenuItem>
+                   
+                      <MenuItem key={1} value={2}>
+                        Role
+                      </MenuItem>
+                  
                   </Select>
                 </Stack>
 
@@ -402,7 +429,7 @@ const ProfileInfoModal = ({
                         variant="contained"
                         color="primary"
                       >
-                        Add Admin
+                        Update Details
                       </Button>
                     </>
                   )}
@@ -422,7 +449,7 @@ const ProfileInfoModal = ({
               color="secondary"
               fontWeight={500}
             >
-              Account created successfully
+              Account Information changed successfully
             </Typography>
 
             <Typography
@@ -434,7 +461,7 @@ const ProfileInfoModal = ({
               fontSize={16}
               textAlign={"center"}
             >
-              You have successfully registered a staff
+              You have successfully changed your account number on Red Onion.
             </Typography>
           </Box>
         )}

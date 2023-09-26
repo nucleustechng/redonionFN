@@ -48,7 +48,7 @@ const UserArea = React.lazy(() => import("./AdminArea"));
 // Table Header
 const tableHeader = [
   {
-    name: "Name",
+    name: "NAME",
   },
   {
     // name: "Method",
@@ -57,7 +57,7 @@ const tableHeader = [
     // name: "Status",
   },
   {
-    name: "Country",
+    name: "Position",
   },
 ];
 
@@ -352,7 +352,11 @@ const TableArea = () => {
                       <TableRow>
                         {tableHeader.map((th) => (
                           <StyledTableCell key={th.name}>
-                            <Typography fontSize={18} variant="caption">
+                            <Typography
+                              fontSize={18}
+                              fontWeight={700}
+                              variant="caption"
+                            >
                               {th.name}
                             </Typography>
                           </StyledTableCell>
@@ -371,7 +375,11 @@ const TableArea = () => {
                             key={td.id}
                           >
                             <StyledTableCell scope="row">
-                              <Typography fontSize={18} variant="caption">
+                              <Typography
+                                fontSize={18}
+                                // fontWeight={700}
+                                variant="caption"
+                              >
                                 {td.firstName} {td.lastName} {td.middleName}
                               </Typography>
                             </StyledTableCell>
@@ -379,7 +387,11 @@ const TableArea = () => {
                             <StyledTableCell align="left"></StyledTableCell>
                             <StyledTableCell align="left">
                               <Tooltip title={td.country?.name}>
-                                <Typography fontSize={18} variant="caption">
+                                <Typography
+                                  fontSize={18}
+                                  // fontWeight={700}
+                                  variant="caption"
+                                >
                                   {td.country?.name}
                                 </Typography>
                               </Tooltip>

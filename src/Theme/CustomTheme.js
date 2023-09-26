@@ -43,7 +43,7 @@ const CustomTheme = () => {
                 // main: "#009698",
               },
               accent: {
-                main: "#ff0000",
+                main: "#6C63FF",
               },
               orange: {
                 main: "#FF5722",
@@ -117,8 +117,7 @@ const CustomTheme = () => {
                 card: "#1B1B1B",
                 primary: "#F9E006",
                 light: "#fff",
-                btncolor: "#E8E8F3",
-                red: "#FF0000"
+                btncolor: "#E8E8F3"
               },
               text: {
                 primary: "#ffffff",

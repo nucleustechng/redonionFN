@@ -106,7 +106,7 @@ const CustomAppbar = ({ handleDrawerToggle, handleClickMenu }) => {
                 </IconButton>
                 <Box sx={{ display: { xs: "none", sm: "block" } }}>
                   <Stack direction={"row"}>
-                    {/* <Box mt={2} mr={3}>
+                    <Box mt={2} mr={3}>
                       <a
                         href="/dashboard/transaction"
                         style={{
@@ -123,7 +123,7 @@ const CustomAppbar = ({ handleDrawerToggle, handleClickMenu }) => {
                       >
                         Find Transaction
                       </a>
-                    </Box> */}
+                    </Box>
                     <Box mt={2} mr={3}>
                       <a
                         href="/dashboard/complain"

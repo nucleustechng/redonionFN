@@ -63,9 +63,9 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage, status }) => {
         className={styles.changePasswordModalBody}
       >
         <Box mt={3}>
-          <center>
+          {/* <center>
             <LazyImageComponent src={successClock} />
-          </center>
+          </center> */}
           <Typography
             variant="h3"
             mt={!isMobile ? 4 : 8}
@@ -98,6 +98,7 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage, status }) => {
                     borderRadius: 10,
                     fontSize: 18,
                     textTransform: "none",
+                    backgroundColor: "#ff0000"
                   }}
                   variant="contained"
                   color="primary"

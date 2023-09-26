@@ -39,15 +39,12 @@ import {
 import { DatePickerTextField } from "../../../components/DatePickerTextField/DatePickerTextField";
 import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
 
-
-const UserArea = React.lazy(() =>
-  import("./UserArea")
-);
+const UserArea = React.lazy(() => import("./UserArea"));
 
 // Table Header
 const tableHeader = [
   {
-    name: "Name",
+    name: "NAME",
   },
   {
     // name: "Method",
@@ -56,11 +53,9 @@ const tableHeader = [
     // name: "Status",
   },
   {
-    name: "Location",
+    name: "LOCATION",
   },
 ];
-
-
 
 const FiatTableDetailsModal = React.lazy(() =>
   import("../../History/TransactionDetailsArea/FiatTableDetailsModal")
@@ -80,7 +75,7 @@ const TransactionDetailsAreaMobile = () => {
 
   const [loading, setLoading] = useState(false);
 
-   const [userData, setUserData] = useState(false);
+  const [userData, setUserData] = useState(false);
 
   const theme = useTheme();
 
@@ -91,7 +86,7 @@ const TransactionDetailsAreaMobile = () => {
 
   // Modal Handler
   const handleOpenTableDetailsModal = (user) => {
-    setUserData(user)
+    setUserData(user);
     setShowModal(true);
   };
 
@@ -99,14 +94,11 @@ const TransactionDetailsAreaMobile = () => {
     setShowModal(false);
   };
 
-  
-
   const ADMIN_USER_URL = "/admin/get-users";
 
-   const ADMIN_COUNTRY_URL = "/user/get-countries";
+  const ADMIN_COUNTRY_URL = "/user/get-countries";
 
   const getCountry = (country) => {
-   
     var user = JSON.parse(localStorage.getItem("user"));
 
     axios
@@ -121,7 +113,7 @@ const TransactionDetailsAreaMobile = () => {
 
         Object.keys(data).map((keys) => {
           if (country.countryId === data[keys].id) {
-             return data[keys];
+            return data[keys];
           }
 
           return 0;
@@ -159,9 +151,6 @@ const TransactionDetailsAreaMobile = () => {
         }
       })
       .finally(() => setLoading(false));
-
-     
-
   }, [
     navigate,
     ADMIN_USER_URL,
@@ -170,7 +159,6 @@ const TransactionDetailsAreaMobile = () => {
     fromDateValue,
     toDateValue,
   ]);
-
 
   return (
     <Grid container columns={{ xs: 12, sm: 12, md: 12 }}>
@@ -290,7 +278,11 @@ const TransactionDetailsAreaMobile = () => {
                       <TableRow>
                         {tableHeader.map((th) => (
                           <StyledTableCell key={th.name}>
-                            <Typography fontSize={18} variant="caption">
+                            <Typography
+                              fontSize={18}
+                              fontWeight={700}
+                              variant="caption"
+                            >
                               {th.name}
                             </Typography>
                           </StyledTableCell>
@@ -313,7 +305,11 @@ const TransactionDetailsAreaMobile = () => {
                             key={td.id}
                           >
                             <StyledTableCell scope="row">
-                              <Typography fontSize={18} variant="caption">
+                              <Typography
+                                fontSize={18}
+                                // fontWeight={700}
+                                variant="caption"
+                              >
                                 {td.firstName} {td.lastName} {td.middleName}
                               </Typography>
                             </StyledTableCell>
@@ -321,7 +317,11 @@ const TransactionDetailsAreaMobile = () => {
                             <StyledTableCell align="left"></StyledTableCell>
                             <StyledTableCell align="left">
                               <Tooltip title={td.countryId}>
-                                <Typography fontSize={18} variant="caption">
+                                <Typography
+                                  fontSize={18}
+                                  // fontWeight={700}
+                                  variant="caption"
+                                >
                                   {td.countryId}
                                 </Typography>
                               </Tooltip>

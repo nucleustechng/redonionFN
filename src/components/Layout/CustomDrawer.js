@@ -164,7 +164,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
         <Box ml={-2}>
           <List>
             <ListItem sx={{ mb: 1 }}>
-              {/* <Box
+              <Box
                 ml={1}
                 p={1}
                 mt={4}
@@ -212,7 +212,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                     Find Transactions
                   </Typography>
                 </Stack>
-              </Box> */}
+              </Box>
             </ListItem>
           </List>
         </Box>
@@ -346,7 +346,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                   color={"#000"}
                   variant="body2"
                 >
-                  Log Out
+                  Log out
                 </Typography>
               </Stack>
             </Box>

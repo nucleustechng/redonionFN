@@ -2,9 +2,10 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import {
   Button,
+  MenuItem,
   Divider,
-  IconButton,
-  InputAdornment,
+  Select,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -38,41 +39,39 @@ import {
 } from "../../../components/StyledTable/StyledTable";
 import { DatePickerTextField } from "../../../components/DatePickerTextField/DatePickerTextField";
 import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
+import moment from "moment";
 
+const AddAdminModal = React.lazy(() => import("./AddAdminModal/AddAdminModal"));
 
-const UserArea = React.lazy(() =>
-  import("./UserArea")
-);
+const ComplaintArea = React.lazy(() => import("./ComplaintArea"));
 
 // Table Header
 const tableHeader = [
   {
-    name: "Name",
+    name: "EMAIL",
   },
   {
-    // name: "Method",
-  },
-  {
-    // name: "Status",
-  },
-  {
-    name: "Location",
+    name: "SUPPORT TYPE ",
   },
 ];
 
-
-
-const FiatTableDetailsModal = React.lazy(() =>
-  import("../../History/TransactionDetailsArea/FiatTableDetailsModal")
-);
-
-const TransactionDetailsAreaMobile = () => {
+const TableArea = () => {
   const [showModal, setShowModal] = useState(false);
   const [fromDateValue, setFromDateValue] = React.useState("01/01/2023");
   const [toDateValue, setToDateValue] = React.useState("06/30/2023");
-  const [transactionData, setTransactionData] = useState([]);
+  const [complaintData, setComplaintData] = useState([]);
+
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
   const navigate = useNavigate();
+
+  const countryData = [
+    {
+      id: "1",
+      name: "All",
+      // icon: BitCoinIcon,
+    },
+  ];
 
   // Pages
   const [tablePage, setTablePage] = React.useState(0);
@@ -80,7 +79,7 @@ const TransactionDetailsAreaMobile = () => {
 
   const [loading, setLoading] = useState(false);
 
-   const [userData, setUserData] = useState(false);
+  const [userData, setUserData] = useState(false);
 
   const theme = useTheme();
 
@@ -91,7 +90,7 @@ const TransactionDetailsAreaMobile = () => {
 
   // Modal Handler
   const handleOpenTableDetailsModal = (user) => {
-    setUserData(user)
+    setUserData(user);
     setShowModal(true);
   };
 
@@ -99,37 +98,8 @@ const TransactionDetailsAreaMobile = () => {
     setShowModal(false);
   };
 
-  
-
   const ADMIN_MESSAGE_URL = "/chat/get-messages";
 
-   const ADMIN_COUNTRY_URL = "/user/get-countries";
-
-  const getCountry = (country) => {
-   
-    var user = JSON.parse(localStorage.getItem("user"));
-
-    axios
-      .get(ADMIN_COUNTRY_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        let data = res.data.data.countries;
-
-        Object.keys(data).map((keys) => {
-          if (country.countryId === data[keys].id) {
-             return data[keys];
-          }
-
-          return 0;
-        });
-      });
-  };
-
-  // Loading coin data
   useEffect(() => {
     var user = JSON.parse(localStorage.getItem("user"));
     setLoading(true);
@@ -146,8 +116,8 @@ const TransactionDetailsAreaMobile = () => {
         }
       )
       .then((res) => {
-        setTransactionData(res.data.data.users);
-        console.log(res.data.data.users);
+        setComplaintData(res.data.data.messages);
+        console.log(res.data.data.messages);
       })
       .catch((err) => {
         console.log(err);
@@ -156,50 +126,32 @@ const TransactionDetailsAreaMobile = () => {
         }
       })
       .finally(() => setLoading(false));
-  }, [
-    navigate,
-    ADMIN_MESSAGE_URL,
-    fromDateValue,
-    toDateValue,
-  ]);
+  }, [navigate, ADMIN_MESSAGE_URL, fromDateValue, toDateValue]);
 
+  const handleOpenSuccessModal = () => {
+    setOpenSuccessModal(!openSuccessModal);
+  };
 
   return (
     <Grid container columns={{ xs: 12, sm: 12, md: 12 }}>
+      {/* <Suspense>
+        <AddAdminModal
+          open={openSuccessModal}
+          handleOpenSuccessModal={handleOpenSuccessModal}
+        />
+      </Suspense> */}
       <Grid item xs={12} sm={12} md={showModal ? 7.5 : 12}>
         <Box className={styles.mainBoxMobile}>
-          <Box
-          // bgcolor={theme.palette.background.paper}
-          // className={styles.filterBoxMobile}
-          >
-            {/* <Box className={styles.searchAreaMobile}>
-          <Input
-            disableUnderline
-            fullWidth
-            className="inputField"
-            size="small"
-            placeholder="Search"
-            id="filled-adornment-password"
-            startAdornment={
-              <InputAdornment position="start">
-                <Box className={styles.searchBoxMobile}>
-                  <IconButton edge="start">
-                    <SearchIcon color="secondary" />
-                  </IconButton>
-                </Box>
-              </InputAdornment>
-            }
-          />
-        </Box> */}
+          <Box>
             <Box>
-              <Box mb={-6}>
+              <Box mb={0}>
                 <Typography
                   variant="h3"
                   className={styles.titleBox}
                   color="secondary"
                   fontWeight={600}
                 >
-                  Complaints
+                  Complaint
                 </Typography>
               </Box>
               <Stack
@@ -207,54 +159,7 @@ const TransactionDetailsAreaMobile = () => {
                 // spacing={1}
                 alignItems="center"
                 justifyContent="flex-end"
-              >
-                <Box className={styles.datePickerAreaMobile}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <Stack direction="row" spacing={1}>
-                      <DatePicker
-                        disableFuture
-                        label="From Date"
-                        value={fromDateValue}
-                        onChange={(newValue) => {
-                          setFromDateValue(newValue);
-                        }}
-                        renderInput={(params) => (
-                          <DatePickerTextField
-                            autoComplete="off"
-                            color="secondary"
-                            variant="outlined"
-                            size="small"
-                            {...params}
-                          />
-                        )}
-                      />
-                      <DatePicker
-                        disablePast
-                        label="To Date"
-                        value={toDateValue}
-                        onChange={(newValue) => {
-                          setToDateValue(newValue);
-                        }}
-                        renderInput={(params) => (
-                          <DatePickerTextField
-                            autoComplete="off"
-                            color="secondary"
-                            variant="outlined"
-                            size="small"
-                            {...params}
-                          />
-                        )}
-                      />
-                    </Stack>
-                  </LocalizationProvider>
-                </Box>
-
-                <Box>
-                  {/* <Button sx={{ py: 1.2 }} variant="outlined" color="primary">
-                Search
-              </Button> */}
-                </Box>
-              </Stack>
+              ></Stack>
             </Box>
             <Divider sx={{ mt: 3 }} />
           </Box>
@@ -282,7 +187,11 @@ const TransactionDetailsAreaMobile = () => {
                       <TableRow>
                         {tableHeader.map((th) => (
                           <StyledTableCell key={th.name}>
-                            <Typography fontSize={18} variant="caption">
+                            <Typography
+                              fontSize={18}
+                              fontWeight={800}
+                              variant="caption"
+                            >
                               {th.name}
                             </Typography>
                           </StyledTableCell>
@@ -290,12 +199,8 @@ const TransactionDetailsAreaMobile = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {transactionData
-                        .slice(
-                          tablePage * rowsPerPage,
-                          tablePage * rowsPerPage + rowsPerPage
-                        )
-                        .map((td) => (
+                      {complaintData.map((td) => (
+                        <>
                           <StyledTableRow
                             Buttton
                             onClick={() => handleOpenTableDetailsModal(td)}
@@ -305,28 +210,36 @@ const TransactionDetailsAreaMobile = () => {
                             key={td.id}
                           >
                             <StyledTableCell scope="row">
-                              <Typography fontSize={18} variant="caption">
-                                {td.firstName} {td.lastName} {td.middleName}
+                              <Typography
+                                fontSize={18}
+                                // fontWeight={700}
+                                variant="caption"
+                              >
+                                {td.fromEmail}
                               </Typography>
                             </StyledTableCell>
-                            <StyledTableCell align="left"></StyledTableCell>
-                            <StyledTableCell align="left"></StyledTableCell>
+
                             <StyledTableCell align="left">
-                              <Tooltip title={td.countryId}>
-                                <Typography fontSize={18} variant="caption">
-                                  {td.countryId}
+                              <Tooltip title={td.supportType}>
+                                <Typography
+                                  fontSize={18}
+                                  // fontWeight={700}
+                                  variant="caption"
+                                >
+                                  {td.supportType}
                                 </Typography>
                               </Tooltip>
                             </StyledTableCell>
                           </StyledTableRow>
-                        ))}
+                        </>
+                      ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
                 <TablePagination
                   rowsPerPageOptions={[]}
                   component="div"
-                  count={transactionData.length}
+                  count={complaintData.length}
                   rowsPerPage={rowsPerPage}
                   page={tablePage}
                   onPageChange={handleChangePage}
@@ -340,7 +253,7 @@ const TransactionDetailsAreaMobile = () => {
         <Grid item xs={12} sm={12} md={4.5}>
           <Box bgcolor={"#E8E8F3"} height={"100%"} borderRadius={5} p={3}>
             <Suspense fallback={<ComponentLoader />}>
-              <UserArea data={userData} />
+              <ComplaintArea data={userData} />
             </Suspense>
           </Box>
         </Grid>
@@ -349,4 +262,4 @@ const TransactionDetailsAreaMobile = () => {
   );
 };
 
-export default TransactionDetailsAreaMobile;
+export default TableArea;

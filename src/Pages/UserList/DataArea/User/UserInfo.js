@@ -41,9 +41,14 @@ const UserInfo = (prop) => {
 
   const [status, setStatus] = useState(user?.active);
 
-   const [identitystatus, setIdentityStatus] = useState(
-     user?.identityIsVerified
-   );
+  const [identitystatus, setIdentityStatus] = useState(
+    user?.identityIsVerified
+  );
+
+  // console.log(status);
+
+  const [identityImage, setIdentityImage] = useState("");
+  const [selfiImage, setSelfiImage] = useState("");
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -79,7 +84,7 @@ const UserInfo = (prop) => {
     setMessage(message);
     if (message === "close") {
       handleOpenVerifyModal(false);
-       getVerify();
+      getVerify();
     }
   };
 
@@ -87,9 +92,9 @@ const UserInfo = (prop) => {
 
   const GET_SUSPEND_URL = "/admin/set-user-status/";
 
-  const GET_verify_URL = identitystatus
-    ? "/kyc/unverify-user-identity/"
-    : "/kyc/verify-user-identity/";
+  const GET_FILE_URL = "/kyc/view-file";
+
+  const GET_verify_URL = "/kyc/verify-user-identity/";
 
   const getSuspend = () => {
     setLoading(true);
@@ -126,7 +131,8 @@ const UserInfo = (prop) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.data);
+
         setIdentityStatus(res.data.data.identityIsVerified);
       })
       .catch((err) => {
@@ -138,6 +144,64 @@ const UserInfo = (prop) => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    var userInfo = JSON.parse(localStorage.getItem("user"));
+    console.log(prop.data);
+    setLoading(true);
+
+    axios
+      .get(
+        GET_FILE_URL,
+        JSON.stringify({
+          url: prop.data.identityDocument,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        // setIdentityImage(res.data.data.downloadURL);
+      })
+      .catch((err) => {
+        // if (err?.response?.status === 401) {
+        //   navigate("/admin/sign-in");
+        // }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    axios
+      .get(
+        GET_FILE_URL,
+        JSON.stringify({
+          url: prop.data.selfieImage,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        // setSelfiImage(res.data.data.downloadURL);
+      })
+      .catch((err) => {
+        // if (err?.response?.status === 401) {
+        //   navigate("/admin/sign-in");
+        // }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [prop]);
 
   return (
     <Box pt={4} pr={2}>
@@ -194,7 +258,7 @@ const UserInfo = (prop) => {
             </LoadingButton>
           ) : (
             <>
-              {!user?.identityIsVerified ? (
+              {identitystatus ? (
                 <Button
                   onClick={() => setOpenVerifyModal(true)}
                   // onClick={getSuspend}
@@ -212,7 +276,7 @@ const UserInfo = (prop) => {
                 </Button>
               ) : (
                 <Button
-                  onClick={() => setOpenSuccessModal(true)}
+                  // onClick={() => setOpenSuccessModal(true)}
                   // onClick={getSuspend}
                   fullWidth
                   style={{

@@ -1,6 +1,14 @@
 import React, { Suspense, useEffect } from "react";
 import {
-  
+  Tab,
+  Tabs,
+  Typography,
+  InputAdornment,
+  IconButton,
+  Divider,
+  Stack,
+  Button,
+  Input,
   useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -9,7 +17,7 @@ import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
 // Styles
-import styles from "./FundsAndTransferArea.module.css";
+import styles from "./ComplaintArea.module.css";
 
 // Theme
 import { useTheme } from "@mui/material/styles";
@@ -25,7 +33,7 @@ import { TableSkeleton } from "../../../components/Skeletons/ComponentSkeletons"
 const TableArea = React.lazy(() => import("../DataArea/TableArea"));
 const TransactionArea = React.lazy(() => import("../DataArea/TransactionArea"));
 
-const FundsAndTransferArea = (prop) => {
+const ComplaintArea = (prop) => {
   const [isReadOnly, setIsReadOnly] = React.useState(true);
   const [tabValue, setTabValue] = React.useState(0);
   const [fromDateValue, setFromDateValue] = React.useState(null);
@@ -43,7 +51,7 @@ const FundsAndTransferArea = (prop) => {
       <Box>
 
         <TabPanel value={tabValue} index={0}>
-          <Box mt={-7}>
+          <Box mt={3}>
             <Suspense fallback={<TableSkeleton />}>
               <TableArea
                 
@@ -56,4 +64,4 @@ const FundsAndTransferArea = (prop) => {
   );
 };
 
-export default FundsAndTransferArea;
+export default ComplaintArea;

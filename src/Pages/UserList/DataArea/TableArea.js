@@ -41,15 +41,12 @@ import {
 import { DatePickerTextField } from "../../../components/DatePickerTextField/DatePickerTextField";
 import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
 
-
-const UserArea = React.lazy(() =>
-  import("./UserArea")
-);
+const UserArea = React.lazy(() => import("./UserArea"));
 
 // Table Header
 const tableHeader = [
   {
-    name: "Name",
+    name: "NAME",
   },
   {
     // name: "Method",
@@ -58,7 +55,7 @@ const tableHeader = [
     // name: "Status",
   },
   {
-    name: "Location",
+    name: "LOCATION",
   },
 ];
 
@@ -90,7 +87,6 @@ const FiatTableDetailsModal = React.lazy(() =>
 );
 
 const TransactionDetailsAreaMobile = () => {
-  
   const [showModal, setShowModal] = useState(false);
   const [fromDateValue, setFromDateValue] = React.useState("01/01/2023");
   const [toDateValue, setToDateValue] = React.useState("01/08/2023");
@@ -105,7 +101,6 @@ const TransactionDetailsAreaMobile = () => {
       name: "Nigeria",
       // icon: BitCoinIcon,
     },
-  
   ];
 
   // Pages
@@ -114,7 +109,7 @@ const TransactionDetailsAreaMobile = () => {
 
   const [loading, setLoading] = useState(false);
 
-   const [userData, setUserData] = useState(false);
+  const [userData, setUserData] = useState(false);
 
   const theme = useTheme();
 
@@ -125,8 +120,7 @@ const TransactionDetailsAreaMobile = () => {
 
   // Modal Handler
   const handleOpenTableDetailsModal = (user) => {
-    // console.log(user)
-    setUserData(user)
+    setUserData(user);
     setShowModal(true);
   };
 
@@ -134,14 +128,11 @@ const TransactionDetailsAreaMobile = () => {
     setShowModal(false);
   };
 
-  
-
   const ADMIN_USER_URL = "/admin/get-users";
 
-   const ADMIN_COUNTRY_URL = "/user/get-countries";
+  const ADMIN_COUNTRY_URL = "/user/get-countries";
 
   const getCountry = (country) => {
-   
     var user = JSON.parse(localStorage.getItem("user"));
 
     axios
@@ -156,7 +147,7 @@ const TransactionDetailsAreaMobile = () => {
 
         Object.keys(data).map((keys) => {
           if (country.countryId === data[keys].id) {
-             return data[keys];
+            return data[keys];
           }
 
           return 0;
@@ -186,10 +177,9 @@ const TransactionDetailsAreaMobile = () => {
         }
       )
       .then((res) => {
-        
-         let data = res.data.data.users;
-         let datanew = data.filter((course) => course.roles[0] === "CUSTOMER");
-         setTransactionData(datanew);
+        let data = res.data.data.users;
+        let datanew = data.filter((course) => course.roles[0] === "CUSTOMER");
+        setTransactionData(datanew);
       })
       .catch((err) => {
         console.log(err);
@@ -198,9 +188,6 @@ const TransactionDetailsAreaMobile = () => {
         }
       })
       .finally(() => setLoading(false));
-
-     
-
   }, [
     navigate,
     ADMIN_USER_URL,
@@ -210,15 +197,11 @@ const TransactionDetailsAreaMobile = () => {
     toDateValue,
   ]);
 
-
   return (
     <Grid container columns={{ xs: 12, sm: 12, md: 12 }}>
       <Grid item xs={12} sm={12} md={showModal ? 7.5 : 12}>
         <Box className={styles.mainBoxMobile}>
-          <Box
-         
-          >
-          
+          <Box>
             <Box>
               <Box mb={-6}>
                 <Typography
@@ -345,7 +328,11 @@ const TransactionDetailsAreaMobile = () => {
                       <TableRow>
                         {tableHeader.map((th) => (
                           <StyledTableCell key={th.name}>
-                            <Typography fontSize={18} variant="caption">
+                            <Typography
+                              fontSize={18}
+                              fontWeight={700}
+                              variant="caption"
+                            >
                               {th.name}
                             </Typography>
                           </StyledTableCell>
@@ -360,31 +347,39 @@ const TransactionDetailsAreaMobile = () => {
                         )
                         .map((td) => (
                           <>
-                           
-                              <StyledTableRow
-                                Buttton
-                                onClick={() => handleOpenTableDetailsModal(td)}
-                                sx={{
-                                  cursor: "pointer",
-                                }}
-                                key={td.id}
-                              >
-                                <StyledTableCell scope="row">
-                                  <Typography fontSize={18} variant="caption">
-                                    {td.firstName} {td.lastName} {td.middleName}
+                            <StyledTableRow
+                              Buttton
+                              onClick={() => handleOpenTableDetailsModal(td)}
+                              sx={{
+                                cursor: "pointer",
+                                backgroundColor:
+                                  userData?.id === td.id ? "#ADD8E6" : "",
+                              }}
+                              key={td.id}
+                            >
+                              <StyledTableCell scope="row">
+                                <Typography
+                                  fontSize={18}
+                                  // fontWeight={700}
+                                  variant="caption"
+                                >
+                                  {td.firstName} {td.lastName} {td.middleName}
+                                </Typography>
+                              </StyledTableCell>
+                              <StyledTableCell align="left"></StyledTableCell>
+                              <StyledTableCell align="left"></StyledTableCell>
+                              <StyledTableCell align="left">
+                                <Tooltip title={td.country?.name}>
+                                  <Typography
+                                    fontSize={18}
+                                    // fontWeight={700}
+                                    variant="caption"
+                                  >
+                                    {td.country?.name}
                                   </Typography>
-                                </StyledTableCell>
-                                <StyledTableCell align="left"></StyledTableCell>
-                                <StyledTableCell align="left"></StyledTableCell>
-                                <StyledTableCell align="left">
-                                  <Tooltip title={td.country?.name}>
-                                    <Typography fontSize={18} variant="caption">
-                                      {td.country?.name}
-                                    </Typography>
-                                  </Tooltip>
-                                </StyledTableCell>
-                              </StyledTableRow>
-                           
+                                </Tooltip>
+                              </StyledTableCell>
+                            </StyledTableRow>
                           </>
                         ))}
                     </TableBody>

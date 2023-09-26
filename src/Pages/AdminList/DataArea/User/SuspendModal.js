@@ -12,7 +12,7 @@ import {
   InputAdornment,
   Input,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,7 +25,6 @@ import useAuth from "../../../../hooks/useAuth";
 // Styles
 import styles from "./Support.module.css";
 
-
 import { useNavigate } from "react-router-dom";
 
 import { LoadingButton } from "@mui/lab";
@@ -37,11 +36,11 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const SuspendModal = ({ open, handleClose, user, chooseMessage }) => {
+const SuspendModal = ({ open, handleClose, user, chooseMessage, status }) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  
+
   let msg = "close";
 
   const theme = useTheme();
@@ -57,7 +56,7 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage }) => {
       onClose={handleClose}
     >
       <Box
-        bgcolor="background.paper"
+        // bgcolor="background.paper"
         className={
           isMobile
             ? styles.changePasswordModalBodyMobile
@@ -65,23 +64,23 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage }) => {
         }
       >
         <Box mt={3}>
-          <center>
+          {/* <center>
             <LazyImageComponent src={successClock} />
-          </center>
+          </center> */}
           <Typography
             variant="h3"
             mt={!isMobile ? 4 : 8}
             className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
-            color="secondary"
+            color="white"
             fontWeight={500}
           >
-            Are you sure you want to suspend
+            Are you sure you want to {!status ? "reactive" : "suspend"}
           </Typography>
           <Typography
             variant="h3"
             mt={1}
             className={!isMobile ? styles.titleBox : styles.titleBoxMobile}
-            color="secondary"
+            color="white"
             fontWeight={500}
           >
             {user.firstName} {user.lastName} {user.middleName}?
@@ -100,11 +99,12 @@ const SuspendModal = ({ open, handleClose, user, chooseMessage }) => {
                     borderRadius: 10,
                     fontSize: 18,
                     textTransform: "none",
+                    backgroundColor: "#ff0000",
                   }}
                   variant="contained"
-                  color="accent"
+                  color="primary"
                 >
-                  Yes, Suspend
+                  Yes, {!status ? "Reactive" : "Suspend"}
                 </Button>
               </>
             )}

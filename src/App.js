@@ -65,12 +65,12 @@ const PrivateRoute = React.lazy(() => import("./Private/PrivateRoute"));
 
 // Wallets
 const Wallets = React.lazy(() => import("./Pages/Wallets/Wallets"));
-const Users = React.lazy(() =>
-  import("./Pages/UserList/UserInterface")
-);
+const Users = React.lazy(() => import("./Pages/UserList/UserInterface"));
 
 const Admin = React.lazy(() => import("./Pages/AdminList/AdminInterface"));
-const Complain = React.lazy(() => import("./Pages/Complaint/Complaint"));
+const Complain = React.lazy(() =>
+  import("./Pages/Complaint/ComplaintInterface")
+);
 
 const Transaction = React.lazy(() => import("./Pages/Transaction/Transaction"));
 

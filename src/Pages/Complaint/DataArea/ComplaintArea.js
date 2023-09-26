@@ -43,11 +43,11 @@ import BuyIconDark from "../../../assets/buyRequestDark.svg";
 import SellIcon from "../../../assets/sellRequestWhite.svg";
 import SellIconDark from "../../../assets/sellRequest.svg";
 
-const UserInfo = React.lazy(() => import("./User/UserInfo"));
+const ComplaintInfo = React.lazy(() => import("./Complaint/ComplaintInfo"));
 
-const History = React.lazy(() => import("./User/History"));
+const History = React.lazy(() => import("./Complaint/History"));
 
-const Transaction = React.lazy(() => import("./User/Transaction"));
+const Transaction = React.lazy(() => import("./Complaint/Transaction"));
 
 // Lazy Image Loader
 const LazyImageComponent = React.lazy(() =>
@@ -144,64 +144,13 @@ const UserArea = (prop) => {
                       fontSize={14}
                       color={tabValue === 0 ? "#fff" : "#000"}
                     >
-                      Details
+                      Message
                     </Typography>
                   }
                   iconPosition="start"
                   icon={
                     <LazyImageComponent
                       src={tabValue === 0 ? SellIcon : SellIconDark}
-                    />
-                  }
-                />
-                {/* <Tab
-                  sx={{
-                    mr: 2,
-                    backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
-                    borderTopRightRadius: 10,
-                    borderTopLeftRadius: 10,
-                    marginTop: -1.4,
-                    marginBottom: -2,
-                  }}
-                  label={
-                    <Typography
-                      textTransform={"none"}
-                      fontSize={14}
-                      color={tabValue === 1 ? "#fff" : "#000"}
-                    >
-                      History
-                    </Typography>
-                  }
-                  iconPosition="start"
-                  icon={
-                    <LazyImageComponent
-                      src={tabValue === 1 ? BuyIconDark : BuyIcon}
-                    />
-                  }
-                /> */}
-
-                <Tab
-                  sx={{
-                    mr: 2,
-                    backgroundColor: tabValue === 1 ? "#3063E9" : "#fff",
-                    borderTopRightRadius: 10,
-                    borderTopLeftRadius: 10,
-                    marginTop: -1.4,
-                    marginBottom: -2,
-                  }}
-                  label={
-                    <Typography
-                      textTransform={"none"}
-                      fontSize={14}
-                      color={tabValue === 1 ? "#fff" : "#000"}
-                    >
-                      Transaction
-                    </Typography>
-                  }
-                  iconPosition="start"
-                  icon={
-                    <LazyImageComponent
-                      src={tabValue === 1 ? BuyIconDark : BuyIcon}
                     />
                   }
                 />
@@ -223,7 +172,7 @@ const UserArea = (prop) => {
                       />
                     }
                   >
-                    <UserInfo data={prop.data} />
+                    <ComplaintInfo data={prop.data} />
                   </Suspense>
                 </Box>
               </TabPanel>
@@ -247,7 +196,7 @@ const UserArea = (prop) => {
                 </Box>
               </TabPanel> */}
 
-              <TabPanel value={tabValue} index={1}>
+              {/* <TabPanel value={tabValue} index={1}>
                 <Box className={styles.tabPanel}>
                   <Suspense
                     fallback={
@@ -261,10 +210,10 @@ const UserArea = (prop) => {
                       />
                     }
                   >
-                    <Transaction data={prop.data} />
+                    <Transaction />
                   </Suspense>
                 </Box>
-              </TabPanel>
+              </TabPanel> */}
             </Box>
           </Box>
         )}

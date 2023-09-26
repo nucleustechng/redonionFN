@@ -35,9 +35,10 @@ const LazyImageComponent = React.lazy(() =>
 const SuspendModal = React.lazy(() => import("./SuspendModal"));
 
 const UserInfo = (prop) => {
+   var user = prop.data;
   const [loading, setLoading] = useState(false);
 
-  const [status, setStatus] = useState(false);
+   const [status, setStatus] = useState(user?.active);
 
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -51,8 +52,6 @@ const UserInfo = (prop) => {
   const handleOpenSuccessModal = () => {
     setOpenSuccessModal(!openSuccessModal);
   };
-
-  var user = prop.data;
 
    const [message, setMessage] = React.useState("");
    const chooseMessage = (message) => {
@@ -81,7 +80,7 @@ const UserInfo = (prop) => {
       })
       .then((res) => {
         console.log(res.data);
-        setStatus(res.data.data);
+       setStatus(res.data.data.active);
         
       })
       .catch((err) => {
@@ -101,6 +100,7 @@ const UserInfo = (prop) => {
           chooseMessage={chooseMessage}
           open={openSuccessModal}
           user={user}
+          status={status}
           handleClose={handleOpenSuccessModal}
         />
       </Suspense>

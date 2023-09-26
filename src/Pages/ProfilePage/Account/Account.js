@@ -291,7 +291,7 @@ const Account = () => {
         </AccordionSummary>
 
       </Accordion>
-      <Accordion
+      {/* <Accordion
         Button
         onClick={handleOpenAccountModal}
         sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel3'} onChange={() => handleChange('panel3')}>
@@ -313,27 +313,7 @@ const Account = () => {
         </AccordionSummary>
 
       </Accordion>
-      {/* <Accordion
-        Button
-        onClick={handleWallet}
-        sx={{ background: theme.palette.background.default }} expanded={expanded === 'panel4'} onChange={() => handleChange('panel4')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <Box>
-            <LazyImageComponent
-              src={Wallet}
-            />
-          </Box>
-
-          <Typography ml={1.5} sx={{ flexShrink: 0 }}>
-            Connect Wallet
-            <Typography fontSize={14} sx={{ color: 'text.secondary' }}>Connect your crypto wallet</Typography>
-          </Typography>
-        </AccordionSummary>
-      </Accordion> */}
+     */}
       <Accordion
         Button
         onClick={handleOpenDeleteAccountModal}

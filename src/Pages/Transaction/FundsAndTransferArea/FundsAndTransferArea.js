@@ -31,8 +31,7 @@ const TransactionArea = React.lazy(() => import("../DataArea/TransactionArea"));
 const FundsAndTransferArea = (prop) => {
   const [isReadOnly, setIsReadOnly] = React.useState(true);
   const [tabValue, setTabValue] = React.useState(0);
-  const [fromDateValue, setFromDateValue] = React.useState(null);
-  const [toDateValue, setToDateValue] = React.useState(null);
+  const [transactionValue, setTransactionValue] = React.useState("");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [loading, setLoading] = useState(false);
 
@@ -40,20 +39,19 @@ const FundsAndTransferArea = (prop) => {
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const GET_TRANSACTION_ID_URL =
-    "/transaction/4431c19c-dc36-4b56-b08b-89e4ea61ff6a";
+    "/transaction/";
 
   const handleRegisterUser = () => {
     setLoading(true);
-
     axios
       .get(
-        "/transaction/4431c19c-dc36-4b56-b08b-89e4ea61ff6a",
+        GET_TRANSACTION_ID_URL + transactionValue,
 
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
             Accept: "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
           },
         }
       )
@@ -92,6 +90,7 @@ const FundsAndTransferArea = (prop) => {
           width={"50%"}
         >
           <Input
+            onChange={(e) => setTransactionValue(e.target.value)}
             readOnly={isReadOnly}
             disableUnderline
             fullWidth

@@ -24,9 +24,7 @@ import {
 } from "@mui/material";
 
 // Skeletons
-import {
-  GridCardSkeleton,
-} from "../../../components/Skeletons/ComponentSkeletons";
+import { GridCardSkeleton } from "../../../components/Skeletons/ComponentSkeletons";
 
 // Bitcoin logo
 
@@ -34,8 +32,6 @@ import {
 import { useTheme } from "@mui/material/styles";
 
 import TabPanel from "../../../components/TabPanel/TabPanel";
-
-
 
 // Route
 import { Link, useNavigate } from "react-router-dom";
@@ -46,7 +42,6 @@ import BuyIcon from "../../../assets/buyRequest.svg";
 import BuyIconDark from "../../../assets/buyRequestDark.svg";
 import SellIcon from "../../../assets/sellRequestWhite.svg";
 import SellIconDark from "../../../assets/sellRequest.svg";
-
 
 const UserInfo = React.lazy(() => import("./User/UserInfo"));
 
@@ -62,7 +57,7 @@ const LazyImageComponent = React.lazy(() =>
 // table header
 const tableHeader = [
   {
-    name: "Name",
+    name: "NAME",
   },
   // {
   //   name: "Amount",
@@ -74,7 +69,7 @@ const tableHeader = [
   //   name: "Value",
   // },
   {
-    name: "Location",
+    name: "LOCATION",
   },
 ];
 
@@ -95,15 +90,11 @@ const UserArea = (prop) => {
 
   const [showSingleData, setShowSingleData] = useState();
 
-   const [tabValue, setTabValue] = React.useState(0);
-
-   
+  const [tabValue, setTabValue] = React.useState(0);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
-
-
 
   return (
     <>
