@@ -212,7 +212,7 @@ const UserInfo = (prop) => {
                 </Button>
               ) : (
                 <Button
-                  onClick={() => setOpenSuccessModal(true)}
+                  //onClick={() => setOpenSuccessModal(true)}
                   // onClick={getSuspend}
                   fullWidth
                   style={{
