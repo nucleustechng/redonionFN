@@ -368,7 +368,10 @@ const ProfileInfoModal = ({
                     onChange={handleRoleSelection}
                   >
                     <MenuItem key={1} value={"ADMIN"}>
-                      ADMIN
+                      Admin
+                    </MenuItem>
+                    <MenuItem key={1} value={"SUPPORT"}>
+                      Admin
                     </MenuItem>
                   </Select>
                 </Stack>

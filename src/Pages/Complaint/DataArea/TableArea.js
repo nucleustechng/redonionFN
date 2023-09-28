@@ -151,7 +151,7 @@ const TableArea = () => {
                   color="secondary"
                   fontWeight={600}
                 >
-                  Complaints
+                  Complaint
                 </Typography>
               </Box>
               <Stack

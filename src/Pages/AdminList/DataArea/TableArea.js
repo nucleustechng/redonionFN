@@ -184,6 +184,7 @@ const TableArea = () => {
       )
       .then((res) => {
         let data = res.data.data.users;
+        console.log(data);
         let datanew = data.filter((course) => course.roles[0] === "ADMIN");
         setTransactionData(datanew);
       })

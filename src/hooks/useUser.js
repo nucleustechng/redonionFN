@@ -159,17 +159,19 @@ const useUser = () => {
 
       const newUser = { token, user };
       setUser(newUser);
-      console.log(newUser);
-       if (newUser?.user?.roles[0] === "SUPER_ADMIN"){
-
+      // console.log(newUser);
+       if (
+         newUser?.user?.roles[0] === "SUPER_ADMIN" ||
+         newUser?.user?.roles[0] === "ADMIN"
+       ) {
          localStorage.setItem("user", JSON.stringify(newUser));
-          if (!newUser.user.emailVerified) {
-            navigate("/auth/otp-verification");
-          } else {
-            navigate("/dashboard/users");
-          }
-       }else{
-         setAuthError('Error! You do not have permission!');
+         if (!newUser.user.emailVerified) {
+           navigate("/auth/otp-verification");
+         } else {
+           navigate("/dashboard/users");
+         }
+       } else {
+         setAuthError("Error! You do not have permission!");
        }
 
       

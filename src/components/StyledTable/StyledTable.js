@@ -18,8 +18,8 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
   "&:nth-of-type(odd)": {
-    backgroundColor:
-      theme.palette.mode === "dark" ? "#1B1B1B" : "rgba(234, 234, 234, 0.3)",
+    // backgroundColor:
+    //   theme.palette.mode === "dark" ? "#1B1B1B" : "rgba(234, 234, 234, 0.3)",
   },
   // hide last border
   "&:last-child td, &:last-child th": {
