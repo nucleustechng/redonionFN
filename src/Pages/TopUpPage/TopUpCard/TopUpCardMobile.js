@@ -8,12 +8,16 @@ import {
   Snackbar,
   Slide,
   Alert,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 
 import {
   ComponentSkeleton,
   ModalSkeletons,
 } from "../../../components/Skeletons/ComponentSkeletons";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Custom Theme
 import { useTheme } from "@mui/material/styles";
@@ -51,6 +55,8 @@ const TopUpCardMobile = (prop) => {
 
   const [coinID, setCoinID] = useState("");
 
+  const [abbreviation, setAbbreviation] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const [walletID, setWalletID] = useState("");
@@ -59,13 +65,16 @@ const TopUpCardMobile = (prop) => {
 
   const [showSnackbarB, setShowSnackbarB] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+
    const WALLET_MAIN_URL = "/wallet/";
 
    const handleCloseSnackbarB = () => {
      setShowSnackbarB(!showSnackbarB);
    };
 
-   const getCyptoExchangeRate = (coin) => {
+   const getCyptoExchangeRate = (coin, abbreviation) => {
+    setAbbreviation(abbreviation);
     setCoinID(coin);
      setLoading(true);
      axios
@@ -195,17 +204,44 @@ const TopUpCardMobile = (prop) => {
                   </Box>
                 ) : (
                   <>
-                    <Typography
-                      mt={1}
-                      fontWeight={500}
-                      color={"#fff"}
-                      fontSize={28}
-                      variant="body2"
-                    >
-                      {walletBalance.toString().length > 10
-                        ? walletBalance.toString().substr(0, 10) + "\u2026"
-                        : walletBalance}
-                    </Typography>
+                    <Stack mt={-4} alignItems={"flex-end"}>
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {!showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    </Stack>
+                    {showPassword ? (
+                      <Typography
+                        mt={4}
+                        fontWeight={500}
+                        color={"#fff"}
+                        fontSize={20}
+                        variant="body2"
+                      >
+                        {abbreviation}{" "}
+                        {walletBalance.toString().length > 10
+                          ? walletBalance.toString().substr(0, 10) + "\u2026"
+                          : walletBalance}
+                      </Typography>
+                    ) : (
+                      <Typography
+                        mt={4}
+                        fontWeight={500}
+                        color={"#fff"}
+                        fontSize={20}
+                        variant="body2"
+                      >
+                        {abbreviation}{" "}
+                        {"XXXXXX XXXXXXX"}
+                      </Typography>
+                    )}
 
                     <CopyToClipboard
                       onCopy={() => setShowSnackbar(true)}
@@ -223,7 +259,7 @@ const TopUpCardMobile = (prop) => {
                             color={"#fff"}
                             variant="body2"
                           >
-                            Public Address: {walletID.substr(0, 10) + "\u2026"}
+                            Public Address: {showPassword ? walletID.substr(0, 10) + "\u2026" : "XXXXXXXXXXXXXXXX"}
                           </Typography>
                         </Box>
                       </Tooltip>
@@ -281,7 +317,9 @@ const TopUpCardMobile = (prop) => {
                 borderColor={coinID === id ? "#3063E9" : "#ddd"}
                 Button
                 sx={{ cursor: "pointer" }}
-                onClick={() => getCyptoExchangeRate(id)}
+                onClick={() =>
+                  getCyptoExchangeRate(id, cryptoCurrency?.abbreviation)
+                }
                 borderRadius={4}
                 my={2}
                 key={id}
@@ -313,61 +351,9 @@ const TopUpCardMobile = (prop) => {
                           " - " +
                           cryptoCurrency?.blockchain?.standard}
                       </Typography>
-                      {/* <Typography
-                        mt={-0.4}
-                        fontWeight={500}
-                        ml={1}
-                        fontSize={12}
-                        variant="body2"
-                        sx={{ opacity: 0.6 }}
-                      >
-                        ₦90,000
-                      </Typography> */}
                     </Box>
                   </Stack>
-
-                  {/* <Box
-                            height={25}
-                            borderRadius={3}
-                            py={0.4}
-                            px={0.9}
-                            bgcolor={"#49AC2780"}
-                          >
-                            <Typography
-                              fontWeight={500}
-                              fontSize={11}
-                              sx={{ opacity: 1, color: "#49AC27" }}
-                              variant="body2"
-                            >
-                              +0.25%
-                            </Typography>
-                          </Box> */}
-
-                  {/* <Box>
-                    <Stack direction="column" justifyItems={"flex-end"}>
-                      <Typography
-                        textAlign={"right"}
-                        ml={0.5}
-                        fontWeight={500}
-                        fontSize={16}
-                        color={"#000"}
-                      >
-                        2,000
-                      </Typography>
-                      <Typography
-                        mt={-0.4}
-                        fontWeight={500}
-                        ml={1}
-                        fontSize={12}
-                        variant="body2"
-                        sx={{ opacity: 0.6 }}
-                      >
-                        ₦890,340
-                      </Typography>
-                    </Stack>
-                  </Box> */}
                 </Stack>
-                {/* {coinID != id && <hr color={"#f2f2f2"} />} */}
               </Box>
             ))}
 
@@ -381,7 +367,7 @@ const TopUpCardMobile = (prop) => {
               >
                 Recent Transactions
               </Typography>
-              <TableArea coinID={coinID} />
+              <TableArea coinID={coinID} abbreviation={abbreviation} />
             </Box>
           </Box>
         </Grid>

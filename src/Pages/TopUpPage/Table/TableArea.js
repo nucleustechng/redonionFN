@@ -21,7 +21,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import COMPLETED from "../../../assets/completed.svg";
+import BANK from "../../../assets/bank.svg";
 
 import moment from "moment";
 
@@ -67,7 +67,8 @@ const TableArea = (props) => {
   const [coinData, setCoinData] = useState([]);
   const [tablePage, setTablePage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
+  const [abbreviation, setAbbreviation] = useState("");
 
   const navigate = useNavigate();
 
@@ -94,10 +95,10 @@ const TableArea = (props) => {
   };
 
   const USER_UPLOAD_URL = "/wallet/transactions";
-
+  console.log(props);
   // Loading coin data
   useEffect(() => {
-  //  console.log(props.coinID);
+    //  console.log(props.coinID);
     if (props.coinID !== "") {
       var user = JSON.parse(localStorage.getItem("user"));
       setLoading(true);
@@ -117,6 +118,7 @@ const TableArea = (props) => {
         )
         .then((res) => {
           const dataa = res.data.data.transactions;
+          console.log(dataa);
           // const filtered = dataa.filter((data) => {
           //   return data.status === "COMPLETED";
           // });
@@ -128,6 +130,7 @@ const TableArea = (props) => {
         })
         .finally(() => setLoading(false));
     }
+    setAbbreviation(props?.abbreviation)
   }, [props, USER_UPLOAD_URL, setLoading]);
 
   return (
@@ -150,88 +153,137 @@ const TableArea = (props) => {
       ) : (
         <>
           <Box className={styles.mainBox}>
-            <Box className={!isTablet ? styles.tableArea : styles.tableAreaTab}>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      {tableHeader.map((th) => (
-                        <StyledTableCell key={th.name}>
-                          <Typography
-                            variant="caption"
-                            textTransform={"none"}
-                            fontWeight={600}
-                            fontSize={16}
-                            color="primary"
-                          >
-                            {th.name}
-                          </Typography>
-                        </StyledTableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <>
-                      {coinData.length > 0 ? (
-                        <>
-                          {coinData
-                            .slice(
-                              tablePage * rowsPerPage,
-                              tablePage * rowsPerPage + rowsPerPage
-                            )
-                            .map((cd) => (
-                              <StyledTableRow key={cd.coinName}>
-                                <StyledTableCell
-                                  // onClick={() => navigate(`/wallets/${cd.coinName}`)}
-                                  // onClick={handleCloseTwoFAPin}
-                                  component="th"
-                                  scope="row"
-                                  sx={{ cursor: "pointer" }}
-                                >
-                                  <Stack direction="row" spacing={3}>
-                                    <Box mt={-0.5}>
-                                      {"Trade No: "}
-                                      {cd?.toAddress}
-                                    </Box>
-                                  </Stack>
-                                </StyledTableCell>
-                                <StyledTableCell align="left">
+            {!isMobile ? (
+              <Box
+                className={!isTablet ? styles.tableArea : styles.tableAreaTab}
+              >
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        {tableHeader.map((th) => (
+                          <StyledTableCell key={th.name}>
+                            <Typography
+                              variant="caption"
+                              textTransform={"none"}
+                              fontWeight={600}
+                              fontSize={16}
+                              color="primary"
+                            >
+                              {th.name}
+                            </Typography>
+                          </StyledTableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <>
+                        {coinData.length > 0 ? (
+                          <>
+                            {coinData
+                              .slice(
+                                tablePage * rowsPerPage,
+                                tablePage * rowsPerPage + rowsPerPage
+                              )
+                              .map((cd) => (
+                                <StyledTableRow key={cd.coinName}>
+                                  <StyledTableCell
+                                    // onClick={() => navigate(`/wallets/${cd.coinName}`)}
+                                    // onClick={handleCloseTwoFAPin}
+                                    component="th"
+                                    scope="row"
+                                    sx={{ cursor: "pointer" }}
+                                  >
+                                    <Stack direction="row" spacing={3}>
+                                      <Box mt={-0.5}>
+                                        {"Trade No: "}
+                                        {cd?.toAddress}
+                                      </Box>
+                                    </Stack>
+                                  </StyledTableCell>
+                                  <StyledTableCell align="left">
+                                    {moment(cd?.createdAt).format(
+                                      "MMMM Do, YYYY"
+                                    )}
+                                  </StyledTableCell>
+                                  <StyledTableCell align="left">
+                                    {cd.amount}
+                                  </StyledTableCell>
+
+                                  {/* <StyledTableCell align="left">
+                                  <LazyImageComponent src={COMPLETED} />
+                                </StyledTableCell> */}
+                                </StyledTableRow>
+                              ))}
+                          </>
+                        ) : (
+                          <>
+                            <Box mb={1} ml={1.8}>
+                              <Typography>
+                                No Transactions Available...
+                              </Typography>
+                            </Box>
+                          </>
+                        )}
+                      </>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                {coinData.length > 0 && (
+                  <TablePagination
+                    rowsPerPageOptions={[]}
+                    component="div"
+                    count={coinData.length}
+                    rowsPerPage={rowsPerPage}
+                    page={tablePage}
+                    onPageChange={handleChangePage}
+                  />
+                )}
+              </Box>
+            ) : (
+              <Box>
+                {coinData.length > 0 ? (
+                  <Box>
+                    {coinData.map((cd) => (
+                      <Box py={1.5}>
+                        <Stack
+                          direction={"row"}
+                          alignItems={"center"}
+                          justifyContent={"space-between"}
+                        >
+                          <Box>
+                            <Stack
+                              direction={"row"}
+                              // alignItems={"center"}
+                              // justifyContent={"space-between"}
+                            >
+                              <LazyImageComponent src={BANK} />
+                              <Box ml={2}>
+                                <Typography textAlign={"left"} fontSize={13}>
+                                  Sent
+                                </Typography>
+                                <Typography textAlign={"left"} fontSize={13}>
                                   {moment(cd?.createdAt).format(
                                     "MMMM Do, YYYY"
                                   )}
-                                </StyledTableCell>
-                                <StyledTableCell align="left">
-                                  {cd.amount}
-                                </StyledTableCell>
-
-                                {/* <StyledTableCell align="left">
-                                  <LazyImageComponent src={COMPLETED} />
-                                </StyledTableCell> */}
-                              </StyledTableRow>
-                            ))}
-                        </>
-                      ) : (
-                        <>
-                          <Box mb={1} ml={1.8}>
-                            <Typography>No Transactions Available...</Typography>
+                                </Typography>
+                              </Box>
+                            </Stack>
                           </Box>
-                        </>
-                      )}
-                    </>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-               {coinData.length > 0 && (
-              <TablePagination
-                rowsPerPageOptions={[]}
-                component="div"
-                count={coinData.length}
-                rowsPerPage={rowsPerPage}
-                page={tablePage}
-                onPageChange={handleChangePage}
-              />
-               )}
-            </Box>
+                          <Typography fontSize={14} fontWeight={700}>
+                            {abbreviation + " " +cd.amount}
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    ))}
+                  </Box>
+                ) : (
+                  <Typography fontSize={13}>
+                    No Transactions Available...{" "}
+                  </Typography>
+                )}
+              </Box>
+            )}
           </Box>
         </>
       )}

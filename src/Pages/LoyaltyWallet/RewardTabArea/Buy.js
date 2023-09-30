@@ -18,7 +18,7 @@ import moment from "moment";
 import { LoadingButton } from "@mui/lab";
 import ListItem from "@mui/material/ListItem";
 import Review from "../../../assets/review.svg";
-
+import NGFlag from "../../../assets/NGFlag.svg";
 // Image
 
 import BitCoinIcon from "../../../assets/bitCoinIcon.svg";
@@ -53,6 +53,8 @@ const MyRewards = () => {
 
   const [tranz, setTransaz] = useState([]);
 
+  const [id, setID] = useState("");
+
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -62,7 +64,8 @@ const MyRewards = () => {
 
   const GET_CURRENCY_URL = "/transaction/my-transactions";
 
-    const handleOpenRewardModal = () => {
+    const handleOpenRewardModal = (id) => {
+      setID(id)
       console.log(23)
       setOpenRewardModal(true);
     };
@@ -88,7 +91,7 @@ const MyRewards = () => {
         }
       )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setIsLoading(false);
         setTransaz(res.data.data.transactions);
       })
@@ -108,6 +111,7 @@ const MyRewards = () => {
       <Suspense fallback={<ModalSkeletons width={"90vw"} height={300} />}>
         <ReviewModal
           open={openRewardModal}
+          id={id}
           handleClose={handleCloseRewardModal}
           handleOpenSnackBar={handleOpenRewardModal}
         />
@@ -126,7 +130,12 @@ const MyRewards = () => {
                     info.status === "REPORTED" ||
                     info.status === "EXPIRED") && (
                     <ListItem>
-                      <Box m={6} width={"100%"}>
+                      <Box
+                        borderWidth={1}
+                        borderBottom={1}
+                        m={isMobile ? 0 : 3}
+                        width={"100%"}
+                      >
                         <Stack
                           direction="row"
                           alignItems={"center"}
@@ -145,55 +154,40 @@ const MyRewards = () => {
                             <Stack mt={2} ml={-1} direction="row">
                               <Box ml={1.5}>
                                 <Stack
-                                  justifyContent={"center"}
-                                  alignItems={"left"}
+                                  direction="row"
+                                  justifyItems={"center"}
+                                  alignItems={"center"}
                                 >
+                                  <LazyImageComponent
+                                    style={{ width: 25, marginRight: 4 }}
+                                    src={NGFlag}
+                                  />
+
                                   <Typography
                                     color="secondary"
                                     fontWeight={400}
-                                    fontSize={16}
-                                    mt={0.8}
-                                    ml={1}
+                                    fontSize={15}
+                                    mt={0.5}
                                     variant="body2"
                                   >
                                     {info?.offer?.currency?.currencyCode}
                                   </Typography>
-
-                                  <Box
-                                    sx={{
-                                      borderBottom: 1,
-                                      borderBottomStyle: "dashed",
-                                    }}
-                                  >
-                                    <Typography
-                                      fontSize={20}
-                                      mt={0.4}
-                                      color="secondary"
-                                      variant="body2"
-                                    >
-                                      ~{" "}
-                                      {parseFloat(
-                                        info?.amountInFiat || 0
-                                      ).toFixed(2)}
-                                    </Typography>
-                                  </Box>
-
+                                </Stack>
+                                <Stack alignItems={"left"}>
                                   <Typography
                                     color="secondary"
-                                    fontWeight={400}
-                                    fontSize={12}
+                                    fontWeight={600}
+                                    fontSize={18}
                                     mt={0.8}
                                     variant="body2"
                                   >
-                                    {moment(info?.createdAt).format(
-                                      "Do MMMM YYYY"
-                                    )}
+                                    {info?.amountInFiat.toFixed(2)}
                                   </Typography>
 
                                   <Typography
                                     color="secondary"
                                     fontWeight={600}
-                                    fontSize={18}
+                                    fontSize={16}
                                     mt={2}
                                     variant="body2"
                                   >
@@ -205,34 +199,14 @@ const MyRewards = () => {
                           </Box>
 
                           <Box>
-                            {/* <Stack direction="row" justifyContent={"center"} alignItems={"center"} mt={4} >
-              <LazyImageComponent  src={ExchanageIcon} />
-
-            </Stack> */}
-                            <Box ml={0}>
-                              <center>
-                                <Typography
-                                  color="secondary"
-                                  fontWeight={400}
-                                  fontSize={14}
-                                  mt={0.8}
-                                  variant="body2"
-                                >
-                                  {moment(info?.createdAt).format("h:mm a")}
-                                </Typography>
-
-                                <Typography
-                                  color="secondary"
-                                  ml={-1}
-                                  fontWeight={400}
-                                  fontSize={16}
-                                  mt={0.8}
-                                  variant="body2"
-                                >
-                                  {info?.cryptoTransactionId}
-                                </Typography>
-                              </center>
-                            </Box>
+                            <Stack
+                              direction="row"
+                              justifyContent={"top"}
+                              alignItems={"center"}
+                              mt={-3}
+                            >
+                              <LazyImageComponent src={ExchanageIcon} />
+                            </Stack>
                           </Box>
 
                           <Box>
@@ -252,69 +226,64 @@ const MyRewards = () => {
 
                             <Box mr={1.5} mt={2}>
                               <Stack direction="row" justifyContent="flex-end">
-                                {/* <LazyImageComponent
-                                style={{ width: 30 }}
-                                src={info?.offer?.CryptoCurrency?.imgUri}
-                              /> */}
+                                <LazyImageComponent
+                                  style={{
+                                    marginRight: 4,
+                                    width: 25,
+                                    height: 25,
+                                  }}
+                                  src={info?.offer?.cryptoCurrency?.imgUri}
+                                />
                                 <Typography
                                   color="secondary"
                                   fontWeight={400}
-                                  fontSize={14}
-                                  mt={0.8}
-                                  ml={1}
+                                  fontSize={15}
+                                  mt={0.2}
                                   variant="body2"
                                 >
-                                  {info?.offer?.CryptoCurrency?.abbreviation}
+                                  {info?.offer?.cryptoCurrency?.abbreviation}
                                 </Typography>
                               </Stack>
                               <Stack direction="row" justifyContent="flex-end">
                                 <Box
-                                  sx={{
-                                    borderBottom: 1,
-                                    borderBottomStyle: "dashed",
-                                  }}
+                                // sx={{
+                                //   borderBottom: 1,
+                                //   borderBottomStyle: "dashed",
+                                // }}
                                 >
                                   <Typography
-                                    fontSize={20}
+                                    fontSize={18}
+                                    fontWeight={600}
                                     mt={0.4}
                                     color="secondary"
                                     variant="body2"
                                   >
-                                    ~ {info?.amountInCrypto}
+                                    {info?.amountInCrypto.toFixed(4)}
                                   </Typography>
                                 </Box>
                               </Stack>
-                              <Stack direction="row" justifyContent="flex-end">
-                                <Typography
-                                  color="secondary"
-                                  fontWeight={400}
-                                  fontSize={12}
-                                  mt={0.8}
-                                  variant="body2"
-                                >
-                                  {moment(info?.createdAt).format(
-                                    "Do MMMM YYYY"
-                                  )}
-                                </Typography>
-                              </Stack>
+
                               <Stack direction="row" justifyContent="flex-end">
                                 <Typography
                                   color="primary"
-                                  fontWeight={400}
+                                  fontWeight={600}
                                   fontSize={16}
                                   mt={2}
                                   variant="body2"
                                 >
+                                  {/* paid */}
                                   {info?.status}
                                 </Typography>
                               </Stack>
                             </Box>
                           </Box>
                         </Stack>
+
                         <Stack direction="row" justifyContent={"end"}>
+                          
                           <IconButton
                             // sx={{ cursor: "pointer" }}
-                            onClick={handleOpenRewardModal}
+                            onClick={()=>handleOpenRewardModal(info?.id)}
                             sx={{ mt: -0.5 }}
                           >
                             <LazyImageComponent src={Review} />

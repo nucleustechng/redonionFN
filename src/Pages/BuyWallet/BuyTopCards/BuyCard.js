@@ -158,7 +158,7 @@ const CryptoWalletTopCards = (props) => {
               >
                 <Box>
                   <Typography fontSize={15} mb={1.5} fontWeight={600}>
-                    Network
+                    CryptoCurrency
                   </Typography>
                 </Box>
 
@@ -213,10 +213,7 @@ const CryptoWalletTopCards = (props) => {
                             />
                           </Suspense>
                           <Typography>
-                            
-                            {abbreviation +
-                              " - " +
-                              blockchain?.standard}
+                            {abbreviation + " - " + blockchain?.standard}
                           </Typography>
                         </Stack>
                       </MenuItem>
@@ -254,11 +251,11 @@ const CryptoWalletTopCards = (props) => {
                   alignItems={"center"}
                 >
                   <Box mr={1}>
-                    <Typography fontWeight={400} fontSize={16}>
+                    <Typography fontWeight={400} fontSize={12}>
                       Official Rate:{" "}
                     </Typography>
                   </Box>
-                  <Typography fontWeight={600} fontSize={16}>
+                  <Typography fontWeight={600} fontSize={12}>
                     {" "}
                     1 {coinNamesShow || "--"} = {user?.currency?.currencyCode}{" "}
                     {parseFloat(

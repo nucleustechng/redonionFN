@@ -126,12 +126,17 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
     setLoading(true);
 
     axios
-      .get(GET_CURRENCY_RATE_URL + coin, {
-        headers: {
+       .post(
+        GET_CURRENCY_RATE_URL,
+        JSON.stringify({
+          cryptoCurrencyId: coin,
+          currencyId: user?.currency?.id,
+        }),
+        {headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
-        },
-      })
+        },}
+      )
       .then((res) => {
         // console.log(res.data.data.averageExchangeRate);
         setCoinRate(res.data.data?.averageExchangeRate || 0);
@@ -582,13 +587,13 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
             <Box>
               <Stack direction={"row"}>
                 <Box mb={1} mt={3}>
-                  <Typography fontSize={17} fontWeight={400}>
+                  <Typography fontSize={12} fontWeight={400}>
                     Sell
                   </Typography>
                 </Box>
               </Stack>
               <Box mb={3}>
-                <Stack direction={"row"}>
+                <Stack>
                   <Select
                     className={
                       theme.palette.mode === "dark"
@@ -596,7 +601,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                         : styles.currencyBox
                     }
                     sx={{
-                      width: "35%",
+                      width: "100%",
                       height: 50,
                       border: 0,
                     }}
@@ -648,15 +653,17 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                       )
                     )}
                   </Select>
-                  <Input
-                    disableUnderline
-                    className="inputField"
-                    size="small"
-                    type="number"
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="0.00"
-                    fullWidth
-                  />
+                  <Box mt={2}>
+                    <Input
+                      disableUnderline
+                      className="inputField"
+                      size="small"
+                      type="number"
+                      onChange={(e) => setAmount(e.target.value)}
+                      placeholder="0.00"
+                      fullWidth
+                    />
+                  </Box>
                 </Stack>
               </Box>
             </Box>
@@ -664,7 +671,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
             <Box>
               <Stack direction={"row"}>
                 <Box mb={1}>
-                  <Typography fontSize={17} fontWeight={400}>
+                  <Typography fontSize={12} fontWeight={400}>
                     Recieve
                   </Typography>
                 </Box>
@@ -675,9 +682,9 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                   alignItems={"center"}
                   justifyContent={"center"}
                 >
-                  <Box mr={2}>
+                  {/* <Box mr={2}>
                     <Typography>Amount</Typography>
-                  </Box>
+                  </Box> */}
                   <Input
                     disableUnderline
                     className="inputField"
@@ -697,7 +704,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
               <Box>
                 <Stack direction={"row"}>
                   <Box mb={1}>
-                    <Typography fontSize={17} fontWeight={400}>
+                    <Typography fontSize={12} fontWeight={400}>
                       Rate
                     </Typography>
                   </Box>
@@ -706,7 +713,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                   mb={3}
                   borderRadius={5}
                   p={2}
-                  py={2}
+                  py={0.5}
                   fullWidth
                   bgcolor={"#dddddd50"}
                 >
@@ -716,10 +723,10 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                     alignItems={"center"}
                     justifyContent="space-between"
                   >
-                    <Typography fontSize={20} fontWeight={400}>
+                    <Typography fontSize={12} fontWeight={400}>
                       1 {coinNamesDataTo}
                     </Typography>
-                    <Typography fontSize={20} color="primary" fontWeight={400}>
+                    <Typography fontSize={12} color="primary" fontWeight={400}>
                       =
                     </Typography>
                     <Input
@@ -735,7 +742,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                 </Box>
                 <Stack mb={4} direction={"row"}>
                   <Box mt={-2} mb={1}>
-                    <Typography fontSize={16} fontWeight={400}>
+                    <Typography fontSize={12} fontWeight={400}>
                       Official rate: 1{coinNamesDataTo} ={" "}
                       {currencyNames?.currencyCode} {coinRate}
                     </Typography>

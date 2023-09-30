@@ -40,6 +40,7 @@ import { LoadingButton } from "@mui/lab";
 import Star from "../../../assets/star.svg"
 
 import CreateBuyRequestModal from "../CreateBuyRequestModal/CreateBuyRequestModal";
+import moment from "moment";
 
 // Lazy Image Loader
 const LazyImageComponent = React.lazy(() =>
@@ -81,6 +82,8 @@ const TableArea = (prop) => {
   const [showPin, setShowPin] = useState(false);
 
   const [showSingleData, setShowSingleData] = useState();
+
+   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // const handleBuyModal = (data) => {
   //   // console.log(data)
@@ -146,86 +149,89 @@ const TableArea = (prop) => {
               /> */}
 
           <Box className={styles.mainBox}>
-            <Box className={!isTablet ? styles.tableArea : styles.tableAreaTab}>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      {tableHeader.map((th) => (
-                        <StyledTableCell key={th.name}>
-                          <Typography
-                            variant="caption"
-                            textTransform={"none"}
-                            fontWeight={600}
-                            fontSize={16}
-                            color="primary"
-                          >
-                            {th.name}
-                          </Typography>
-                        </StyledTableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {coinData
-                      .slice(
-                        tablePage * rowsPerPage,
-                        tablePage * rowsPerPage + rowsPerPage
-                      )
-                      .map((cd) => (
-                        <StyledTableRow key={cd.id}>
-                          <StyledTableCell
-                            // onClick={() => navigate(`/wallets/${cd.coinName}`)}
-                            // onClick={handleCloseTwoFAPin}
-                            component="th"
-                            scope="row"
-                            sx={{ cursor: "pointer" }}
-                          >
-                            <Stack direction="row" spacing={3}>
-                              <Box mt={-0.5}>
-                                {" "}
-                                {prop.currency.currencyCode}{" "}
-                                {parseFloat(
-                                  cd.tokenPricePerUnit * prop.data.amount
-                                ).toFixed(2)}
-                              </Box>
-                            </Stack>
+            {!isMobile ? (
+              <Box
+                className={!isTablet ? styles.tableArea : styles.tableAreaTab}
+              >
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        {tableHeader.map((th) => (
+                          <StyledTableCell key={th.name}>
+                            <Typography
+                              variant="caption"
+                              textTransform={"none"}
+                              fontWeight={600}
+                              fontSize={16}
+                              color="primary"
+                            >
+                              {th.name}
+                            </Typography>
                           </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {prop.data.coinAbb} 1 ={" "}
-                            {parseFloat(cd.tokenPricePerUnit).toLocaleString(
-                              undefined,
-                              { maximumFractionDigits: 2 }
-                            )}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {prop.data.coinAbb} {cd.amountInCrypto}
-                          </StyledTableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {coinData
+                        .slice(
+                          tablePage * rowsPerPage,
+                          tablePage * rowsPerPage + rowsPerPage
+                        )
+                        .map((cd) => (
+                          <StyledTableRow key={cd.id}>
+                            <StyledTableCell
+                              // onClick={() => navigate(`/wallets/${cd.coinName}`)}
+                              // onClick={handleCloseTwoFAPin}
+                              component="th"
+                              scope="row"
+                              sx={{ cursor: "pointer" }}
+                            >
+                              <Stack direction="row" spacing={3}>
+                                <Box mt={-0.5}>
+                                  {" "}
+                                  {prop.currency.currencyCode}{" "}
+                                  {parseFloat(
+                                    cd.tokenPricePerUnit * prop.data.amount
+                                  ).toFixed(2)}
+                                </Box>
+                              </Stack>
+                            </StyledTableCell>
+                            <StyledTableCell align="left">
+                              {prop.data.coinAbb} 1 ={" "}
+                              {parseFloat(cd.tokenPricePerUnit).toLocaleString(
+                                undefined,
+                                { maximumFractionDigits: 2 }
+                              )}
+                            </StyledTableCell>
+                            <StyledTableCell align="left">
+                              {prop.data.coinAbb} {cd.amountInCrypto}
+                            </StyledTableCell>
 
-                          <StyledTableCell align="left">
-                            <LazyImageComponent src={Star} />
-                            {cd?.rating}
-                          </StyledTableCell>
+                            <StyledTableCell align="left">
+                              <LazyImageComponent src={Star} />
+                              {cd?.rating}
+                            </StyledTableCell>
 
-                          <StyledTableCell align="left">
-                            <Stack direction="row" spacing={2}>
-                              <Button
-                                disableElevation
-                                color="success"
-                                className={styles.depositButton}
-                                variant="text"
-                                // onClick={() => navigate(`/wallets/${cd.coinName}`)}
-                                onClick={() => prop.handleBuyModal(cd)}
-                              >
-                                <Typography
-                                  variant="caption"
-                                  fontWeight={500}
-                                  color="text.success"
+                            <StyledTableCell align="left">
+                              <Stack direction="row" spacing={2}>
+                                <Button
+                                  disableElevation
+                                  color="success"
+                                  className={styles.depositButton}
+                                  variant="text"
+                                  // onClick={() => navigate(`/wallets/${cd.coinName}`)}
+                                  onClick={() => prop.handleBuyModal(cd)}
                                 >
-                                  Request
-                                </Typography>
-                              </Button>
-                              {/* <Link
+                                  <Typography
+                                    variant="caption"
+                                    fontWeight={500}
+                                    color="text.success"
+                                  >
+                                    Request
+                                  </Typography>
+                                </Button>
+                                {/* <Link
                           style={{ textDecoration: "none", color: "inherit" }}
                           to={`/wallets/${cd.coinName}`}
                           state={{ isSending: true }}
@@ -245,22 +251,85 @@ const TableArea = (prop) => {
                             </Typography>
                           </Button>
                         </Link> */}
+                              </Stack>
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[]}
+                  component="div"
+                  count={coinData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={tablePage}
+                  onPageChange={handleChangePage}
+                />
+              </Box>
+            ) : (
+              <Box>
+                {coinData.length > 0 ? (
+                  <Box>
+                    {coinData.map((cd) => (
+                      <Box
+                        sx={{ cursor: "pointer" }}
+                        button
+                        onClick={() => prop.handleBuyModal(cd)}
+                        py={1.8}
+                        borderBottom={1}
+                      >
+                        <Stack
+                          direction={"row"}
+                          alignItems={"center"}
+                          justifyContent={"space-between"}
+                        >
+                          <Box>
+                            <Stack
+                              direction={"row"}
+                              // alignItems={"center"}
+                              // justifyContent={"space-between"}
+                            >
+                              <Box>
+                                <Typography
+                                  textAlign={"left"}
+                                  fontWeight={700}
+                                  fontSize={16}
+                                >
+                                  {parseFloat(
+                                    cd.tokenPricePerUnit * prop.data.amount
+                                  ).toFixed(2)}
+                                </Typography>
+                                <LazyImageComponent src={Star} />
+                                <Typography textAlign={"left"} fontSize={13}>
+                                  {/* {moment(cd?.createdAt).format(
+                                    "MMMM Do, YYYY"
+                                  )} */}
+
+                                  {cd?.rating}
+                                </Typography>
+                              </Box>
                             </Stack>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[]}
-                component="div"
-                count={coinData.length}
-                rowsPerPage={rowsPerPage}
-                page={tablePage}
-                onPageChange={handleChangePage}
-              />
-            </Box>
+                          </Box>
+                          <Typography fontSize={14} fontWeight={400}>
+                            {prop.data.coinAbb} 1 ={" "}
+                            {parseFloat(cd.tokenPricePerUnit).toLocaleString(
+                              undefined,
+                              { maximumFractionDigits: 2 }
+                            )}{" "}
+                            {prop.currency.currencyCode}
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    ))}
+                  </Box>
+                ) : (
+                  <Typography fontSize={13}>
+                    No Transactions Available...{" "}
+                  </Typography>
+                )}
+              </Box>
+            )}
           </Box>
         </>
       )}

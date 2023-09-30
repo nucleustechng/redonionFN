@@ -17,9 +17,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
+import NGFlag from "../../../assets/NGFlag.svg";
 import Back from "../../../assets/backArrow.svg";
 import Chat from "../../../assets/chat.svg";
 import Confirmed from "../../../assets/confirmed.svg";
@@ -175,7 +173,12 @@ const SellDetail = (props) => {
                   {transaz.map((info, index) => (
                     <>
                       <ListItem>
-                        <Box m={isMobile ? 0 : 3} width={"100%"}>
+                        <Box
+                          borderWidth={1}
+                          borderBottom={1}
+                          m={isMobile ? 0 : 3}
+                          width={"100%"}
+                        >
                           <Stack
                             direction="row"
                             alignItems={"center"}
@@ -193,20 +196,42 @@ const SellDetail = (props) => {
                               </Stack>
                               <Stack mt={2} ml={-1} direction="row">
                                 <Box ml={1.5}>
+                                  <Stack
+                                    direction="row"
+                                    justifyItems={"center"}
+                                    alignItems={"center"}
+                                  >
+                                    <LazyImageComponent
+                                      style={{
+                                        marginRight: 4,
+                                        width: 25,
+                                        height: 25,
+                                      }}
+                                      src={info?.offer?.cryptoCurrency?.imgUri}
+                                    />
+                                    <Typography
+                                      color="secondary"
+                                      fontWeight={400}
+                                      fontSize={15}
+                                      mt={0.5}
+                                      variant="body2"
+                                    >
+                                      {
+                                        info?.offer?.cryptoCurrency
+                                          ?.abbreviation
+                                      }
+                                    </Typography>
+                                  </Stack>
                                   <Stack alignItems={"left"}>
-                                    <Box>
-                                      <Typography
-                                        fontSize={18}
-                                        fontWeight={600}
-                                        mt={0.4}
-                                        color="secondary"
-                                        variant="body2"
-                                      >
-                                        {parseFloat(
-                                          info?.amountInCrypto
-                                        ).toFixed(4)}
-                                      </Typography>
-                                    </Box>
+                                    <Typography
+                                      color="secondary"
+                                      fontWeight={600}
+                                      fontSize={18}
+                                      mt={0.8}
+                                      variant="body2"
+                                    >
+                                      {info?.amountInCrypto.toFixed(4)}
+                                    </Typography>
 
                                     <Typography
                                       color="secondary"
@@ -225,9 +250,9 @@ const SellDetail = (props) => {
                             <Box>
                               <Stack
                                 direction="row"
-                                justifyContent={"center"}
+                                justifyContent={"top"}
                                 alignItems={"center"}
-                                mt={4}
+                                mt={-3}
                               >
                                 <LazyImageComponent src={ExchanageIcon} />
                               </Stack>
@@ -252,12 +277,31 @@ const SellDetail = (props) => {
                                 <Stack
                                   direction="row"
                                   justifyContent="flex-end"
-                                ></Stack>
+                                >
+                                  <LazyImageComponent
+                                    style={{ width: 25, marginRight: 4 }}
+                                    src={NGFlag}
+                                  />
+                                  <Typography
+                                    color="secondary"
+                                    fontWeight={400}
+                                    fontSize={15}
+                                    mt={0.2}
+                                    variant="body2"
+                                  >
+                                    {info?.offer?.currency?.currencyCode}
+                                  </Typography>
+                                </Stack>
                                 <Stack
                                   direction="row"
                                   justifyContent="flex-end"
                                 >
-                                  <Box>
+                                  <Box
+                                  // sx={{
+                                  //   borderBottom: 1,
+                                  //   borderBottomStyle: "dashed",
+                                  // }}
+                                  >
                                     <Typography
                                       fontSize={18}
                                       fontWeight={600}
@@ -265,24 +309,11 @@ const SellDetail = (props) => {
                                       color="secondary"
                                       variant="body2"
                                     >
-                                      {parseFloat(info?.amountInFiat).toFixed(
-                                        4
-                                      )}
+                                      {info?.amountInFiat.toFixed(2)}
                                     </Typography>
                                   </Box>
                                 </Stack>
-                                {/* <Stack direction="row" justifyContent="flex-end">
-                      <Typography
-                        color="secondary"
-                        fontWeight={400}
-                        fontSize={12}
-                        mt={0.8}
-                        variant="body2"
-                      >
-                        date
-                        {moment(info?.createdAt).format("Do MMMM YYYY")}
-                      </Typography>
-                    </Stack> */}
+
                                 <Stack
                                   direction="row"
                                   justifyContent="flex-end"
@@ -294,6 +325,7 @@ const SellDetail = (props) => {
                                     mt={2}
                                     variant="body2"
                                   >
+                                    {/* paid */}
                                     {info?.status}
                                   </Typography>
                                 </Stack>
@@ -304,6 +336,7 @@ const SellDetail = (props) => {
                           <Box
                             mt={2}
                             p={1.6}
+                            mb={2}
                             borderRadius={5}
                             bgcolor={"#E8E8F3"}
                           >
@@ -398,7 +431,7 @@ const SellDetail = (props) => {
                     fontSize={14}
                     color="background.dark"
                   >
-                    You do not have any Offers yet.
+                    You do not have any sell transactions details.
                   </Typography>
                 </center>
               </Box>

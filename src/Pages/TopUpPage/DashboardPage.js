@@ -11,6 +11,7 @@ import {
   Slide,
   Alert,
   IconButton,
+  InputAdornment,
 } from "@mui/material";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -31,6 +32,9 @@ import {
   ComponentSkeleton,
   ModalSkeletons,
 } from "../../components/Skeletons/ComponentSkeletons";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import LocationIcon from "../../assets/location.svg";
 import ArrowUp from "../../assets/arrowTop.svg";
@@ -83,7 +87,11 @@ const TopUpPage = () => {
   // Copy Snackbar
   const [showSnackbar, setShowSnackbar] = useState(false);
 
+  const [abbreviation, setAbbreviation] = useState("");
+
   const [showSnackbarB, setShowSnackbarB] = useState(false);
+
+    const [showPassword, setShowPassword] = useState(false);
 
   // Close Handler for Snackbar
   const handleCloseSnackbar = () => {
@@ -108,7 +116,8 @@ const TopUpPage = () => {
 
   const GET_UNREAD_URL = "/user/notification/unread";
 
-  const getCyptoExchangeRate = (coin) => {
+  const getCyptoExchangeRate = (coin, abbreviation) => {
+    setAbbreviation(abbreviation);
     setCoinID(coin);
     setLoading(true);
     axios
@@ -406,6 +415,19 @@ const TopUpPage = () => {
                   py={4}
                   bgcolor={"#3063E9"}
                 >
+                  <Stack mt={-1.5} alignItems={"flex-end"}>
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {!showPassword ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  </Stack>
                   <Stack>
                     <Box>
                       <Typography
@@ -433,19 +455,33 @@ const TopUpPage = () => {
                         </Box>
                       ) : (
                         <>
-                          <Typography
-                            mt={1}
-                            fontWeight={500}
-                            color={"#fff"}
-                            fontSize={28}
-                            variant="body2"
-                          >
-                            {/* {walletBalance} */}
-                            {walletBalance.length > 10
-                              ? walletBalance.substr(0, 10) + "\u2026"
-                              : walletBalance}
-                          </Typography>
-
+                          {showPassword ? (
+                            <Typography
+                              mt={0}
+                              fontWeight={500}
+                              color={"#fff"}
+                              fontSize={23}
+                              variant="body2"
+                            >
+                              {abbreviation}{" "}
+                              {walletBalance.toString().length > 10
+                                ? walletBalance.toString().substr(0, 10) +
+                                  "\u2026"
+                                : walletBalance}
+                            </Typography>
+                          ) : (
+                            <Typography
+                              mt={0}
+                              fontWeight={500}
+                              color={"#fff"}
+                              fontSize={20}
+                              variant="body2"
+                            >
+                              {abbreviation} {"XXXXX XXXXX"}
+                            </Typography>
+                          )}
+                         
+                          
                           <CopyToClipboard
                             onCopy={() => setShowSnackbar(true)}
                             text={walletID}
@@ -463,7 +499,7 @@ const TopUpPage = () => {
                                   variant="body2"
                                 >
                                   Public Address:{" "}
-                                  {walletID.substr(0, 10) + "\u2026"}
+                                  {showPassword ? walletID.substr(0, 10) + "\u2026" : "XXXXXXXXXXXXXX"}
                                 </Typography>
                               </Box>
                             </Tooltip>
@@ -526,7 +562,9 @@ const TopUpPage = () => {
                         }
                         Button
                         sx={{ cursor: "pointer" }}
-                        onClick={() => getCyptoExchangeRate(id)}
+                        onClick={() =>
+                          getCyptoExchangeRate(id, cryptoCurrency?.abbreviation)
+                        }
                         px={2}
                         my={2}
                         py={2}

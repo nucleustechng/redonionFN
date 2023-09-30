@@ -685,7 +685,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                         fontSize={14}
                         fontWeight={400}
                       >
-                        Network:
+                        CryptoCurrency:
                       </Typography>
                       <Typography
                         variant="caption"

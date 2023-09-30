@@ -24,7 +24,7 @@ import axios from "../../../api/axios";
 import BuyRequest from "../../../assets/buyRequest.svg";
 import SellRequest from "../../../assets/sellRequest.svg";
 
-import Back from "../../../assets/back.svg";
+import Back from "../../../assets/backArrow.svg";
 import ExchanageIcon from "../../../assets/exchangeBlue.svg";
 import FrontArrow from "../../../assets/frontArrow.svg";
 import successClock from "../../../assets/clockSuccess.svg";
