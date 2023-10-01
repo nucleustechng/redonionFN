@@ -178,11 +178,11 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
             >
               <Typography
                 variant="caption"
-                fontSize={16}
-                fontWeight={500}
+                fontSize={24}
+                fontWeight={700}
                 color="primary"
               >
-                Notification
+                Notifications
               </Typography>
 
               <Box>
@@ -201,7 +201,7 @@ const CreateNotifcationModal = ({ open, onClose, country, currency }) => {
                     sx={{ cursor: "pointer" }}
                     onClick={getNotification}
                   >
-                    Clear Data
+                    Clear All
                   </Typography>
                 </Box>
               </Box>

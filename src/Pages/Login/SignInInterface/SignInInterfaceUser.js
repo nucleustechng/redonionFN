@@ -285,7 +285,7 @@ const SignInInterface = () => {
                   }}
                   onClick={() => navigate("/registration/sign-up")}
                 >
-                 Don't have the account? Sign up
+                 Don't have an account? Sign up now.
                 </Typography>
               </Stack>
             
