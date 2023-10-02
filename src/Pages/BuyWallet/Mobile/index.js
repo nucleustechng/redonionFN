@@ -110,7 +110,7 @@ console.log(user);
             <Grid item xs={12}>
               <Box
                 borderRadius={5}
-                bgcolor={showsell === 1 ? "#3063E9" : "#EEEEEE"}
+                bgcolor={showsell === 1 ? "#EEEEEE" : "#EEEEEE"}
               >
                 <Stack
                   direction="row"

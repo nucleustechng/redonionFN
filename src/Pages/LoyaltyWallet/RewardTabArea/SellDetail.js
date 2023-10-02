@@ -64,6 +64,8 @@ const SellDetail = (props) => {
 
   const [stransaz, setSTransaz] = useState("");
 
+  const [cryptoTransactionId, setcryptoTransactionId] = useState("");
+
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -151,15 +153,172 @@ const SellDetail = (props) => {
   };
 
   useEffect(() => {
-    // console.log(props.selldetail);
+    console.log(props);
     setTransaz(props.selldetail);
     setSTransaz(props.stranz);
-   
-   
+    setcryptoTransactionId(props.stranz?.cryptoTransactionId);
   }, [user, props]);
 
   return (
     <React.Fragment>
+      <>
+        <Box mx={4}>
+          <Typography
+            color={"#fff"}
+            fontWeight={400}
+            fontSize={14}
+            mt={2}
+            variant="body2"
+          >
+            Transaction ID:
+            {cryptoTransactionId !== ""
+              ? " " + cryptoTransactionId.substr(0, 26) + "\u2026"
+              : ""}
+          </Typography>
+        </Box>
+
+        <ListItem>
+          <Box
+            // borderWidth={1}
+            // borderBottom={1}
+            m={isMobile ? 2 : 3}
+            width={"100%"}
+          >
+            <Stack
+              direction="row"
+              alignItems={"center"}
+              justifyContent="space-between"
+            >
+              <Box>
+                <Stack direction="row">
+                  <LazyImageComponent sx={{ marginRight: 4 }} src={UpArrow} />
+                  <Typography mt={0.2} fontSize={14}>
+                    Sent
+                  </Typography>
+                </Stack>
+                <Stack mt={2} ml={-1} direction="row">
+                  <Box ml={1.5}>
+                    <Stack
+                      direction="row"
+                      justifyItems={"center"}
+                      alignItems={"center"}
+                    >
+                      <LazyImageComponent
+                        style={{
+                          marginRight: 4,
+                          width: 25,
+                          height: 25,
+                        }}
+                        src={stransaz?.cryptoCurrency?.imgUri}
+                      />
+                      <Typography
+                        color="secondary"
+                        fontWeight={400}
+                        fontSize={15}
+                        mt={0.5}
+                        variant="body2"
+                      >
+                        {stransaz?.cryptoCurrency?.abbreviation}
+                      </Typography>
+                    </Stack>
+                    <Stack alignItems={"left"}>
+                      <Typography
+                        color="secondary"
+                        fontWeight={600}
+                        fontSize={18}
+                        mt={0.8}
+                        variant="body2"
+                      >
+                        {stransaz?.amountInCrypto}
+                      </Typography>
+
+                      {/* <Typography
+                        color="secondary"
+                        fontWeight={600}
+                        fontSize={16}
+                        mt={2}
+                        variant="body2"
+                      >
+                        Status
+                      </Typography> */}
+                    </Stack>
+                  </Box>
+                </Stack>
+              </Box>
+
+              <Box>
+                <Stack
+                  direction="row"
+                  justifyContent={"top"}
+                  alignItems={"center"}
+                  mt={-3}
+                >
+                  <LazyImageComponent src={ExchanageIcon} />
+                </Stack>
+              </Box>
+
+              <Box>
+                <Stack direction="row" mr={2} justifyContent="flex-end">
+                  <LazyImageComponent sx={{ marginRight: 4 }} src={DownArrow} />
+                  <Typography mt={0.2} fontSize={14}>
+                    To receive
+                  </Typography>
+                </Stack>
+
+                <Box mr={1.5} mt={2}>
+                  <Stack direction="row" justifyContent="flex-end">
+                    <LazyImageComponent
+                      style={{ width: 25, marginRight: 4 }}
+                      src={NGFlag}
+                    />
+                    <Typography
+                      color="secondary"
+                      fontWeight={400}
+                      fontSize={15}
+                      mt={0.2}
+                      variant="body2"
+                    >
+                      {stransaz?.currency?.currencyCode}
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" justifyContent="flex-end">
+                    <Box
+                    // sx={{
+                    //   borderBottom: 1,
+                    //   borderBottomStyle: "dashed",
+                    // }}
+                    >
+                      <Typography
+                        fontSize={18}
+                        fontWeight={600}
+                        mt={0.4}
+                        color="secondary"
+                        variant="body2"
+                      >
+                        {stransaz?.feeAmount}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  {/* <Stack direction="row" justifyContent="flex-end">
+                    <Typography
+                      color="primary"
+                      fontWeight={600}
+                      fontSize={16}
+                      mt={2}
+                      variant="body2"
+                    >
+                      paid
+                      {stransaz?.status}
+                    </Typography>
+                  </Stack> */}
+                </Box>
+              </Box>
+            </Stack>
+          </Box>
+        </ListItem>
+      </>
+
       {isloading ? (
         <center>
           <LoadingButton loading>Login</LoadingButton>
@@ -422,8 +581,8 @@ const SellDetail = (props) => {
                 </List>
               </>
             ) : (
-              <Box height={400} p={4}>
-                <Box height={200}></Box>
+              <Box height={200} p={4}>
+                <Box height={50}></Box>
                 <center>
                   <Typography
                     variant="caption"
@@ -438,25 +597,26 @@ const SellDetail = (props) => {
             )}
           </>
           <Box mx={2}>
-            {/* <Stack mt={2} direction="row" justifyContent="space-between">
-                    <Typography
-                      variant="caption"
-                      textTransform={"none"}
-                      fontSize={14}
-                      color="#202020"
-                    >
-                      Amount left in escrow
-                    </Typography>
+            <Stack mt={2} direction="row" justifyContent="space-between">
+              <Typography
+                variant="caption"
+                textTransform={"none"}
+                fontSize={14}
+                color="#fff"
+              >
+                Total
+              </Typography>
 
-                    <Typography
-                      variant="caption"
-                      textTransform={"none"}
-                      fontSize={14}
-                      color="#3063E9"
-                    >
-                      $330.00
-                    </Typography>
-                  </Stack> */}
+              <Typography
+                variant="caption"
+                textTransform={"none"}
+                fontSize={14}
+                color="#fff"
+              >
+                {stransaz?.cryptoCurrency?.abbreviation}{" "}
+                {stransaz?.amountInCrypto}
+              </Typography>
+            </Stack>
             {secondStepInfo ? (
               <Box mt={4}>
                 <Typography className={styles.nameFont} variant="body2" mb={1}>
