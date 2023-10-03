@@ -164,7 +164,7 @@ const SellDetail = (props) => {
       <>
         <Box mx={4}>
           <Typography
-            color={"#fff"}
+            color="background.dark"
             fontWeight={400}
             fontSize={14}
             mt={2}
@@ -602,7 +602,7 @@ const SellDetail = (props) => {
                 variant="caption"
                 textTransform={"none"}
                 fontSize={14}
-                color="#fff"
+                color="background.dark"
               >
                 Total
               </Typography>
@@ -611,7 +611,7 @@ const SellDetail = (props) => {
                 variant="caption"
                 textTransform={"none"}
                 fontSize={14}
-                color="#fff"
+                color="background.dark"
               >
                 {stransaz?.cryptoCurrency?.abbreviation}{" "}
                 {stransaz?.amountInCrypto}

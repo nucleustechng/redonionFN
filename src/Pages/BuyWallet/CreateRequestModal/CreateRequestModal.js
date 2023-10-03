@@ -51,6 +51,8 @@ import successClock from "../../../assets/clockSuccess.svg";
 
 import CopyIcon from "../../../assets/receiveCopyIcon.svg";
 import CopyIconDark from "../../../assets/copyIconDark.svg";
+import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
+import SendConfirmationModal from "../../CoinDetails/SendConfirmationModal";
 
 // Lazy image loader
 const LazyImageComponent = React.lazy(() =>
@@ -100,10 +102,15 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
   // Send Snackbar
   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
     useState(false);
+  const [openTransactionPinModal, setOpenTransactionPinModal] = useState(false);
 
   const handleCloseSendSnackbar = () => {
     setShowSendSuccessfullSnackbar(false);
   };
+
+   const handleTransactionPinModal = () => {
+     setOpenTransactionPinModal(!openTransactionPinModal);
+   };
 
   const GET_CURRENCY_URL = "/user/get-crypto-currencies";
 
@@ -126,16 +133,18 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
     setLoading(true);
 
     axios
-       .post(
+      .post(
         GET_CURRENCY_RATE_URL,
         JSON.stringify({
           cryptoCurrencyId: coin,
           currencyId: user?.currency?.id,
         }),
-        {headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },}
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       )
       .then((res) => {
         // console.log(res.data.data.averageExchangeRate);
@@ -218,9 +227,9 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
       .then((res) => {
         // console.log(res.data);
         // if (res.data.data === null) {
-          setMsgShow("success");
-          setShowMsg(res.data.msg);
-          setShowSendSuccessfullSnackbar(true);
+        setMsgShow("success");
+        setShowMsg(res.data.msg);
+        setShowSendSuccessfullSnackbar(true);
         // } else {
         //   setFirstModalA(2);
         // }
@@ -235,6 +244,16 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
         }
       })
       .finally(() => setLoading(false));
+  };
+
+  const handleConfirmationModal = (e) => {
+    console.log(e);
+    if (e === "success") {
+      onVerify();
+    } else {
+      // setShowSnackbar(true);
+      // setMsg("Something went wrong!");
+    }
   };
 
   return (
@@ -259,35 +278,47 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
           {showMsg}
         </Alert>
       </Snackbar>
-      {!isMobile ? (
-        <Modal
-          disableAutoFocus
-          disableEscapeKeyDown
-          keepMounted
-          open={open}
-          onClose={(_, reason) => {
-            if (reason !== "backdropClick") {
-              onClose();
-              setFirstModal(false);
-            }
-          }}
-        >
-          <Box
-            className={!isMobile ? styles.modalStyle : styles.modalStyleMobile}
-          >
-            <Box
-              bgcolor={theme.palette.background.paper}
-              className={styles.modalContentBox}
+      {openTransactionPinModal ? (
+        <Suspense fallback={<ModalSkeletons />}>
+          <SendConfirmationModal
+            open={openTransactionPinModal}
+            onClose={handleTransactionPinModal}
+            handleConfirmation={handleConfirmationModal}
+          />
+        </Suspense>
+      ) : (
+        <>
+          {!isMobile ? (
+            <Modal
+              disableAutoFocus
+              disableEscapeKeyDown
+              keepMounted
+              open={open}
+              onClose={(_, reason) => {
+                if (reason !== "backdropClick") {
+                  onClose();
+                  setFirstModal(false);
+                }
+              }}
             >
-              {msgShow === "" ? (
-                <Box p={4} borderRadius="10px">
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    spacing={"5px"}
-                  >
-                    <>
-                      {/* {firstModal && (
+              <Box
+                className={
+                  !isMobile ? styles.modalStyle : styles.modalStyleMobile
+                }
+              >
+                <Box
+                  bgcolor={theme.palette.background.paper}
+                  className={styles.modalContentBox}
+                >
+                  {msgShow === "" ? (
+                    <Box p={4} borderRadius="10px">
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        spacing={"5px"}
+                      >
+                        <>
+                          {/* {firstModal && (
                     <Typography
                       // variant="body2"
                       color="primary"
@@ -298,104 +329,370 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                     </Typography>
                   )} */}
 
-                      <Typography
-                        variant="caption"
-                        fontSize={20}
-                        fontWeight={500}
-                        color="primary"
-                      >
-                        Create Offer
-                      </Typography>
-                    </>
+                          <Typography
+                            variant="caption"
+                            fontSize={20}
+                            fontWeight={500}
+                            color="primary"
+                          >
+                            Create Offer
+                          </Typography>
+                        </>
 
-                    <Typography
-                      // variant="body2"
-                      color="primary"
-                      sx={{ cursor: "pointer" }}
-                      onClick={onClose}
-                    >
-                      <CloseIcon />
-                    </Typography>
-                  </Stack>
-
-                  <Box>
-                    <Stack direction={"row"}>
-                      <Box mb={1} mt={3}>
-                        <Typography fontSize={17} fontWeight={400}>
-                          Sell
-                        </Typography>
-                      </Box>
-                    </Stack>
-                    <Box mb={3}>
-                      <Stack direction={"row"}>
-                        <Select
-                          className={
-                            theme.palette.mode === "dark"
-                              ? styles.currencyBoxDark
-                              : styles.currencyBox
-                          }
-                          sx={{
-                            width: "35%",
-                            height: 50,
-                            border: 0,
-                          }}
-                          value={coinNames}
-                          onChange={handleCoinNameSelection}
+                        <Typography
+                          // variant="body2"
+                          color="primary"
+                          sx={{ cursor: "pointer" }}
+                          onClick={onClose}
                         >
-                          <MenuItem value="0">
-                            <Typography>Select A Coin</Typography>
-                          </MenuItem>
+                          <CloseIcon />
+                        </Typography>
+                      </Stack>
 
-                          {coinNamesData.map(
-                            (
-                              {
-                                id,
-                                name,
-                                imgUri,
-                                network,
-                                abbreviation,
-                                blockchain,
-                              },
-                              index
-                            ) => (
-                              <MenuItem key={id} value={id}>
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={2}
-                                >
-                                  <Suspense
-                                    fallback={
-                                      <Skeleton
-                                        animation="wave"
-                                        variant="circular"
-                                        width={40}
-                                        height={40}
-                                        sx={{
-                                          backgroundColor: `${
-                                            theme.palette.mode === "dark"
-                                              ? "#111"
-                                              : "#f5f5f5"
-                                          }`,
-                                        }}
-                                      />
-                                    }
-                                  >
-                                    <LazyImageComponent
-                                      className={styles.coinIcons}
-                                      src={imgUri}
-                                    />
-                                  </Suspense>
-                                  <Typography>
-                                    {abbreviation +
-                                      " - " +
-                                      blockchain?.standard}
-                                  </Typography>
-                                </Stack>
+                      <Box>
+                        <Stack direction={"row"}>
+                          <Box mb={1} mt={3}>
+                            <Typography fontSize={17} fontWeight={400}>
+                              Sell
+                            </Typography>
+                          </Box>
+                        </Stack>
+                        <Box mb={3}>
+                          <Stack direction={"row"}>
+                            <Select
+                              className={
+                                theme.palette.mode === "dark"
+                                  ? styles.currencyBoxDark
+                                  : styles.currencyBox
+                              }
+                              sx={{
+                                width: "35%",
+                                height: 50,
+                                border: 0,
+                              }}
+                              value={coinNames}
+                              onChange={handleCoinNameSelection}
+                            >
+                              <MenuItem value="0">
+                                <Typography>Select A Coin</Typography>
                               </MenuItem>
-                            )
+
+                              {coinNamesData.map(
+                                (
+                                  {
+                                    id,
+                                    name,
+                                    imgUri,
+                                    network,
+                                    abbreviation,
+                                    blockchain,
+                                  },
+                                  index
+                                ) => (
+                                  <MenuItem key={id} value={id}>
+                                    <Stack
+                                      direction="row"
+                                      alignItems="center"
+                                      spacing={2}
+                                    >
+                                      <Suspense
+                                        fallback={
+                                          <Skeleton
+                                            animation="wave"
+                                            variant="circular"
+                                            width={40}
+                                            height={40}
+                                            sx={{
+                                              backgroundColor: `${
+                                                theme.palette.mode === "dark"
+                                                  ? "#111"
+                                                  : "#f5f5f5"
+                                              }`,
+                                            }}
+                                          />
+                                        }
+                                      >
+                                        <LazyImageComponent
+                                          className={styles.coinIcons}
+                                          src={imgUri}
+                                        />
+                                      </Suspense>
+                                      <Typography>
+                                        {abbreviation +
+                                          " - " +
+                                          blockchain?.standard}
+                                      </Typography>
+                                    </Stack>
+                                  </MenuItem>
+                                )
+                              )}
+                            </Select>
+                            <Input
+                              disableUnderline
+                              className="inputField"
+                              size="small"
+                              type="number"
+                              onChange={(e) => setAmount(e.target.value)}
+                              placeholder="0.00"
+                              fullWidth
+                            />
+                          </Stack>
+                        </Box>
+                      </Box>
+
+                      <Box>
+                        <Stack direction={"row"}>
+                          <Box mb={1}>
+                            <Typography fontSize={17} fontWeight={400}>
+                              Recieve
+                            </Typography>
+                          </Box>
+                        </Stack>
+                        <Box mb={3}>
+                          <Stack
+                            direction={"row"}
+                            alignItems={"center"}
+                            justifyContent={"center"}
+                          >
+                            <Box mr={2}>
+                              <Typography>Amount</Typography>
+                            </Box>
+                            <Input
+                              disableUnderline
+                              className="inputField"
+                              size="small"
+                              type="number"
+                              value={amountFees * amount}
+                              // onChange={(e) => setAmount(e.target.value)}
+                              placeholder="0.00"
+                              fullWidth
+                              readOnly
+                            />
+                          </Stack>
+                        </Box>
+                      </Box>
+
+                      {coinNamesDataTo !== "" && (
+                        <Box>
+                          <Stack direction={"row"}>
+                            <Box mb={1}>
+                              <Typography fontSize={17} fontWeight={400}>
+                                Rate
+                              </Typography>
+                            </Box>
+                          </Stack>
+                          <Box
+                            mb={3}
+                            borderRadius={5}
+                            p={2}
+                            py={2}
+                            fullWidth
+                            bgcolor={"#dddddd50"}
+                          >
+                            <Stack
+                              direction={"row"}
+                              px={2}
+                              alignItems={"center"}
+                              justifyContent="space-between"
+                            >
+                              <Typography fontSize={20} fontWeight={400}>
+                                1 {coinNamesDataTo}
+                              </Typography>
+                              <Typography
+                                fontSize={20}
+                                color="primary"
+                                fontWeight={400}
+                              >
+                                =
+                              </Typography>
+                              <Input
+                                disableUnderline
+                                className="inputField"
+                                size="small"
+                                type="number"
+                                // value={coinRate * amount}
+                                onChange={(e) => setAmountFees(e.target.value)}
+                                placeholder="0.00"
+                              />
+                            </Stack>
+                          </Box>
+                          <Stack mb={4} direction={"row"}>
+                            <Box mt={-2} mb={1}>
+                              <Typography fontSize={16} fontWeight={400}>
+                                Official rate: 1{coinNamesDataTo} ={" "}
+                                {currencyNames?.currencyCode} {coinRate}
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Box>
+                      )}
+
+                      <Stack direction={"row"}>
+                        <>
+                          {loading ? (
+                            <LoadingButton fullWidth loading variant="outlined">
+                              Login
+                            </LoadingButton>
+                          ) : (
+                            <>
+                              <Button
+                                // onClick={() => onVerify()}
+                                onClick={handleTransactionPinModal}
+                                fullWidth
+                                style={{
+                                  height: 50,
+                                  borderRadius: 10,
+                                  fontSize: 20,
+                                  textTransform: "none",
+                                }}
+                                variant="contained"
+                                color="primary"
+                              >
+                                Complete <LazyImageComponent src={FrontArrow} />
+                              </Button>
+                            </>
                           )}
-                        </Select>
+                        </>
+
+                        <Button
+                          onClick={() => onClose()}
+                          fullWidth
+                          style={{
+                            height: 50,
+                            width: "50%",
+                            borderRadius: 10,
+                            marginLeft: 10,
+                            fontSize: 16,
+                            textTransform: "none",
+                            backgroundColor: "#E8E8F3",
+                            color: "#3063E9",
+                          }}
+                          variant="contained"
+                          // color="primary"
+                        >
+                          Cancel
+                        </Button>
+                      </Stack>
+                    </Box>
+                  ) : (
+                    <Box mt={3} py={3} px={3}>
+                      <center>
+                        <LazyImageComponent src={successClock} />
+                      </center>
+                      <Typography
+                        variant="h3"
+                        mt={!isMobile ? 4 : 8}
+                        color="secondary"
+                        fontSize={24}
+                        fontWeight={500}
+                      >
+                        Offer Created
+                      </Typography>
+
+                      <Typography
+                        color="secondary"
+                        variant="caption"
+                        mt={!isMobile ? 3 : 8}
+                        mb={2}
+                        component="p"
+                        fontSize={16}
+                        textAlign={"center"}
+                      >
+                        {showMsg}
+                      </Typography>
+                      <Typography
+                        // variant="body2"
+                        color="primary"
+                        sx={{ cursor: "pointer" }}
+                        onClick={onClose}
+                      >
+                        Close Modal
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+              </Box>
+            </Modal>
+          ) : (
+            <Box>
+              <Box pt={1} px={0.5}>
+                <Box>
+                  <Stack direction={"row"}>
+                    <Box mb={1} mt={3}>
+                      <Typography fontSize={12} fontWeight={400}>
+                        Sell
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <Box mb={3}>
+                    <Stack>
+                      <Select
+                        className={
+                          theme.palette.mode === "dark"
+                            ? styles.currencyBoxDark
+                            : styles.currencyBox
+                        }
+                        sx={{
+                          width: "100%",
+                          height: 50,
+                          border: 0,
+                        }}
+                        value={coinNames}
+                        onChange={handleCoinNameSelection}
+                      >
+                        <MenuItem value="0">
+                          <Typography>Select</Typography>
+                        </MenuItem>
+
+                        {coinNamesData.map(
+                          (
+                            {
+                              id,
+                              name,
+                              imgUri,
+                              network,
+                              abbreviation,
+                              blockchain,
+                            },
+                            index
+                          ) => (
+                            <MenuItem key={id} value={id}>
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={2}
+                              >
+                                <Suspense
+                                  fallback={
+                                    <Skeleton
+                                      animation="wave"
+                                      variant="circular"
+                                      width={40}
+                                      height={40}
+                                      sx={{
+                                        backgroundColor: `${
+                                          theme.palette.mode === "dark"
+                                            ? "#111"
+                                            : "#f5f5f5"
+                                        }`,
+                                      }}
+                                    />
+                                  }
+                                >
+                                  <LazyImageComponent
+                                    className={styles.coinIcons}
+                                    src={imgUri}
+                                  />
+                                </Suspense>
+                                <Typography>
+                                  {abbreviation + " - " + blockchain?.standard}
+                                </Typography>
+                              </Stack>
+                            </MenuItem>
+                          )
+                        )}
+                      </Select>
+                      <Box mt={2}>
                         <Input
                           disableUnderline
                           className="inputField"
@@ -405,379 +702,126 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                           placeholder="0.00"
                           fullWidth
                         />
-                      </Stack>
-                    </Box>
+                      </Box>
+                    </Stack>
                   </Box>
+                </Box>
 
+                <Box>
+                  <Stack direction={"row"}>
+                    <Box mb={1}>
+                      <Typography fontSize={12} fontWeight={400}>
+                        Recieve
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <Box mb={3}>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                    >
+                      {/* <Box mr={2}>
+                    <Typography>Amount</Typography>
+                  </Box> */}
+                      <Input
+                        disableUnderline
+                        className="inputField"
+                        size="small"
+                        type="number"
+                        value={amountFees * amount}
+                        // onChange={(e) => setAmount(e.target.value)}
+                        placeholder="0.00"
+                        fullWidth
+                        readOnly
+                      />
+                    </Stack>
+                  </Box>
+                </Box>
+
+                {coinNamesDataTo !== "" && (
                   <Box>
                     <Stack direction={"row"}>
                       <Box mb={1}>
-                        <Typography fontSize={17} fontWeight={400}>
-                          Recieve
+                        <Typography fontSize={12} fontWeight={400}>
+                          Rate
                         </Typography>
                       </Box>
                     </Stack>
-                    <Box mb={3}>
+                    <Box
+                      mb={3}
+                      borderRadius={5}
+                      p={2}
+                      py={0.5}
+                      fullWidth
+                      bgcolor={"#dddddd50"}
+                    >
                       <Stack
                         direction={"row"}
+                        px={2}
                         alignItems={"center"}
-                        justifyContent={"center"}
+                        justifyContent="space-between"
                       >
-                        <Box mr={2}>
-                          <Typography>Amount</Typography>
-                        </Box>
+                        <Typography fontSize={12} fontWeight={400}>
+                          1 {coinNamesDataTo}
+                        </Typography>
+                        <Typography
+                          fontSize={12}
+                          color="primary"
+                          fontWeight={400}
+                        >
+                          =
+                        </Typography>
                         <Input
                           disableUnderline
                           className="inputField"
                           size="small"
                           type="number"
-                          value={amountFees * amount}
-                          // onChange={(e) => setAmount(e.target.value)}
+                          value={amountFees}
+                          // value={coinRate * amount}
+                          onChange={(e) => setAmountFees(e.target.value)}
                           placeholder="0.00"
-                          fullWidth
-                          readOnly
                         />
                       </Stack>
                     </Box>
-                  </Box>
-
-                  {coinNamesDataTo !== "" && (
-                    <Box>
-                      <Stack direction={"row"}>
-                        <Box mb={1}>
-                          <Typography fontSize={17} fontWeight={400}>
-                            Rate
-                          </Typography>
-                        </Box>
-                      </Stack>
-                      <Box
-                        mb={3}
-                        borderRadius={5}
-                        p={2}
-                        py={2}
-                        fullWidth
-                        bgcolor={"#dddddd50"}
-                      >
-                        <Stack
-                          direction={"row"}
-                          px={2}
-                          alignItems={"center"}
-                          justifyContent="space-between"
-                        >
-                          <Typography fontSize={20} fontWeight={400}>
-                            1 {coinNamesDataTo}
-                          </Typography>
-                          <Typography
-                            fontSize={20}
-                            color="primary"
-                            fontWeight={400}
-                          >
-                            =
-                          </Typography>
-                          <Input
-                            disableUnderline
-                            className="inputField"
-                            size="small"
-                            type="number"
-                            // value={coinRate * amount}
-                            onChange={(e) => setAmountFees(e.target.value)}
-                            placeholder="0.00"
-                          />
-                        </Stack>
+                    <Stack mb={4} direction={"row"}>
+                      <Box mt={-2} mb={1}>
+                        <Typography fontSize={12} fontWeight={400}>
+                          Official rate: 1{coinNamesDataTo} ={" "}
+                          {currencyNames?.currencyCode} {coinRate}
+                        </Typography>
                       </Box>
-                      <Stack mb={4} direction={"row"}>
-                        <Box mt={-2} mb={1}>
-                          <Typography fontSize={16} fontWeight={400}>
-                            Official rate: 1{coinNamesDataTo} ={" "}
-                            {currencyNames?.currencyCode} {coinRate}
-                          </Typography>
-                        </Box>
-                      </Stack>
-                    </Box>
-                  )}
-
-                  <Stack direction={"row"}>
-                    <>
-                      {loading ? (
-                        <LoadingButton fullWidth loading variant="outlined">
-                          Login
-                        </LoadingButton>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={() => onVerify()}
-                            fullWidth
-                            style={{
-                              height: 50,
-                              borderRadius: 10,
-                              fontSize: 20,
-                              textTransform: "none",
-                            }}
-                            variant="contained"
-                            color="primary"
-                          >
-                            Complete <LazyImageComponent src={FrontArrow} />
-                          </Button>
-                        </>
-                      )}
-                    </>
-
-                    <Button
-                      onClick={() => onClose()}
-                      fullWidth
-                      style={{
-                        height: 50,
-                        width: "50%",
-                        borderRadius: 10,
-                        marginLeft: 10,
-                        fontSize: 16,
-                        textTransform: "none",
-                        backgroundColor: "#E8E8F3",
-                        color: "#3063E9",
-                      }}
-                      variant="contained"
-                      // color="primary"
-                    >
-                      Cancel
-                    </Button>
-                  </Stack>
-                </Box>
-              ) : (
-                <Box mt={3} py={3} px={3}>
-                  <center>
-                    <LazyImageComponent src={successClock} />
-                  </center>
-                  <Typography
-                    variant="h3"
-                    mt={!isMobile ? 4 : 8}
-                    color="secondary"
-                    fontSize={24}
-                    fontWeight={500}
-                  >
-                    Offer Created
-                  </Typography>
-
-                  <Typography
-                    color="secondary"
-                    variant="caption"
-                    mt={!isMobile ? 3 : 8}
-                    mb={2}
-                    component="p"
-                    fontSize={16}
-                    textAlign={"center"}
-                  >
-                    {showMsg}
-                  </Typography>
-                  <Typography
-                    // variant="body2"
-                    color="primary"
-                    sx={{ cursor: "pointer" }}
-                    onClick={onClose}
-                  >
-                    Close Modal
-                  </Typography>
-                </Box>
-              )}
-            </Box>
-          </Box>
-        </Modal>
-      ) : (
-        <Box>
-          <Box pt={1} px={0.5}>
-            <Box>
-              <Stack direction={"row"}>
-                <Box mb={1} mt={3}>
-                  <Typography fontSize={12} fontWeight={400}>
-                    Sell
-                  </Typography>
-                </Box>
-              </Stack>
-              <Box mb={3}>
-                <Stack>
-                  <Select
-                    className={
-                      theme.palette.mode === "dark"
-                        ? styles.currencyBoxDark
-                        : styles.currencyBox
-                    }
-                    sx={{
-                      width: "100%",
-                      height: 50,
-                      border: 0,
-                    }}
-                    value={coinNames}
-                    onChange={handleCoinNameSelection}
-                  >
-                    <MenuItem value="0">
-                      <Typography>Select</Typography>
-                    </MenuItem>
-
-                    {coinNamesData.map(
-                      (
-                        { id, name, imgUri, network, abbreviation, blockchain },
-                        index
-                      ) => (
-                        <MenuItem key={id} value={id}>
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={2}
-                          >
-                            <Suspense
-                              fallback={
-                                <Skeleton
-                                  animation="wave"
-                                  variant="circular"
-                                  width={40}
-                                  height={40}
-                                  sx={{
-                                    backgroundColor: `${
-                                      theme.palette.mode === "dark"
-                                        ? "#111"
-                                        : "#f5f5f5"
-                                    }`,
-                                  }}
-                                />
-                              }
-                            >
-                              <LazyImageComponent
-                                className={styles.coinIcons}
-                                src={imgUri}
-                              />
-                            </Suspense>
-                            <Typography>
-                              {abbreviation + " - " + blockchain?.standard}
-                            </Typography>
-                          </Stack>
-                        </MenuItem>
-                      )
-                    )}
-                  </Select>
-                  <Box mt={2}>
-                    <Input
-                      disableUnderline
-                      className="inputField"
-                      size="small"
-                      type="number"
-                      onChange={(e) => setAmount(e.target.value)}
-                      placeholder="0.00"
-                      fullWidth
-                    />
+                    </Stack>
                   </Box>
-                </Stack>
-              </Box>
-            </Box>
-
-            <Box>
-              <Stack direction={"row"}>
-                <Box mb={1}>
-                  <Typography fontSize={12} fontWeight={400}>
-                    Recieve
-                  </Typography>
-                </Box>
-              </Stack>
-              <Box mb={3}>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  {/* <Box mr={2}>
-                    <Typography>Amount</Typography>
-                  </Box> */}
-                  <Input
-                    disableUnderline
-                    className="inputField"
-                    size="small"
-                    type="number"
-                    value={amountFees * amount}
-                    // onChange={(e) => setAmount(e.target.value)}
-                    placeholder="0.00"
-                    fullWidth
-                    readOnly
-                  />
-                </Stack>
-              </Box>
-            </Box>
-
-            {coinNamesDataTo !== "" && (
-              <Box>
-                <Stack direction={"row"}>
-                  <Box mb={1}>
-                    <Typography fontSize={12} fontWeight={400}>
-                      Rate
-                    </Typography>
-                  </Box>
-                </Stack>
-                <Box
-                  mb={3}
-                  borderRadius={5}
-                  p={2}
-                  py={0.5}
-                  fullWidth
-                  bgcolor={"#dddddd50"}
-                >
-                  <Stack
-                    direction={"row"}
-                    px={2}
-                    alignItems={"center"}
-                    justifyContent="space-between"
-                  >
-                    <Typography fontSize={12} fontWeight={400}>
-                      1 {coinNamesDataTo}
-                    </Typography>
-                    <Typography fontSize={12} color="primary" fontWeight={400}>
-                      =
-                    </Typography>
-                    <Input
-                      disableUnderline
-                      className="inputField"
-                      size="small"
-                      type="number"
-                      // value={coinRate * amount}
-                      onChange={(e) => setAmountFees(e.target.value)}
-                      placeholder="0.00"
-                    />
-                  </Stack>
-                </Box>
-                <Stack mb={4} direction={"row"}>
-                  <Box mt={-2} mb={1}>
-                    <Typography fontSize={12} fontWeight={400}>
-                      Official rate: 1{coinNamesDataTo} ={" "}
-                      {currencyNames?.currencyCode} {coinRate}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </Box>
-            )}
-
-            <Stack direction={"row"}>
-              <>
-                {loading ? (
-                  <LoadingButton fullWidth loading variant="outlined">
-                    Login
-                  </LoadingButton>
-                ) : (
-                  <>
-                    <Button
-                      onClick={() => onVerify()}
-                      fullWidth
-                      style={{
-                        height: 50,
-                        borderRadius: 10,
-                        fontSize: 20,
-                        textTransform: "none",
-                      }}
-                      variant="contained"
-                      color="primary"
-                    >
-                      Complete <LazyImageComponent src={FrontArrow} />
-                    </Button>
-                  </>
                 )}
-              </>
 
-              {/* <Button
+                <Stack direction={"row"}>
+                  <>
+                    {loading ? (
+                      <LoadingButton fullWidth loading variant="outlined">
+                        Login
+                      </LoadingButton>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => onVerify()}
+                          fullWidth
+                          style={{
+                            height: 50,
+                            borderRadius: 10,
+                            fontSize: 20,
+                            textTransform: "none",
+                          }}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Complete <LazyImageComponent src={FrontArrow} />
+                        </Button>
+                      </>
+                    )}
+                  </>
+
+                  {/* <Button
                 onClick={() => setFirstModalA(2)}
                 fullWidth
                 style={{
@@ -795,9 +839,9 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
               >
                 Cancel
               </Button> */}
-            </Stack>
+                </Stack>
 
-            {/* <Box mt={3}>
+                {/* <Box mt={3}>
               <center>
                 <LazyImageComponent src={successClock} />
               </center>
@@ -824,8 +868,10 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                 by the 2nd party.{" "}
               </Typography>
             </Box> */}
-          </Box>
-        </Box>
+              </Box>
+            </Box>
+          )}
+        </>
       )}
     </>
   );

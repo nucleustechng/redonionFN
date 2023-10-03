@@ -125,7 +125,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
                     sx={{ borderRadius: "4px" }}
                     label={
                       <Stack direction="row" alignItems="center" gap={0.5}>
-                        {user?.isKYCVerified ? (
+                        {user?.user?.identityIsVerified ? (
                           <>
                             <CheckCircleIcon color="success" fontSize="small" />
                             <Typography

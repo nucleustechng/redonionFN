@@ -88,52 +88,50 @@ const SignInInterface = () => {
   };
 
   return (
-    <Box
-      className={!isMobile ? styles.mainBox : styles.mainBoxMobile}
-    >
+    <Box className={!isMobile ? styles.mainBox : styles.mainBoxMobile}>
       <Box
         className={!isMobile ? styles.registerBox : styles.registerBoxMobile}
       >
         {/* Form Section */}
         <Box
-        
           className={!isMobile ? styles.contentBox : ""}
           sx={!isMobile ? { borderRadius: "10px" } : {}}
         >
-
           <Box
             bgcolor={theme.palette.background.paper}
             p={!isMobile ? 5 : 3}
             borderRadius="10px"
           >
             <Button
-              style={{ textDecoration: "none", color: "inherit", textTransform: "none", marginLeft: "-20px", marginTop: "0", marginBottom: "25px" }}
-
-              color="secondary">
-              <a
-                href="/"
-              >
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                textTransform: "none",
+                marginLeft: "-20px",
+                marginTop: "0",
+                marginBottom: "25px",
+              }}
+              color="secondary"
+            >
+              <a href="/">
                 <LazyImageComponent src={Back} />
               </a>
-
             </Button>
             <Typography
               className={!isMobile ? styles.titleBox : styles.titleBox}
               variant="h3"
               color="secondary"
               fontWeight={500}
-
             >
               Welcome back, {user?.user?.firstName}
             </Typography>
 
             <Typography
-            mt={1}
+              mt={1}
               className={!isMobile ? styles.titleBox : styles.titleBox}
               variant="h3"
               color="secondary"
               fontWeight={500}
-
             >
               Sign in into your Account
             </Typography>
@@ -164,7 +162,11 @@ const SignInInterface = () => {
 
               </Stack> */}
               <Stack spacing={1} mb={2}>
-                <Typography variant="body1" fontSize={20} color={theme.palette.text.primary}>
+                <Typography
+                  variant="body1"
+                  fontSize={20}
+                  color={theme.palette.text.primary}
+                >
                   Password
                 </Typography>
                 <Input
@@ -222,10 +224,7 @@ const SignInInterface = () => {
                 </Typography>
               )}
 
-
-
-            
-              <Stack mt={0} >
+              <Stack mt={0}>
                 {isLoading ? (
                   <LoadingButton loading variant="outlined">
                     Login
@@ -235,16 +234,23 @@ const SignInInterface = () => {
                     {/* {theme.palette.mode === "dark" ? ( */}
                     <Button
                       type="submit"
-                      style={{ height: 60, borderRadius: 10, fontSize: 20, textTransform: 'none' }} variant="contained" color="primary">
-                      Sign in  <LazyImageComponent src={FrontArrow} />
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Sign in <LazyImageComponent src={FrontArrow} />
                     </Button>
-                    
                   </>
                 )}
               </Stack>
 
               <Stack
-              mt={5}
+                mt={5}
                 alignItems="center"
                 justifyContent="center"
                 spacing={1}
@@ -254,15 +260,14 @@ const SignInInterface = () => {
                   variant="body2"
                   component="span"
                   color="primary"
-
                   sx={{
                     cursor: "pointer",
                     fontSize: 20,
-                    fontWeight: 4500
+                    fontWeight: 4500,
                   }}
                   onClick={() => navigate("/auth/sign-in")}
                 >
-                  Not  {user?.user?.firstName}? Log in
+                  Not {user?.user?.firstName}? Log in
                 </Typography>
               </Stack>
 
@@ -277,18 +282,16 @@ const SignInInterface = () => {
                   variant="body2"
                   component="span"
                   color="primary"
-
                   sx={{
                     cursor: "pointer",
                     fontSize: 20,
-                    fontWeight: 4500
+                    fontWeight: 4500,
                   }}
                   onClick={() => navigate("/registration/sign-up")}
                 >
-                 Don't have an Account? Sign up now.
+                  Don't have an Account? Sign up now.
                 </Typography>
               </Stack>
-            
             </Box>
           </Box>
         </Box>

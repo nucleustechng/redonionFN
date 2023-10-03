@@ -63,7 +63,7 @@ const SendConfirmationModal = ({
     }
   };
 
-  console.log(created);
+  // console.log(created);
 
   const handleSubmitCreatePin = () => {
     if (otp !== cotp) {
@@ -72,7 +72,7 @@ const SendConfirmationModal = ({
     } else {
       var hash = bcrypt.hashSync(otp, salt);
       localStorage.setItem("pin", hash);
-      // setStage(2);
+      setStage(2);
     }
   };
 
@@ -81,10 +81,14 @@ const SendConfirmationModal = ({
       setShowSendSuccessfullSnackbar(true);
       setShowMsg("Wrong Confirm Transaction Pin");
     } else {
+      console.log(created);
        result = bcrypt.compareSync(otp, created);
       if (result) {
-        // return result;
+        setOtp("");
+        handleConfirmation("success");
         onClose();
+
+        // return result;
       } else {
         setShowSendSuccessfullSnackbar(true);
         setShowMsg("Wrong  Transaction Pin");
@@ -126,7 +130,7 @@ const SendConfirmationModal = ({
             {showMsg}
           </Alert>
         </Snackbar>
-        {created === "" ? (
+        {created === "" || created === null ? (
           <Box>
             <Stack mb={1} direction="row" justifyContent="space-between">
               <Typography color="primary" variant="h6">
@@ -152,6 +156,7 @@ const SendConfirmationModal = ({
                   <OtpInput
                     value={otp}
                     onChange={setOtp}
+                    inputType="password"
                     inputStyle={{
                       width: "60px",
                       height: "60px",
@@ -169,64 +174,86 @@ const SendConfirmationModal = ({
                   />
                 </Stack>
               ) : (
-                <Stack alignItems="center" justifyContent={"center"} mb={6}>
-                  <Typography my={4} variant="body1">
-                    Confirm tansaction pin
-                  </Typography>
-                  <OtpInput
-                    value={cotp}
-                    onChange={setCOtp}
-                    inputStyle={{
-                      width: "60px",
-                      height: "60px",
-                      fontSize: "18px",
-                      backgroundColor: "transparent",
-                      color: theme.palette.mode === "dark" ? "#fff" : "#111",
-                      borderColor:
-                        theme.palette.mode === "dark" ? "#fff" : "#111",
-                      marginRight: 20,
-                      borderRadius: 10,
-                    }}
-                    numInputs={4}
-                    renderSeparator={<span></span>}
-                    renderInput={(props) => <input {...props} />}
-                  />
-                </Stack>
+                <>
+                  {stage === 2 ? (
+                    <>
+                      <Stack
+                        alignItems="center"
+                        justifyContent={"center"}
+                        mb={1}
+                      >
+                        <Typography fontSize={20} my={4} variant="body1">
+                          Tansaction pin created successfully!
+                        </Typography>
+                      </Stack>
+                    </>
+                  ) : (
+                    <Stack alignItems="center" justifyContent={"center"} mb={6}>
+                      <Typography my={4} variant="body1">
+                        Confirm tansaction pin
+                      </Typography>
+                      <OtpInput
+                        value={cotp}
+                        inputType="password"
+                        onChange={setCOtp}
+                        inputStyle={{
+                          width: "60px",
+                          height: "60px",
+                          fontSize: "18px",
+                          backgroundColor: "transparent",
+                          color:
+                            theme.palette.mode === "dark" ? "#fff" : "#111",
+                          borderColor:
+                            theme.palette.mode === "dark" ? "#fff" : "#111",
+                          marginRight: 20,
+                          borderRadius: 10,
+                        }}
+                        numInputs={4}
+                        renderSeparator={<span></span>}
+                        renderInput={(props) => <input {...props} />}
+                      />
+                    </Stack>
+                  )}
+                </>
               )}
             </Box>
             <Stack mt={2} direction="row" alignItems="center" spacing={1}>
-              {stage === 0 ? (
-                <Button
-                  disableElevation
-                  fullWidth
-                  onClick={handleCreatePin}
-                  variant="contained"
-                  style={{
-                    height: 60,
-                    borderRadius: 10,
-                    fontSize: 18,
-                    textTransform: "none",
-                  }}
-                  color="primary"
-                >
-                  Create
-                </Button>
-              ) : (
-                <Button
-                  disableElevation
-                  fullWidth
-                  onClick={handleSubmitCreatePin}
-                  variant="contained"
-                  style={{
-                    height: 60,
-                    borderRadius: 10,
-                    fontSize: 18,
-                    textTransform: "none",
-                  }}
-                  color="primary"
-                >
-                  Submit
-                </Button>
+              {stage !== 2 && (
+                <>
+                  {stage === 0 ? (
+                    <Button
+                      disableElevation
+                      fullWidth
+                      onClick={handleCreatePin}
+                      variant="contained"
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 18,
+                        textTransform: "none",
+                      }}
+                      color="primary"
+                    >
+                      Create
+                    </Button>
+                  ) : (
+                    <Button
+                      disableElevation
+                      fullWidth
+                      onClick={handleSubmitCreatePin}
+                      variant="contained"
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 18,
+                        textTransform: "none",
+                      }}
+                      color="primary"
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </>
               )}
 
               <Button
@@ -236,7 +263,7 @@ const SendConfirmationModal = ({
                   borderRadius: 10,
                   fontSize: 18,
                   textTransform: "none",
-                  width: 250,
+                  width: stage === 2 ? "100%" : 250,
                 }}
                 onClick={() => {
                   setStage(0);
@@ -272,6 +299,7 @@ const SendConfirmationModal = ({
                 <OtpInput
                   value={otp}
                   onChange={setOtp}
+                  inputType="password"
                   inputStyle={{
                     width: "60px",
                     height: "60px",

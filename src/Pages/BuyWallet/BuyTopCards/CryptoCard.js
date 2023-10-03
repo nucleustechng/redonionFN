@@ -39,6 +39,8 @@ import { useNavigate } from "react-router-dom";
 import SwapModal from "../CreateRequestModal/SwapModal";
 
 import { LoadingButton } from "@mui/lab";
+import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
+import SendConfirmationModal from "../../CoinDetails/SendConfirmationModal";
 
 // Lazy Image component
 const LazyImageComponent = React.lazy(() =>
@@ -62,21 +64,28 @@ const CryptoWalletTopCards = (props) => {
   const [coinNamesSecond, setCoinNamesSecond] = useState(0);
   const [coinNamesShow, setCoinNamesShow] = useState("");
   const [showPin, setShowPin] = useState(false);
-   const [info, setInfo] = useState("");
+  const [info, setInfo] = useState("");
 
   const [coinRate, setCoinRate] = useState("0");
 
-   const [showMsg, setShowMsg] = useState("");
+  const [showMsg, setShowMsg] = useState("");
 
-   // Send Snackbar
-   const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
-     useState(false);
+  // Send Snackbar
+  const [showSendSuccessfullSnackbar, setShowSendSuccessfullSnackbar] =
+    useState(false);
 
-   const handleCloseSendSnackbar = () => {
-     setShowSendSuccessfullSnackbar(false);
-   };
+  const [openTransactionPinModal, setOpenTransactionPinModal] = useState(false);
 
-  const handleCoinNameSelection = (e) => { console.log(e.target.value);
+  const handleTransactionPinModal = () => {
+    setOpenTransactionPinModal(!openTransactionPinModal);
+  };
+
+  const handleCloseSendSnackbar = () => {
+    setShowSendSuccessfullSnackbar(false);
+  };
+
+  const handleCoinNameSelection = (e) => {
+    console.log(e.target.value);
     setCoinNames(e.target.value);
   };
 
@@ -116,28 +125,38 @@ const CryptoWalletTopCards = (props) => {
           }
         )
         .then((res) => {
-          if (res?.data?.data){
-            setInfo(res?.data?.data);
+          console.log(res?.data);
+          if (res?.data?.data) {
+            setInfo(res?.data?.data?.fee);
             setShowPin(!showPin);
-          } else{
-              setShowSendSuccessfullSnackbar(true);
-              setShowMsg(res?.data?.msg);
+          } else {
+
+            setShowSendSuccessfullSnackbar(true);
+            setShowMsg(res?.data?.msg);
           }
           setLoading(false);
-         
-          
         })
         .catch((err) => {
-         
           if (err?.response?.status === 401) {
             navigate("/user/sign-in");
-          }else{
-              // console.log(err);
+          } else {
+            // console.log(err);
           }
         })
         .finally(() => setLoading(false));
     }
   };
+
+  const handleConfirmationModal = (e) => {
+    console.log(e);
+    if (e === "success") {
+      onClickSuccess();
+    } else {
+      // setShowSnackbar(true);
+      // setMsg("Something went wrong!");
+    }
+  };
+
 
   useEffect(() => {
     setCoinNamesData(props.coinNamesData);
@@ -145,6 +164,15 @@ const CryptoWalletTopCards = (props) => {
 
   return (
     <>
+      {openTransactionPinModal && (
+        <Suspense fallback={<ModalSkeletons />}>
+          <SendConfirmationModal
+            open={openTransactionPinModal}
+            onClose={handleTransactionPinModal}
+            handleConfirmation={handleConfirmationModal}
+          />
+        </Suspense>
+      )}
       <Box
         mt={isMobile ? -12 : -8}
         borderBottom={isMobile ? 0 : 6}
@@ -377,7 +405,8 @@ const CryptoWalletTopCards = (props) => {
                   </LoadingButton>
                 ) : (
                   <Button
-                    onClick={onClickSuccess}
+                    // onClick={onClickSuccess}
+                    onClick={handleTransactionPinModal}
                     fullWidth
                     style={{
                       height: 50,

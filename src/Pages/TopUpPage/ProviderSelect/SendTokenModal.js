@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import {
   Snackbar,
   Alert,
@@ -33,6 +33,8 @@ import successClock from "../../../assets/logout.svg";
 
 // Axios
 import axios from "../../../api/axios";
+import SendConfirmationModal from "../../CoinDetails/SendConfirmationModal";
+import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
 
 const SendTokenModal = ({ open, handleClose, wallet }) => {
   const navigate = useNavigate();
@@ -45,10 +47,18 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [msg, setMsg] = useState("");
   const [msgShow, setMsgShow] = useState("");
+    const [openTransactionPinModal, setOpenTransactionPinModal] =
+      useState(false);
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
   };
+
+   const handleTransactionPinModal = () => {
+     setOpenTransactionPinModal(!openTransactionPinModal);
+   };
+
+
 
   const WALLET_MAIN_URL = "/wallet/estimated-gas";
 
@@ -56,8 +66,9 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
 
   const getCyptoExchangeRate = () => {
     setRate(wallet?.cryptoCurrency?.abbreviation);
-    console.log(wallet?.cryptoCurrency?.abbreviation);
     if (amount === "" || address === "") {
+       setShowSnackbar(true);
+       setMsg("Enter amount and address");
       return;
     }
     console.log(user);
@@ -120,10 +131,14 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
         // console.log(res?.data?.msg);
         setMsgShow("success");
         setMsg(res?.data?.msg);
+        setAddress("");
+        setAmount("");
         // alert(res?.data?.msg);
         // setWalletData(data);
       })
       .catch((err) => {
+         setShowSnackbar(true);
+         setMsg(err.response?.data.msg);
         if (err?.response?.status === 401) {
           navigate("/user/sign-in");
         }
@@ -131,156 +146,182 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
       .finally(() => setLoading(false));
   };
 
+  const handleConfirmationModal = (e) =>{
+    console.log(e)
+    if(e === "success"){
+      postTransfer();
+    }else{
+      setShowSnackbar(true);
+      setMsg("Something went wrong!");
+    }
+  }
+
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Modal
-      disableAutoFocus
-      disableEnforceFocus
-      keepMounted
-      open={open}
-      onClose={handleClose}
-    >
-      <Box
-        bgcolor="background.paper"
-        className={
-          isMobile
-            ? styles.changePasswordModalBodyMobile
-            : styles.changePasswordModalBody
-        }
-      >
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          open={showSnackbar}
-          autoHideDuration={3000}
-          onClose={handleCloseSnackbar}
+    <>
+      {openTransactionPinModal ? (
+        <Suspense fallback={<ModalSkeletons />}>
+          <SendConfirmationModal
+            open={openTransactionPinModal}
+            onClose={handleTransactionPinModal}
+            handleConfirmation={handleConfirmationModal}
+          />
+        </Suspense>
+      ) : (
+        <Modal
+          disableAutoFocus
+          disableEnforceFocus
+          keepMounted
+          open={open}
+          onClose={handleClose}
         >
-          <Alert
-            action={
-              <IconButton onClick={handleCloseSnackbar} sx={{ mt: -0.5 }}>
-                <Close sx={{ fontSize: "1.5rem" }} />
-              </IconButton>
+          <Box
+            bgcolor="background.paper"
+            className={
+              isMobile
+                ? styles.changePasswordModalBodyMobile
+                : styles.changePasswordModalBody
             }
-            icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
-            sx={{ fontSize: "1rem" }}
-            onClose={handleCloseSnackbar}
-            severity={msgShow ==="success" ? "success" : "error"}
           >
-            {msg}
-          </Alert>
-        </Snackbar>
-        <Box mt={3}>
-          <Stack direction={"row"} justifyContent={"space-between"}>
-            <Typography
-              variant="h3"
-              fontSize={16}
-              color="secondary"
-              fontWeight={500}
+            <Snackbar
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              open={showSnackbar}
+              autoHideDuration={3000}
+              onClose={handleCloseSnackbar}
             >
-              Make Transfer
-            </Typography>
-
-            <Typography
-              // variant="body2"
-              color="primary"
-              sx={{ cursor: "pointer" }}
-              onClick={handleClose}
-            >
-              <CloseIcon />
-            </Typography>
-          </Stack>
-        </Box>
-        <Box mt={2}>
-          <Box>
-            <Typography fontSize={15} mb={1.5} fontWeight={600}>
-              Amount
-            </Typography>
-            <Input
-              disableUnderline
-              className="inputField"
-              size="small"
-              type="number"
-              onChange={(e) => {
-                if (e.target.value <= Number(wallet?.balance)) {
-                  setAmount(e.target.value);
-                } else {
-                  setShowSnackbar(true);
-                  setMsg("Amount is out of range!");
+              <Alert
+                action={
+                  <IconButton onClick={handleCloseSnackbar} sx={{ mt: -0.5 }}>
+                    <Close sx={{ fontSize: "1.5rem" }} />
+                  </IconButton>
                 }
-              }}
-              placeholder="0.00"
-              fullWidth
-            />
-            <Typography mt={0.3} fontSize={11} fontWeight={600}>
-              Maximum {wallet?.balance}
-            </Typography>
-          </Box>
+                icon={<CheckCircleOutline sx={{ fontSize: "1.5rem" }} />}
+                sx={{ fontSize: "1rem" }}
+                onClose={handleCloseSnackbar}
+                severity={msgShow === "success" ? "success" : "error"}
+              >
+                {msg}
+              </Alert>
+            </Snackbar>
+            <Box mt={3}>
+              <Stack direction={"row"} justifyContent={"space-between"}>
+                <Typography
+                  variant="h3"
+                  fontSize={16}
+                  color="secondary"
+                  fontWeight={500}
+                >
+                  Make Transfer
+                </Typography>
 
-          <Box mt={2}>
-            <Typography fontSize={15} mb={1.5} fontWeight={600}>
-              Address
-            </Typography>
-            <Input
-              disableUnderline
-              className="inputField"
-              size="small"
-              type="text"
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Address"
-              fullWidth
-            />
-          </Box>
-        </Box>
-        <Box mt={1}>
-          {rate && (
-            <Typography fontSize={14} mb={1.5} fontWeight={600}>
-              Fee: {rate} {fee}
-            </Typography>
-          )}
-        </Box>
-        <Stack mt={4}>
-          {loading ? (
-            <LoadingButton loading variant="outlined">
-              Login
-            </LoadingButton>
-          ) : (
-            <>
-              {rate ? (
-                <Button
-                  onClick={postTransfer}
-                  style={{
-                    height: 60,
-                    borderRadius: 10,
-                    fontSize: 18,
-                    textTransform: "none",
-                  }}
-                  variant="contained"
+                <Typography
+                  // variant="body2"
                   color="primary"
+                  sx={{ cursor: "pointer" }}
+                  onClick={handleClose}
                 >
-                  Transfer
-                </Button>
-              ) : (
-                <Button
-                  onClick={getCyptoExchangeRate}
-                  style={{
-                    height: 60,
-                    borderRadius: 10,
-                    fontSize: 18,
-                    textTransform: "none",
+                  <CloseIcon />
+                </Typography>
+              </Stack>
+            </Box>
+            <Box mt={2}>
+              <Box>
+                <Typography fontSize={15} mb={1.5} fontWeight={600}>
+                  Amount
+                </Typography>
+                <Input
+                  disableUnderline
+                  className="inputField"
+                  size="small"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => {
+                    if (e.target.value <= Number(wallet?.balance)) {
+                      setAmount(e.target.value);
+                    } else {
+                      setShowSnackbar(true);
+                      setMsg("Amount is out of range!");
+                    }
                   }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Get Fee
-                </Button>
+                  placeholder="0.00"
+                  fullWidth
+                />
+                <Typography mt={0.3} fontSize={11} fontWeight={600}>
+                  Maximum {wallet?.balance}
+                </Typography>
+              </Box>
+
+              <Box mt={2}>
+                <Typography fontSize={15} mb={1.5} fontWeight={600}>
+                  Address
+                </Typography>
+                <Input
+                  disableUnderline
+                  className="inputField"
+                  size="small"
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Address"
+                  fullWidth
+                />
+              </Box>
+            </Box>
+            <Box mt={1}>
+              {rate && (
+                <Typography fontSize={14} mb={1.5} fontWeight={600}>
+                  Fee: {rate} {fee}
+                </Typography>
               )}
-            </>
-          )}
-        </Stack>
-      </Box>
-    </Modal>
+            </Box>
+            <Stack mt={4}>
+              {loading ? (
+                <LoadingButton loading variant="outlined">
+                  Login
+                </LoadingButton>
+              ) : (
+                <>
+                  {rate && fee !== "" ? (
+                    <Button
+                      // onClick={postTransfer}
+                      onClick={handleTransactionPinModal}
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 18,
+                        textTransform: "none",
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Transfer
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={getCyptoExchangeRate}
+                      // onClick={handleTransactionPinModal}
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 18,
+                        textTransform: "none",
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Get Fee
+                    </Button>
+                  )}
+                </>
+              )}
+            </Stack>
+          </Box>
+        </Modal>
+      )}
+    </>
   );
 };
 
