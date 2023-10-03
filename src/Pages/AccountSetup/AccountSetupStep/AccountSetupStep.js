@@ -234,7 +234,7 @@ const AccountSetupStep = () => {
             <Stack mt={5} >
               {loading ? (
                 <LoadingButton loading variant="outlined">
-                  Login
+                  Sign In
                 </LoadingButton>
               ) : (
                 <>
@@ -272,7 +272,7 @@ const AccountSetupStep = () => {
           <Stack mt={5} >
             {loading ? (
               <LoadingButton loading variant="outlined">
-                Login
+                Sign In
               </LoadingButton>
             ) : (
               <>
