@@ -586,7 +586,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                         fontSize={24}
                         fontWeight={500}
                       >
-                        Offer Created
+                        Offer Noted
                       </Typography>
 
                       <Typography
@@ -606,7 +606,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                         sx={{ cursor: "pointer" }}
                         onClick={onClose}
                       >
-                        Close Modal
+                        Close
                       </Typography>
                     </Box>
                   )}
