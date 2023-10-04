@@ -566,7 +566,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                             variant="contained"
                             color="primary"
                           >
-                            Continue <LazyImageComponent src={FrontArrow} />
+                            Paid <LazyImageComponent src={FrontArrow} />
                           </Button>
                         </>
                       )}
