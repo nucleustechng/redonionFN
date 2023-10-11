@@ -273,7 +273,7 @@ const SendTokenModal = ({ open, handleClose, wallet }) => {
             <Box mt={1}>
               {rate && (
                 <Typography fontSize={14} mb={1.5} fontWeight={600}>
-                  Fee: {rate} {fee}
+                  Estimated Gas Fee: {rate} {fee}
                 </Typography>
               )}
             </Box>
