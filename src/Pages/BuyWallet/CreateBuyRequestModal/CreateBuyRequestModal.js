@@ -232,7 +232,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                 </Button>
 
                 <Button
-                  // onClick={handleCloseTwoFAPin}
+                   onClick={handleCloseTwoFAPin}
                   style={{
                     height: 44,
                     borderTopRightRadius: 15,
@@ -245,7 +245,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                     textTransform: "none",
                   }}
                 >
-                  Chat
+                  Negotiate
                 </Button>
               </Box>
               <Box
@@ -625,7 +625,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                   fontSize={16}
                   textAlign={"center"}
                 >
-                  You will recieve your token once your payment has been
+                  You will receive your token once your payment has been
                   confirmed by the 2nd party.{" "}
                 </Typography>
               </Box>

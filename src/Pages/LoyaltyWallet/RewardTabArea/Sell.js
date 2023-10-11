@@ -158,6 +158,7 @@ const AvailableRewards = () => {
                     <>
                       {(info?.status === "ONGOING" ||
                         info?.status === "PENDING" ||
+                        info?.status === "COMPLETED" ||
                         info.status === "REPORTED" ||
                         info.status === "EXPIRED") && (
                         <ListItem
@@ -220,7 +221,7 @@ const AvailableRewards = () => {
                                         mt={0.8}
                                         variant="body2"
                                       >
-                                        {info?.amountInCrypto.toFixed(4)}
+                                        {info?.amountInCrypto.toFixed(6)}
                                       </Typography>
 
                                       <Typography
@@ -299,7 +300,7 @@ const AvailableRewards = () => {
                                         color="secondary"
                                         variant="body2"
                                       >
-                                        {info?.feeAmount.toFixed(2)}
+                                        {(info?.amountInCrypto*info?.tokenPricePerUnit).toFixed(2)}
                                       </Typography>
                                     </Box>
                                   </Stack>

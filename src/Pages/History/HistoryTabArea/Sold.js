@@ -156,7 +156,7 @@ const AvailableRewards = (props) => {
                                   >
                                     ~{" "}
                                     {parseFloat(
-                                      info?.amountInFiat || 0
+                                      (info?.amountInCrypto*info?.tokenPricePerUnit) || 0
                                     ).toFixed(2)}
                                   </Typography>
                                 </Box>
@@ -267,7 +267,7 @@ const AvailableRewards = (props) => {
                                   color="secondary"
                                   variant="body2"
                                 >
-                                  ~ {info?.amountInCrypto}
+                                  ~ {(info?.amountInCrypto).toFixed(6)}
                                 </Typography>
                               </Box>
                             </Stack>

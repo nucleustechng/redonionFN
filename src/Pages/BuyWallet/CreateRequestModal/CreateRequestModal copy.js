@@ -980,7 +980,7 @@ const CreateRequestModal = ({ open, onClose, country, currency }) => {
                             fontSize={16}
                             textAlign={"center"}
                           >
-                            You will recieve your token once your payment has
+                            You will receive your token once your payment has
                             been confirmed by the 2nd party.{" "}
                           </Typography>
                         </Box>

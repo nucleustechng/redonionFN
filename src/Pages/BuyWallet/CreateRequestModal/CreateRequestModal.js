@@ -444,7 +444,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                         <Stack direction={"row"}>
                           <Box mb={1}>
                             <Typography fontSize={17} fontWeight={400}>
-                              Recieve
+                              Receive
                             </Typography>
                           </Box>
                         </Stack>
@@ -711,7 +711,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                   <Stack direction={"row"}>
                     <Box mb={1}>
                       <Typography fontSize={12} fontWeight={400}>
-                        Recieve
+                        Receive
                       </Typography>
                     </Box>
                   </Stack>
@@ -864,7 +864,7 @@ const CreateRequestModal = ({ open, onClose, country, currency, coin }) => {
                 fontSize={16}
                 textAlign={"center"}
               >
-                You will recieve your token once your payment has been confirmed
+                You will receive your token once your payment has been confirmed
                 by the 2nd party.{" "}
               </Typography>
             </Box> */}
