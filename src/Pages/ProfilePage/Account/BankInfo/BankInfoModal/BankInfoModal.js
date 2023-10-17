@@ -53,7 +53,7 @@ const BankInfoModal = ({
             <Tooltip
               placement="right"
               TransitionComponent={Zoom}
-              title="Close Modal"
+              title="Close"
             >
               <CloseIcon fontSize="medium" />
             </Tooltip>
