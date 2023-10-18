@@ -325,7 +325,7 @@ const TableArea = (prop) => {
                   </Box>
                 ) : (
                   <Typography fontSize={13}>
-                    No Transactions Available...{" "}
+                    No Offers Available...{" "}
                   </Typography>
                 )}
               </Box>
