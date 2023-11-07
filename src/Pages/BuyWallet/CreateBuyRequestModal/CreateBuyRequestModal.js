@@ -632,7 +632,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
             </>
           )}
 
-          <Box mt={10}>
+          {/* <Box mt={10}>
             <Typography
               variant="body2"
               fontSize={18}
@@ -662,7 +662,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
             >
               - The rates seemed a bit too high for me
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>

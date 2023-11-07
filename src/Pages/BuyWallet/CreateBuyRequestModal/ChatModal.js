@@ -28,6 +28,7 @@ import Back from "../../../assets/back.svg";
 import ExchanageIcon from "../../../assets/exchangeBlue.svg";
 import FrontArrow from "../../../assets/frontArrow.svg";
 import Profile from "../../../assets/profile.svg";
+import { io } from "socket.io-client";
 
 // Lazy image loader
 const LazyImageComponent = React.lazy(() =>

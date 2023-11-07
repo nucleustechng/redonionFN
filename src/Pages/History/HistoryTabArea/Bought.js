@@ -18,6 +18,7 @@ import { FixedSizeList, ListChildComponentProps } from "react-window";
 // Image
 
 import BitCoinIcon from "../../../assets/bitCoinIcon.svg";
+import NGFlag from "../../../assets/NGFlag.svg";
 
 // Styles
 import styles from "./RewardTabArea.module.css";
@@ -132,7 +133,7 @@ const MyRewards = (props) => {
                                 justifyContent={"center"}
                                 alignItems={"left"}
                               >
-                                <Typography
+                                {/* <Typography
                                   color="secondary"
                                   fontWeight={400}
                                   fontSize={16}
@@ -141,7 +142,28 @@ const MyRewards = (props) => {
                                   variant="body2"
                                 >
                                   {info?.offer?.currency?.currencyCode}
-                                </Typography>
+                                </Typography> */}
+
+<Stack
+                                  direction="row"
+                                  justifyItems={"center"}
+                                  alignItems={"center"}
+                                >
+                                  <LazyImageComponent
+                                    style={{ width: 25, marginRight: 4 }}
+                                    src={NGFlag}
+                                  />
+
+                                  <Typography
+                                    color="secondary"
+                                    fontWeight={400}
+                                    fontSize={15}
+                                    mt={0.5}
+                                    variant="body2"
+                                  >
+                                    {info?.offer?.currency?.currencyCode}
+                                  </Typography>
+                                </Stack>
 
                                 <Box
                                   sx={{
@@ -235,8 +257,8 @@ const MyRewards = (props) => {
                           </Stack>
 
                           <Box mr={1.5} mt={2}>
-                            <Stack direction="row" justifyContent="flex-end">
-                              {/* <Typography
+                            {/* <Stack direction="row" justifyContent="flex-end">
+                              <Typography
                                 color="secondary"
                                 fontWeight={400}
                                 fontSize={16}
@@ -245,11 +267,15 @@ const MyRewards = (props) => {
                                 variant="body2"
                               >
                                 {info?.offer?.CryptoCurrency}
-                              </Typography> */}
-                              {/* <LazyImageComponent
-                                style={{ width: 30 }}
+                              </Typography>
+                              <LazyImageComponent
+                                style={{ 
+                                  marginRight: 4,
+                                    width: 25,
+                                    height: 25,
+                                 }}
                                 src={info?.offer?.CryptoCurrency?.imgUri}
-                              /> */}
+                              />
                               <Typography
                                 color="secondary"
                                 fontWeight={400}
@@ -260,7 +286,27 @@ const MyRewards = (props) => {
                               >
                                 {info?.offer?.CryptoCurrency?.abbreviation}
                               </Typography>
-                            </Stack>
+                            </Stack> */}
+
+                            <Stack direction="row" justifyContent="flex-end">
+                                <LazyImageComponent
+                                  style={{
+                                    marginRight: 4,
+                                    width: 25,
+                                    height: 25,
+                                  }}
+                                  src={info?.offer?.cryptoCurrency?.imgUri}
+                                />
+                                <Typography
+                                  color="secondary"
+                                  fontWeight={400}
+                                  fontSize={15}
+                                  mt={0.2}
+                                  variant="body2"
+                                >
+                                  {info?.offer?.cryptoCurrency?.abbreviation}
+                                </Typography>
+                              </Stack>
                             <Stack direction="row" justifyContent="flex-end">
                               <Box
                                 sx={{
@@ -339,7 +385,7 @@ const MyRewards = (props) => {
         </>
       )}
     </React.Fragment>
-  );
+  ); 
 };
 
 export default MyRewards;

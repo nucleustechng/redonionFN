@@ -36,6 +36,7 @@
     "react-use": "^17.3.2",
     "react-webcam": "^6.0.1",
     "react-window": "^1.8.9",
+    "socket.io-client": "^4.7.2",
     "web-vitals": "^2.1.0",
     "yarn": "^1.22.17"
   },
