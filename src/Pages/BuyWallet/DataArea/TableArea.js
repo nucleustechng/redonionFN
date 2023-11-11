@@ -59,7 +59,7 @@ const tableHeader = [
     name: "Available",
   },
   {
-    name: "Selling Rate",
+    name: "Seller's Rating",
   },
   {
     name: "Take Action",
@@ -209,8 +209,8 @@ const TableArea = (prop) => {
                             </StyledTableCell>
 
                             <StyledTableCell align="left">
+                              {cd?.createdBy?.rating + " "}
                               <LazyImageComponent src={Star} />
-                              {cd?.rating}
                             </StyledTableCell>
 
                             <StyledTableCell align="left">
@@ -324,9 +324,7 @@ const TableArea = (prop) => {
                     ))}
                   </Box>
                 ) : (
-                  <Typography fontSize={13}>
-                    No Offers Available...{" "}
-                  </Typography>
+                  <Typography fontSize={13}>No Offers Available... </Typography>
                 )}
               </Box>
             )}

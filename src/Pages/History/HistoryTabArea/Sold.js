@@ -56,8 +56,8 @@ const AvailableRewards = (props) => {
 
   const navigate = useNavigate();
 
-  const GET_CURRENCY_URL = "/transaction/my-offers";
-
+  const GET_CURRENCY_URL = "/transaction/my-completed-offers";
+// my - offers;
   const onTrigger = (event) => {
     // Call the parent callback function
     props.parentCallback(event);
@@ -80,8 +80,8 @@ const AvailableRewards = (props) => {
       )
       .then((res) => {
         setLoading(false);
-        //  console.log(res.data.data.offers);
-        setTransaz(res.data.data.offers);
+         console.log(res.data.data);
+        setTransaz(res.data.data);
       })
       .catch((err) => {
         setLoading(false);
@@ -127,41 +127,40 @@ const AvailableRewards = (props) => {
                             </Typography>
                           </Stack>
                           <Stack mt={2} ml={-1} direction="row">
-                                  <Box ml={1.5}>
-                                    <Stack
-                                      direction="row"
-                                      justifyItems={"center"}
-                                      alignItems={"center"}
-                                    >
-                                      <LazyImageComponent
-                                        style={{
-                                          marginRight: 4,
-                                          width: 25,
-                                          height: 25,
-                                        }}
-                                        src={info?.cryptoCurrency?.imgUri}
-                                      />
-                                      <Typography
-                                        color="secondary"
-                                        fontWeight={400}
-                                        fontSize={15}
-                                        mt={0.5}
-                                        variant="body2"
-                                      >
-                                        {info?.cryptoCurrency?.abbreviation}
-                                      </Typography>
-                                    </Stack>
-                                    <Stack alignItems={"left"}>
-                                      <Typography
-                                        color="secondary"
-                                        fontWeight={600}
-                                        fontSize={18}
-                                        mt={0.8}
-                                        variant="body2"
-                                      >
-                                        {info?.amountInCrypto.toFixed(6)}
-                                      </Typography>
-
+                            <Box ml={1.5}>
+                              <Stack
+                                direction="row"
+                                justifyItems={"center"}
+                                alignItems={"center"}
+                              >
+                                <LazyImageComponent
+                                  style={{
+                                    marginRight: 4,
+                                    width: 25,
+                                    height: 25,
+                                  }}
+                                  src={info?.cryptoCurrencyImageUri}
+                                />
+                                <Typography
+                                  color="secondary"
+                                  fontWeight={400}
+                                  fontSize={15}
+                                  mt={0.5}
+                                  variant="body2"
+                                >
+                                  {info?.cryptoCurrencyAbbreviation}
+                                </Typography>
+                              </Stack>
+                              <Stack alignItems={"left"}>
+                                <Typography
+                                  color="secondary"
+                                  fontWeight={600}
+                                  fontSize={18}
+                                  mt={0.8}
+                                  variant="body2"
+                                >
+                                  {info?.totalAmountInCrypto.toFixed(6)}
+                                </Typography>
 
                                 <Typography
                                   color="secondary"
@@ -175,18 +174,18 @@ const AvailableRewards = (props) => {
                                   )}
                                 </Typography>
 
-                                      <Typography
-                                        color="secondary"
-                                        fontWeight={600}
-                                        fontSize={16}
-                                        mt={2}
-                                        variant="body2"
-                                      >
-                                        Status
-                                      </Typography>
-                                    </Stack>
-                                  </Box>
-                                </Stack>
+                                <Typography
+                                  color="secondary"
+                                  fontWeight={600}
+                                  fontSize={16}
+                                  mt={2}
+                                  variant="body2"
+                                >
+                                  Status
+                                </Typography>
+                              </Stack>
+                            </Box>
+                          </Stack>
                           {/* <Stack mt={2} ml={-1} direction="row">
                             <Box ml={1.5}>
                             <Stack
@@ -324,25 +323,22 @@ const AvailableRewards = (props) => {
                           </Stack>
 
                           <Box mr={1.5} mt={2}>
-                          <Stack
-                                    direction="row"
-                                    justifyContent="flex-end"
-                                  >
-                                    <LazyImageComponent
-                                      style={{ width: 25, marginRight: 4 }}
-                                      src={NGFlag}
-                                    />
-                                    <Typography
-                                      color="secondary"
-                                      fontWeight={400}
-                                      fontSize={15}
-                                      mt={0.5}
-                                      variant="body2"
-                                    >
-                                      {info?.currency?.currencyCode}
-                                    </Typography>
-                                  </Stack>
-                          
+                            <Stack direction="row" justifyContent="flex-end">
+                              <LazyImageComponent
+                                style={{ width: 25, marginRight: 4 }}
+                                src={NGFlag}
+                              />
+                              <Typography
+                                color="secondary"
+                                fontWeight={400}
+                                fontSize={15}
+                                mt={0.5}
+                                variant="body2"
+                              >
+                                {info?.currencyCode}
+                              </Typography>
+                            </Stack>
+
                             <Stack direction="row" justifyContent="flex-end">
                               <Box
                                 sx={{
@@ -351,14 +347,16 @@ const AvailableRewards = (props) => {
                                 }}
                               >
                                 <Typography
-                                fontWeight={600}
+                                  fontWeight={600}
                                   fontSize={18}
                                   mt={2}
                                   color="secondary"
                                   variant="body2"
                                 >
                                   {/* {(info?.amountInCrypto).toFixed(6)} */}
-                                  {(info?.amountInCrypto*info?.tokenPricePerUnit).toFixed(2)}
+                                  {(
+                                    info?.totalAmountInFiat
+                                  ).toFixed(2)}
                                 </Typography>
                               </Box>
                             </Stack>

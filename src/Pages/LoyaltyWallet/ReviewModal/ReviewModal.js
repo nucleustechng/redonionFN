@@ -25,8 +25,11 @@ import { LoadingButton } from "@mui/lab";
 import Close from "@mui/icons-material/Close";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate } from "react-router-dom";
+import LazyImageComponent from "../../../components/LazyImageComponent/LazyImageComponent";
 
-const ReviewModal = ({ open, handleClose, id, handleOpenSnackBar }) => {
+import StarIcon from "../../../assets/starReview.svg";
+
+const ReviewModal = ({ open, handleClose, info, handleOpenSnackBar }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -64,7 +67,7 @@ const ReviewModal = ({ open, handleClose, id, handleOpenSnackBar }) => {
       .post(
         CREATE_REVIEW_URL,
         JSON.stringify({
-          transactionId: id,
+          transactionId: info?.id,
           rating: rating,
           review: review,
         }),
@@ -93,6 +96,7 @@ const ReviewModal = ({ open, handleClose, id, handleOpenSnackBar }) => {
   const onPointerEnter = () => console.log("Enter");
   const onPointerLeave = () => console.log("Leave");
   const onPointerMove = (value, index) => console.log(value, index);
+console.log(info)
 
   return (
     <>
@@ -175,13 +179,31 @@ const ReviewModal = ({ open, handleClose, id, handleOpenSnackBar }) => {
               alignItems="center"
               justifyContent={"center"}
             >
+              {/* {!info?.review?.rating ? (
+                <>
+                  <LazyImageComponent src={StarIcon} />
+                  <Typography
+                    mb={2}
+                    ml={1}
+                    textAlign="center"
+                    fontSize={16}
+                    lineHeight={2}
+                    color="secondary"
+                    variant={!isMobile ? "body2" : "caption"}
+                  >
+                    {info?.review?.rating}
+                  </Typography>
+                </>
+              ) : ( */}
               <Rating
+                initialValue={info?.review?.rating}
                 onClick={handleRating}
                 onPointerEnter={onPointerEnter}
                 onPointerLeave={onPointerLeave}
                 onPointerMove={onPointerMove}
                 /* Available Props */
               />
+              {/* )} */}
             </Stack>
             <Stack
               direction="row"
@@ -209,6 +231,7 @@ const ReviewModal = ({ open, handleClose, id, handleOpenSnackBar }) => {
               placeholder="Review"
               variant="outlined"
               size="small"
+              value={info?.review?.comment }
               color="secondary"
               name="desc"
               onChange={(e) => setReview(e.target.value)}
@@ -226,37 +249,42 @@ const ReviewModal = ({ open, handleClose, id, handleOpenSnackBar }) => {
               style={{
                 backgroundColor: "#E8E8F3",
                 color: "#3063E9",
-                width: "250px",
+                width: info?.review?.rating ? "100%" : "250px",
               }}
               variant="contained"
             >
               <Typography fontWeight={500}>Cancel</Typography>
             </Button>
-            <Stack direction="row" justifyContent={"end"}>
-              <>
-                {loading ? (
-                  <LoadingButton fullWidth loading variant="outlined">
-                    Login
-                  </LoadingButton>
-                ) : (
-                  <>
-                    <Button
-                      className={
-                        !isMobile
-                          ? styles.rewardClaimModalButton
-                          : styles.rewardClaimModalButtonMobile
-                      }
-                      onClick={() => getFees()}
-                      color="primary"
-                      variant="contained"
-                      fullWidth
-                    >
-                      <Typography fontWeight={500}>Submit</Typography>
-                    </Button>
-                  </>
-                )}
-              </>
-            </Stack>
+            <div>
+              {!info?.review?.rating && (
+                <>
+                  {loading ? (
+                    <LoadingButton fullWidth loading variant="outlined">
+                      Login
+                    </LoadingButton>
+                  ) : (
+                    <>
+                      <Button
+                        className={
+                          !isMobile
+                            ? styles.rewardClaimModalButton
+                            : styles.rewardClaimModalButtonMobile
+                        }
+                        style={{
+                          width: "250px",
+                        }}
+                        onClick={() => getFees()}
+                        color="primary"
+                        variant="contained"
+                        fullWidth
+                      >
+                        <Typography fontWeight={500}>Submit</Typography>
+                      </Button>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
           </Stack>
         </Box>
       </Modal>

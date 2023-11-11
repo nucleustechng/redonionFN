@@ -66,7 +66,7 @@ const MyRewards = () => {
 
     const handleOpenRewardModal = (id) => {
       setID(id)
-      console.log(23)
+      // console.log(id);
       setOpenRewardModal(true);
     };
 
@@ -111,7 +111,7 @@ const MyRewards = () => {
       <Suspense fallback={<ModalSkeletons width={"90vw"} height={300} />}>
         <ReviewModal
           open={openRewardModal}
-          id={id}
+          info={id}
           handleClose={handleCloseRewardModal}
           handleOpenSnackBar={handleOpenRewardModal}
         />
@@ -283,7 +283,7 @@ const MyRewards = () => {
                           
                           <IconButton
                             // sx={{ cursor: "pointer" }}
-                            onClick={()=>handleOpenRewardModal(info?.id)}
+                            onClick={()=>handleOpenRewardModal(info)}
                             sx={{ mt: -0.5 }}
                           >
                             <LazyImageComponent src={Review} />

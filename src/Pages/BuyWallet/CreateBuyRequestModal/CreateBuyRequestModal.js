@@ -86,8 +86,6 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
     var user = JSON.parse(localStorage.getItem("user"));
     setLoading(true);
 
-    console.log(dataSingle?.id);
-
     axios
       .post(
         USER_SUBMIT_URL,
@@ -126,15 +124,15 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
       .finally(() => setLoading(false));
   };
 
-   const handleConfirmationModal = (e) => {
-     console.log(e);
-     if (e === "success") {
-       handleSubmit();
-     } else {
-       // setShowSnackbar(true);
-       // setMsg("Something went wrong!");
-     }
-   };
+  const handleConfirmationModal = (e) => {
+    console.log(e);
+    if (e === "success") {
+      handleSubmit();
+    } else {
+      // setShowSnackbar(true);
+      // setMsg("Something went wrong!");
+    }
+  };
 
   return (
     <Box>
@@ -232,7 +230,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
                 </Button>
 
                 <Button
-                   onClick={handleCloseTwoFAPin}
+                  onClick={handleCloseTwoFAPin}
                   style={{
                     height: 44,
                     borderTopRightRadius: 15,
@@ -632,7 +630,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
             </>
           )}
 
-          {/* <Box mt={10}>
+          <Box mt={10}>
             <Typography
               variant="body2"
               fontSize={18}
@@ -643,26 +641,22 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
               Seller Review
             </Typography>
 
-            <Typography
-              variant="body2"
-              fontSize={15}
-              fontWeight={300}
-              color="secondary"
-              mb={2}
-            >
-              - Transactions were quite fast, I would recommend the seller.
-            </Typography>
-
-            <Typography
-              variant="body2"
-              fontSize={15}
-              fontWeight={300}
-              color="secondary"
-              mb={2}
-            >
-              - The rates seemed a bit too high for me
-            </Typography>
-          </Box> */}
+            {dataSingle?.createdBy?.reviewUser.map((review, index) => (
+              <>
+                {index <= 1 && (
+                  <Typography
+                    variant="body2"
+                    fontSize={15}
+                    fontWeight={300}
+                    color="secondary"
+                    mb={2}
+                  >
+                    - {review?.comment}
+                  </Typography>
+                )}
+              </>
+            ))}
+          </Box>
         </Box>
       </Box>
     </Box>
