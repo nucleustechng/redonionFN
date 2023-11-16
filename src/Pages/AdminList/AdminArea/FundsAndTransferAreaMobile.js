@@ -109,6 +109,7 @@ const FundsAndTransferAreaMobile = () => {
           </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
+          
           <Box>
             <Box mt={-1} py={2} px={1} bgcolor={theme.palette.background.paper}>
               <Input

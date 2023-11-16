@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Box } from "@mui/system";
+import { styled } from '@mui/material/styles';
 import {
   MenuItem,
   Divider,
@@ -16,6 +17,10 @@ import {
   useTheme,
   Grid,
   Tooltip,
+  Button,
+  IconButton,
+  InputAdornment,
+  Input,
 } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
@@ -39,6 +44,9 @@ import {
   StyledTableRow,
 } from "../../../components/StyledTable/StyledTable";
 import { DatePickerTextField } from "../../../components/DatePickerTextField/DatePickerTextField";
+
+import SearchIcon from "@mui/icons-material/Search";
+
 import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
 
 const UserArea = React.lazy(() => import("./UserArea"));
@@ -111,7 +119,12 @@ const TransactionDetailsAreaMobile = () => {
 
   const [userData, setUserData] = useState(false);
 
+  const [isReadOnly, setIsReadOnly] = React.useState(true);
+
   const theme = useTheme();
+
+  const [filteredRows, setFilteredRows] = useState([]);
+  const [searched, setSearched] = useState("");
 
   // Table Handler
   const handleChangePage = (event, newPage) => {
@@ -180,6 +193,7 @@ const TransactionDetailsAreaMobile = () => {
         let data = res.data.data.users;
         let datanew = data.filter((course) => course.roles[0] === "CUSTOMER");
         setTransactionData(datanew);
+        setFilteredRows(datanew);;
       })
       .catch((err) => {
         console.log(err);
@@ -188,6 +202,7 @@ const TransactionDetailsAreaMobile = () => {
         }
       })
       .finally(() => setLoading(false));
+      
   }, [
     navigate,
     ADMIN_USER_URL,
@@ -197,110 +212,147 @@ const TransactionDetailsAreaMobile = () => {
     toDateValue,
   ]);
 
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setSearched(value);
+    requestSearch(value);
+  };
+
+  const requestSearch = (searchedVal) => {
+
+    if (searchedVal === undefined || searchedVal.trim() === "") {
+      setFilteredRows(transactionData);
+      return;
+    }
+    const filteredRows = transactionData.filter((row) => {
+      return row.firstName.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setFilteredRows(filteredRows);
+  };
+
+
   return (
     <Grid container columns={{ xs: 12, sm: 12, md: 12 }}>
       <Grid item xs={12} sm={12} md={showModal ? 7.5 : 12}>
         <Box className={styles.mainBoxMobile}>
           <Box>
             <Box>
-              <Box mb={-6}>
+              <Stack direction={{xs:"column" , sm:"column", md:"row"}} alignItems={{xs:"start" , sm:"start", md:"center"}} justifyContent="space-between" >
                 <Typography
                   variant="h3"
                   className={styles.titleBox}
                   color="secondary"
+                  pr={3}
+                  pb={3}
                   fontWeight={600}
                 >
                   Users
                 </Typography>
-              </Box>
-              <Stack
-                direction="row"
-                // spacing={1}
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Box className={styles.datePickerAreaMobile}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <Stack direction="row" spacing={1}>
-                      <DatePicker
-                        disableFuture
-                        label="From Date"
-                        value={fromDateValue}
-                        onChange={(newValue) => {
-                          setFromDateValue(newValue);
-                        }}
-                        renderInput={(params) => (
-                          <DatePickerTextField
-                            autoComplete="off"
-                            color="secondary"
-                            variant="outlined"
-                            size="small"
-                            {...params}
-                          />
-                        )}
-                      />
-                      <DatePicker
-                        // disablePast
-                        label="To Date"
-                        value={toDateValue}
-                        onChange={(newValue) => {
-                          setToDateValue(newValue);
-                        }}
-                        renderInput={(params) => (
-                          <DatePickerTextField
-                            autoComplete="off"
-                            color="secondary"
-                            variant="outlined"
-                            size="small"
-                            {...params}
-                          />
-                        )}
-                      />
-                    </Stack>
-                  </LocalizationProvider>
-                  {/* <Select
-                    className={
-                      theme.palette.mode === "dark" ? "" : styles.currencyBox
-                    }
-                    fullWidth
-                    value={country}
-                    onChange={handlecountryelection}
-                  >
-                    {countryData.map(({ id, name, icon }) => (
-                      <MenuItem key={id} value={name}>
-                        <Stack direction="row" alignItems="center" spacing={2}>
-                          <Suspense
-                            fallback={
-                              <Skeleton
-                                animation="wave"
-                                variant="circular"
-                                width={40}
-                                height={40}
-                                sx={{
-                                  backgroundColor: `${
-                                    theme.palette.mode === "dark"
-                                      ? "#111"
-                                      : "#f5f5f5"
-                                  }`,
-                                }}
-                              />
-                            }
-                          >
-                         
-                          </Suspense>
-                          <Typography>{name}</Typography>
-                        </Stack>
-                      </MenuItem>
-                    ))}
-                  </Select> */}
-                </Box>
-
-                <Box>
-                  {/* <Button sx={{ py: 1.2 }} variant="outlined" color="primary">
-                Search
-              </Button> */}
-                </Box>
+              
+                <Stack
+                  direction="row"
+                  // spacing={1}
+                  alignItems="center"
+                  justifyContent="flex-end"
+                >
+                  <Box  className={styles.datePickerAreaMobile}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack direction="row" spacing={1}>
+                        <DatePicker
+                          disableFuture
+                          label="From Date"
+                          value={fromDateValue}
+                          onChange={(newValue) => {
+                            setFromDateValue(newValue);
+                          }}
+                          renderInput={(params) => (
+                            <DatePickerTextField
+                              autoComplete="off"
+                              color="secondary"
+                              variant="outlined"
+                              size="small"
+                              {...params}
+                            />
+                          )}
+                        />
+                        <DatePicker
+                          // disablePast
+                          label="To Date"
+                          value={toDateValue}
+                          onChange={(newValue) => {
+                            setToDateValue(newValue);
+                          }}
+                          renderInput={(params) => (
+                            <DatePickerTextField
+                              autoComplete="off"
+                              color="secondary"
+                              variant="outlined"
+                              size="small"
+                              {...params}
+                            />
+                          )}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                    {/* <Select
+                      className={
+                        theme.palette.mode === "dark" ? "" : styles.currencyBox
+                      }
+                      fullWidth
+                      value={country}
+                      onChange={handlecountryelection}
+                    >
+                      {countryData.map(({ id, name, icon }) => (
+                        <MenuItem key={id} value={name}>
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Suspense
+                              fallback={
+                                <Skeleton
+                                  animation="wave"
+                                  variant="circular"
+                                  width={40}
+                                  height={40}
+                                  sx={{
+                                    backgroundColor: `${
+                                      theme.palette.mode === "dark"
+                                        ? "#111"
+                                        : "#f5f5f5"
+                                    }`,
+                                  }}
+                                />
+                              }
+                            >
+                          
+                            </Suspense>
+                            <Typography>{name}</Typography>
+                          </Stack>
+                        </MenuItem>
+                      ))}
+                    </Select> */}
+                  </Box>
+                </Stack>
               </Stack>
+              <Box
+                marginY={2}
+              >
+                <Input
+                  disableUnderline
+                  className="inputField"
+                  size="small"
+                  placeholder="Search"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <Box>
+                        <IconButton edge="start">
+                          <SearchIcon color="secondary" />
+                        </IconButton>
+                      </Box>
+                    </InputAdornment>
+                  }
+                  value={searched}
+                  onChange={handleChange}
+                />
+              </Box>
             </Box>
             <Divider sx={{ mt: 3 }} />
           </Box>
@@ -340,7 +392,7 @@ const TransactionDetailsAreaMobile = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {transactionData
+                      {filteredRows
                         .slice(
                           tablePage * rowsPerPage,
                           tablePage * rowsPerPage + rowsPerPage

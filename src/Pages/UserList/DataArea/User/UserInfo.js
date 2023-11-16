@@ -90,7 +90,7 @@ const UserInfo = (prop) => {
 
   const GET_SUSPEND_URL = "/admin/set-user-status/";
 
-  const GET_FILE_URL = "/kyc/view-file";
+  const GET_DOWNLOAD_URL = "/kyc/view-file?url=";
 
   const GET_verify_URL = "/kyc/verify-user-identity/";
 
@@ -144,63 +144,52 @@ const UserInfo = (prop) => {
   };
 
   useEffect(() => {
-    var userInfo = JSON.parse(localStorage.getItem("user"));
+    let userInfo = JSON.parse(localStorage.getItem("user"));
     setStatus(prop.data?.active);
     setIdentityStatus(prop.data?.identityIsVerified);
-    console.log(prop.data);
+
     setLoading(true);
 
     axios
-      .get(
-        GET_FILE_URL,
-        JSON.stringify({
-          url: prop.data.identityDocument,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        // setIdentityImage(res.data.data.downloadURL);
-      })
-      .catch((err) => {
-        // if (err?.response?.status === 401) {
-        //   navigate("/admin/sign-in");
-        // }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    .get(GET_DOWNLOAD_URL + prop.data?.identityDocument, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    })
+    .then((res) => {
+      console.log("download link" , res.data.data);
+      setIdentityImage(res.data.data.downloadURL);
+    })
+    .catch((err) => {
+      if (err?.response?.status === 401) {
+        navigate("/admin/sign-in");
+      }
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+
 
     axios
-      .get(
-        GET_FILE_URL,
-        JSON.stringify({
-          url: prop.data.selfieImage,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        // setSelfiImage(res.data.data.downloadURL);
-      })
-      .catch((err) => {
-        // if (err?.response?.status === 401) {
-        //   navigate("/admin/sign-in");
-        // }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    .get(GET_DOWNLOAD_URL + prop.data?.selfieImage, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    })
+    .then((res) => {
+      console.log("download link" , res.data.data);
+      setSelfiImage(res.data.data.downloadURL);
+    })
+    .catch((err) => {
+      if (err?.response?.status === 401) {
+        navigate("/admin/sign-in");
+      }
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   }, [prop]);
 
   return (
@@ -340,6 +329,40 @@ const UserInfo = (prop) => {
           )}
         </Box>
       </Stack>
+      {loading ? (
+        <LoadingButton fullWidth loading variant="outlined">
+          Login
+        </LoadingButton>
+        ) : (
+        <> 
+      {identityImage && selfiImage ? (
+        <Stack direction={"column"} justifyContent={"space-between"}>
+          <Box marginTop={6} marginBottom={3} fullWidth>
+            <img 
+              src={`${identityImage}`} 
+              style={{
+                height: "100%",
+                width: "100%",
+              }}
+              alt="Identity document"
+            />
+          </Box>
+          <Box >
+            <Box fullWidth >
+              <img 
+                src={`${selfiImage}`} 
+                style={{
+                  height: "100%",
+                  width: "100%",
+                }}
+                alt="Selfie"
+              />
+            </Box>
+          </Box>
+        </Stack>
+      ): null}
+      </>
+      )}
     </Box>
   );
 };
