@@ -231,7 +231,7 @@ const ProfileInfoModal = ({
                   fontSize={20}
                   letterSpacing={1}
                 >
-                  Create a new Admin
+                  Create A New Admin
                 </Typography>
               </Box>
             </center>
@@ -370,6 +370,11 @@ const ProfileInfoModal = ({
                     <MenuItem key={1} value={"ADMIN"}>
                       ADMIN
                     </MenuItem>
+
+                    <MenuItem key={1} value={"SUPPORT"}>
+                      SUPPORT
+                    </MenuItem>
+                    
                   </Select>
                 </Stack>
 
