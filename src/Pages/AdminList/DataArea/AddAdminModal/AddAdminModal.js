@@ -102,7 +102,7 @@ const ProfileInfoModal = ({
   };
 
   const COUNTRIES_URL = "/user/get-countries";
-  const UPDATE_USER_URL = "/admin/register-staff";
+  const REGISTER_STAFF = "/admin/register-staff";
 
   const handleCountrySelection = (e) => {
     var con = e.target.value;
@@ -124,7 +124,7 @@ const ProfileInfoModal = ({
 
       axios
         .post(
-          UPDATE_USER_URL,
+          REGISTER_STAFF,
           JSON.stringify({
             email: email,
             firstName: fname,

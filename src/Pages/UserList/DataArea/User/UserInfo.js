@@ -190,7 +190,7 @@ const UserInfo = (prop) => {
     .finally(() => {
       setLoading(false);
     });
-  }, [prop]);
+  }, [prop, navigate]);
 
   return (
     <Box pt={4} pr={2}>
