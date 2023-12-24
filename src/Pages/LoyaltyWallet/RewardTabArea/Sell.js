@@ -46,6 +46,8 @@ import axios from "../../../api/axios";
 // Router
 import { useNavigate } from "react-router-dom";
 import SellDetail from "./SellDetail";
+import ChatModal from "../../BuyWallet/CreateBuyRequestModal/ChatModal";
+import ChatChat from "../../BuyWallet/CreateBuyRequestModal/ChatChat";
 
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
@@ -81,7 +83,7 @@ const AvailableRewards = () => {
 
   const GET_BY_ID_URL = "/transaction/offer/";
 
-  const GET_OFFER_URL = "/transaction/get-offers";
+  const GET_OFFER_URL = "/transaction/get-offers"; 
 
   const GET_transaction_URL = "/transaction/transactions";
 
@@ -382,6 +384,7 @@ const AvailableRewards = () => {
               <SellDetail stranz={stranz} selldetail={selltranz} />
             </>
           )}
+         
         </>
       )}
     </React.Fragment>

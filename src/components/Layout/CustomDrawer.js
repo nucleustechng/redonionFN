@@ -34,6 +34,8 @@ import TransactionIconWhite from "../../assets/transactionWhite.svg";
 import helpIcon from "../../assets/help.svg";
 import helpIconW from "../../assets/helpWhite.svg";
 import LogoutIcon from "../../assets/logout.svg";
+import ReferralIcon from "../../assets/shareR.svg";
+
 
 
 
@@ -42,6 +44,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 // Layout routes
 import LayoutRoutes from "../Routes/LayoutRoutes";
+import ReferalModal from "../../Pages/SupportPage/Support/ReferalModal";
 
 const LogOutModal = React.lazy(() => import("../../Pages/SupportPage/Support/LogOutModal"));
 
@@ -59,6 +62,8 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  
+  const [openReferralModal, setOpenReferralModal] = useState(false);
 
 
   const navigateAndCloseDrawer = (path) => {
@@ -69,6 +74,9 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
   };
   const handleOpenSuccessModal = () => {
     setOpenSuccessModal(!openSuccessModal);
+  };
+  const handleOpenReferralModal = () => {
+    setOpenReferralModal(!openReferralModal);
   };
 
 
@@ -183,7 +191,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
                   paddingLeft:
                     location.pathname === `/dashboard/transactions` ? 6 : 20,
                   marginLeft:
-                    location.pathname === `/dashboard/transactions` ? 20 : 0,
+                    location.pathname === `/dashboard/transactions` ? 10 : 0,
                 }}
                 sx={{ cursor: "pointer" }}
                 onClick={() =>
@@ -276,8 +284,6 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
         </List>
 
         <Toolbar />
-        <Toolbar />
-        <Toolbar />
         <List>
           <ListItem sx={{ mb: 1 }}>
             <Box
@@ -291,8 +297,7 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
               style={{
                 borderTopLeftRadius: 15,
                 borderBottomLeftRadius: 15,
-                paddingLeft: location.pathname === `/support/help` ? 6 : 20,
-                marginLeft: location.pathname === `/support/help` ? 20 : 0,
+                paddingLeft: location.pathname === `/support/help` ? 7 : 0,
               }}
               sx={{ cursor: "pointer" }}
               onClick={() => navigateAndCloseDrawer("/support/help")}
@@ -322,6 +327,38 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
             </Box>
           </ListItem>
 
+          <ListItem onClick={() => setOpenReferralModal(true)} >
+            <Box
+              ml={1}
+              pt={1}
+              mt={0}
+              mb={2}
+              width={"100%"}
+              mr={-2}
+              style={{
+                borderTopLeftRadius: 15,
+                borderBottomLeftRadius: 15,
+              }}
+              sx={{ cursor: "pointer" }}
+              onClick={() => setOpenReferralModal(true)}
+              button
+            >
+              <Stack direction="row" ml={1} py={0}>
+                <LazyImageComponent style={{ width: 20 }} src={ReferralIcon} />
+                <Typography
+                  fontWeight={400}
+                  ml={1}
+                  fontSize={16}
+                  color={"primary"}
+                  variant="body2"
+                >
+                  Referral
+                </Typography>
+              </Stack>
+            </Box>
+          </ListItem>
+          
+
           <ListItem onClick={() => setOpenSuccessModal(true)} button>
             <Box
               ml={1}
@@ -334,8 +371,6 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
               style={{
                 borderTopLeftRadius: 15,
                 borderBottomLeftRadius: 15,
-                paddingLeft: location.pathname === `/support/help` ? 6 : 20,
-                marginLeft: location.pathname === `/support/help` ? 20 : 0,
               }}
               sx={{ cursor: "pointer" }}
               onClick={() => setOpenSuccessModal(true)}
@@ -429,6 +464,13 @@ const CustomDrawer = ({ handleDrawerToggle }) => {
           </ListItem> */}
         </List>
       </Box>
+
+      <Suspense fallback={<ModalSkeletons />}>
+        <ReferalModal
+          open={openReferralModal}
+          handleClose={handleOpenReferralModal}
+        />
+      </Suspense>
 
       <Suspense fallback={<ModalSkeletons />}>
         <LogOutModal

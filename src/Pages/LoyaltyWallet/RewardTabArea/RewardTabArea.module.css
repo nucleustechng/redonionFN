@@ -1,5 +1,5 @@
 .mainBox {
-  margin-bottom: 3rem;
+  margin-bottom: 0px;
 }
 
 .availableReward {
@@ -12,6 +12,14 @@
   align-items: center;
   gap: 1rem;
   padding-bottom: 2rem;
+}
+
+.modalStyleA {
+  border-radius: 10px;
+
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  width: 520px;
+  height: "100%";
 }
 
 .availableRewardCard {
@@ -193,6 +201,6 @@
   font-size: 14px;
 }
 
-.tabActive{
+.tabActive {
   background-color: "#3063E9";
 }

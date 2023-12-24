@@ -47,7 +47,7 @@ const OngoingTransaction = () => {
         <Box
           mt={0}
           sx={{ overflowX: "hidden" }}
-          px={!isMobile ? 5 : 1}
+          px={!isMobile ? 2 : 1}
           className={styles.mainBox}
         >
           <Box mb={4}>
@@ -63,7 +63,7 @@ const OngoingTransaction = () => {
 
           <Box className={styles.rewardInfoArea}>
             <Grid
-              container
+              container height="100%"
               columns={{ xs: 1, sm: 1, md: 12 }}
               spacing={{ xs: 4, sm: 2, md: 12 }}
             >

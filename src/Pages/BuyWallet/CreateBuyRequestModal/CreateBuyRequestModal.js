@@ -145,7 +145,11 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
           />
         </Suspense>
       )}
-      <ChatModal open={showPin} onClose={handleCloseTwoFAPin} />
+      <ChatModal
+        open={showPin}
+        dataSingle={dataSingle}
+        onClose={handleCloseTwoFAPin}
+      />
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={showSendSuccessfullSnackbar}

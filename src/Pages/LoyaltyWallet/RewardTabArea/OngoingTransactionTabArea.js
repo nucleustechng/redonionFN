@@ -19,8 +19,10 @@ import BuyIcon from "../../../assets/buyRequest.svg";
 import BuyIconDark from "../../../assets/buyRequestDark.svg";
 import SellIcon from "../../../assets/sellRequestWhite.svg";
 import SellIconDark from "../../../assets/sellRequest.svg";
+import Chat from "../../../assets/chat.svg";
+import ChatDark from "../../../assets/chatDark.svg";
 
-import ExchanageIcon from "../../../assets/exchange.svg";
+import ChatHistory from "./chat";
 
 // Lazy Image component
 const LazyImageComponent = React.lazy(() =>
@@ -63,8 +65,7 @@ const RewardTabArea = () => {
         >
           <Tab
             sx={{
-              mr: 2,
-              width: isMobile ? "50%" : "",
+              width: isMobile ? "30%" : "",
               backgroundColor: isMobile
                 ? ""
                 : tabValue === 0
@@ -107,8 +108,7 @@ const RewardTabArea = () => {
           />
           <Tab
             sx={{
-              mr: 2,
-              width: isMobile ? "50%" : "",
+              width: isMobile ? "30%" : "",
               backgroundColor: isMobile
                 ? ""
                 : tabValue === 1
@@ -147,8 +147,50 @@ const RewardTabArea = () => {
               )
             }
           />
-
-          {/* <Tab sx={{ mr: 2 }} label="Transaction" /> */}
+          <Tab
+            sx={{
+              mr: 0,
+              width: isMobile ? "40%" : "150px",
+              backgroundColor: isMobile
+                ? ""
+                : tabValue === 2
+                ? "#3063E9"
+                : "inherit",
+              borderTopRightRadius: 10,
+              borderTopLeftRadius: 10,
+              marginTop: -1.4,  mx:2,
+              marginBottom: -2,
+            }}
+            label={
+              <Typography
+                color={
+                  tabValue === 2
+                    ? isMobile
+                      ? theme.palette.mode === "dark"
+                        ? "#fff"
+                        : "#000"
+                      : "#fff"
+                    : theme.palette.mode === "dark"
+                    ? "#fff"
+                    : "#000"
+                }
+              >
+                Negotiations
+              </Typography>
+            }
+            iconPosition="start"
+            icon={
+              <LazyImageComponent
+                src={
+                  tabValue === 2
+                    ? isMobile
+                      ? ChatDark
+                      : Chat
+                    : ChatDark
+                }
+              />
+            }
+          />
         </Tabs>
       </Box>
 
@@ -193,6 +235,25 @@ const RewardTabArea = () => {
               {/* {!isMobile ?  */}
               <Buy />
               {/* : <MyRewardsMobile />} */}
+            </Suspense>
+          </Box>
+        </TabPanel>
+
+        <TabPanel value={tabValue} index={2}>
+          <Box bgcolor={"inherit"}>
+            <Suspense
+              fallback={
+                <GridCardSkeleton
+                  columns={{ md: 12, xl: 12, sm: 1, xs: 1 }}
+                  spacing={{ md: 2, xl: 2, sm: 3 }}
+                  rowGap={{ md: 0 }}
+                  md={6}
+                  xl={4}
+                  sm={12}
+                />
+              }
+            >
+              <ChatHistory />
             </Suspense>
           </Box>
         </TabPanel>
