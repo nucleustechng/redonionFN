@@ -68,7 +68,7 @@ const steps = [
     label: "Add account details",
   },
   {
-    label: "Set your transaction pin",
+    label: "Set your Transaction PIN",
   },
 ];
 

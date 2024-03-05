@@ -412,9 +412,9 @@ const Account = () => {
               </Box>
 
               <Typography ml={1.5} sx={{ flexShrink: 0 }}>
-                Transaction Pin
+                Transaction PIN
                 <Typography fontSize={14} sx={{ color: "text.secondary" }}>
-                  Create your Transaction Pin
+                  Create your Transaction PIN
                 </Typography>
               </Typography>
             </AccordionSummary>
@@ -685,12 +685,12 @@ const Account = () => {
                       <LazyImageComponent src={AccountDetails} />
                     </Box>
                     <Typography ml={1.5} sx={{ flexShrink: 0 }}>
-                      Transaction Pin
+                      Transaction PIN
                       <Typography
                         fontSize={14}
                         sx={{ color: "text.secondary" }}
                       >
-                        Create your Transaction Pin
+                        Create your Transaction PIN
                       </Typography>
                     </Typography>
                   </AccordionSummary>

@@ -68,7 +68,7 @@ const SendConfirmationModal = ({
   const handleSubmitCreatePin = () => {
     if (otp !== cotp) {
       setShowSendSuccessfullSnackbar(true);
-      setShowMsg("Wrong Confirm Transaction Pin");
+      setShowMsg("Wrong Confirm Transaction PIN");
     } else {
       var hash = bcrypt.hashSync(otp, salt);
       localStorage.setItem("pin", hash);
@@ -79,7 +79,7 @@ const SendConfirmationModal = ({
   const handleSubmitPin = () => {
     if (otp === "") {
       setShowSendSuccessfullSnackbar(true);
-      setShowMsg("Wrong Confirm Transaction Pin");
+      setShowMsg("Wrong Confirm Transaction PIN");
     } else {
       console.log(created);
        result = bcrypt.compareSync(otp, created);
@@ -91,7 +91,7 @@ const SendConfirmationModal = ({
         // return result;
       } else {
         setShowSendSuccessfullSnackbar(true);
-        setShowMsg("Wrong  Transaction Pin");
+        setShowMsg("Wrong  Transaction PIN");
       }
     }
   };
@@ -134,7 +134,7 @@ const SendConfirmationModal = ({
           <Box>
             <Stack mb={1} direction="row" justifyContent="space-between">
               <Typography color="primary" variant="h6">
-                Transaction Pin
+                Transaction PIN
               </Typography>
               <IconButton
                 color="secondary"
@@ -279,7 +279,7 @@ const SendConfirmationModal = ({
           <Box>
             <Stack mb={1} direction="row" justifyContent="space-between">
               <Typography color="primary" variant="h6">
-                Transaction Pin
+                Transaction PIN
               </Typography>
               <IconButton
                 color="secondary"

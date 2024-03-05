@@ -113,7 +113,7 @@ const ReferalModal = ({ open, handleClose }) => {
               color: theme.palette.mode === "light" ? "#3063E9" : "inherit",
             }}
           >
-            Refer and earn
+            Refer and Earn
           </Typography>
           <IconButton color="secondary" onClick={handleClose}>
             <Tooltip
@@ -159,12 +159,12 @@ const ReferalModal = ({ open, handleClose }) => {
                   fontSize="14px" fontWeight={500} variant="h6" 
                   component="h2"
                 >
-                  Copy link
+                  Copy Code
                 </Typography>
               </Box>
             </CopyToClipboard>
             
-            <Box display="flex" mt={4} alignItems="center" justifyContent="center" gap={1}>
+            {/* <Box display="flex" mt={4} alignItems="center" justifyContent="center" gap={1}>
               <LazyImageComponent src={sms}  />
               <Typography 
                 fontSize="14px" 
@@ -176,7 +176,7 @@ const ReferalModal = ({ open, handleClose }) => {
               >
                 Share through email
               </Typography>
-            </Box>
+            </Box> */}
           </Box>
           
         </center>
@@ -191,7 +191,7 @@ const ReferalModal = ({ open, handleClose }) => {
             onClose={handleCloseSnackbar}
             severity="success"
           >
-            link Copied!
+            Code Copied!
           </Alert>
         </Snackbar>
       </Box>

@@ -642,7 +642,7 @@ const CreateRequestModal = ({ open, onClose, dataSingle, datao }) => {
               color="secondary"
               mb={4}
             >
-              Seller Review
+              Seller Reviews
             </Typography>
 
             {dataSingle?.createdBy?.reviewUser.map((review, index) => (
