@@ -13,6 +13,7 @@ import {
   useTheme,
   Typography,
   Button,
+  Slide,
 } from "@mui/material";
 
 import MobileNavDrawerPermanent from "../../../components/Layout/MobileNavDrawerPermanent";
@@ -48,6 +49,12 @@ import Wallet from "../../../assets/Wallet.svg";
 import DeleteIcon from "../../../assets/delete.svg";
 import LogoutIcon from "../../../assets/logout.svg";
 import SendConfirmationModal from "../../CoinDetails/SendConfirmationModal";
+import link from "../../../assets/link.svg";
+import CopyToClipboard from "react-copy-to-clipboard";
+import axios from "../../../api/axios.js";
+import { useNavigate } from "react-router-dom";
+import SecretKeysModal from "./OtherOptions/SecretKeys.js";
+
 
 // Lazy Components
 const DeleteAccountModal = React.lazy(() =>
@@ -94,14 +101,31 @@ const Account = () => {
 
   const [openAccountModal, setOpenAccountModal] = useState(false);
 
+  const [openKeysModal, setOpenKeysModal] = useState(false);
+
+
   const [openWalletModal, setOpenWalletModal] = useState(false);
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   // Menu
   const [anchorElMenu, setAnchorElMenu] = React.useState(null);
 
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
+
   const [expanded, setExpanded] = React.useState(false);
   const [expanded1, setExpanded1] = React.useState(false);
+  const [expanded2, setExpanded2] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [blockchain , setBlockchain] = useState([])
+  const [blockchainIds , setBlockchainIds] = useState()
+
+
+
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
@@ -109,6 +133,39 @@ const Account = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const CREATE_BLOCKCHAIN_URL = "/user/blockchains";
+
+  const navigate = useNavigate();
+
+
+  useEffect (()=> {
+    setLoading(true);
+
+    axios
+      .get(
+        CREATE_BLOCKCHAIN_URL,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log("blockchain", res.data.data.blockchains);
+        setBlockchain(res.data.data.blockchains)
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          navigate("/account");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [user, navigate])
+
 
   const handleCloseTwoFAPin = () => {
     if (user?.user?.twoFactorAuthType !== "EMAIL_OTP") {
@@ -136,6 +193,11 @@ const Account = () => {
 
   const handleOpenAccountModal = () => {
     setOpenAccountModal(!openAccountModal);
+  };
+
+  const handleOpenKeysModal = (id) => {
+    setOpenKeysModal(!openKeysModal);
+    setBlockchainIds(id)
   };
 
   const handleTransactionPinModal = () => {
@@ -213,6 +275,13 @@ const Account = () => {
           handleClose={handleOpenAccountModal}
         />
       </Suspense>
+      <Suspense fallback={<ModalSkeletons />}>
+        <SecretKeysModal
+          open={openKeysModal}
+          handleClose={handleOpenKeysModal}
+          blockchainIds={blockchainIds}
+        />
+      </Suspense>
 
       <Suspense fallback={<ModalSkeletons />}>
         <SendConfirmationModal
@@ -278,6 +347,58 @@ const Account = () => {
               <ProfileInfo handleClickMenu={handleClickMenu} />
             </Suspense>
           </Box>
+
+
+          <Accordion
+            sx={{ background: theme.palette.background.default }}
+            expanded={expanded2}
+            onChange={() => {
+              setExpanded2(!expanded2);
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Box>
+                <LazyImageComponent src={TwoFA} />
+              </Box>
+
+              <Typography ml={1.5}>
+                Secret Keys
+                <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                  Copy Secret Keys
+                </Typography>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <>
+                {blockchain.map((blockchain, index)=>(
+                    <Box
+                      display="flex"
+                      onClick={() => handleOpenKeysModal(blockchain.id)}
+                      sx={{
+                        cursor: "pointer",
+                        p: 1.5,
+                        ml: 3,
+                        transition: "background-color 0.3s",
+                        "&:hover": {
+                          bgcolor: theme.palette.mode === "dark" ? "#333333" : "#E8E8F3", 
+                          borderRadius: "6px"
+                        },
+                      }}
+                      key={index}
+                      justifyContent="space-between"
+                      p={1.5} ml={3}
+                    >
+                      <Typography fontSize={12}>{blockchain.standard}</Typography>
+                      
+                    </Box>
+                ))}
+              </>  
+            </AccordionDetails>
+          </Accordion>
 
           <Accordion
             sx={{ background: theme.palette.background.default }}
@@ -546,6 +667,58 @@ const Account = () => {
 
                 <Accordion
                   sx={{ background: theme.palette.background.default }}
+                  expanded={expanded2}
+                  onChange={() => {
+                    setExpanded2(!expanded2);
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Box>
+                      <LazyImageComponent src={TwoFA} />
+                    </Box>
+
+                    <Typography ml={1.5}>
+                      Secret Keys
+                      <Typography fontSize={14} sx={{ color: "text.secondary" }}>
+                        Copy Secret Keys
+                      </Typography>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <>
+                      
+                      {blockchain.map((blockchain, index)=>(
+                        <Box
+                          display="flex"
+                          onClick={() => handleOpenKeysModal(blockchain.id)}
+                          sx={{
+                            cursor: "pointer",
+                            p: 1.5,
+                            ml: 3,
+                            transition: "background-color 0.3s",
+                            "&:hover": {
+                              backgroundColor: "#333333", 
+                              borderRadius: "6px"
+                            },
+                          }}
+                          key={index}
+                          justifyContent="space-between"
+                          p={1.5} ml={3}
+                        >
+                          <Typography fontSize={12}>{blockchain.standard}</Typography>
+                          
+                        </Box>
+                      ))}
+                    </>                    
+                  </AccordionDetails>
+                </Accordion>
+
+                <Accordion
+                  sx={{ background: theme.palette.background.default }}
                   expanded={expanded1}
                   onChange={() => {
                     setExpanded1(!expanded1);
@@ -772,6 +945,21 @@ const Account = () => {
           </Box>
         </MobileNavDrawerPermanent>
       )}
+
+      <Snackbar
+        anchorOrigin={{ vertical: "center", horizontal: "center" }}
+        TransitionComponent={Slide} 
+        open={showSnackbar}
+        autoHideDuration={1000}
+        onClose={handleCloseSnackbar}
+        >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+        >
+          Key Copied!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 };

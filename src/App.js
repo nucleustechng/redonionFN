@@ -142,6 +142,8 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+
+  
   
 
   useEffect(() => {

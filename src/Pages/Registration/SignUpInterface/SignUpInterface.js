@@ -81,6 +81,7 @@ const SignUpInterface = () => {
   const [formError4, setFormError4] = useState("");
   const [formError5, setFormError5] = useState("");
   const [formError6, setFormError6] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmed, setShowPasswordConfirmed] = useState(false);
 
@@ -152,6 +153,7 @@ const SignUpInterface = () => {
     setFormError4("");
     setFormError5("");
     setFormError6("");
+
     
     if (!userInfo.fname) {
       setFormError("Please provide your First Name");
@@ -174,7 +176,7 @@ const SignUpInterface = () => {
     } else {
      
       registerUser(userInfo.fname, userInfo.mname, userInfo.lname, userInfo.email, 
-        countryID, "+" + value, userInfo.confirmPassword, navigate);
+        countryID, "+" + value, userInfo.confirmPassword,userInfo.referralCode, navigate);
     }
   };
 
@@ -602,6 +604,26 @@ const SignUpInterface = () => {
                           {formError6}
                         </Typography>
                       </Box>
+                    </Stack>
+                    <Stack spacing={1} mb={2}>
+                      <Typography
+                        color={theme.palette.text.primary}
+                        variant="body1"
+                        fontSize={16}
+                      >
+                        Referral code
+                      </Typography>
+                      <Input
+                        disableUnderline
+                        className="inputField"
+                        variant="outlined"
+                        type="text"
+                        size="small"
+                        color="secondary"
+                        name="referralCode"
+                        onChange={handleUserInfo}
+                      />
+                      
                     </Stack>
                     {/* <Stack spacing={1} mb={2}>
                         <Typography

@@ -99,7 +99,16 @@ const ChatHistory =() => {
 
   const [name, setName] = useState("");
 
+  const [newRate, setNewRate] = useState("");
+
+  const [tokenAmount, setTokenAmount] = useState("");
+
+
   const [chatSession, setChatSession] = useState("");
+
+
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
 
   const lastMessageRef = useRef(null);
 
@@ -129,6 +138,25 @@ const ChatHistory =() => {
   const GET_ALLCHAT_URL = "/chat/get-all-users-in-chat-history";
   const GET_ONECHAT_URL = "/chat/get-chat-history";
 
+  useEffect(() => {
+    // Update network status
+     const handleStatusChange = () => {
+       setIsOnline(navigator.onLine);
+     };
+ 
+     // Listen to the online status
+     window.addEventListener("online", handleStatusChange);
+ 
+     // Listen to the offline status
+     window.addEventListener("offline", handleStatusChange);
+ 
+     // Specify how to clean up after this effect for performance improvment
+     return () => {
+       window.removeEventListener("online", handleStatusChange);
+       window.removeEventListener("offline", handleStatusChange);
+     };
+   }, [isOnline]);
+
 
   useEffect(() => {
     console.log('User Token:', user.token);
@@ -154,6 +182,7 @@ const ChatHistory =() => {
       })
       .catch((err) => {
         console.log("did not work", err)
+        
         if (err?.response?.status === 401) {
           navigate("/dashboard/transactions");
         }
@@ -217,10 +246,12 @@ const ChatHistory =() => {
       },
     })
     .then((res) => {
-      console.log("this is one chat", res.data.data)
+      console.log("this is one chat", res.data.data.chatSession)
       setIsLoading(false);
       setChat(res.data.data.messages);
       setPricePerUnit(res.data.data.chatSession.offer.tokenPricePerUnit)
+      setTokenAmount(res.data.data.chatSession.proposedAmount)
+      setNewRate(res.data.data.chatSession.proposedTokenPricePerUnit)
       setSellerId(res.data.data.chatSession.toId);
       setCreatedById(user.user.id)
       setMessageHistory(res.data.data.messages.reverse())
@@ -408,7 +439,7 @@ const ChatHistory =() => {
                             sx={{ cursor: "pointer" }}
                             onClick={() => setOpenViewRateModal(true)}
                           >
-                            View new term
+                            Review New Terms
                           </Typography> 
                         }
                       </Box>
@@ -641,7 +672,7 @@ const ChatHistory =() => {
                           sx={{ cursor: "pointer" }}
                           onClick={() => setOpenViewRateModal(true)}
                         >
-                          View new term
+                           Review New Terms
                         </Typography> 
                       }
                     </Box>
@@ -841,6 +872,10 @@ const ChatHistory =() => {
       <ViewRateModal
         open={openViewRateModal}
         handleClose={handleOpenViewRateModal}
+        newRate={newRate}
+        pricePerUnit={pricePerUnit}
+        tokenAmount={tokenAmount}
+        chatSessionId={chatSession}
       />
     </React.Fragment>
   );

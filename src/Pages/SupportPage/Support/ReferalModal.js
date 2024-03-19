@@ -38,6 +38,7 @@ import people from "../../../assets/share.png";
 import link from "../../../assets/link.svg";
 import sms from "../../../assets/sms.svg";
 import useTheme from "@mui/system/useTheme";
+import useUser from "../../../hooks/useUser";
 
 
 
@@ -77,6 +78,8 @@ const ReferalModal = ({ open, handleClose }) => {
     borderRadius: 3,
     boxShadow: 22,
   };
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
@@ -144,7 +147,7 @@ const ReferalModal = ({ open, handleClose }) => {
           <Box>
             <CopyToClipboard
               onCopy={() => setShowSnackbar(true)}
-              text="copied"
+              text={user?.user.referralCode}
             >
               <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
                 <LazyImageComponent src={link}  />
@@ -159,7 +162,7 @@ const ReferalModal = ({ open, handleClose }) => {
                   fontSize="14px" fontWeight={500} variant="h6" 
                   component="h2"
                 >
-                  Copy Code
+                  {user?.user.referralCode}
                 </Typography>
               </Box>
             </CopyToClipboard>

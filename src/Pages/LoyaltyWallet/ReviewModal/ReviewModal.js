@@ -31,6 +31,8 @@ import StarIcon from "../../../assets/starReview.svg";
 
 const ReviewModal = ({ open, handleClose, info, handleOpenSnackBar }) => {
   const theme = useTheme();
+
+  
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [rating, setRating] = useState(0);

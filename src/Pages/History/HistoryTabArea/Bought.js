@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import {
   Box,
   Grid,
@@ -8,12 +8,15 @@ import {
   useMediaQuery,
   Paper,
   List,
+  IconButton,
 } from "@mui/material";
 import moment from "moment";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import Review from "../../../assets/review.svg";
 import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
+
 
 // Image
 
@@ -37,6 +40,8 @@ import axios from "../../../api/axios";
 // Router
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+import { ModalSkeletons } from "../../../components/Skeletons/ComponentSkeletons";
+import ReviewModal from "../../LoyaltyWallet/ReviewModal/ReviewModal";
 
 // Lazy Image Component
 const LazyImageComponent = React.lazy(() =>
@@ -51,6 +56,9 @@ const MyRewards = (props) => {
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
+  const [id, setID] = useState("");
+
+
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -64,6 +72,16 @@ const MyRewards = (props) => {
     // Call the parent callback function
     props.parentCallback(event);
   };
+
+  const handleOpenRewardModal = (id) => {
+    setID(id)
+    setOpenRewardModal(true);
+  };
+
+  const handleCloseRewardModal = () => {
+    setOpenRewardModal(false);
+  };
+
 
   useEffect(() => {
     setLoading(true);
@@ -97,6 +115,15 @@ const MyRewards = (props) => {
 
   return (
     <React.Fragment>
+      <Suspense fallback={<ModalSkeletons width={"90vw"} height={300} />}>
+        <ReviewModal
+          open={openRewardModal}
+          info={id}
+          handleClose={handleCloseRewardModal}
+          handleOpenSnackBar={handleOpenRewardModal}
+        />
+      </Suspense>
+
       {isloading ? (
         <center>
           <LoadingButton loading>Login</LoadingButton>
@@ -144,7 +171,7 @@ const MyRewards = (props) => {
                                   {info?.offer?.currency?.currencyCode}
                                 </Typography> */}
 
-<Stack
+                                <Stack
                                   direction="row"
                                   justifyItems={"center"}
                                   alignItems={"center"}
@@ -212,9 +239,9 @@ const MyRewards = (props) => {
 
                         <Box>
                           {/* <Stack direction="row" justifyContent={"center"} alignItems={"center"} mt={4} >
-              <LazyImageComponent  src={ExchanageIcon} />
+                            <LazyImageComponent  src={ExchanageIcon} />
 
-            </Stack> */}
+                          </Stack> */}
                           <Box ml={0}>
                             <center>
                               <Typography
@@ -306,7 +333,7 @@ const MyRewards = (props) => {
                                 >
                                   {info?.offer?.cryptoCurrency?.abbreviation}
                                 </Typography>
-                              </Stack>
+                            </Stack>
                             <Stack direction="row" justifyContent="flex-end">
                               <Box
                                 sx={{
@@ -346,22 +373,36 @@ const MyRewards = (props) => {
                                 {info?.status}
                               </Typography>
                             </Stack>
+                            <Stack direction="row" justifyContent={"end"}>
+                          
+                              <IconButton
+                                // sx={{ cursor: "pointer" }}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  handleOpenRewardModal(info);
+                                }}
+                                sx={{ mt: 0.5 }}
+                              >
+                                <LazyImageComponent src={Review} />
+                              </IconButton>
+                            </Stack>
                           </Box>
                         </Box>
+
                       </Stack>
 
                       {/* <Stack mt={4} direction="row" justifyContent="flex-end">
-          <Button
-            // onClick={handleCloseTwoFAPin}
-            variant="contained" color="primary">
-            <Typography variant="caption" p={0.6} textTransform={"none"} fontSize={14} color="background.light">
+                        <Button
+                          // onClick={handleCloseTwoFAPin}
+                          variant="contained" color="primary">
+                          <Typography variant="caption" p={0.6} textTransform={"none"} fontSize={14} color="background.light">
 
 
-              Withdraw from Escrow
+                            Withdraw from Escrow
 
-            </Typography>
-          </Button>
-        </Stack> */}
+                          </Typography>
+                        </Button>
+                      </Stack> */}
                     </Box>
                   </ListItem>
                 </>

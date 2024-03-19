@@ -224,7 +224,7 @@ const MyRewards = () => {
                               </Typography>
                             </Stack>
 
-                            <Box mr={1.5} mt={2}>
+                            <Box mr={1.5} my={2}>
                               <Stack direction="row" justifyContent="flex-end">
                                 <LazyImageComponent
                                   style={{
@@ -279,7 +279,7 @@ const MyRewards = () => {
                           </Box>
                         </Stack>
 
-                        <Stack direction="row" justifyContent={"end"}>
+                        {/* <Stack direction="row" justifyContent={"end"}>
                           
                           <IconButton
                             // sx={{ cursor: "pointer" }}
@@ -288,7 +288,7 @@ const MyRewards = () => {
                           >
                             <LazyImageComponent src={Review} />
                           </IconButton>
-                        </Stack>
+                        </Stack> */}
 
                         {/* <Stack mt={4} direction="row" justifyContent="flex-end">
           <Button
