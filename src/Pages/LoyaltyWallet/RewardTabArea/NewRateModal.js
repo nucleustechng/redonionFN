@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 
 import useTheme from "@mui/system/useTheme";
 import axios from "../../../api/axios";
+import { LoadingButton } from "@mui/lab";
 
 
 
@@ -36,10 +37,15 @@ const LazyImageComponent = React.lazy(() =>
   import("../../../components/LazyImageComponent/LazyImageComponent")
 );
 
-const NewRateModal = ({ open, handleClose, chatSession }) => {
+const NewRateModal = ({ open, handleClose, chatSession, pricePerUnit }) => {
 
   const theme = useTheme();
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+
+
 
   const style = {
     position: 'absolute',
@@ -80,10 +86,11 @@ const NewRateModal = ({ open, handleClose, chatSession }) => {
 
   const handleSetTerms = () => {
      console.log(JSON.stringify(chatSession))
+     setLoading(true)
     axios 
     .patch( PATCH_NEW_TERM , 
       JSON.stringify({
-        "chatSessionId": JSON.stringify(chatSession),
+        "chatSessionId": chatSession,
         "amount": parseInt(amount),
         "tokenPricePerUnit": parseInt(price)
       }),
@@ -95,9 +102,19 @@ const NewRateModal = ({ open, handleClose, chatSession }) => {
     })
     .then((res) => {
       console.log(res)
+      setLoading(false)
+      setShowSnackbar(true)
+      if(res.data.success === true){
+        setSeverity("success")
+        setMessage(res.data.msg)
+      }else{
+        setSeverity("error")
+        setMessage(res.data.msg)
+      }
     })
     .catch((err) =>{
       console.log(err)
+      setLoading(false)
     })
   }
 
@@ -219,23 +236,37 @@ const NewRateModal = ({ open, handleClose, chatSession }) => {
               fontSize="12px"
               fontWeight={500}
             >
-              NGN 90000000000.00
+              NGN {pricePerUnit}
             </Typography>
           </Box>
-          <Box  mt={4} mb={2} gap={2} >
+          <Stack  mt={4} mb={2} gap={2} >
+            {loading ? (
+              <LoadingButton
+                style={{
+                  height: 60,
+                  borderRadius: 10,
+                  fontSize: 20,
+                  textTransform: "none",
+                }}
+                loading
+                variant="outlined"
+              >
+              </LoadingButton>
+            ) : (
             <Button variant="contained"
-            style={{
+              style={{
               color: 'white',
               backgroundColor: '#3063E9',
               borderRadius: "8px",
               padding: '8px 50px',
               width: "100%"
-            }}
-            onClick={handleSetTerms}
+              }}
+              onClick={handleSetTerms}
             >
               Update Terms
             </Button>
-          </Box>
+            )}
+          </Stack>
         </form>
         <Snackbar
           anchorOrigin={{ vertical: "center", horizontal: "center" }}
@@ -246,9 +277,9 @@ const NewRateModal = ({ open, handleClose, chatSession }) => {
           >
           <Alert
             onClose={handleCloseSnackbar}
-            severity="success"
+            severity={severity}
           >
-            link Copied!
+            {message}
           </Alert>
         </Snackbar>
       </Box>

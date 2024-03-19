@@ -867,6 +867,7 @@ const ChatHistory =() => {
         open={openNewRateModal}
         handleClose={handleOpenNewRateModal}
         chatSession={chatSession}
+        pricePerUnit={pricePerUnit}
       />
 
       <ViewRateModal
