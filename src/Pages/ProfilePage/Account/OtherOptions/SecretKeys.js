@@ -198,7 +198,12 @@ const SecretKeysModal = ({ open, handleClose, blockchainIds }) => {
             Key Copied!
           </Alert>
         </Snackbar>
-        <Box className={styles.modalTopBar}>
+        <Box display="flex" alignItems="center" justifyContent="space-between"   >
+          <Box >
+            <Typography variant="h6" component="h2">
+              Get Secret Key
+            </Typography>
+          </Box>
           <IconButton color="secondary" onClick={handleCloseModal}>
             <Tooltip
               placement="right"
@@ -211,145 +216,138 @@ const SecretKeysModal = ({ open, handleClose, blockchainIds }) => {
         </Box>
         
         <Box>
-          <Box mt={-4}>
-            <Typography variant="h6" component="h2">
-              Get Secret Key
-            </Typography>
-          </Box>
+          
 
-          <Box
-            component="form"
-            onSubmit={GetKey}
-            className={styles.changePasswordModalContentBox}
-          >
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body2"
-                color={
-                  theme.palette.mode === "dark"
-                    ? "text.secondary"
-                    : "common.black"
-                }
+          {privateKey ?  
+            <CopyToClipboard
+                onCopy={() => setShowSnackbar(true)}
+                text={privateKey}
+            >
+              <Box
+                display="flex"
+                sx={{
+                  cursor: "pointer",
+                }}
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+                gap={2}
+                mt={5}
               >
-                 Password
-              </Typography>
-              <Input
-                disableUnderline
-                className={styles.inputField}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() =>
-                        setShowPasswordCurrent(!showPasswordCurrent)
-                      }
-                    >
-                      {showPasswordCurrent ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                name="password"
-                onChange={(e) => setUserPassword(e.target.value)}
-                type={showPasswordCurrent ? "text" : "password"}
-                variant="filled"
-                color="secondary"
-                size="small"
-              />
-            </Stack>
-            <Stack spacing={1} mb={2}>
-              <Typography
-                variant="body2"
-                color={
-                  theme.palette.mode === "dark"
-                    ? "text.secondary"
-                    : "common.black"
-                }
-              >
-                Blockchain Id
-              </Typography>
-              <Input
-                disableUnderline
-                className={styles.inputField}
-                type="number"
-                value={parseInt(blockchainIds)}
-                variant="outlined"
-                color="secondary"
-                size="small"
-              />
-            </Stack>
-            
-            <Stack mt={4} mb={2}>
-              {loading ? (
-                <LoadingButton
-                  style={{
-                    height: 60,
-                    borderRadius: 10,
-                    fontSize: 20,
-                    textTransform: "none",
-                  }}
-                  loading
-                  variant="outlined"
+                <Box 
+                  sx={{
+                    maxWidth: { xs: "250px", sm: "390px", lg: "410px" }, 
+                    overflow: "auto",
+                  }}>
+                  <Typography fontSize={14} variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                    {privateKey.substring(0, 24)}{"..."}
+                  </Typography>
+                </Box>
+                <LazyImageComponent src={link}  />
+                
+              </Box>
+            </CopyToClipboard>
+          :
+            <Box
+              component="form"
+              onSubmit={GetKey}
+              className={styles.changePasswordModalContentBox}
+            >
+              <Stack spacing={1} mb={2}>
+                <Typography
+                  variant="body2"
+                  color={
+                    theme.palette.mode === "dark"
+                      ? "text.secondary"
+                      : "common.black"
+                  }
                 >
-                  Sign Up
-                </LoadingButton>
-              ) : (
-                <>
-                  <Button
-                    type="submit"
-                    onClick={GetKey}
+                  Password
+                </Typography>
+                <Input
+                  disableUnderline
+                  className={styles.inputField}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          setShowPasswordCurrent(!showPasswordCurrent)
+                        }
+                      >
+                        {showPasswordCurrent ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  name="password"
+                  onChange={(e) => setUserPassword(e.target.value)}
+                  type={showPasswordCurrent ? "text" : "password"}
+                  variant="filled"
+                  color="secondary"
+                  size="small"
+                />
+              </Stack>
+              {/* <Stack spacing={1} mb={2}>
+                <Typography
+                  variant="body2"
+                  color={
+                    theme.palette.mode === "dark"
+                      ? "text.secondary"
+                      : "common.black"
+                  }
+                >
+                  Blockchain Id
+                </Typography>
+                <Input
+                  disableUnderline
+                  className={styles.inputField}
+                  type="number"
+                  value={parseInt(blockchainIds)}
+                  variant="outlined"
+                  color="secondary"
+                  size="small"
+                />
+              </Stack> */}
+              
+              <Stack mt={4} mb={2}>
+                {loading ? (
+                  <LoadingButton
                     style={{
                       height: 60,
                       borderRadius: 10,
                       fontSize: 20,
                       textTransform: "none",
                     }}
-                    color="primary"
-                    variant="contained"
-                    fullWidth
+                    loading
+                    variant="outlined"
                   >
-                    Get Secret Key
-                  </Button>
-                </>
-              )}
-            </Stack>
-
-            {privateKey ?  
-              <CopyToClipboard
-                  onCopy={() => setShowSnackbar(true)}
-                  text={privateKey}
-              >
-                <Box
-                  display="flex"
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                  alignItems="center"
-                  justifyContent="start"
-                  flexWrap="wrap"
-                  gap={2}
-                  mt={5}
-                >
-                  <Box 
-                    sx={{
-                      maxWidth: { xs: "250px", sm: "390px", lg: "410px" }, 
-                      overflow: "auto",
-                    }}>
-                    <Typography fontSize={14} variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-                      {privateKey}
-                    </Typography>
-                  </Box>
-                  <LazyImageComponent src={link}  />
-                  
-                </Box>
-              </CopyToClipboard>
-            : ""
-            }
-          </Box>
-
-          
+                    Sign Up
+                  </LoadingButton>
+                ) : (
+                  <>
+                    <Button
+                      type="submit"
+                      onClick={GetKey}
+                      style={{
+                        height: 60,
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textTransform: "none",
+                      }}
+                      color="primary"
+                      variant="contained"
+                      fullWidth
+                    >
+                      Get Secret Key
+                    </Button>
+                  </>
+                )}
+              </Stack>
+            </Box>
+          }
         </Box>
         
         

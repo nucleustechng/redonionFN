@@ -100,7 +100,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
     <React.Fragment>
       <Grid columns={{ xs: 1, sm: 12, md: 12 }}>
         <Grid item xs={12} sm={12} md={12}>
-          <Box className={styles.profileInfo}>
+          <Box className={styles.profileInfo}  sx={{ p: {xs: 0, sm: "10px"}}} >
             {/* Header */}
             <Box ml={0} className={styles.infoContentTitleBox}>
               <Stack
@@ -111,7 +111,9 @@ const ProfileInfo = ({ handleClickMenu }) => {
                 <Typography
                   variant={!isMobile ? "h6" : "subtitle1"}
                   color="secondary"
-                  fontSize={24}
+                  sx={{
+                    fontSize : {xs:"18", sm:"24"}
+                  }}
                 >
                   My Account
                 </Typography>
@@ -166,8 +168,15 @@ const ProfileInfo = ({ handleClickMenu }) => {
               {/* Photo */}
               <Box
                 bgcolor={theme.palette.background.default}
-                className={styles.infoContentBox}
-                sx={{ borderBottomWidth: 0 }}
+                sx={{
+                  padding: '1rem',
+                  display: 'flex',
+                  justifyContent: { xs: 'center', sm: 'space-between' },
+                  gap:{ xs: '5', sm: '0' },
+                  alignItems: { xs: 'start', sm: 'center' },
+                  flexDirection: { xs: 'column', sm: 'row' }, 
+                  borderBottomWidth: 0
+                }}
               >
                 {/* <Box>
                   {user?.user?.selfieImage!="" && (
@@ -189,7 +198,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   )}
                 </Box> */}
 
-                <Box>
+                <Box sx={{mb: {xs: 3, sm: 0}}}>
                   <Typography
                     variant={!isMobile ? "body1" : "body2"}
                     color="secondary"
@@ -225,7 +234,7 @@ const ProfileInfo = ({ handleClickMenu }) => {
                   </Stack>
                 </Box>
 
-                <Box mr={0}>
+                <Box mr={0}  sx={{alignSelf: {xs: "end", sm: "start"}}}>
                   <Button
                     onClick={handleOpenProfileInfoModal}
                     color="primary"

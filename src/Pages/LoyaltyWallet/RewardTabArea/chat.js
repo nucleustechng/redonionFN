@@ -607,10 +607,6 @@ const ChatHistory =() => {
                 </Grid>
                 <Box bgcolor={theme.palette.background.paper} mx={1} pb={4}>
                   <Box 
-                    display="flex" 
-                    justifyContent="space-between" 
-                    alignItems="start"
-                    alignContent="start"
                     gap="2px"
                     backgroundColor="rgba(0, 0, 0, 0.1)"
                     sx={{
@@ -620,7 +616,6 @@ const ChatHistory =() => {
                   >
                     <Box 
                       display="flex" 
-                      flexDirection={{xs:"column", sm:"column"}}
                       justifyContent="space-between" alignItems={{xs:"start", sm:"start"}}
                       color={theme.palette.mode === 'dark' ? '#ffff' : 'black'}
                     >
@@ -631,51 +626,53 @@ const ChatHistory =() => {
                       >
                         Current rate 
                       </Typography>
-                      <Box
-                        display="flex" 
-                        flexDirection="row"
-                        justifyContent="space-between" alignItems="center"
-                      >
-                        <Typography
-                          fontSize="14px"
-                          pr={1}
-                          fontWeight={400}
-                        >
-                          1 BNB =  
-                        </Typography>
-                        <Typography
-                          fontSize="12px"
-                          fontWeight={400}
-                        >
-                          NGN  {pricePerUnit}
-                        </Typography>
+                      <Box>
+                        {createdById === sellerId ? 
+                          <Typography
+                            color="#3063E9"
+                            fontSize={{xs:"14px", md:"16px"}}
+                            fontWeight={500}
+                            button
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => setOpenNewRateModal(true)}
+                          >
+                            Set new term
+                          </Typography> 
+                          :
+                          <Typography
+                            color="#3063E9"
+                            fontSize={{xs:"14px", md:"16px"}}
+                            fontWeight={500}
+                            button
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => setOpenViewRateModal(true)}
+                          >
+                            Review New Terms
+                          </Typography> 
+                        }
                       </Box>
+                      
                     </Box>
-                    <Box>
-                      {createdById === sellerId ? 
-                        <Typography
-                          color="#3063E9"
-                          fontSize={{xs:"14px", md:"16px"}}
-                          fontWeight={500}
-                          button
-                          sx={{ cursor: "pointer" }}
-                          onClick={() => setOpenNewRateModal(true)}
-                        >
-                          Set new term
-                        </Typography> 
-                        :
-                        <Typography
-                          color="#3063E9"
-                          fontSize={{xs:"14px", md:"16px"}}
-                          fontWeight={500}
-                          button
-                          sx={{ cursor: "pointer" }}
-                          onClick={() => setOpenViewRateModal(true)}
-                        >
-                           Review New Terms
-                        </Typography> 
-                      }
+                    <Box
+                      display="flex" 
+                      flexDirection="row"
+                       alignItems="center"
+                    >
+                      <Typography
+                        fontSize="14px"
+                        pr={1}
+                        fontWeight={400}
+                      >
+                        1 BNB =  
+                      </Typography>
+                      <Typography
+                        fontSize="12px"
+                        fontWeight={400}
+                      >
+                        NGN  {pricePerUnit}
+                      </Typography>
                     </Box>
+                    
                   </Box>
                   <Box
                     style={{ overflowY: "scroll" }}
@@ -769,7 +766,7 @@ const ChatHistory =() => {
                     border={1}
                     borderColor={"#A4ACAF"}
                     borderRadius={1.5}
-                    px="8px"
+                    px="8px" mx="9px"
                     py={1}
                   >
                     <form onSubmit={handleSendMessage}>
