@@ -3,7 +3,8 @@
 
 export const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=io.redonion.mobile";
-export const APP_STORE_URL = "";
+export const APP_STORE_URL =
+  "https://apps.apple.com/ng/app/red-onion-exchange/id6478288333";
 
 export const SOCIAL_LINKS = {
   twitter: "",

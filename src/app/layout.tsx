@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { bricolage } from "@/lib/fonts";
+import { poppins } from "@/lib/fonts";
 import CookieBanner from "@/components/CookieBanner";
 
 export const metadata: Metadata = {
@@ -62,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={bricolage.variable}>
+    <html lang="en" className={poppins.variable}>
       <body>
         {children}
         <CookieBanner />

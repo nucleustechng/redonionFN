@@ -1,9 +1,9 @@
-import { Bricolage_Grotesque } from "next/font/google";
+import { Poppins } from "next/font/google";
 
-// Variable font; the optical-size axis keeps large headings tight and body text open.
-export const bricolage = Bricolage_Grotesque({
+// Poppins isn't a variable font, so load only the weights the site uses.
+export const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  axes: ["opsz"],
-  variable: "--font-bricolage",
+  variable: "--font-poppins",
 });
