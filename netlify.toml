@@ -1,0 +1,11 @@
+# Netlify build settings (these override the values in the Netlify UI).
+# Netlify detects Next.js and adds its Next.js runtime automatically.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 16 needs Node 20.9+. Keep in sync with .nvmrc.
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
